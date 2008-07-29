@@ -26,7 +26,7 @@ package org.encog.examples.nonlinear.tsp.genetic;
 
 import org.encog.examples.nonlinear.tsp.City;
 import org.encog.neural.NeuralNetworkError;
-import org.encog.neural.genetic.Chromosome;
+import org.encog.solve.genetic.Chromosome;
 
 
 

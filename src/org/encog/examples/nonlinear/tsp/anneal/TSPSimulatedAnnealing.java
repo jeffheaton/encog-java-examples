@@ -26,7 +26,8 @@ package org.encog.examples.nonlinear.tsp.anneal;
 
 import org.encog.examples.nonlinear.tsp.City;
 import org.encog.neural.NeuralNetworkError;
-import org.encog.neural.anneal.SimulatedAnnealing;
+import org.encog.solve.anneal.SimulatedAnnealing;
+
 
 
 /**

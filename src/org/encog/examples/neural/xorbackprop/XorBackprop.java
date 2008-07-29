@@ -24,10 +24,15 @@
   */
 package org.encog.examples.neural.xorbackprop;
 
-import org.encog.neural.feedforward.FeedforwardLayer;
-import org.encog.neural.feedforward.FeedforwardNetwork;
-import org.encog.neural.feedforward.train.Train;
-import org.encog.neural.feedforward.train.backpropagation.Backpropagation;
+import org.encog.neural.data.NeuralData;
+import org.encog.neural.data.NeuralDataPair;
+import org.encog.neural.data.NeuralDataSet;
+import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.networks.Train;
+import org.encog.neural.networks.feedforward.FeedforwardLayer;
+import org.encog.neural.networks.feedforward.FeedforwardNetwork;
+import org.encog.neural.networks.feedforward.train.backpropagation.Backpropagation;
+
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network
@@ -52,8 +57,10 @@ public class XorBackprop {
 		network.addLayer(new FeedforwardLayer(1));
 		network.reset();
 
+		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		
 		// train the neural network
-		final Train train = new Backpropagation(network, XOR_INPUT, XOR_IDEAL,
+		final Train train = new Backpropagation(network, trainingSet,
 				0.7, 0.9);
 
 		int epoch = 1;
@@ -67,10 +74,10 @@ public class XorBackprop {
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
-		for (int i = 0; i < XOR_IDEAL.length; i++) {
-			final double actual[] = network.computeOutputs(XOR_INPUT[i]);
-			System.out.println(XOR_INPUT[i][0] + "," + XOR_INPUT[i][1]
-					+ ", actual=" + actual[0] + ",ideal=" + XOR_IDEAL[i][0]);
+		for(NeuralDataPair pair: trainingSet ) {
+			final NeuralData output = network.compute(pair.getInput());
+			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
+					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}
 	}
 }
