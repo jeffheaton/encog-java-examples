@@ -2,9 +2,9 @@ package org.encog.examples.neural.hopfield;
 
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
-import org.encog.neural.networks.feedforward.FeedforwardNetwork;
-import org.encog.neural.networks.hopfield.HopfieldLayer;
-import org.encog.neural.networks.hopfield.TrainHopfield;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.layers.HopfieldLayer;
+import org.encog.neural.networks.training.hopfield.TrainHopfield;
 
 /**
  * ConsoleHopfield: Simple console application that shows how to
@@ -45,7 +45,7 @@ public class Hopfield {
 	public static void main(final String args[]) {
 
 		// Create the neural network.
-		final FeedforwardNetwork network = new FeedforwardNetwork();
+		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new HopfieldLayer(4));
 		// This pattern will be trained
 		final boolean[] pattern1 = { true, true, false, false };

@@ -28,9 +28,9 @@ import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.feedforward.FeedforwardLayer;
-import org.encog.neural.networks.feedforward.FeedforwardNetwork;
-import org.encog.neural.networks.feedforward.train.genetic.TrainingSetNeuralGeneticAlgorithm;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.layers.FeedforwardLayer;
+import org.encog.neural.networks.training.genetic.TrainingSetNeuralGeneticAlgorithm;
 
 
 
@@ -49,7 +49,7 @@ public class XorGenetic {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 	public static void main(final String args[]) {
-		FeedforwardNetwork network = new FeedforwardNetwork();
+		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new FeedforwardLayer(2));
 		network.addLayer(new FeedforwardLayer(3));
 		network.addLayer(new FeedforwardLayer(1));

@@ -30,10 +30,12 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataPair;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.som.SelfOrganizingMap;
-import org.encog.neural.networks.som.TrainSelfOrganizingMap;
-import org.encog.neural.networks.som.NormalizeInput.NormalizationType;
-import org.encog.neural.networks.som.TrainSelfOrganizingMap.LearningMethod;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.layers.BasicLayer;
+import org.encog.neural.networks.layers.SOMLayer;
+import org.encog.neural.networks.training.som.TrainSelfOrganizingMap;
+import org.encog.neural.networks.training.som.TrainSelfOrganizingMap.LearningMethod;
+import org.encog.util.NormalizeInput.NormalizationType;
 
 /**
  * Chapter 12: OCR and the Self Organizing Map
@@ -136,7 +138,7 @@ public class OCR extends JFrame implements Runnable {
 	/**
 	 * The neural network.
 	 */
-	SelfOrganizingMap net;
+	BasicNetwork net;
 	/**
 	 * The background thread used for training.
 	 */
@@ -567,9 +569,11 @@ public class OCR extends JFrame implements Runnable {
 				
 				trainingSet.add(new BasicNeuralDataPair(item,null));
 			}
+			
+			this.net = new BasicNetwork();
+			this.net.addLayer(new SOMLayer(inputNeuron,NormalizationType.MULTIPLICATIVE));
+			this.net.addLayer(new BasicLayer(outputNeuron));	
 
-			this.net = new SelfOrganizingMap(inputNeuron, outputNeuron,
-					NormalizationType.MULTIPLICATIVE);
 			final TrainSelfOrganizingMap train = new TrainSelfOrganizingMap(
 					this.net, trainingSet,LearningMethod.SUBTRACTIVE,0.5);
 			int tries = 1;
