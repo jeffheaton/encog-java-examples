@@ -39,7 +39,7 @@ import org.encog.solve.genetic.Chromosome;
  * @author Jeff Heaton
  * @version 2.1
  */
-public class TSPChromosome extends Chromosome<Integer, TSPGeneticAlgorithm> {
+public class TSPChromosome extends Chromosome<Integer> {
 
 	protected City cities[];
 

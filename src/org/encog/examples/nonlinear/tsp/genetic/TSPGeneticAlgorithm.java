@@ -39,7 +39,7 @@ import org.encog.solve.genetic.GeneticAlgorithm;
  * @author Jeff Heaton
  * @version 2.1
  */
-public class TSPGeneticAlgorithm extends GeneticAlgorithm<TSPChromosome> {
+public class TSPGeneticAlgorithm extends GeneticAlgorithm<Integer> {
 
 	public TSPGeneticAlgorithm(final City cities[], final int populationSize,
 			final double mutationPercent, final double percentToMate,

@@ -51,7 +51,7 @@ public class TSPSimulatedAnnealing extends SimulatedAnnealing<Integer> {
 	public TSPSimulatedAnnealing(final City cities[], final double startTemp,
 			final double stopTemp, final int cycles) {
 
-		this.temperature = startTemp;
+		this.setTemperature(startTemp);
 		setStartTemperature(startTemp);
 		setStopTemperature(stopTemp);
 		setCycles(cycles);
@@ -103,7 +103,7 @@ public class TSPSimulatedAnnealing extends SimulatedAnnealing<Integer> {
 		final int length = this.path.length;
 
 		// make adjustments to city order(annealing)
-		for (int i = 0; i < this.temperature; i++) {
+		for (int i = 0; i < this.getTemperature(); i++) {
 			int index1 = (int) Math.floor(length * Math.random());
 			int index2 = (int) Math.floor(length * Math.random());
 			final double d = distance(index1, index1 + 1) + distance(index2, index2 + 1)
