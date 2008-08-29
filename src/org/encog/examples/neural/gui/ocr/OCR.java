@@ -557,7 +557,7 @@ public class OCR extends JFrame implements Runnable {
 
 			NeuralDataSet trainingSet = new BasicNeuralDataSet();
 			for (int t = 0; t < this.letterListModel.size(); t++) {
-				NeuralData item = new BasicNeuralData(OCR.HEIGHT*OCR.WIDTH);
+				NeuralData item = new BasicNeuralData(inputNeuron);
 				int idx = 0;
 				final SampleData ds = (SampleData) this.letterListModel
 						.getElementAt(t);
