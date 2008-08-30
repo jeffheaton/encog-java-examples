@@ -573,6 +573,7 @@ public class OCR extends JFrame implements Runnable {
 			this.net = new BasicNetwork();
 			this.net.addLayer(new SOMLayer(inputNeuron,NormalizationType.MULTIPLICATIVE));
 			this.net.addLayer(new BasicLayer(outputNeuron));	
+			this.net.reset();
 
 			final TrainSelfOrganizingMap train = new TrainSelfOrganizingMap(
 					this.net, trainingSet,LearningMethod.SUBTRACTIVE,0.5);
