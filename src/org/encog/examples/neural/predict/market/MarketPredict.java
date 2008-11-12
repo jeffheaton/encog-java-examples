@@ -53,7 +53,7 @@ public class MarketPredict {
 			NeuralData input = pair.getInput();
 			NeuralData actual = pair.getIdeal();
 			
-			NeuralData output = network.compute(input);
+			NeuralData output = network.compute(input);			
 			
 			System.out.println(actual.getData(0)+"," + output.getData(0));
 			
