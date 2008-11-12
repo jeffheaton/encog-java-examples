@@ -42,7 +42,7 @@ public class MarketTrain {
 			epoch++;
 		} while ((left>=0) && (train.getError() > 0.001));
 		
-		encog.delete("market-network");
+		//encog.delete("market-network");
 		
 		network.setName("market-network");
 		network.setDescription("Trained neural network");
