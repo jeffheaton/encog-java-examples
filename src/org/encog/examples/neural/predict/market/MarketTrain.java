@@ -11,7 +11,7 @@ import org.encog.neural.persist.EncogPersistedCollection;
 
 public class MarketTrain {
 	
-	public final static int TRAINING_MINUTES = 20;
+	public final static int TRAINING_MINUTES = 1440;
 	
 	public static void main(String args[])
 	{
@@ -19,14 +19,17 @@ public class MarketTrain {
 		encog.load("marketdata.eg");
 		NeuralDataSet trainingSet = (NeuralDataSet) encog.find("market");
 				
-		BasicNetwork network = new BasicNetwork();
+		/*BasicNetwork network = new BasicNetwork();
 		network.addLayer(new FeedforwardLayer(new ActivationTANH(),trainingSet.getInputSize()));
 		network.addLayer(new FeedforwardLayer(new ActivationTANH(),60));
 		network.addLayer(new FeedforwardLayer(new ActivationTANH(),trainingSet.getIdealSize()));
 		network.reset();
+		*/
+		
+		BasicNetwork network = (BasicNetwork) encog.find("market-network");
 		
 		// train the neural network
-		final Train train = new Backpropagation(network, trainingSet, 0.00001, 0.00001);
+		final Train train = new Backpropagation(network, trainingSet, 0.00001, 0.1);
 
 		int epoch = 1;
 		long startTime = System.currentTimeMillis();
