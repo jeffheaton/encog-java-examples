@@ -47,27 +47,9 @@ public class SpiderReport implements SpiderReportable {
    * @param path
    *          The local file path to store the files to.
    */
-  public SpiderReport(String path) {
+  public SpiderReport(String base,String path) {
+	  this.base = base;
     this.path = path;
-  }
-
-  /**
-   * This function is called when the spider is ready to
-   * process a new host. This function simply stores the
-   * value of the current host.
-   * 
-   * @param host
-   *          The new host that is about to be processed.
-   * @return True if this host should be processed, false
-   *         otherwise.
-   */
-  public boolean beginHost(String host) {
-    if (this.base == null) {
-      this.base = host;
-      return true;
-    } else {
-      return false;
-    }
   }
 
   /**
@@ -101,6 +83,8 @@ public class SpiderReport implements SpiderReportable {
       SpiderReportable.URLType type) {
 
     if ((this.base != null) && (!this.base.equalsIgnoreCase(url.getHost()))) {
+    	//System.out.println(this.base);
+    	//System.out.println(url.getHost());
       return false;
     }
 
@@ -155,6 +139,7 @@ public class SpiderReport implements SpiderReportable {
    */
   public void spiderProcessURL(URL url, SpiderParseHTML parse)
       throws IOException {
+	  System.out.println("Processing:" + url.toString());
     String filename = URLUtility.convertFilename(this.path, url, true);
     OutputStream os = new FileOutputStream(filename);
     parse.getStream().setOutputStream(os);
