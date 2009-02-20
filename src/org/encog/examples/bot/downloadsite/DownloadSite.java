@@ -3,7 +3,7 @@ package org.encog.examples.bot.downloadsite;
 import java.io.IOException;
 import java.net.URL;
 
-import org.encog.HSQLUtil;
+import org.encog.util.HSQLUtil;
 import org.encog.bot.spider.Spider;
 import org.encog.util.orm.SessionManager;
 
