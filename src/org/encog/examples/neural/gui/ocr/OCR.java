@@ -32,9 +32,6 @@ import org.encog.neural.data.basic.BasicNeuralDataPair;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.layers.SOMLayer;
-import org.encog.neural.networks.training.som.TrainSelfOrganizingMap;
-import org.encog.neural.networks.training.som.TrainSelfOrganizingMap.LearningMethod;
 import org.encog.util.NormalizeInput.NormalizationType;
 
 /**
@@ -570,7 +567,7 @@ public class OCR extends JFrame implements Runnable {
 				trainingSet.add(new BasicNeuralDataPair(item,null));
 			}
 			
-			this.net = new BasicNetwork();
+			/*this.net = new BasicNetwork();
 			this.net.addLayer(new SOMLayer(inputNeuron,NormalizationType.MULTIPLICATIVE));
 			this.net.addLayer(new BasicLayer(outputNeuron));	
 			this.net.reset();
@@ -585,7 +582,7 @@ public class OCR extends JFrame implements Runnable {
 			} while ((train.getTotalError() > MAX_ERROR) && !this.halt);
 
 			this.halt = true;
-			update(tries, train.getTotalError(), train.getBestError());
+			update(tries, train.getTotalError(), train.getBestError());*/
 
 		} catch (final Exception e) {
 			e.printStackTrace();

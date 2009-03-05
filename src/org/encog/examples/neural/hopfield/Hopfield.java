@@ -3,8 +3,6 @@ package org.encog.examples.neural.hopfield;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.HopfieldLayer;
-import org.encog.neural.networks.training.hopfield.TrainHopfield;
 
 /**
  * ConsoleHopfield: Simple console application that shows how to
@@ -46,7 +44,7 @@ public class Hopfield {
 
 		// Create the neural network.
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new HopfieldLayer(4));
+		//network.addLayer(new HopfieldLayer(4));
 		// This pattern will be trained
 		final boolean[] pattern1 = { true, true, false, false };
 		// This pattern will be presented
@@ -60,8 +58,8 @@ public class Hopfield {
 		System.out.println("Training Hopfield network with: "
 				+ formatBoolean(data1));
 
-		TrainHopfield train = new TrainHopfield(data1, network);
-		train.iteration();
+		//TrainHopfield train = new TrainHopfield(data1, network);
+		//train.iteration();
 		// present pattern1 and see it recognized
 		result = (BiPolarNeuralData)network.compute(data1);
 		System.out.println("Presenting pattern:" + formatBoolean(data1)
