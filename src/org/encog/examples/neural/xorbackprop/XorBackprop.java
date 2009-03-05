@@ -31,7 +31,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.Train;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.layers.FeedforwardLayer;
+import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.backpropagation.Backpropagation;
 
 
@@ -53,16 +53,16 @@ public class XorBackprop {
 
 	public static void main(final String args[]) {
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new FeedforwardLayer(2));
-		network.addLayer(new FeedforwardLayer(3));
-		network.addLayer(new FeedforwardLayer(1));
+		network.addLayer(new BasicLayer(2));
+		network.addLayer(new BasicLayer(3));
+		network.addLayer(new BasicLayer(1));
 		network.reset();
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
 		final Train train = new Backpropagation(network, trainingSet,
-				0.7, 0.9);
+				0.3, 0.1);
 
 		int epoch = 1;
 
