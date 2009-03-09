@@ -51,7 +51,7 @@ public class Hopfield {
 		BasicLayer hopfield;
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(hopfield = new BasicLayer(new ActivationBiPolar(),4 ));
-		hopfield.setNextRecurrant(hopfield);
+		hopfield.addNext(hopfield);
 		// This pattern will be trained
 		final boolean[] pattern1 = { true, true, false, false };
 		// This pattern will be presented
