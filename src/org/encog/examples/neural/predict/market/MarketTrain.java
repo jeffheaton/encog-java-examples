@@ -2,7 +2,7 @@ package org.encog.examples.neural.predict.market;
 
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.Train;
+import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.backpropagation.Backpropagation;
 import org.encog.neural.persist.EncogPersistedCollection;
 

@@ -29,9 +29,9 @@ import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.Train;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.layers.BasicLayer;
+import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.backpropagation.Backpropagation;
 
 
