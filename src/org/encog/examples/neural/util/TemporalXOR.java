@@ -8,17 +8,17 @@ public class TemporalXOR {
 	private double[][] input;
 	private double[][] ideal;
 
-	public double xor(final double a,final double b)
+	
+	private void setInput(int index,double value)
 	{
-		boolean aa = a>0;
-		boolean bb = b>0;
-		
-		boolean result = aa ^ bb;
-		
-		if( result )
-			return 1.0;
-		else
-			return 0.0;
+		if( index>=0 && index<this.input.length )
+			this.input[index][0] = value;
+	}
+	
+	private void setIdeal(int index,double value)
+	{
+		if( index>=0 && index<this.ideal.length )
+			this.ideal[index][0] = value;
 	}
 	
 	public int generateTrainingPart(final int index)
@@ -31,21 +31,20 @@ public class TemporalXOR {
 				
 			// part 1
 			value = XOR.XOR_INPUT[i][0];
-			if( currentIndex>0 )
-			this.input[currentIndex][0] = value;
-			this.ideal[currentIndex+1][0] = value;
+			setInput(currentIndex,value);
+			setIdeal(currentIndex+1,value);
 			currentIndex++;
 			
 			// part 2
 			value = XOR.XOR_INPUT[i][1];
-			this.input[currentIndex][0] = XOR.XOR_INPUT[i][1];
-			this.ideal[currentIndex+1][0] = value;
+			setInput(currentIndex,value);
+			setIdeal(currentIndex+1,value);
 			currentIndex++;
 			
 			// part 3
-			value = xor(XOR.XOR_INPUT[i][0],XOR.XOR_INPUT[i][1]);
-			this.input[currentIndex][0] = value; 
-			this.ideal[currentIndex+1][0] = value;
+			value = XOR.XOR_IDEAL[i][0];
+			setInput(currentIndex,value); 
+			setIdeal(currentIndex+1,value);
 			currentIndex++;
 			
 		}
