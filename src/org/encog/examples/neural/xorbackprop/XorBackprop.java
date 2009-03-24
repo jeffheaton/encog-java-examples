@@ -61,8 +61,7 @@ public class XorBackprop {
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
-		final Train train = new Backpropagation(network, trainingSet,
-				0.3, 0.1);
+		final Train train = new Backpropagation(network, trainingSet);
 
 		int epoch = 1;
 

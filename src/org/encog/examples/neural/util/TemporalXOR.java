@@ -1,83 +1,36 @@
 package org.encog.examples.neural.util;
 
 import org.encog.neural.data.NeuralDataSet;
+import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 
 public class TemporalXOR {
 	
+	/*
+	 * 1 xor 0 = 1
+	 * 0 xor 0 = 0
+	 * 0 xor 1 = 1
+	 * 1 xor 1 = 0
+	 */
+	public static final double[] SEQUENCE = { 1.0,0.0,1.0,
+		0.0,0.0,0.0,
+		0.0,1.0,1.0,
+		1.0,1.0,0.0 };
+
 	private double[][] input;
 	private double[][] ideal;
-
-	
-	private void setInput(int index,double value)
-	{
-		if( index>=0 && index<this.input.length )
-			this.input[index][0] = value;
-	}
-	
-	private void setIdeal(int index,double value)
-	{
-		if( index>=0 && index<this.ideal.length )
-			this.ideal[index][0] = value;
-	}
-	
-	public int generateTrainingPart(final int index)
-	{
-		int currentIndex = index;
 		
-		for(int i=0;i<XOR.XOR_INPUT.length;i++)
-		{
-			double value;
-				
-			// part 1
-			value = XOR.XOR_INPUT[i][0];
-			setInput(currentIndex,value);
-			setIdeal(currentIndex+1,value);
-			currentIndex++;
-			
-			// part 2
-			value = XOR.XOR_INPUT[i][1];
-			setInput(currentIndex,value);
-			setIdeal(currentIndex+1,value);
-			currentIndex++;
-			
-			// part 3
-			value = XOR.XOR_IDEAL[i][0];
-			setInput(currentIndex,value); 
-			setIdeal(currentIndex+1,value);
-			currentIndex++;
-			
-		}
-		
-		return currentIndex;
-	}
-	
-	public double[][] getInput() {
-		return input;
-	}
-
-	public double[][] getIdeal() {
-		return ideal;
-	}
-	
 	public NeuralDataSet generate(int count)
 	{
 		this.input = new double[count*3][1];
 		this.ideal = new double[count*3][1];
-		int index = -1;
-		for(int i=0;i<count;i++)
+		
+		for(int i=0;i<this.input.length;i++)
 		{
-			index = generateTrainingPart(index);
+			this.input[i][0] = SEQUENCE[i%SEQUENCE.length];
+			this.ideal[i][0] = SEQUENCE[(i+1)%SEQUENCE.length];
 		}
-		NeuralDataSet result = new BasicNeuralDataSet(this.input,this.ideal);
-		return result;
+		
+		return new BasicNeuralDataSet(this.input,this.ideal);
 	}
-	
-	public static void main(String args[])
-	{
-		TemporalXOR xor = new TemporalXOR();
-		NeuralDataSet set = xor.generate(1000);
-		System.out.println(set);
-	}
-	
 }

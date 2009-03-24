@@ -13,6 +13,8 @@ import org.encog.neural.networks.layers.Layer;
 import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.backpropagation.Backpropagation;
+import org.encog.neural.networks.training.strategy.Greedy;
+import org.encog.neural.networks.training.strategy.SmartLearningRate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +26,7 @@ public class ElmanXOR {
 	{
 		
 		TemporalXOR temp = new TemporalXOR();
-		NeuralDataSet trainingSet = temp.generate(3000);
+		NeuralDataSet trainingSet = temp.generate(100);
 		
 		// construct an Elman type network
 		Layer hidden;
@@ -39,11 +41,11 @@ public class ElmanXOR {
 		
 		// train the neural network
 		final Train train = new Backpropagation(network, trainingSet,
-				0.000001, 0.0);
+				0.01, 0.0);
 
 		int epoch = 1;
 		
-		train.iteration();
+		train.addStrategy(new SmartLearningRate());
 
 		do {
 			train.iteration();
