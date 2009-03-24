@@ -43,10 +43,10 @@ public class MarketPredict {
 	
 	public static void main(String args[])
 	{
-		EncogPersistedCollection encog = new EncogPersistedCollection();
-		encog.load("marketdata.eg");
-		BasicNetwork network = (BasicNetwork) encog.find("market-network");
-		MarketNeuralDataSet data = grabData();
+		//EncogPersistedCollection encog = new EncogPersistedCollection();
+		//encog.load("marketdata.eg");
+		//BasicNetwork network = (BasicNetwork) encog.find("market-network");
+/*		MarketNeuralDataSet data = grabData();
 		
 		for(NeuralDataPair pair: data)
 		{
@@ -57,7 +57,7 @@ public class MarketPredict {
 			
 			System.out.println(actual.getData(0)+"," + output.getData(0));
 			
-		}
+		}*/
 		
 	}
 	

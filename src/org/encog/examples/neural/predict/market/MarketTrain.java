@@ -12,16 +12,10 @@ public class MarketTrain {
 	
 	public static void main(String args[])
 	{
-		EncogPersistedCollection encog = new EncogPersistedCollection();
+/*		EncogPersistedCollection encog = new EncogPersistedCollection();
 		encog.load("marketdata.eg");
 		NeuralDataSet trainingSet = (NeuralDataSet) encog.find("market");
 				
-		/*BasicNetwork network = new BasicNetwork();
-		network.addLayer(new FeedforwardLayer(new ActivationTANH(),trainingSet.getInputSize()));
-		network.addLayer(new FeedforwardLayer(new ActivationTANH(),60));
-		network.addLayer(new FeedforwardLayer(new ActivationTANH(),trainingSet.getIdealSize()));
-		network.reset();
-		*/
 		
 		BasicNetwork network = (BasicNetwork) encog.find("market-network");
 		
@@ -48,5 +42,6 @@ public class MarketTrain {
 		network.setDescription("Trained neural network");
 		encog.add(network);
 		encog.save("marketdata.eg");
+		*/
 	}
 }

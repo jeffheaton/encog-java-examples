@@ -43,9 +43,9 @@ public class MarketBuildTraining {
 		market.generate();
 		market.setName("market");
 		market.setDescription("Market data for: " + MarketBuildTraining.TICKER.getSymbol());
-		EncogPersistedCollection encog = new EncogPersistedCollection();
-		encog.add(market);
-		encog.save("marketdata.eg");
+		//EncogPersistedCollection encog = new EncogPersistedCollection();
+		//encog.add(market);
+		//encog.save("marketdata.eg");
 		
 	}
 }
