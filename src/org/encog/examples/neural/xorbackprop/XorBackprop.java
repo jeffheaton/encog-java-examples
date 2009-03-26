@@ -56,6 +56,7 @@ public class XorBackprop {
 		network.addLayer(new BasicLayer(2));
 		network.addLayer(new BasicLayer(3));
 		network.addLayer(new BasicLayer(1));
+		network.getStructure().finalizeStructure();
 		network.reset();
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);

@@ -21,6 +21,7 @@ public static void main(final String args[]) {
 	network.addLayer(new BasicLayer(new ActivationGaussian(0,1.0,0.5),2));
 	network.addLayer(new BasicLayer(new ActivationGaussian(0,1.0,0.5),3));
 	network.addLayer(new BasicLayer(new ActivationGaussian(0,1.0,0.5),1));
+	network.getStructure().finalizeStructure();
 	network.reset();
 
 	NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);

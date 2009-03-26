@@ -31,6 +31,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.genetic.TrainingSetNeuralGeneticAlgorithm;
+import org.encog.util.randomize.FanInRandomizer;
 
 
 
@@ -53,13 +54,14 @@ public class XorGenetic {
 		network.addLayer(new BasicLayer(2));
 		network.addLayer(new BasicLayer(3));
 		network.addLayer(new BasicLayer(1));
+		network.getStructure().finalizeStructure();
 		network.reset();
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
 		final TrainingSetNeuralGeneticAlgorithm train = new TrainingSetNeuralGeneticAlgorithm(
-				network, true, trainingSet, 5000, 0.1, 0.25);
+				network, new FanInRandomizer(), trainingSet, 5000, 0.1, 0.25);
 
 		int epoch = 1;
 
