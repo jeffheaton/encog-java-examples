@@ -22,8 +22,8 @@ public class TemporalXOR {
 		
 	public NeuralDataSet generate(int count)
 	{
-		this.input = new double[count*3][1];
-		this.ideal = new double[count*3][1];
+		this.input = new double[count][1];
+		this.ideal = new double[count][1];
 		
 		for(int i=0;i<this.input.length;i++)
 		{
