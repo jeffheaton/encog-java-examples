@@ -30,10 +30,9 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.backpropagation.Backpropagation;
-
+import org.encog.util.Logging;
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network
@@ -52,6 +51,9 @@ public class XorBackprop {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 	public static void main(final String args[]) {
+		
+		Logging.stopConsoleLogging();
+		
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(2));
 		network.addLayer(new BasicLayer(3));

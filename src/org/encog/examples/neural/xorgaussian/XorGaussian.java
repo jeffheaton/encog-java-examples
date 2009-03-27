@@ -9,6 +9,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.backpropagation.Backpropagation;
+import org.encog.util.Logging;
 
 public class XorGaussian {
 	public static double XOR_INPUT[][] = { { 0.0, 0.0 }, { 1.0, 0.0 },
@@ -17,6 +18,9 @@ public class XorGaussian {
 public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 public static void main(final String args[]) {
+	
+	Logging.stopConsoleLogging();
+	
 	BasicNetwork network = new BasicNetwork();
 	network.addLayer(new BasicLayer(new ActivationGaussian(0,1.0,0.5),2));
 	network.addLayer(new BasicLayer(new ActivationGaussian(0,1.0,0.5),3));

@@ -1,5 +1,6 @@
 package org.encog.examples.neural.predict.market;
 
+import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
@@ -12,16 +13,26 @@ public class MarketTrain {
 	
 	public static void main(String args[])
 	{
-/*		EncogPersistedCollection encog = new EncogPersistedCollection();
-		encog.load("marketdata.eg");
+		EncogPersistedCollection encog = new EncogPersistedCollection(Config.FILENAME);
 		NeuralDataSet trainingSet = (NeuralDataSet) encog.find("market");
+		
+		System.out.println(trainingSet.getInputSize());
+		System.out.println(trainingSet.getIdealSize());
+		
 				
 		
+		for(NeuralDataPair pair: trainingSet)
+		{
+			System.out.println(pair);
+		}
+						
 		BasicNetwork network = (BasicNetwork) encog.find("market-network");
 		
 		// train the neural network
 		final Train train = new Backpropagation(network, trainingSet, 0.00001, 0.1);
 
+	
+		
 		int epoch = 1;
 		long startTime = System.currentTimeMillis();
 		int left = 0;
@@ -35,13 +46,9 @@ public class MarketTrain {
 							+" Time Left: " + left + " Minutes");
 			epoch++;
 		} while ((left>=0) && (train.getError() > 0.001));
-		
-		//encog.delete("market-network");
-		
-		network.setName("market-network");
+				
 		network.setDescription("Trained neural network");
-		encog.add(network);
-		encog.save("marketdata.eg");
-		*/
+		encog.add("market-network",network);
+		
 	}
 }

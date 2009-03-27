@@ -31,6 +31,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
+import org.encog.util.Logging;
 
 
 
@@ -49,6 +50,9 @@ public class XorAnneal {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 	public static void main(final String args[]) {
+		
+		Logging.stopConsoleLogging();
+		
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(2));
 		network.addLayer(new BasicLayer(3));

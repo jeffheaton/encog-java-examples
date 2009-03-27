@@ -11,6 +11,7 @@ import org.encog.neural.data.market.TickerSymbol;
 import org.encog.neural.data.market.loader.MarketLoader;
 import org.encog.neural.data.market.loader.YahooFinanceLoader;
 import org.encog.neural.persist.EncogPersistedCollection;
+import org.encog.util.Logging;
 import org.encog.util.time.DateUtil;
 
 public class MarketBuildTraining {
@@ -21,6 +22,7 @@ public class MarketBuildTraining {
 	
 	public static void main(String args[])
 	{
+		Logging.stopConsoleLogging();
 		MarketLoader loader = new YahooFinanceLoader();
 		MarketNeuralDataSet market = new MarketNeuralDataSet(
 				loader, 
@@ -41,11 +43,10 @@ public class MarketBuildTraining {
 				
 		market.load(begin.getTime(), end.getTime());
 		market.generate();
-		market.setName("market");
 		market.setDescription("Market data for: " + MarketBuildTraining.TICKER.getSymbol());
-		//EncogPersistedCollection encog = new EncogPersistedCollection();
-		//encog.add(market);
-		//encog.save("marketdata.eg");
-		
+		EncogPersistedCollection encog = new EncogPersistedCollection(Config.FILENAME);
+		encog.create();
+		encog.add("market",market);
+				
 	}
 }
