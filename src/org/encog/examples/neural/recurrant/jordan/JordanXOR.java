@@ -13,7 +13,7 @@ import org.encog.neural.networks.layers.Layer;
 import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
-import org.encog.neural.networks.training.backpropagation.Backpropagation;
+import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.SmartLearningRate;
 import org.slf4j.Logger;

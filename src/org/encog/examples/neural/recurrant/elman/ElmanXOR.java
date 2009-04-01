@@ -13,9 +13,10 @@ import org.encog.neural.networks.layers.Layer;
 import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
-import org.encog.neural.networks.training.backpropagation.Backpropagation;
+import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.SmartLearningRate;
+import org.encog.util.Logging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,12 +54,15 @@ public class ElmanXOR {
 	public static double trainNetwork(BasicNetwork network,NeuralDataSet trainingSet)
 	{
 		// train the neural network
-		final NeuralSimulatedAnnealing train = new NeuralSimulatedAnnealing(
-				network, trainingSet, 10, 2, 100);
+		//final NeuralSimulatedAnnealing train = new NeuralSimulatedAnnealing(
+		//		network, trainingSet, 10, 2, 100);
 		
-		train.addStrategy(new Greedy());
+		final Train train = new Backpropagation(network, trainingSet, 0.0001, 0.0);
 
-		for(int i=0;i<25;i++) {
+		
+		//train.addStrategy(new Greedy());
+
+		for(int i=0;i<25000;i++) {
 			train.iteration();
 			System.out.println("Epoch #" + i + " Error:" + train.getError());			
 		} 	
@@ -67,7 +71,7 @@ public class ElmanXOR {
 	
 	public static void main(String args[])
 	{
-		
+		Logging.stopConsoleLogging();
 		TemporalXOR temp = new TemporalXOR();
 		NeuralDataSet trainingSet = temp.generate(100);
 		

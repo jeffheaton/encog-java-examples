@@ -31,7 +31,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.backpropagation.Backpropagation;
+import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.util.Logging;
 
 /**
@@ -64,7 +64,7 @@ public class XorBackprop {
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
-		final Train train = new Backpropagation(network, trainingSet);
+		final Train train = new Backpropagation(network, trainingSet, 0.1, 0.01);
 
 		int epoch = 1;
 
