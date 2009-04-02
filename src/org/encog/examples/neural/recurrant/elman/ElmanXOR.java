@@ -15,8 +15,13 @@ import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
+import org.encog.neural.networks.training.strategy.HybridStrategy;
+import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.neural.networks.training.strategy.SmartLearningRate;
+import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
 import org.encog.util.Logging;
+import org.encog.util.randomize.FanInRandomizer;
+import org.encog.util.randomize.RangeRandomizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +39,8 @@ public class ElmanXOR {
 		context.addNext(hidden);
 		network.addLayer(new BasicLayer(1));
 		network.getStructure().finalizeStructure();
-		network.reset();
+		//network.reset();
+		(new RangeRandomizer(-1.0,1.0)).randomize(network);
 		return network;
 	}
 	
@@ -51,22 +57,26 @@ public class ElmanXOR {
 		return network;
 	}
 	
-	public static double trainNetwork(BasicNetwork network,NeuralDataSet trainingSet)
+	public static double trainNetwork(String what, BasicNetwork network,NeuralDataSet trainingSet)
 	{
 		// train the neural network
-		//final NeuralSimulatedAnnealing train = new NeuralSimulatedAnnealing(
-		//		network, trainingSet, 10, 2, 100);
+		final NeuralSimulatedAnnealing trainAlt = new NeuralSimulatedAnnealing(
+				network, trainingSet, 10, 2, 100);
 		
-		final Train train = new Backpropagation(network, trainingSet, 0.0001, 0.0);
+		final Train trainMain = new Backpropagation(network, trainingSet, 0.00001, 0.0);
 
-		
-		//train.addStrategy(new Greedy());
+		StopTrainingStrategy stop = new StopTrainingStrategy();
+		trainMain.addStrategy(new Greedy());
+		trainMain.addStrategy(new HybridStrategy(trainAlt));
+		trainMain.addStrategy(stop);
 
-		for(int i=0;i<25000;i++) {
-			train.iteration();
-			System.out.println("Epoch #" + i + " Error:" + train.getError());			
+		int epoch = 0;
+		while(!stop.shouldStop()) {
+			trainMain.iteration();
+			System.out.println("Training "+what+", Epoch #" + epoch + " Error:" + trainMain.getError());
+			epoch++;
 		} 	
-		return train.getError();
+		return trainMain.getError();
 	}
 	
 	public static void main(String args[])
@@ -78,8 +88,8 @@ public class ElmanXOR {
 		BasicNetwork elmanNetwork = createElmanNetwork();
 		BasicNetwork feedforwardNetwork = createFeedforwardNetwork();
 		
-		double elmanError = trainNetwork(elmanNetwork,trainingSet);
-		double feedforwardError = trainNetwork(feedforwardNetwork,trainingSet);
+		double elmanError = trainNetwork("Elman",elmanNetwork,trainingSet);
+		double feedforwardError = trainNetwork("Feedforward",feedforwardNetwork,trainingSet);
 		
 		System.out.println("Best error rate with Elman Network: " + elmanError);
 		System.out.println("Best error rate with Feedforward Network: " + feedforwardError);

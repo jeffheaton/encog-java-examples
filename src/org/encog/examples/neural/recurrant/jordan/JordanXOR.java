@@ -15,7 +15,13 @@ import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
+import org.encog.neural.networks.training.strategy.HybridStrategy;
+import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.neural.networks.training.strategy.SmartLearningRate;
+import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
+import org.encog.util.Logging;
+import org.encog.util.randomize.FanInRandomizer;
+import org.encog.util.randomize.RangeRandomizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,34 +57,43 @@ public class JordanXOR {
 		return network;
 	}
 	
-	public static double trainNetwork(BasicNetwork network,NeuralDataSet trainingSet)
+	public static double trainNetwork(String what, BasicNetwork network,NeuralDataSet trainingSet)
 	{
 		// train the neural network
-		final NeuralSimulatedAnnealing train = new NeuralSimulatedAnnealing(
+		final NeuralSimulatedAnnealing trainAlt = new NeuralSimulatedAnnealing(
 				network, trainingSet, 10, 2, 100);
 		
-		train.addStrategy(new Greedy());
+		final Train trainMain = new Backpropagation(network, trainingSet, 0.00001, 0.0);
 
-		for(int i=0;i<25;i++) {
-			train.iteration();
-			System.out.println("Epoch #" + i + " Error:" + train.getError());			
+		StopTrainingStrategy stop = new StopTrainingStrategy();
+		trainMain.addStrategy(new Greedy());
+		trainMain.addStrategy(new HybridStrategy(trainAlt));
+		trainMain.addStrategy(stop);
+
+		int epoch = 0;
+		while(!stop.shouldStop()) {
+			trainMain.iteration();
+			System.out.println("Training "+what+", Epoch #" + epoch + " Error:" + trainMain.getError());
+			epoch++;
 		} 	
-		return train.getError();
+		return trainMain.getError();
 	}
 	
 	public static void main(String args[])
 	{
-		
+		Logging.stopConsoleLogging();
 		TemporalXOR temp = new TemporalXOR();
 		NeuralDataSet trainingSet = temp.generate(100);
 		
 		BasicNetwork jordanNetwork = createJordanNetwork();
 		BasicNetwork feedforwardNetwork = createFeedforwardNetwork();
 		
-		double jordanError = trainNetwork(jordanNetwork,trainingSet);
-		double feedforwardError = trainNetwork(feedforwardNetwork,trainingSet);
+		double jordanError = trainNetwork("Jordan",jordanNetwork,trainingSet);
+		double feedforwardError = trainNetwork("Feedforward",feedforwardNetwork,trainingSet);
 		
 		System.out.println("Best error rate with Jordan Network: " + jordanError);
 		System.out.println("Best error rate with Feedforward Network: " + feedforwardError);
+		System.out.println("Jordan should be able to get into the 40% range,\nfeedforward should not go below 50%.\nThe recurrent Elment net can learn better in this case.");
+		System.out.println("If your results are not as good, try rerunning, or perhaps training longer.");
 	}
 }
