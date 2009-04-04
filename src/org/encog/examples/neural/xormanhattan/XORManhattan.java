@@ -33,6 +33,7 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
+import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.util.Logging;
 
 /**
@@ -65,8 +66,9 @@ public class XORManhattan {
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
-		final Train train = new ManhattanPropagation(network, trainingSet, 0.0001, 0.1, 0.0);
+		final Train train = new ManhattanPropagation(network, trainingSet, 0.0001);
 
+		
 		int epoch = 1;
 
 		do {
@@ -74,7 +76,7 @@ public class XORManhattan {
 			System.out
 					.println("Epoch #" + epoch + " Error:" + train.getError());
 			epoch++;
-		} while ((epoch < 5000) && (train.getError() > 0.001));
+		} while(train.getError() > 0.01);
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
