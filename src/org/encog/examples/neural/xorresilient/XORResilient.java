@@ -67,7 +67,7 @@ public class XORResilient {
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
-		final Train train = new ResilientPropagation(network, trainingSet, 0.0001);
+		final Train train = new ResilientPropagation(network, trainingSet);
 
 		
 		int epoch = 1;
