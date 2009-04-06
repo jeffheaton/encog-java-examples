@@ -35,6 +35,7 @@ import org.encog.neural.networks.layers.RadialBasisFunctionLayer;
 import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.Logging;
 import org.encog.util.math.rbf.GaussianFunction;
 
@@ -61,18 +62,22 @@ public class XorRadial {
 		RadialBasisFunctionLayer rbfLayer;
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(new ActivationLinear(),false,2));
-		network.addLayer(rbfLayer = new RadialBasisFunctionLayer(2),SynapseType.Direct);
+		network.addLayer(rbfLayer = new RadialBasisFunctionLayer(4),SynapseType.Direct);
 		network.addLayer(new BasicLayer(1));
 		network.getStructure().finalizeStructure();
 		network.reset();
-		rbfLayer.setRadialBasisFunction(0, new GaussianFunction(-1,1.0,0.5));
-		rbfLayer.setRadialBasisFunction(1, new GaussianFunction(1,1.0,0.5));
+		//rbfLayer.setRadialBasisFunction(0, new GaussianFunction(0.0,1,0.5));
+		//rbfLayer.setRadialBasisFunction(1, new GaussianFunction(0.25,1,0.5));
+		//rbfLayer.setRadialBasisFunction(2, new GaussianFunction(0.5,1,0.5));
+		//rbfLayer.setRadialBasisFunction(3, new GaussianFunction(1.0,1,0.5));
+		rbfLayer.randomizeGaussianCentersAndWidths(0, 1);
 		
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
-		final Train train = new Backpropagation(network, trainingSet, 0.1, 0.01);
+		final Train train = new ResilientPropagation(network, trainingSet);
+		
 
 		int epoch = 1;
 
@@ -81,7 +86,7 @@ public class XorRadial {
 			System.out
 					.println("Epoch #" + epoch + " Error:" + train.getError());
 			epoch++;
-		} while ((epoch < 5000) && (train.getError() > 0.001));
+		} while (train.getError() > 0.01);
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
