@@ -8,6 +8,7 @@ import org.encog.neural.data.bipolar.BiPolarNeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.hopfield.TrainHopfield;
+import org.encog.util.Logging;
 
 /**
  * ConsoleHopfield: Simple console application that shows how to
@@ -47,10 +48,12 @@ public class Hopfield {
 	 */
 	public static void main(final String args[]) {
 
+		Logging.stopConsoleLogging();
+		
 		// Create the neural network.
 		BasicLayer hopfield;
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(hopfield = new BasicLayer(new ActivationBiPolar(),4 ));
+		network.addLayer(hopfield = new BasicLayer(new ActivationBiPolar(), false, 4 ));
 		hopfield.addNext(hopfield);
 		// This pattern will be trained
 		final boolean[] pattern1 = { true, true, false, false };
@@ -62,6 +65,7 @@ public class Hopfield {
 		BiPolarNeuralData data2 = new BiPolarNeuralData(pattern2);
 		BasicNeuralDataSet set = new BasicNeuralDataSet();
 		set.add(data1);
+		network.getStructure().finalizeStructure();
 
 		// train the neural network with pattern1
 		System.out.println("Training Hopfield network with: "

@@ -12,6 +12,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
+import org.encog.util.Logging;
 
 public class SimpleSOM {
 	
@@ -21,13 +22,16 @@ public class SimpleSOM {
 	
 	public static void main(String args[])
 	{
+		Logging.stopConsoleLogging();
+		
 		// create the training set
 		NeuralDataSet training = new BasicNeuralDataSet(SOM_INPUT,null);
 		
 		// Create the neural network.
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationLinear(),4));
-		network.addLayer(new BasicLayer(new ActivationLinear(),2));
+		network.addLayer(new BasicLayer(new ActivationLinear(),false,4));
+		network.addLayer(new BasicLayer(new ActivationLinear(),false,2));
+		network.getStructure().finalizeStructure();
 		network.reset();
 		
 		CompetitiveTraining train = new CompetitiveTraining(

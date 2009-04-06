@@ -24,15 +24,19 @@
   */
 package org.encog.examples.neural.xorradial;
 
+import org.encog.neural.activation.ActivationLinear;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
+import org.encog.neural.networks.layers.RadialBasisFunctionLayer;
+import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.util.Logging;
+import org.encog.util.math.rbf.GaussianFunction;
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network
@@ -54,12 +58,16 @@ public class XorRadial {
 		
 		Logging.stopConsoleLogging();
 		
+		RadialBasisFunctionLayer rbfLayer;
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(3));
+		network.addLayer(new BasicLayer(new ActivationLinear(),false,2));
+		network.addLayer(rbfLayer = new RadialBasisFunctionLayer(2),SynapseType.Direct);
 		network.addLayer(new BasicLayer(1));
 		network.getStructure().finalizeStructure();
 		network.reset();
+		rbfLayer.setRadialBasisFunction(0, new GaussianFunction(-1,1.0,0.5));
+		rbfLayer.setRadialBasisFunction(1, new GaussianFunction(1,1.0,0.5));
+		
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		

@@ -1,6 +1,7 @@
-package org.encog.examples.neural.xorgaussian;
+package org.encog.examples.neural.xorthresholdless;
 
 import org.encog.neural.activation.ActivationGaussian;
+import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
@@ -11,7 +12,7 @@ import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.util.Logging;
 
-public class XorGaussian {
+public class XorThresholdless {
 	public static double XOR_INPUT[][] = { { 0.0, 0.0 }, { 1.0, 0.0 },
 		{ 0.0, 1.0 }, { 1.0, 1.0 } };
 
@@ -22,9 +23,9 @@ public static void main(final String args[]) {
 	Logging.stopConsoleLogging();
 	
 	BasicNetwork network = new BasicNetwork();
-	network.addLayer(new BasicLayer(new ActivationGaussian(0,1.0,0.5),true,2));
-	network.addLayer(new BasicLayer(new ActivationGaussian(0,1.0,0.5),true,3));
-	network.addLayer(new BasicLayer(new ActivationGaussian(0,1.0,0.5),true,1));
+	network.addLayer(new BasicLayer(new ActivationSigmoid(),false,2));
+	network.addLayer(new BasicLayer(new ActivationSigmoid(),false,3));
+	network.addLayer(new BasicLayer(new ActivationSigmoid(),false,1));
 	network.getStructure().finalizeStructure();
 	network.reset();
 
@@ -32,7 +33,7 @@ public static void main(final String args[]) {
 	
 	// train the neural network
 	final Train train = new Backpropagation(network, trainingSet,
-			0.000001, 0.0);
+			0.1, 0.0);
 
 	int epoch = 1;
 
