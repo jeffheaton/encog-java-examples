@@ -14,19 +14,18 @@ public class MarketTrain {
 	public static void main(String args[])
 	{
 		EncogPersistedCollection encog = new EncogPersistedCollection(Config.FILENAME);
-		NeuralDataSet trainingSet = (NeuralDataSet) encog.find("market");
+		NeuralDataSet trainingSet = (NeuralDataSet) encog.find(Config.MARKET_TRAIN);
 		
 		System.out.println(trainingSet.getInputSize());
 		System.out.println(trainingSet.getIdealSize());
 		
-				
-		
+		/*
 		for(NeuralDataPair pair: trainingSet)
 		{
 			System.out.println(pair);
-		}
+		}*/
 						
-		BasicNetwork network = (BasicNetwork) encog.find("market-network");
+		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
 		
 		// train the neural network
 		final Train train = new Backpropagation(network, trainingSet, 0.00001, 0.1);
