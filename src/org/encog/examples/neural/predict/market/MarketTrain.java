@@ -19,8 +19,8 @@ public class MarketTrain {
 		System.out.println(trainingSet.getInputSize());
 		System.out.println(trainingSet.getIdealSize());
 		
-		/*
-		for(NeuralDataPair pair: trainingSet)
+		
+		/*for(NeuralDataPair pair: trainingSet)
 		{
 			System.out.println(pair);
 		}*/
