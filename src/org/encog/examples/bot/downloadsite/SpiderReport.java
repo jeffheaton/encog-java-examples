@@ -3,10 +3,10 @@ package org.encog.examples.bot.downloadsite;
 import java.io.*;
 import java.net.*;
 
-import org.encog.bot.html.URLUtility;
 import org.encog.bot.spider.Spider;
 import org.encog.bot.spider.SpiderParseHTML;
 import org.encog.bot.spider.SpiderReportable;
+import org.encog.util.http.URLUtility;
 
 
 /**
