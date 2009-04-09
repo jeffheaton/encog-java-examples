@@ -5,30 +5,27 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.persist.EncogPersistedCollection;
+import org.encog.util.Logging;
 
 public class MarketTrain {
 	
-	public final static int TRAINING_MINUTES = 1440;
-	
 	public static void main(String args[])
 	{
+		Logging.stopConsoleLogging();
+		
 		EncogPersistedCollection encog = new EncogPersistedCollection(Config.FILENAME);
 		NeuralDataSet trainingSet = (NeuralDataSet) encog.find(Config.MARKET_TRAIN);
 		
 		System.out.println(trainingSet.getInputSize());
 		System.out.println(trainingSet.getIdealSize());
-		
-		
-		/*for(NeuralDataPair pair: trainingSet)
-		{
-			System.out.println(pair);
-		}*/
 						
 		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
 		
 		// train the neural network
-		final Train train = new Backpropagation(network, trainingSet, 0.00001, 0.1);
+		final Train train = new ResilientPropagation(network, trainingSet);
+		//final Train train = new Backpropagation(network, trainingSet, 0.0001, 0.0);
 
 	
 		
@@ -38,7 +35,7 @@ public class MarketTrain {
 
 		do {
 			int running = (int)((System.currentTimeMillis()-startTime)/60000);
-			left = MarketTrain.TRAINING_MINUTES - running;
+			left = Config.TRAINING_MINUTES - running;
 			train.iteration();
 			System.out
 					.println("Epoch #" + epoch + " Error:" + (train.getError()*100.0)+"%,"
