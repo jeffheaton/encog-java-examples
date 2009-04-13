@@ -6,7 +6,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.neural.persist.EncogPersistedCollection;
+import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.Logging;
 
 public class MarketTrain {

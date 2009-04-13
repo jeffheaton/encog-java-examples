@@ -11,7 +11,7 @@ import org.encog.neural.data.market.MarketNeuralDataSet;
 import org.encog.neural.data.market.loader.MarketLoader;
 import org.encog.neural.data.market.loader.YahooFinanceLoader;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.persist.EncogPersistedCollection;
+import org.encog.persist.EncogPersistedCollection;
 
 public class MarketPredict {
 	
