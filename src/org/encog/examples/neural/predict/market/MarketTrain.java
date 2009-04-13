@@ -24,8 +24,8 @@ public class MarketTrain {
 		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
 		
 		// train the neural network
-		final Train train = new ResilientPropagation(network, trainingSet);
-		//final Train train = new Backpropagation(network, trainingSet, 0.0001, 0.0);
+		//final Train train = new ResilientPropagation(network, trainingSet);
+		final Train train = new Backpropagation(network, trainingSet, 0.0001, 0.0);
 
 	
 		
