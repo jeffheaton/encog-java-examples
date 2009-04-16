@@ -8,7 +8,7 @@ import org.encog.neural.data.bipolar.BiPolarNeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.hopfield.TrainHopfield;
-import org.encog.util.Logging;
+import org.encog.util.logging.Logging;
 
 /**
  * ConsoleHopfield: Simple console application that shows how to
