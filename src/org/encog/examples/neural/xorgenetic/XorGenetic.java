@@ -31,7 +31,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.genetic.TrainingSetNeuralGeneticAlgorithm;
-import org.encog.util.Logging;
+import org.encog.util.logging.Logging;
 import org.encog.util.randomize.FanInRandomizer;
 
 

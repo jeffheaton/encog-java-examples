@@ -31,7 +31,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
-import org.encog.util.Logging;
+import org.encog.util.logging.Logging;
 
 
 

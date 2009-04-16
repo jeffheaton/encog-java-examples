@@ -36,7 +36,7 @@ import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.util.Logging;
+import org.encog.util.logging.Logging;
 import org.encog.util.math.rbf.GaussianFunction;
 
 /**

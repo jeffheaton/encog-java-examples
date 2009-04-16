@@ -19,7 +19,7 @@ import org.encog.neural.networks.training.strategy.HybridStrategy;
 import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.neural.networks.training.strategy.SmartLearningRate;
 import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
-import org.encog.util.Logging;
+import org.encog.util.logging.Logging;
 import org.encog.util.randomize.FanInRandomizer;
 import org.encog.util.randomize.RangeRandomizer;
 import org.slf4j.Logger;

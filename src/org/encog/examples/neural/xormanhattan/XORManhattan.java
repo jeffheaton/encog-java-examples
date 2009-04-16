@@ -34,7 +34,7 @@ import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
-import org.encog.util.Logging;
+import org.encog.util.logging.Logging;
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network

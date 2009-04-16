@@ -12,7 +12,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
-import org.encog.util.Logging;
+import org.encog.util.logging.Logging;
 
 public class SimpleSOM {
 	
