@@ -1,37 +1,144 @@
-<project name="encog-examples" default="dist" basedir=".">
-    <description>
-        Build a JAR file that contains Encog examples.
+<!-- 
+ Encog Artificial Intelligence Framework v2.x
+ Java Version - Examples
+ http://www.heatonresearch.com/encog/
+ http://code.google.com/p/encog-java/
+  
+ Copyright 2008-2009, Heaton Research Inc., and individual contributors.
+ See the copyright.txt in the distribution for a full listing of 
+ individual contributors.
+ 
+ This is free software; you can redistribute it and/or modify it
+ under the terms of the GNU Lesser General Public License as
+ published by the Free Software Foundation; either version 2.1 of
+ the License, or (at your option) any later version.
+ 
+ This software is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ Lesser General Public License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public
+ License along with this software; if not, write to the Free
+ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<project name="encog-core" default="dist" basedir=".">
+	<description>
+        Build the example JAR file for Encog.
     </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="bin"/>
-  <property name="dist"  location="lib"/>
-  <property name="jar"  location="jar/"/>
+	<!-- set global properties for this build -->
+	<property name="path.src" location="${basedir}/src" />
+	<property name="path.build" location="${basedir}/build" />
+	<property name="path.dist" location="${basedir}/dist" />
+	<property name="path.lib" location="${basedir}/lib" />
+	<property name="path.stage" location="${basedir}/stage" />
+	<property name="path.jar" location="${basedir}/jar" />
+	<path id="classpath">
+		<fileset dir="${path.jar}" />
+	</path>
 
-  <target name="init">
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
-  </target>
+	<target name="checkout" depends="init">
+		
+		<exec executable="svn">			
+			<arg value="checkout" />
+			<arg value="http://encog-java.googlecode.com/svn/trunk/encog-examples" />
+			<arg value="${basedir}" />
+		</exec>
+	</target>
 
-  <target name="compile" depends="init"
-        description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}" classpath="${jar}/encog-core.jar"/>
-  </target>
+	<target name="init">
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${path.build}" />		
+		
+	</target>
 
-  <target name="dist" depends="compile"
-        description="generate the distribution" >
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}"/>
+	<target name="compile" depends="init" description="compile the source ">
+	
+		<javac srcdir="${path.src}" source="1.5" target="1.5" destdir="${path.build}">
+			<classpath refid="classpath" />
+		</javac>
 
-    <!-- Put everything in ${build} into the encog-examples.jar file -->
-    <jar jarfile="${dist}/encog-examples.jar" basedir="${build}"/>
-  </target>
+	</target>
 
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
-  </target>
+	<target name="dist" depends="compile" description="generate the distribution">
+
+		<!-- Create the distribution directory -->
+		<mkdir dir="${path.dist}" />
+		<mkdir dir="${path.stage}" />
+		<mkdir dir="${path.lib}" />
+		
+		<!-- Get the program version -->
+		<exec executable="svn">			
+			<arg value="export" />
+			<arg value="http://encog-java.googlecode.com/svn/trunk/encog-core/src/org/encog/Encog.java" />
+		</exec>
+
+		<loadfile srcfile="${basedir}/Encog.java" property="build.version">
+			<filterchain>
+				<linecontainsregexp>
+					<regexp pattern='^.*String VERSION = ".*";.*$' />
+				</linecontainsregexp>
+				<tokenfilter>
+					<replaceregex replace='\1' pattern='^.*String VERSION = "(.*)";.*$' />
+				</tokenfilter>
+				<striplinebreaks />
+			</filterchain>
+		</loadfile>
+		
+
+		<manifest file="MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Implementation-Version" value="${version.num}-b${build.version}" />
+		</manifest>
+
+		<property name="jarfile" location="${path.lib}/encog-examples-${build.version}.jar" />
+
+		<jar jarfile="${jarfile}" basedir="${path.build}" manifest="MANIFEST.MF" />
+
+	</target>
+
+	<target name="cc-build" depends="clean-all,checkout,compile,dist">
+
+		<copy todir="${path.stage}" file="${basedir}/copyright.txt" />
+		<copy todir="${path.stage}" file="${basedir}/readme.txt" />
+		<copy todir="${path.stage}" file="${basedir}/build.xml" />
+		<copy todir="${path.stage}" file="${basedir}/.classpath" />
+		<copy todir="${path.stage}" file="${basedir}/.project" />
+
+
+		<copy todir="${path.stage}/src">
+			<fileset dir="${path.src}" />
+		</copy>
+
+		<copy todir="${path.stage}/jar">
+			<fileset dir="${path.jar}" />
+		</copy>
+
+		<tstamp/>
+		<copy todir="${path.stage}/lib" file="${jarfile}" />
+		
+		<zip destfile="${path.dist}/encog-core-${build.version}-${DSTAMP}-${TSTAMP}.zip">
+			<fileset dir="${path.stage}" />
+		</zip>
+
+
+	</target>
+
+	<target name="clean-all" depends="clean" description="Delete the source code">
+		<delete dir="${path.src}" />
+		<delete>
+			<fileset dir="${basedir}" excludes="build.xml" />
+		</delete>
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${path.stage}" />
+		<delete dir="${path.jar}" />
+		<delete dir="${path.lib}" />
+		<delete dir="${path.build}" />
+		<delete dir="${path.dist}" />
+	</target>
 </project>
