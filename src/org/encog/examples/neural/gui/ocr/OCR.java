@@ -25,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.encog.neural.activation.ActivationLinear;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
@@ -32,11 +33,11 @@ import org.encog.neural.data.basic.BasicNeuralDataPair;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.util.NormalizeInput.NormalizationType;
+import org.encog.neural.networks.training.competitive.CompetitiveTraining;
+import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
+import org.encog.util.logging.Logging;
 
-/**
- * Chapter 12: OCR and the Self Organizing Map
- * 
+/** 
  * OCR: Main form that allows the user to interact with the OCR application.
  * 
  * @author Jeff Heaton
@@ -78,14 +79,12 @@ public class OCR extends JFrame implements Runnable {
 	}
 
 	public class UpdateStats implements Runnable {
-		long _tries;
-		double _lastError;
-		double _bestError;
+		long tries;
+		double error;
 
 		public void run() {
-			OCR.this.tries.setText("" + this._tries);
-			OCR.this.lastError.setText("" + this._lastError);
-			OCR.this.bestError.setText("" + this._bestError);
+			OCR.this.tries.setText("" + this.tries);
+			OCR.this.txtError.setText("" + this.error);
 		}
 	}
 
@@ -113,6 +112,7 @@ public class OCR extends JFrame implements Runnable {
 	 *            Args not really used.
 	 */
 	public static void main(final String args[]) {
+		Logging.stopConsoleLogging();
 		(new OCR()).setVisible(true);
 	}
 
@@ -201,11 +201,7 @@ public class OCR extends JFrame implements Runnable {
 	/**
 	 * The last error
 	 */
-	javax.swing.JLabel lastError = new javax.swing.JLabel();
-	/**
-	 * The best error
-	 */
-	javax.swing.JLabel bestError = new javax.swing.JLabel();
+	javax.swing.JLabel txtError = new javax.swing.JLabel();
 
 	javax.swing.JLabel JLabel8 = new javax.swing.JLabel();
 
@@ -282,21 +278,15 @@ public class OCR extends JFrame implements Runnable {
 		this.train.setActionCommand("Begin Training");
 		getContentPane().add(this.train);
 		this.train.setBounds(12, 204, 144, 24);
-		this.JLabel3.setText("Last Error:");
+		this.JLabel3.setText("Error:");
 		getContentPane().add(this.JLabel3);
 		this.JLabel3.setBounds(12, 288, 72, 24);
-		this.JLabel4.setText("Best Error:");
-		getContentPane().add(this.JLabel4);
-		this.JLabel4.setBounds(12, 312, 72, 24);
 		this.tries.setText("0");
 		getContentPane().add(this.tries);
 		this.tries.setBounds(96, 264, 72, 24);
-		this.lastError.setText("0");
-		getContentPane().add(this.lastError);
-		this.lastError.setBounds(96, 288, 72, 24);
-		this.bestError.setText("0");
-		getContentPane().add(this.bestError);
-		this.bestError.setBounds(96, 312, 72, 24);
+		this.txtError.setText("0");
+		getContentPane().add(this.txtError);
+		this.txtError.setBounds(96, 288, 72, 24);
 		this.JLabel8
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		this.JLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -567,22 +557,29 @@ public class OCR extends JFrame implements Runnable {
 				trainingSet.add(new BasicNeuralDataPair(item,null));
 			}
 			
-			/*this.net = new BasicNetwork();
-			this.net.addLayer(new SOMLayer(inputNeuron,NormalizationType.MULTIPLICATIVE));
-			this.net.addLayer(new BasicLayer(outputNeuron));	
+			this.net = new BasicNetwork();
+			this.net.addLayer(new BasicLayer(new ActivationLinear(),false,inputNeuron));
+			this.net.addLayer(new BasicLayer(new ActivationLinear(),false,outputNeuron));
+			this.net.getStructure().finalizeStructure();
 			this.net.reset();
-
-			final TrainSelfOrganizingMap train = new TrainSelfOrganizingMap(
-					this.net, trainingSet,LearningMethod.SUBTRACTIVE,0.5);
+			
+			CompetitiveTraining train = new CompetitiveTraining(
+					this.net,
+					0.4,
+					trainingSet,
+					new NeighborhoodSingle());
+					
+			int iteration = 0;
+			
 			int tries = 1;
-
-			do {
+			for(iteration = 0;iteration<=100;iteration++)
+			{
 				train.iteration();
-				update(tries++, train.getTotalError(), train.getBestError());
-			} while ((train.getTotalError() > MAX_ERROR) && !this.halt);
-
+				update(tries++, train.getError());
+			}
+			
 			this.halt = true;
-			update(tries, train.getTotalError(), train.getBestError());*/
+			this.train.setText("Begin Training");
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -656,11 +653,8 @@ public class OCR extends JFrame implements Runnable {
 	 *            How many tries.
 	 * @param error
 	 *            The current error.
-	 * @param best
-	 *            The best error.
 	 */
-	public void update(final int retry, final double totalError,
-			final double bestError) {
+	public void update(final int retry, final double error) {
 
 		if (this.halt) {
 			this.trainThread = null;
@@ -669,9 +663,9 @@ public class OCR extends JFrame implements Runnable {
 					"Training", JOptionPane.PLAIN_MESSAGE);
 		}
 		final UpdateStats stats = new UpdateStats();
-		stats._tries = retry;
-		stats._lastError = totalError;
-		stats._bestError = bestError;
+		stats.tries = retry;
+		stats.error = error;
+		
 		try {
 			SwingUtilities.invokeAndWait(stats);
 		} catch (final Exception e) {
