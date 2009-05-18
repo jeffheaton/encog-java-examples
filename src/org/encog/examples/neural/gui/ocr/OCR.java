@@ -34,8 +34,10 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
+import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodGaussian;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
 import org.encog.util.logging.Logging;
+import org.encog.util.math.rbf.GaussianFunction;
 
 /** 
  * OCR: Main form that allows the user to interact with the OCR application.
@@ -565,14 +567,12 @@ public class OCR extends JFrame implements Runnable {
 			
 			CompetitiveTraining train = new CompetitiveTraining(
 					this.net,
-					0.4,
+					0.75,
 					trainingSet,
-					new NeighborhoodSingle());
-					
-			int iteration = 0;
-			
+					new NeighborhoodGaussian(new GaussianFunction(1,1,1)));
+								
 			int tries = 1;
-			for(iteration = 0;iteration<=100;iteration++)
+			while(!halt)
 			{
 				train.iteration();
 				update(tries++, train.getError());
