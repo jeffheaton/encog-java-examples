@@ -24,6 +24,7 @@
   */
 package org.encog.examples.neural.xorbackprop;
 
+import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
@@ -55,16 +56,16 @@ public class XorBackprop {
 		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(3));
-		network.addLayer(new BasicLayer(1));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,2));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,3));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,1));
 		network.getStructure().finalizeStructure();
 		network.reset();
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
-		final Train train = new Backpropagation(network, trainingSet, 0.1, 0.01);
+		final Train train = new Backpropagation(network, trainingSet, 0.7, 0.8);
 
 		int epoch = 1;
 
