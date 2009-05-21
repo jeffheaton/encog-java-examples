@@ -9,7 +9,7 @@ public class Config {
 	public static final String FILENAME = "marketdata.eg";
 	public static final String MARKET_NETWORK = "market-network";
 	public static final String MARKET_TRAIN = "market-train";
-	public static final int TRAINING_MINUTES = 5;
+	public static final int TRAINING_MINUTES = 15;
 	public static final int HIDDEN1_COUNT = 20;
 	public static final int HIDDEN2_COUNT = 0;
 	public static final Calendar TRAIN_BEGIN = new GregorianCalendar(2000,0,1);

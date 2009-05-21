@@ -1,7 +1,10 @@
 package org.encog.examples.neural.predict.market;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import javax.swing.text.NumberFormatter;
 
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
@@ -17,6 +20,24 @@ import org.encog.util.logging.Logging;
 
 
 public class MarketPredict {
+		
+	
+	enum Direction {
+		up,
+		down		
+	};
+	
+	public static Direction determineDirection(double d)
+	{
+		/*if( Math.abs(d)<ZERO_TOLERANCE )
+		{
+			return Direction.flat;
+		}*/
+		if( d<0 )
+			return Direction.down;
+		else
+			return Direction.up;
+	}
 	
 	
 	public static MarketNeuralDataSet grabData()
@@ -35,7 +56,7 @@ public class MarketPredict {
 		
 		Calendar end = new GregorianCalendar();// end today		
 		Calendar begin = (Calendar)end.clone();// begin 30 days ago
-		begin.add(Calendar.DATE, -30);
+		begin.add(Calendar.DATE, -60);
 		
 		result.load(begin.getTime(), end.getTime());
 		result.generate();
@@ -46,23 +67,45 @@ public class MarketPredict {
 	
 	public static void main(String args[])
 	{
-Logging.stopConsoleLogging();
+		Logging.stopConsoleLogging();
 		
 		EncogPersistedCollection encog = new EncogPersistedCollection(Config.FILENAME);					
 		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
 				
 		MarketNeuralDataSet data = grabData();
 		
+		DecimalFormat format = new DecimalFormat("#0.00");
+		
+		int count = 0;
+		int correct = 0;
 		for(NeuralDataPair pair: data)
 		{
 			NeuralData input = pair.getInput();
-			NeuralData actual = pair.getIdeal();
+			NeuralData actualData = pair.getIdeal();			
+			NeuralData predictData = network.compute(input);
 			
-			NeuralData output = network.compute(input);			
+			double actual = actualData.getData(0);
+			double predict = predictData.getData(0);			
+			double diff = Math.abs(predict-actual);
 			
-			System.out.println(actual.getData(0)+"," + output.getData(0));
+			Direction actualDirection = determineDirection(actual);
+			Direction predictDirection = determineDirection(predict);
+			
+			if( actualDirection==predictDirection )
+				correct++;
+			
+			count++;
+						
+			System.out.println("Day " + count+":actual="
+					+format.format(actual)+"("+actualDirection+")"
+					+",predict=" 
+					+format.format(predict)+"("+actualDirection+")"
+					+",diff="+diff);			
 			
 		}
+		double percent = (double)correct/(double)count;
+		System.out.println("Direction correct:" + correct + "/" + count);
+		System.out.println("Directional Accuracy:"+format.format(percent*100)+"%");
 		
 	}
 	
