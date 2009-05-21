@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
+import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.market.MarketDataDescription;
 import org.encog.neural.data.market.MarketDataType;
 import org.encog.neural.data.market.MarketNeuralDataSet;
@@ -12,6 +13,7 @@ import org.encog.neural.data.market.loader.MarketLoader;
 import org.encog.neural.data.market.loader.YahooFinanceLoader;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.persist.EncogPersistedCollection;
+import org.encog.util.logging.Logging;
 
 
 public class MarketPredict {
@@ -22,10 +24,10 @@ public class MarketPredict {
 		MarketLoader loader = new YahooFinanceLoader();
 		MarketNeuralDataSet result = new MarketNeuralDataSet(
 				loader, 
-				MarketBuildTraining.INPUT_WINDOW,
-				MarketBuildTraining.PREDICT_WINDOW);
+				Config.INPUT_WINDOW,
+				Config.PREDICT_WINDOW);
 		MarketDataDescription desc = new MarketDataDescription(
-				MarketBuildTraining.TICKER, 
+				Config.TICKER, 
 				MarketDataType.ADJUSTED_CLOSE, 
 				true,
 				true);
@@ -44,10 +46,12 @@ public class MarketPredict {
 	
 	public static void main(String args[])
 	{
-		//EncogPersistedCollection encog = new EncogPersistedCollection();
-		//encog.load("marketdata.eg");
-		//BasicNetwork network = (BasicNetwork) encog.find("market-network");
-/*		MarketNeuralDataSet data = grabData();
+Logging.stopConsoleLogging();
+		
+		EncogPersistedCollection encog = new EncogPersistedCollection(Config.FILENAME);					
+		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
+				
+		MarketNeuralDataSet data = grabData();
 		
 		for(NeuralDataPair pair: data)
 		{
@@ -58,7 +62,7 @@ public class MarketPredict {
 			
 			System.out.println(actual.getData(0)+"," + output.getData(0));
 			
-		}*/
+		}
 		
 	}
 	

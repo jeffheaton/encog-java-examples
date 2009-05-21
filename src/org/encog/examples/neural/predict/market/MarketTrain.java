@@ -40,7 +40,7 @@ public class MarketTrain {
 		} while ((left>=0) && (train.getError() > 0.001));
 				
 		network.setDescription("Trained neural network");
-		encog.add("market-network",network);
+		encog.add(Config.MARKET_NETWORK,network);
 		
 	}
 }

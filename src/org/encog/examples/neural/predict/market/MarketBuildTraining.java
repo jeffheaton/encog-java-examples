@@ -16,40 +16,32 @@ import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 
 public class MarketBuildTraining {
-	
-	public static final int INPUT_WINDOW = 10;
-	public static final int PREDICT_WINDOW = 1;
-	public static final TickerSymbol TICKER = new TickerSymbol("AAPL");
-	
+		
 	public static void main(String args[])
 	{
 		Logging.stopConsoleLogging();
 		MarketLoader loader = new YahooFinanceLoader();
 		MarketNeuralDataSet market = new MarketNeuralDataSet(
 				loader, 
-				MarketBuildTraining.INPUT_WINDOW,
-				MarketBuildTraining.PREDICT_WINDOW);
+				Config.INPUT_WINDOW,
+				Config.PREDICT_WINDOW);
 		MarketDataDescription desc = new MarketDataDescription(
-				MarketBuildTraining.TICKER, 
+				Config.TICKER, 
 				MarketDataType.ADJUSTED_CLOSE, 
 				true,
 				true);
 		market.addDescription(desc);
-		
-		Calendar end = new GregorianCalendar();
-		end.add(Calendar.DATE, -30);
-		
-		Calendar begin = (Calendar)end.clone();
-		begin.add(Calendar.YEAR, -5);
 				
-		market.load(begin.getTime(), end.getTime());
+		market.load(Config.TRAIN_BEGIN.getTime(), Config.TRAIN_END.getTime());
 		market.generate();
-		market.setDescription("Market data for: " + MarketBuildTraining.TICKER.getSymbol());
+		market.setDescription("Market data for: " + Config.TICKER.getSymbol());
 		
 		// create a network
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(market.getInputSize()));
-		network.addLayer(new BasicLayer(10));
+		network.addLayer(new BasicLayer(Config.HIDDEN1_COUNT));
+		if( Config.HIDDEN2_COUNT!=0)
+			network.addLayer(new BasicLayer(Config.HIDDEN2_COUNT));
 		network.addLayer(new BasicLayer(market.getIdealSize()));
 		network.getStructure().finalizeStructure();
 		network.reset();		
