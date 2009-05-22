@@ -33,9 +33,7 @@ import org.encog.neural.data.basic.BasicNeuralDataPair;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
-import org.encog.neural.networks.training.competitive.CompetitiveTraining.LearningMethod;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodGaussian;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
 import org.encog.util.logging.Logging;
@@ -563,15 +561,15 @@ public class OCR extends JFrame implements Runnable {
 			
 			this.net = new BasicNetwork();
 			this.net.addLayer(new BasicLayer(new ActivationLinear(),false,inputNeuron));
-			this.net.addLayer(new BasicLayer(new ActivationLinear(),false,outputNeuron),SynapseType.Normalize);
+			this.net.addLayer(new BasicLayer(new ActivationLinear(),false,outputNeuron));
 			this.net.getStructure().finalizeStructure();
 			this.net.reset();
 			
 			CompetitiveTraining train = new CompetitiveTraining(
 					this.net,
+					0.75,
 					trainingSet,
-					LearningMethod.SUBTRACTIVE,
-					7);
+					new NeighborhoodGaussian(new GaussianFunction(0,1,5)));
 								
 			int tries = 1;
 			while(!halt)

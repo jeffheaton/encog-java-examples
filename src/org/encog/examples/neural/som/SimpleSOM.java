@@ -10,17 +10,16 @@ import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
-import org.encog.neural.networks.training.competitive.CompetitiveTraining.LearningMethod;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
 import org.encog.util.logging.Logging;
+import org.encog.util.randomize.RangeRandomizer;
 
 public class SimpleSOM {
 	
 	public static double SOM_INPUT[][] = { 
-		{ 0.0, 0.0, 1.0, 1.0 }, 
-		{ 1.0, 1.0, 0.0, 0.0 } };
+		{ -1.0, -1.0, 1.0, 1.0 }, 
+		{ 1.0, 1.0, -1.0, -1.0 } };
 	
 	public static void main(String args[])
 	{
@@ -32,19 +31,19 @@ public class SimpleSOM {
 		// Create the neural network.
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(new ActivationLinear(),false,4));
-		network.addLayer(new BasicLayer(new ActivationLinear(),false,2),SynapseType.Normalize);
+		network.addLayer(new BasicLayer(new ActivationLinear(),false,2));
 		network.getStructure().finalizeStructure();
-		network.reset();
+		(new RangeRandomizer(-0.5, 0.5)).randomize(network);
 		
 		CompetitiveTraining train = new CompetitiveTraining(
 				network,
+				0.7,
 				training,
-				LearningMethod.SUBTRACTIVE,
-				0.7);
+				new NeighborhoodSingle());
 				
 		int iteration = 0;
 		
-		for(iteration = 0;iteration<=100;iteration++)
+		for(iteration = 0;iteration<=10;iteration++)
 		{
 			train.iteration();
 			System.out.println("Iteration: " + iteration + ", Error:" + train.getError());
