@@ -567,7 +567,7 @@ public class OCR extends JFrame implements Runnable {
 			
 			CompetitiveTraining train = new CompetitiveTraining(
 					this.net,
-					0.75,
+					0.25,
 					trainingSet,
 					new NeighborhoodGaussian(new GaussianFunction(0,1,2)));
 								
