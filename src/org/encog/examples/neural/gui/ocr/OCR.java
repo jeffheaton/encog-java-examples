@@ -1,15 +1,3 @@
-/**
- * Introduction to Neural Networks with Java, 2nd Edition
- * Copyright 2008 by Heaton Research, Inc. 
- * http://www.heatonresearch.com/books/java-neural-2/
- * 
- * ISBN13: 978-1-60439-008-7  	 
- * ISBN:   1-60439-008-5
- *   
- * This class is released under the:
- * GNU Lesser General Public License (LGPL)
- * http://www.gnu.org/copyleft/lesser.html
- */
 package org.encog.examples.neural.gui.ocr;
 
 import java.awt.Font;
@@ -19,11 +7,19 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.text.NumberFormat;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
 
 import org.encog.neural.activation.ActivationLinear;
 import org.encog.neural.data.NeuralData;
@@ -35,11 +31,10 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodGaussian;
-import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
 import org.encog.util.logging.Logging;
 import org.encog.util.math.rbf.GaussianFunction;
 
-/** 
+/**
  * OCR: Main form that allows the user to interact with the OCR application.
  * 
  * @author Jeff Heaton
@@ -86,7 +81,7 @@ public class OCR extends JFrame implements Runnable {
 
 		public void run() {
 			OCR.this.tries.setText("" + this.tries);
-			OCR.this.txtError.setText("" + this.error);
+			OCR.this.txtError.setText("" + numberFormat.format(this.error) );
 		}
 	}
 
@@ -106,6 +101,8 @@ public class OCR extends JFrame implements Runnable {
 	static final int DOWNSAMPLE_HEIGHT = 7;
 
 	static final double MAX_ERROR = 0.01;
+	
+	private NumberFormat numberFormat;
 
 	/**
 	 * The main method.
@@ -118,100 +115,99 @@ public class OCR extends JFrame implements Runnable {
 		(new OCR()).setVisible(true);
 	}
 
-	boolean halt;
+	private boolean halt;
 
 	/**
 	 * The entry component for the user to draw into.
 	 */
-	Entry entry;
+	private Entry entry;
 
 	/**
 	 * The down sample component to display the drawing downsampled.
 	 */
-	Sample sample;
+	private Sample sample;
 
 	/**
 	 * The letters that have been defined.
 	 */
-	DefaultListModel letterListModel = new DefaultListModel();
+	private DefaultListModel letterListModel = new DefaultListModel();
+	
 	/**
 	 * The neural network.
 	 */
-	BasicNetwork net;
+	private BasicNetwork net;
+	
 	/**
 	 * The background thread used for training.
 	 */
-	Thread trainThread = null;
+	private Thread trainThread = null;
 
-	// {{DECLARE_CONTROLS
-	javax.swing.JLabel JLabel1 = new javax.swing.JLabel();
+	private JLabel JLabel1 = new javax.swing.JLabel();
 
-	javax.swing.JLabel JLabel2 = new javax.swing.JLabel();
+	private JLabel JLabel2 = new javax.swing.JLabel();
 
 	/**
 	 * THe downsample button.
 	 */
-	javax.swing.JButton downSample = new javax.swing.JButton();
+	private JButton downSample = new JButton();
 
 	/**
 	 * The add button.
 	 */
-	javax.swing.JButton add = new javax.swing.JButton();
+	private JButton add = new JButton();
 	/**
 	 * The clear button
 	 */
-	javax.swing.JButton clear = new javax.swing.JButton();
+	private JButton clear = new JButton();
 
 	/**
 	 * The recognize button
 	 */
-	javax.swing.JButton recognize = new javax.swing.JButton();
+	private JButton recognize = new JButton();
 
-	javax.swing.JScrollPane JScrollPane1 = new javax.swing.JScrollPane();
+	private JScrollPane JScrollPane1 = new JScrollPane();
 
 	/**
 	 * The letters list box
 	 */
-	javax.swing.JList letters = new javax.swing.JList();
+	private JList letters = new JList();
 
 	/**
 	 * The delete button
 	 */
-	javax.swing.JButton del = new javax.swing.JButton();
+	private JButton del = new JButton();
 
 	/**
 	 * The load button
 	 */
-	javax.swing.JButton load = new javax.swing.JButton();
+	private JButton load = new JButton();
+	
 	/**
 	 * The save button
 	 */
-	javax.swing.JButton save = new javax.swing.JButton();
+	private JButton save = new JButton();
+	
 	/**
 	 * The train button
 	 */
-	javax.swing.JButton train = new javax.swing.JButton();
+	JButton train = new JButton();
 
-	javax.swing.JLabel JLabel3 = new javax.swing.JLabel();
+	JLabel JLabel3 = new JLabel();
 
-	javax.swing.JLabel JLabel4 = new javax.swing.JLabel();
+	JLabel JLabel4 = new JLabel();
 
 	/**
 	 * How many tries
 	 */
-	javax.swing.JLabel tries = new javax.swing.JLabel();
+	JLabel tries = new JLabel();
 	/**
 	 * The last error
 	 */
-	javax.swing.JLabel txtError = new javax.swing.JLabel();
+	JLabel txtError = new JLabel();
 
-	javax.swing.JLabel JLabel8 = new javax.swing.JLabel();
+	JLabel JLabel8 = new JLabel();
 
-	javax.swing.JLabel JLabel5 = new javax.swing.JLabel();
-
-	// }}
-	// {{DECLARE_MENUS
-	// }}
+	JLabel JLabel5 = new JLabel();
 
 	/**
 	 * The constructor.
@@ -223,25 +219,24 @@ public class OCR extends JFrame implements Runnable {
 		this.entry.setSize(200, 128);
 		getContentPane().add(this.entry);
 
-		this.sample = new Sample(DOWNSAMPLE_WIDTH, DOWNSAMPLE_HEIGHT);
+		this.sample = new Sample(OCR.DOWNSAMPLE_WIDTH, OCR.DOWNSAMPLE_HEIGHT);
 		this.sample.setLocation(307, 210);
 		this.sample.setSize(65, 70);
 
 		this.entry.setSample(this.sample);
 		getContentPane().add(this.sample);
 
-		// {{INIT_CONTROLS
 		setTitle("Java Neural Network");
 		getContentPane().setLayout(null);
 		setSize(405, 382);
 		setVisible(false);
 		this.JLabel1.setText("Letters Known");
 		getContentPane().add(this.JLabel1);
-		this.JLabel1.setBounds(12, 12, 84, 12);
+		this.JLabel1.setBounds(12, 12, 100, 12);
 		this.JLabel2.setText("Tries:");
 		getContentPane().add(this.JLabel2);
 		this.JLabel2.setBounds(12, 264, 72, 24);
-		this.downSample.setText("Down Sample");
+		this.downSample.setText("D Sample");
 		this.downSample.setActionCommand("Down Sample");
 		getContentPane().add(this.downSample);
 		this.downSample.setBounds(252, 180, 120, 24);
@@ -258,7 +253,7 @@ public class OCR extends JFrame implements Runnable {
 		getContentPane().add(this.recognize);
 		this.recognize.setBounds(252, 156, 120, 24);
 		this.JScrollPane1
-				.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		this.JScrollPane1.setOpaque(true);
 		getContentPane().add(this.JScrollPane1);
 		this.JScrollPane1.setBounds(12, 24, 144, 132);
@@ -271,7 +266,7 @@ public class OCR extends JFrame implements Runnable {
 		this.load.setText("Load");
 		this.load.setActionCommand("Load");
 		getContentPane().add(this.load);
-		this.load.setBounds(12, 180, 72, 24);
+		this.load.setBounds(12, 180, 75, 24);
 		this.save.setText("Save");
 		this.save.setActionCommand("Save");
 		getContentPane().add(this.save);
@@ -289,9 +284,8 @@ public class OCR extends JFrame implements Runnable {
 		this.txtError.setText("0");
 		getContentPane().add(this.txtError);
 		this.txtError.setBounds(96, 288, 72, 24);
-		this.JLabel8
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		this.JLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		this.JLabel8.setHorizontalTextPosition(SwingConstants.CENTER);
+		this.JLabel8.setHorizontalAlignment(SwingConstants.CENTER);
 		this.JLabel8.setText("Training Results");
 		getContentPane().add(this.JLabel8);
 		this.JLabel8.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -299,9 +293,7 @@ public class OCR extends JFrame implements Runnable {
 		this.JLabel5.setText("Draw Letters Here");
 		getContentPane().add(this.JLabel5);
 		this.JLabel5.setBounds(204, 12, 144, 12);
-		// }}
 
-		// {{REGISTER_LISTENERS
 		final SymAction lSymAction = new SymAction();
 		this.downSample.addActionListener(lSymAction);
 		this.clear.addActionListener(lSymAction);
@@ -313,10 +305,9 @@ public class OCR extends JFrame implements Runnable {
 		this.save.addActionListener(lSymAction);
 		this.train.addActionListener(lSymAction);
 		this.recognize.addActionListener(lSymAction);
-		// }}
 		this.letters.setModel(this.letterListModel);
-		// {{INIT_MENUS
-		// }}
+		
+		this.numberFormat = NumberFormat.getNumberInstance();
 	}
 
 	/**
@@ -418,7 +409,7 @@ public class OCR extends JFrame implements Runnable {
 	 * @param event
 	 *            The event
 	 */
-	void letters_valueChanged(final javax.swing.event.ListSelectionEvent event) {
+	void letters_valueChanged(final ListSelectionEvent event) {
 		if (this.letters.getSelectedIndex() == -1) {
 			return;
 		}
@@ -495,7 +486,7 @@ public class OCR extends JFrame implements Runnable {
 					input.setData(idx++, ds.getData(x, y) ? .5 : -.5);
 				}
 			}
-			
+
 			final int best = this.net.winner(input);
 			map[best] = ds.getLetter();
 		}
@@ -542,44 +533,43 @@ public class OCR extends JFrame implements Runnable {
 		try {
 			final int inputNeuron = OCR.DOWNSAMPLE_HEIGHT
 					* OCR.DOWNSAMPLE_WIDTH;
-			final int outputNeuron = this.letterListModel.size();			
+			final int outputNeuron = this.letterListModel.size();
 
-			NeuralDataSet trainingSet = new BasicNeuralDataSet();
+			final NeuralDataSet trainingSet = new BasicNeuralDataSet();
 			for (int t = 0; t < this.letterListModel.size(); t++) {
-				NeuralData item = new BasicNeuralData(inputNeuron);
+				final NeuralData item = new BasicNeuralData(inputNeuron);
 				int idx = 0;
 				final SampleData ds = (SampleData) this.letterListModel
 						.getElementAt(t);
 				for (int y = 0; y < ds.getHeight(); y++) {
 					for (int x = 0; x < ds.getWidth(); x++) {
-						item.setData(idx++,ds.getData(x, y) ? .5 : -.5);
+						item.setData(idx++, ds.getData(x, y) ? .5 : -.5);
 					}
 				}
-				
-				trainingSet.add(new BasicNeuralDataPair(item,null));
+
+				trainingSet.add(new BasicNeuralDataPair(item, null));
 			}
-			
+
 			this.net = new BasicNetwork();
-			this.net.addLayer(new BasicLayer(new ActivationLinear(),false,inputNeuron));
-			this.net.addLayer(new BasicLayer(new ActivationLinear(),false,outputNeuron));
+			this.net.addLayer(new BasicLayer(new ActivationLinear(), false,
+					inputNeuron));
+			this.net.addLayer(new BasicLayer(new ActivationLinear(), false,
+					outputNeuron));
 			this.net.getStructure().finalizeStructure();
 			this.net.reset();
-			
-			CompetitiveTraining train = new CompetitiveTraining(
-					this.net,
-					0.25,
-					trainingSet,
-					new NeighborhoodGaussian(new GaussianFunction(0,1,2)));
-								
+
+			final CompetitiveTraining train = new CompetitiveTraining(this.net,
+					0.25, trainingSet, new NeighborhoodGaussian(
+							new GaussianFunction(0, 1, 2)));
+
 			int tries = 1;
-			while(!halt)
-			{
+			while (!this.halt) {
 				train.iteration();
 				update(tries++, train.getError());
 			}
-			
-			this.halt = true;
-			this.train.setText("Begin Training");
+
+			markStopped();
+			this.halt = false;
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -656,22 +646,24 @@ public class OCR extends JFrame implements Runnable {
 	 */
 	public void update(final int retry, final double error) {
 
-		if (this.halt) {
-			this.trainThread = null;
-			this.train.setText("Begin Training");
-			JOptionPane.showMessageDialog(this, "Training has completed.",
-					"Training", JOptionPane.PLAIN_MESSAGE);
-		}
 		final UpdateStats stats = new UpdateStats();
 		stats.tries = retry;
 		stats.error = error;
-		
+
 		try {
 			SwingUtilities.invokeAndWait(stats);
 		} catch (final Exception e) {
 			JOptionPane.showMessageDialog(this, "Error: " + e, "Training",
 					JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public void markStopped()
+	{
+		this.trainThread = null;
+		this.train.setText("Begin Training");
+		JOptionPane.showMessageDialog(this, "Training has completed.",
+				"Training", JOptionPane.PLAIN_MESSAGE);	
 	}
 
 }
