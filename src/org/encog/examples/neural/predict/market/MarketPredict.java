@@ -1,5 +1,6 @@
 package org.encog.examples.neural.predict.market;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -29,10 +30,6 @@ public class MarketPredict {
 	
 	public static Direction determineDirection(double d)
 	{
-		/*if( Math.abs(d)<ZERO_TOLERANCE )
-		{
-			return Direction.flat;
-		}*/
 		if( d<0 )
 			return Direction.down;
 		else
@@ -69,8 +66,22 @@ public class MarketPredict {
 	{
 		Logging.stopConsoleLogging();
 		
-		EncogPersistedCollection encog = new EncogPersistedCollection(Config.FILENAME);					
+		File file = new File(Config.FILENAME);
+		
+		if( !file.exists() )
+		{
+			System.out.println("Can't read file: " + file.getAbsolutePath() );
+			return;
+		}
+		
+		EncogPersistedCollection encog = new EncogPersistedCollection(file);					
 		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
+		
+		if( network==null )
+		{
+			System.out.println("Can't find network resource: " + Config.MARKET_NETWORK );
+			return;
+		}
 				
 		MarketNeuralDataSet data = grabData();
 		

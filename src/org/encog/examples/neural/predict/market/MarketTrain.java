@@ -1,5 +1,7 @@
 package org.encog.examples.neural.predict.market;
 
+import java.io.File;
+
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
@@ -14,7 +16,15 @@ public class MarketTrain {
 	{
 		Logging.stopConsoleLogging();
 		
-		EncogPersistedCollection encog = new EncogPersistedCollection(Config.FILENAME);
+		File file = new File(Config.FILENAME);
+		
+		if( !file.exists() )
+		{
+			System.out.println("Can't read file: " + file.getAbsolutePath() );
+			return;
+		}
+		
+		EncogPersistedCollection encog = new EncogPersistedCollection(file);
 		NeuralDataSet trainingSet = (NeuralDataSet) encog.find(Config.MARKET_TRAIN);
 					
 		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
