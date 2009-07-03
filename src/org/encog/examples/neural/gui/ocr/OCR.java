@@ -1,3 +1,29 @@
+/*
+ * Encog Artificial Intelligence Framework v2.x
+ * Java Examples
+ * http://www.heatonresearch.com/encog/
+ * http://code.google.com/p/encog-java/
+ * 
+ * Copyright 2008-2009, Heaton Research Inc., and individual contributors.
+ * See the copyright.txt in the distribution for a full listing of 
+ * individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+
 package org.encog.examples.neural.gui.ocr;
 
 import java.awt.Font;
@@ -36,9 +62,6 @@ import org.encog.util.math.rbf.GaussianFunction;
 
 /**
  * OCR: Main form that allows the user to interact with the OCR application.
- * 
- * @author Jeff Heaton
- * @version 2.1
  */
 public class OCR extends JFrame implements Runnable {
 
@@ -81,7 +104,8 @@ public class OCR extends JFrame implements Runnable {
 
 		public void run() {
 			OCR.this.tries.setText("" + this.tries);
-			OCR.this.txtError.setText("" + numberFormat.format(this.error) );
+			OCR.this.txtError.setText(""
+					+ OCR.this.numberFormat.format(this.error));
 		}
 	}
 
@@ -101,8 +125,6 @@ public class OCR extends JFrame implements Runnable {
 	static final int DOWNSAMPLE_HEIGHT = 7;
 
 	static final double MAX_ERROR = 0.01;
-	
-	private NumberFormat numberFormat;
 
 	/**
 	 * The main method.
@@ -115,78 +137,80 @@ public class OCR extends JFrame implements Runnable {
 		(new OCR()).setVisible(true);
 	}
 
+	private final NumberFormat numberFormat;
+
 	private boolean halt;
 
 	/**
 	 * The entry component for the user to draw into.
 	 */
-	private Entry entry;
+	private final Entry entry;
 
 	/**
 	 * The down sample component to display the drawing downsampled.
 	 */
-	private Sample sample;
+	private final Sample sample;
 
 	/**
 	 * The letters that have been defined.
 	 */
-	private DefaultListModel letterListModel = new DefaultListModel();
-	
+	private final DefaultListModel letterListModel = new DefaultListModel();
+
 	/**
 	 * The neural network.
 	 */
 	private BasicNetwork net;
-	
+
 	/**
 	 * The background thread used for training.
 	 */
 	private Thread trainThread = null;
 
-	private JLabel JLabel1 = new javax.swing.JLabel();
+	private final JLabel JLabel1 = new javax.swing.JLabel();
 
-	private JLabel JLabel2 = new javax.swing.JLabel();
+	private final JLabel JLabel2 = new javax.swing.JLabel();
 
 	/**
 	 * THe downsample button.
 	 */
-	private JButton downSample = new JButton();
+	private final JButton downSample = new JButton();
 
 	/**
 	 * The add button.
 	 */
-	private JButton add = new JButton();
+	private final JButton add = new JButton();
 	/**
 	 * The clear button
 	 */
-	private JButton clear = new JButton();
+	private final JButton clear = new JButton();
 
 	/**
 	 * The recognize button
 	 */
-	private JButton recognize = new JButton();
+	private final JButton recognize = new JButton();
 
-	private JScrollPane JScrollPane1 = new JScrollPane();
+	private final JScrollPane JScrollPane1 = new JScrollPane();
 
 	/**
 	 * The letters list box
 	 */
-	private JList letters = new JList();
+	private final JList letters = new JList();
 
 	/**
 	 * The delete button
 	 */
-	private JButton del = new JButton();
+	private final JButton del = new JButton();
 
 	/**
 	 * The load button
 	 */
-	private JButton load = new JButton();
-	
+	private final JButton load = new JButton();
+
 	/**
 	 * The save button
 	 */
-	private JButton save = new JButton();
-	
+	private final JButton save = new JButton();
+
 	/**
 	 * The train button
 	 */
@@ -306,7 +330,7 @@ public class OCR extends JFrame implements Runnable {
 		this.train.addActionListener(lSymAction);
 		this.recognize.addActionListener(lSymAction);
 		this.letters.setModel(this.letterListModel);
-		
+
 		this.numberFormat = NumberFormat.getNumberInstance();
 	}
 
@@ -493,6 +517,13 @@ public class OCR extends JFrame implements Runnable {
 		return map;
 	}
 
+	public void markStopped() {
+		this.trainThread = null;
+		this.train.setText("Begin Training");
+		JOptionPane.showMessageDialog(this, "Training has completed.",
+				"Training", JOptionPane.PLAIN_MESSAGE);
+	}
+
 	/**
 	 * Called when the recognize button is pressed.
 	 * 
@@ -656,14 +687,6 @@ public class OCR extends JFrame implements Runnable {
 			JOptionPane.showMessageDialog(this, "Error: " + e, "Training",
 					JOptionPane.ERROR_MESSAGE);
 		}
-	}
-	
-	public void markStopped()
-	{
-		this.trainThread = null;
-		this.train.setText("Begin Training");
-		JOptionPane.showMessageDialog(this, "Training has completed.",
-				"Training", JOptionPane.PLAIN_MESSAGE);	
 	}
 
 }
