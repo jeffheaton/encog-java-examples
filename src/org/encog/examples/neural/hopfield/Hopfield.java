@@ -26,18 +26,14 @@
 
 package org.encog.examples.neural.hopfield;
 
-import org.encog.neural.activation.ActivationBiPolar;
 import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.hopfield.TrainHopfield;
 import org.encog.util.logging.Logging;
+import org.encog.util.network.HopfieldHolder;
 
 /**
- * ConsoleHopfield: Simple console application that shows how to use a Hopfield
- * Neural Network.
+ * ConsoleHopfield: Simple console application that shows how to
+ * use a Hopfield Neural Network.
  */
 public class Hopfield {
 
@@ -48,11 +44,11 @@ public class Hopfield {
 	 *            A boolen array.
 	 * @return The boolen array in string form.
 	 */
-	public static String formatBoolean(final NeuralData b) {
+	public static String formatBoolean(NeuralData b) {
 		final StringBuilder result = new StringBuilder();
 		result.append('[');
 		for (int i = 0; i < b.size(); i++) {
-			if (b.getData(i) > 0) {
+			if (b.getData(i)>0) {
 				result.append("T");
 			} else {
 				result.append("F");
@@ -74,42 +70,43 @@ public class Hopfield {
 	public static void main(final String args[]) {
 
 		Logging.stopConsoleLogging();
-
+		
 		// Create the neural network.
-		BasicLayer hopfield;
-		final BasicNetwork network = new BasicNetwork();
-		network.addLayer(hopfield = new BasicLayer(new ActivationBiPolar(),
-				false, 4));
-		hopfield.addNext(hopfield);
+		HopfieldHolder hopfield = new HopfieldHolder(4);
+		
 		// This pattern will be trained
 		final boolean[] pattern1 = { true, true, false, false };
 		// This pattern will be presented
 		final boolean[] pattern2 = { true, false, false, false };
 		NeuralData result;
-
-		final BiPolarNeuralData data1 = new BiPolarNeuralData(pattern1);
-		final BiPolarNeuralData data2 = new BiPolarNeuralData(pattern2);
-		final BasicNeuralDataSet set = new BasicNeuralDataSet();
-		set.add(data1);
-		network.getStructure().finalizeStructure();
+		
+		BiPolarNeuralData data1 = new BiPolarNeuralData(pattern1);
+		BiPolarNeuralData data2 = new BiPolarNeuralData(pattern2);
+		
+		hopfield.addPattern(data1);
 
 		// train the neural network with pattern1
 		System.out.println("Training Hopfield network with: "
-				+ Hopfield.formatBoolean(data1));
+				+ formatBoolean(data1));
 
-		final TrainHopfield train = new TrainHopfield(set, network);
-		train.iteration();
+		System.out.println("Network energy: " + hopfield.calculateEnergy());
+		
 		// present pattern1 and see it recognized
-		result = network.compute(data1);
-		System.out.println("Presenting pattern:"
-				+ Hopfield.formatBoolean(data1) + ", and got "
-				+ Hopfield.formatBoolean(result));
+		hopfield.setCurrentState(data1);
+		hopfield.run();
+		result = hopfield.getCurrentState();
+		System.out.println("Presenting pattern:" + formatBoolean(data1)
+				+ ", and got " + formatBoolean(result));
+		System.out.println("Network energy: " + hopfield.calculateEnergy());
+		
 		// Present pattern2, which is similar to pattern 1. Pattern 1
 		// should be recalled.
-		result = network.compute(data2);
-		System.out.println("Presenting pattern:"
-				+ Hopfield.formatBoolean(data2) + ", and got "
-				+ Hopfield.formatBoolean(result));
+		hopfield.setCurrentState(data2);
+		hopfield.run();
+		result = hopfield.getCurrentState();
+		System.out.println("Presenting pattern:" + formatBoolean(data2)
+				+ ", and got " + formatBoolean(result));
+		System.out.println("Network energy: " + hopfield.calculateEnergy());
 
 	}
 
