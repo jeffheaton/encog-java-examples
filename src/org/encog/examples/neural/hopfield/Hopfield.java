@@ -38,30 +38,6 @@ import org.encog.util.network.HopfieldHolder;
 public class Hopfield {
 
 	/**
-	 * Convert a boolean array to the form [T,T,F,F]
-	 * 
-	 * @param b
-	 *            A boolen array.
-	 * @return The boolen array in string form.
-	 */
-	public static String formatBoolean(NeuralData b) {
-		final StringBuilder result = new StringBuilder();
-		result.append('[');
-		for (int i = 0; i < b.size(); i++) {
-			if (b.getData(i)>0) {
-				result.append("T");
-			} else {
-				result.append("F");
-			}
-			if (i != b.size() - 1) {
-				result.append(",");
-			}
-		}
-		result.append(']');
-		return (result.toString());
-	}
-
-	/**
 	 * A simple main method to test the Hopfield neural network.
 	 * 
 	 * @param args
@@ -87,7 +63,7 @@ public class Hopfield {
 
 		// train the neural network with pattern1
 		System.out.println("Training Hopfield network with: "
-				+ formatBoolean(data1));
+				+ data1.toString());
 
 		System.out.println("Network energy: " + hopfield.calculateEnergy());
 		
@@ -95,8 +71,8 @@ public class Hopfield {
 		hopfield.setCurrentState(data1);
 		hopfield.run();
 		result = hopfield.getCurrentState();
-		System.out.println("Presenting pattern:" + formatBoolean(data1)
-				+ ", and got " + formatBoolean(result));
+		System.out.println("Presenting pattern:" + data1.toString()
+				+ ", and got " + result.toString());
 		System.out.println("Network energy: " + hopfield.calculateEnergy());
 		
 		// Present pattern2, which is similar to pattern 1. Pattern 1
@@ -104,8 +80,8 @@ public class Hopfield {
 		hopfield.setCurrentState(data2);
 		hopfield.run();
 		result = hopfield.getCurrentState();
-		System.out.println("Presenting pattern:" + formatBoolean(data2)
-				+ ", and got " + formatBoolean(result));
+		System.out.println("Presenting pattern:" + data2.toString()
+				+ ", and got " + result.toString());
 		System.out.println("Network energy: " + hopfield.calculateEnergy());
 
 	}

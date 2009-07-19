@@ -63,7 +63,7 @@ public class XORResilient {
 		
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(3));
+		network.addLayer(new BasicLayer(2));
 		network.addLayer(new BasicLayer(1));
 		network.getStructure().finalizeStructure();
 		network.reset();
