@@ -5,8 +5,6 @@ import org.encog.neural.data.bipolar.BiPolarNeuralData;
 import org.encog.neural.networks.NeuralDataMapping;
 import org.encog.util.network.BAMHolder;
 
-import sun.tools.tree.ThisExpression;
-
 /**
  * Simple class to recognize some patterns with a Bidirectional
  * Associative Memory (BAM) Neural Network.
