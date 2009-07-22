@@ -1,6 +1,5 @@
 package org.encog.examples.neural.persist;
 
-import org.encog.examples.neural.predict.market.Config;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
@@ -44,7 +43,7 @@ public class EncogPersistence {
 		
 		System.out.println("Saving network");
 		final EncogPersistedCollection encog = new EncogPersistedCollection(
-				Config.FILENAME);
+				FILENAME);
 		encog.create();
 		encog.add("network", network);
 	}
@@ -54,7 +53,7 @@ public class EncogPersistence {
 		System.out.println("Loading network");
 		
 		final EncogPersistedCollection encog = new EncogPersistedCollection(
-				Config.FILENAME);
+				FILENAME);
 		BasicNetwork network = (BasicNetwork)encog.find("network");
 		
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);

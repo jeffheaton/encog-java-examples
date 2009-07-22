@@ -1,6 +1,5 @@
 package org.encog.examples.neural.persist;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.encog.neural.data.NeuralDataSet;
