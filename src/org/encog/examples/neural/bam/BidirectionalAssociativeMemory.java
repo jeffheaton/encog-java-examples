@@ -113,13 +113,15 @@ public class BidirectionalAssociativeMemory {
 	{		
 		BAMHolder network = new BAMHolder(INPUT_NEURONS,OUTPUT_NEURONS);
 		
+		// train
 		for(int i=0;i<NAMES.length;i++)
 		{
 			network.addPattern(
-					stringToBipolar(NAMES2[i]), 
+					stringToBipolar(NAMES[i]), 
 					stringToBipolar(PHONES[i]));
 		}
 		
+		// test
 		for(int i=0;i<NAMES.length;i++)
 		{	
 			NeuralDataMapping data = new NeuralDataMapping(
@@ -133,8 +135,8 @@ public class BidirectionalAssociativeMemory {
 		for(int i=0;i<PHONES.length;i++)
 		{	
 			NeuralDataMapping data = new NeuralDataMapping(
-					randomBiPolar(IN_CHARS*BITS_PER_CHAR),
-					stringToBipolar(PHONES[i]) );	
+					stringToBipolar(PHONES[i]),
+					randomBiPolar(IN_CHARS*BITS_PER_CHAR) );	
 			runBAM(network, data);
 		}
 		
