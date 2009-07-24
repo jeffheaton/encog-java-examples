@@ -1,8 +1,17 @@
 package org.encog.examples.neural.cpn;
 
+import org.encog.neural.activation.ActivationCompetitive;
+import org.encog.neural.activation.ActivationLinear;
+import org.encog.neural.data.NeuralData;
+import org.encog.neural.data.NeuralDataSet;
+import org.encog.neural.data.basic.BasicNeuralData;
+import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.layers.Layer;
+import org.encog.neural.networks.training.Train;
+import org.encog.neural.networks.training.cpn.TrainInstar;
+import org.encog.neural.networks.training.cpn.TrainOutstar;
 
 public class RocketCPN {
 	
@@ -213,18 +222,14 @@ public class RocketCPN {
 	private int inputNeurons;
 	private int instarNeurons;
 	private int outstarNeurons;
-	
-	private Layer inputLayer;
-	private Layer instarLayer;
-	private Layer outstarLayer;
 
 	public void prepareInput()
 	{
 		int n,i,j;
 		
 		this.inputNeurons = WIDTH * HEIGHT;
-		this.instarNeurons = 2;
-		this.outstarNeurons = PATTERN1.length;
+		this.instarNeurons = PATTERN1.length;
+		this.outstarNeurons = 2;
 		
 		this.input1 = new double[PATTERN1.length][this.inputNeurons];
 		this.input2 = new double[PATTERN2.length][this.inputNeurons];
@@ -277,19 +282,99 @@ public class RocketCPN {
 	public BasicNetwork createNetwork()
 	{
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(this.inputLayer = new BasicLayer(this.inputNeurons));
-		network.addLayer(this.instarLayer = new BasicLayer(this.instarNeurons));
-		network.addLayer(this.outstarLayer = new BasicLayer(this.outstarNeurons));
+		// input:
+		network.addLayer(new BasicLayer(new ActivationLinear(),false,this.inputNeurons));
+		// instar:
+		network.addLayer(new BasicLayer(new ActivationCompetitive(),false,this.instarNeurons));
+		// outstar:
+		network.addLayer(new BasicLayer(new ActivationLinear(),false,this.outstarNeurons));
+		
 		network.getStructure().finalizeStructure();
 		network.reset();
 		return network;
+	}
+	
+	public void trainInstar(BasicNetwork network,NeuralDataSet training)
+	{
+		int epoch = 1;
+
+		Train train = new TrainInstar(network,training,0.1);
+		for(int i=0;i<1000;i++) {
+			train.iteration();
+			System.out
+					.println("Training instar, Epoch #" + epoch );
+			epoch++;
+		} 
+	}
+	
+	public void trainOutstar(BasicNetwork network,NeuralDataSet training)
+	{
+		int epoch = 1;
+
+		Train train = new TrainOutstar(network,training,0.1);
+		for(int i=0;i<1000;i++) {
+			train.iteration();
+			System.out
+					.println("Training outstar, Epoch #" + epoch );
+			epoch++;
+		} 
+	}
+	
+	public NeuralDataSet generateTraining(double[][] input,double[][] ideal)
+	{
+		NeuralDataSet result = new BasicNeuralDataSet(input,ideal);
+		return result;
+	}
+	
+	public double determineAngle(NeuralData angle)
+	{
+		double result;
+
+		  result = ( Math.atan2(angle.getData(0), angle.getData(1)) / Math.PI) * 180;
+		  if (result < 0)
+		    result += 360;
+
+		  return result;
+	}
+	
+	public void test(BasicNetwork network,String[][] pattern,double[][] input)
+	{
+		for(int i=0;i<pattern.length;i++)
+		{
+			NeuralData inputData = new BasicNeuralData(input[i]);
+			NeuralData outputData = network.compute(inputData);
+			double angle = determineAngle(outputData);
+			
+			// display image
+			for(int j=0;j<HEIGHT;j++)
+			{
+				if( j==HEIGHT-1 )
+					System.out.println("["+pattern[i][j]+"] -> " + ((int)angle) + " deg");
+				else
+					System.out.println("["+pattern[i][j]+"]");
+			}
+			
+			System.out.println();
+		}
+	}
+	
+	public void run()
+	{
+		prepareInput();
+		normalizeInput();
+		BasicNetwork network = createNetwork();
+		NeuralDataSet training = generateTraining(this.input1,this.ideal1);
+		trainInstar(network,training);
+		trainOutstar(network,training);
+		test(network,PATTERN1,this.input1);
 	}
 
 
 	
 	public static void main(String[] args)
 	{
-		
+		RocketCPN cpn = new RocketCPN();
+		cpn.run();
 	}
 	
 }
