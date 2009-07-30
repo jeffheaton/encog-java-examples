@@ -2,8 +2,10 @@ package org.encog.examples.neural.bam;
 
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
+import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.NeuralDataMapping;
-import org.encog.util.network.BAMHolder;
+import org.encog.neural.networks.logic.BAMLogic;
+import org.encog.neural.pattern.BAMPattern;
 
 /**
  * Simple class to recognize some patterns with a Bidirectional
@@ -99,11 +101,12 @@ public class BidirectionalAssociativeMemory {
 		return result.toString();
 	}
 	
-	public void runBAM(BAMHolder network, NeuralDataMapping data )
+	public void runBAM(BasicNetwork network, NeuralDataMapping data )
 	{
+		BAMLogic logic = (BAMLogic)network.getLogic();
 		StringBuilder line = new StringBuilder();
 		line.append(mappingToString(data));
-		network.compute(data);
+		logic.compute(data);
 		line.append("  |  ");
 		line.append(mappingToString(data));
 		System.out.println(line.toString());
@@ -111,12 +114,16 @@ public class BidirectionalAssociativeMemory {
 	
 	public void run()
 	{		
-		BAMHolder network = new BAMHolder(INPUT_NEURONS,OUTPUT_NEURONS);
+		BAMPattern pattern = new BAMPattern();
+		pattern.setInputNeurons(INPUT_NEURONS);
+		pattern.setOutputNeurons(OUTPUT_NEURONS);
+		BasicNetwork network = pattern.generate();
+		BAMLogic logic = (BAMLogic)network.getLogic();
 		
 		// train
 		for(int i=0;i<NAMES.length;i++)
 		{
-			network.addPattern(
+			logic.addPattern(
 					stringToBipolar(NAMES[i]), 
 					stringToBipolar(PHONES[i]));
 		}

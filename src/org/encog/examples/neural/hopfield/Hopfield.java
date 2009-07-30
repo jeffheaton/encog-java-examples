@@ -28,8 +28,10 @@ package org.encog.examples.neural.hopfield;
 
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.logic.HopfieldLogic;
+import org.encog.neural.pattern.HopfieldPattern;
 import org.encog.util.logging.Logging;
-import org.encog.util.network.HopfieldHolder;
 
 /**
  * ConsoleHopfield: Simple console application that shows how to
@@ -46,9 +48,13 @@ public class Hopfield {
 	public static void main(final String args[]) {
 
 		Logging.stopConsoleLogging();
-		
+
 		// Create the neural network.
-		HopfieldHolder hopfield = new HopfieldHolder(4);
+		HopfieldPattern pattern = new HopfieldPattern();
+		pattern.setInputNeurons(4);
+		BasicNetwork hopfield = pattern.generate();
+		HopfieldLogic hopfieldLogic = (HopfieldLogic)hopfield.getLogic();
+
 		
 		// This pattern will be trained
 		final boolean[] pattern1 = { true, true, false, false };
@@ -59,30 +65,30 @@ public class Hopfield {
 		BiPolarNeuralData data1 = new BiPolarNeuralData(pattern1);
 		BiPolarNeuralData data2 = new BiPolarNeuralData(pattern2);
 		
-		hopfield.addPattern(data1);
+		hopfieldLogic.addPattern(data1);
 
 		// train the neural network with pattern1
 		System.out.println("Training Hopfield network with: "
 				+ data1.toString());
 
-		System.out.println("Network energy: " + hopfield.calculateEnergy());
+		System.out.println("Network energy: " + hopfieldLogic.calculateEnergy());
 		
 		// present pattern1 and see it recognized
-		hopfield.setCurrentState(data1);
-		hopfield.run();
-		result = hopfield.getCurrentState();
+		hopfieldLogic.setCurrentState(data1);
+		hopfieldLogic.run();
+		result = hopfieldLogic.getCurrentState();
 		System.out.println("Presenting pattern:" + data1.toString()
 				+ ", and got " + result.toString());
-		System.out.println("Network energy: " + hopfield.calculateEnergy());
+		System.out.println("Network energy: " + hopfieldLogic.calculateEnergy());
 		
 		// Present pattern2, which is similar to pattern 1. Pattern 1
 		// should be recalled.
-		hopfield.setCurrentState(data2);
-		hopfield.run();
-		result = hopfield.getCurrentState();
+		hopfieldLogic.setCurrentState(data2);
+		hopfieldLogic.run();
+		result = hopfieldLogic.getCurrentState();
 		System.out.println("Presenting pattern:" + data2.toString()
 				+ ", and got " + result.toString());
-		System.out.println("Network energy: " + hopfield.calculateEnergy());
+		System.out.println("Network energy: " + hopfieldLogic.calculateEnergy());
 
 	}
 

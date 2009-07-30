@@ -5,9 +5,10 @@ import org.encog.neural.data.bipolar.BiPolarNeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.layers.Layer;
+import org.encog.neural.networks.logic.BoltzmannLogic;
 import org.encog.neural.networks.synapse.Synapse;
+import org.encog.neural.pattern.BoltzmannPattern;
 import org.encog.util.math.BoundMath;
-import org.encog.util.network.BoltzmannHolder;
 import org.encog.util.randomize.RangeRandomizer;
 
 public class BoltzTSP {
@@ -109,11 +110,13 @@ public class BoltzTSP {
 		return result.toString();
 	}
 
-	public void calculateWeights(BoltzmannHolder network) {
+	public void calculateWeights(BasicNetwork network) {
 		int n1, n2, n3, n4;
 		int i, j;
 		int predN3, succN3;
 		double weight;
+		
+		BoltzmannLogic logic = (BoltzmannLogic)network.getLogic();
 
 		for (n1 = 0; n1 < NUM_CITIES; n1++) {
 			for (n2 = 0; n2 < NUM_CITIES; n2++) {
@@ -130,29 +133,32 @@ public class BoltzTSP {
 							else if ((n1 == predN3) || (n1 == succN3))
 								weight = -distance[n2][n4];
 						}
-						network.getThermalSynapse().getMatrix().set(i, j, weight);
+						logic.getThermalSynapse().getMatrix().set(i, j, weight);
 					}
 				}
-				network.getThermalLayer().setThreshold(i, -gamma / 2);
+				logic.getThermalLayer().setThreshold(i, -gamma / 2);
 			}
 		}
 	}
 
 
 	public void run() {
-		BoltzmannHolder network = new BoltzmannHolder(NEURON_COUNT);
+		BoltzmannPattern pattern = new BoltzmannPattern();
+		pattern.setInputNeurons(NEURON_COUNT);
+		BasicNetwork network = pattern.generate();
+		BoltzmannLogic logic = (BoltzmannLogic)network.getLogic();
 
 		createCities();
 		calculateWeights(network);
 
-		network.setTemperature(100);
+		logic.setTemperature(100);
 		do {
-			network.establishEquilibrium();
-			System.out.println(network.getTemperature()+" : "+displayTour(network.getCurrentState()));
-			network.decreaseTemperature(0.99);
-		} while (!isValidTour(network.getCurrentState()));
+			logic.establishEquilibrium();
+			System.out.println(logic.getTemperature()+" : "+displayTour(logic.getCurrentState()));
+			logic.decreaseTemperature(0.99);
+		} while (!isValidTour(logic.getCurrentState()));
 
-		System.out.println("Final Length: " + this.lengthOfTour(network.getCurrentState()) );
+		System.out.println("Final Length: " + this.lengthOfTour(logic.getCurrentState()) );
 	}
 
 	public static void main(String[] args) {

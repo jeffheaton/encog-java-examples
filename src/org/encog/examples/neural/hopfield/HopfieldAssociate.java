@@ -1,7 +1,9 @@
 package org.encog.examples.neural.hopfield;
 
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
-import org.encog.util.network.HopfieldHolder;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.logic.HopfieldLogic;
+import org.encog.neural.pattern.HopfieldPattern;
 
 /**
  * Simple class to recognize some patterns with a Hopfield Neural Network.
@@ -187,14 +189,15 @@ public class HopfieldAssociate {
 	}
 
 	
-	public void evaluate(HopfieldHolder hopfield, String[][] pattern)
+	public void evaluate(BasicNetwork hopfield, String[][] pattern)
 	{
+		HopfieldLogic hopfieldLogic = (HopfieldLogic)hopfield.getLogic();
 		for(int i=0;i<pattern.length;i++)
 		{
 			BiPolarNeuralData pattern1 = convertPattern(pattern,i);
-			hopfield.setCurrentState(pattern1);
-			int cycles = hopfield.runUntilStable(100);
-			BiPolarNeuralData pattern2 = (BiPolarNeuralData)hopfield.getCurrentState();
+			hopfieldLogic.setCurrentState(pattern1);
+			int cycles = hopfieldLogic.runUntilStable(100);
+			BiPolarNeuralData pattern2 = (BiPolarNeuralData)hopfieldLogic.getCurrentState();
 			System.out.println("Cycles until stable(max 100): " + cycles + ", result=");
 			display( pattern1, pattern2);
 			System.out.println("----------------------");
@@ -203,10 +206,14 @@ public class HopfieldAssociate {
 	
 	public void run()
 	{
-		HopfieldHolder hopfield = new HopfieldHolder(WIDTH*HEIGHT);
+		HopfieldPattern pattern = new HopfieldPattern();
+		pattern.setInputNeurons(WIDTH*HEIGHT);
+		BasicNetwork hopfield = pattern.generate();
+		HopfieldLogic hopfieldLogic = (HopfieldLogic)hopfield.getLogic();
+
 		for(int i=0;i<PATTERN.length;i++)
 		{
-			hopfield.addPattern(convertPattern(PATTERN,i));
+			hopfieldLogic.addPattern(convertPattern(PATTERN,i));
 		}
 		
 		evaluate(hopfield,PATTERN);

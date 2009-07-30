@@ -1,7 +1,9 @@
 package org.encog.examples.neural.art.art1;
 
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
-import org.encog.util.network.ART1Holder;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.logic.ART1Logic;
+import org.encog.neural.pattern.ART1Pattern;
 
 public class NeuralART1 {
 	
@@ -56,15 +58,21 @@ public class NeuralART1 {
 	public void run()
 	{
 		this.setupInput();
-		ART1Holder network = new ART1Holder(INPUT_NEURONS,OUTPUT_NEURONS);
+		ART1Pattern pattern = new ART1Pattern();
+		pattern.setInputNeurons(INPUT_NEURONS);
+		pattern.setOutputNeurons(OUTPUT_NEURONS);
+		BasicNetwork network = pattern.generate();
+		ART1Logic logic = (ART1Logic)network.getLogic();
+		
+		
 		for(int i=0;i<PATTERN.length;i++)
 		{
 			BiPolarNeuralData in = new BiPolarNeuralData(this.input[i]);
 			BiPolarNeuralData out = new BiPolarNeuralData(OUTPUT_NEURONS);
-			network.compute(in, out);
-			if( network.hasWinner() )
+			logic.compute(in, out);
+			if( logic.hasWinner() )
 			{
-				System.out.println(PATTERN[i] + " - " + network.getWinner() );
+				System.out.println(PATTERN[i] + " - " + logic.getWinner() );
 			}
 			else
 			{
