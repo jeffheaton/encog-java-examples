@@ -115,8 +115,8 @@ public class BidirectionalAssociativeMemory {
 	public void run()
 	{		
 		BAMPattern pattern = new BAMPattern();
-		pattern.setInputNeurons(INPUT_NEURONS);
-		pattern.setOutputNeurons(OUTPUT_NEURONS);
+		pattern.setF1Neurons(INPUT_NEURONS);
+		pattern.setF2Neurons(OUTPUT_NEURONS);
 		BasicNetwork network = pattern.generate();
 		BAMLogic logic = (BAMLogic)network.getLogic();
 		
