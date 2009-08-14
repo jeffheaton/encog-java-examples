@@ -12,6 +12,7 @@ import org.encog.neural.networks.layers.Layer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.cpn.TrainInstar;
 import org.encog.neural.networks.training.cpn.TrainOutstar;
+import org.encog.neural.pattern.CPNPattern;
 
 public class RocketCPN {
 	
@@ -280,18 +281,16 @@ public class RocketCPN {
 	}
 
 	public BasicNetwork createNetwork()
-	{
-		BasicNetwork network = new BasicNetwork();
-		// input:
-		network.addLayer(new BasicLayer(new ActivationLinear(),false,this.inputNeurons));
-		// instar:
-		network.addLayer(new BasicLayer(new ActivationCompetitive(),false,this.instarNeurons));
-		// outstar:
-		network.addLayer(new BasicLayer(new ActivationLinear(),false,this.outstarNeurons));
-		
-		network.getStructure().finalizeStructure();
-		network.reset();
-		return network;
+	{		
+        CPNPattern pattern = new CPNPattern();
+        pattern.setInputNeurons( this.inputNeurons );
+        pattern.setInstarCount( this.instarNeurons );
+        pattern.setOutstarCount( this.outstarNeurons );
+
+        BasicNetwork network = pattern.generate();
+        network.reset();
+
+        return network;
 	}
 	
 	public void trainInstar(BasicNetwork network,NeuralDataSet training)
