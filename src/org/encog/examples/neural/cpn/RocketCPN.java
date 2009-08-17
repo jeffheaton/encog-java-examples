@@ -298,10 +298,10 @@ public class RocketCPN {
 		int epoch = 1;
 
 		Train train = new TrainInstar(network,training,0.1);
-		for(int i=0;i<1000;i++) {
+		for(int i=0;i<20;i++) {
 			train.iteration();
 			System.out
-					.println("Training instar, Epoch #" + epoch );
+					.println("Training instar, Epoch #" + epoch + ", Error: " + train.getError() );
 			epoch++;
 		} 
 	}
@@ -311,10 +311,10 @@ public class RocketCPN {
 		int epoch = 1;
 
 		Train train = new TrainOutstar(network,training,0.1);
-		for(int i=0;i<1000;i++) {
+		for(int i=0;i<20;i++) {
 			train.iteration();
 			System.out
-					.println("Training outstar, Epoch #" + epoch );
+					.println("Training outstar, Epoch #" + epoch + ", error=" + train.getError() );
 			epoch++;
 		} 
 	}
