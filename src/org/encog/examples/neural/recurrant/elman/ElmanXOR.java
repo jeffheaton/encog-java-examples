@@ -39,6 +39,7 @@ import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
 import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
+import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 import org.encog.util.randomize.RangeRandomizer;
 
@@ -91,11 +92,19 @@ public class ElmanXOR {
 		final BasicNetwork elmanNetwork = ElmanXOR.createElmanNetwork();
 		final BasicNetwork feedforwardNetwork = ElmanXOR
 				.createFeedforwardNetwork();
+		
+		EncogPersistedCollection encog = new EncogPersistedCollection("elman.eg");
+		BasicNetwork network = (BasicNetwork)encog.find("elman");
+		System.out.println(network.calculateError(trainingSet));
 
-		final double elmanError = ElmanXOR.trainNetwork("Elman", elmanNetwork,
+		/*final double elmanError = ElmanXOR.trainNetwork("Elman", elmanNetwork,
 				trainingSet);
 		final double feedforwardError = ElmanXOR.trainNetwork("Feedforward",
 				feedforwardNetwork, trainingSet);
+		
+		EncogPersistedCollection encog = new EncogPersistedCollection("elman.eg");
+		encog.add("elman", elmanNetwork);
+		System.out.println(elmanNetwork.calculateError(trainingSet));
 
 		System.out.println("Best error rate with Elman Network: " + elmanError);
 		System.out.println("Best error rate with Feedforward Network: "
@@ -103,7 +112,7 @@ public class ElmanXOR {
 		System.out
 				.println("Elman should be able to get into the 30% range,\nfeedforward should not go below 50%.\nThe recurrent Elment net can learn better in this case.");
 		System.out
-				.println("If your results are not as good, try rerunning, or perhaps training longer.");
+				.println("If your results are not as good, try rerunning, or perhaps training longer.");*/
 	}
 
 	public static double trainNetwork(final String what,
