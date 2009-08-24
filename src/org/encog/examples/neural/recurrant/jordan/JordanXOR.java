@@ -39,6 +39,7 @@ import org.encog.neural.networks.layers.Layer;
 import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
+import org.encog.neural.networks.training.anneal.NeuralTrainingSetSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
@@ -97,7 +98,7 @@ public class JordanXOR {
 	public static double trainNetwork(String what, BasicNetwork network,NeuralDataSet trainingSet)
 	{
 		// train the neural network
-		final NeuralSimulatedAnnealing trainAlt = new NeuralSimulatedAnnealing(
+		final NeuralTrainingSetSimulatedAnnealing trainAlt = new NeuralTrainingSetSimulatedAnnealing(
 				network, trainingSet, 10, 2, 100);
 		
 		final Train trainMain = new Backpropagation(network, trainingSet, 0.00001, 0.0);

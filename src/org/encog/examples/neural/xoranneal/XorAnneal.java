@@ -33,6 +33,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
+import org.encog.neural.networks.training.anneal.NeuralTrainingSetSimulatedAnnealing;
 import org.encog.util.logging.Logging;
 
 
@@ -65,7 +66,7 @@ public class XorAnneal {
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
-		final NeuralSimulatedAnnealing train = new NeuralSimulatedAnnealing(
+		final NeuralTrainingSetSimulatedAnnealing train = new NeuralTrainingSetSimulatedAnnealing(
 				network, trainingSet, 10, 2, 100);
 
 		int epoch = 1;
