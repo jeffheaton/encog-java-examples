@@ -2,11 +2,15 @@ package org.encog.examples.neural.predict.sunspot2;
 
 import java.text.NumberFormat;
 
+import org.encog.NullStatusReportable;
 import org.encog.examples.neural.predict.sunspot.PredictSunspot;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.data.temporal.TemporalDataDescription;
+import org.encog.neural.data.temporal.TemporalNeuralDataSet;
+import org.encog.neural.data.temporal.TemporalPoint;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
@@ -96,6 +100,7 @@ public class PredictSunspot2 {
 
 		// normalize the sunspots
 		Normalization norm = new Normalization();
+		norm.setReport(new NullStatusReportable());
 		norm.addInputField(in = new InputFieldArray1D(SUNSPOTS));
 		norm.addOutputField(new OutputFieldRangeMapped(in, lo, hi));
 		norm.setTarget(new NormalizationTargetArray1D(normalizedSunspots));
@@ -106,20 +111,22 @@ public class PredictSunspot2 {
 	
 	public NeuralDataSet generateTraining()
 	{
-		NeuralDataSet result = new BasicNeuralDataSet();
+		TemporalNeuralDataSet result = new TemporalNeuralDataSet(WINDOW_SIZE,1);
+		
+		TemporalDataDescription desc = new TemporalDataDescription(
+				TemporalDataDescription.Type.RAW,true,true);
+		result.addDescription(desc);
+		
 		for(int year = TRAIN_START;year<TRAIN_END;year++)
 		{
-			BasicNeuralData input = new BasicNeuralData(WINDOW_SIZE);
-			BasicNeuralData ideal = new BasicNeuralData(1);
-			int index = 0;
-			for(int i=year-WINDOW_SIZE;i<year;i++)
-			{
-				input.setData(index++,this.normalizedSunspots[i]);
-			}
-			ideal.setData(0, this.normalizedSunspots[year]);
-			
-			result.add(input,ideal);
+			TemporalPoint point = new TemporalPoint(1);
+			point.setSequence(year);
+			point.setData(0, this.normalizedSunspots[year]);
+			result.getPoints().add(point);
 		}
+		
+		result.generate();
+		
 		return result;
 	}
 	
@@ -199,7 +206,7 @@ public class PredictSunspot2 {
 	public static void main(String args[])
 	{
 		Logging.stopConsoleLogging();
-		PredictSunspot sunspot = new PredictSunspot();
+		PredictSunspot2 sunspot = new PredictSunspot2();
 		sunspot.run();
 	}
 
