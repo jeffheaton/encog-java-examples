@@ -73,14 +73,12 @@ public class XorBackprop {
 
 		int epoch = 1;
 
-		long l = System.currentTimeMillis();
 		do {
 			train.iteration();
+			System.out
+					.println("Epoch #" + epoch + " Error:" + train.getError());
 			epoch++;
-		} while (epoch < 10000 );
-		long now = System.currentTimeMillis();
-		
-		System.out.println(now-l);
+		} while(train.getError() > 0.01);
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
