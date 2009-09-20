@@ -15,11 +15,11 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.normalize.InputField;
-import org.encog.normalize.InputFieldArray1D;
 import org.encog.normalize.Normalization;
-import org.encog.normalize.NormalizationTargetArray1D;
-import org.encog.normalize.OutputFieldRangeMapped;
+import org.encog.normalize.input.InputField;
+import org.encog.normalize.input.InputFieldArray1D;
+import org.encog.normalize.output.OutputFieldRangeMapped;
+import org.encog.normalize.target.NormalizationTargetArray1D;
 import org.encog.util.logging.Logging;
 
 public class PredictSunspot2 {
