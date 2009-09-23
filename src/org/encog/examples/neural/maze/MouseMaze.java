@@ -4,13 +4,20 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MouseMaze extends JFrame implements Runnable {
-	MazePanel maze = new MazePanel();
+	
+	
+	Maze maze;
+	MazePanel mazePanel;
 	JTextField stateNorth = new JTextField("00");
 	JTextField stateSouth = new JTextField("00");
 	JTextField stateEast = new JTextField("00");
 	JTextField stateWest = new JTextField("00");
 
 	public MouseMaze() {
+		
+		this.maze = new Maze(30,30);		
+		this.maze.generateMaze();
+		this.mazePanel = new MazePanel(this.maze);
 
 		Container content = getContentPane();
 
@@ -25,8 +32,8 @@ public class MouseMaze extends JFrame implements Runnable {
 		c.gridheight = 2;
 		c.anchor = GridBagConstraints.NORTHWEST;
 
-		maze.setSize(300, 300);
-		content.add(maze, c);
+		mazePanel.setSize(300, 300);
+		content.add(mazePanel, c);
 
 		// Current state
 		c.gridheight = 1;
@@ -69,10 +76,10 @@ public class MouseMaze extends JFrame implements Runnable {
 				Thread.sleep(100);
 
 				double array[][] = new double[1][4];
-				array[0][0] = maze.getMouseState(MazePanel.NORTH);
-				array[0][1] = maze.getMouseState(MazePanel.SOUTH);
-				array[0][2] = maze.getMouseState(MazePanel.EAST);
-				array[0][3] = maze.getMouseState(MazePanel.WEST);
+				array[0][0] = mazePanel.getMouseState(Maze.NORTH);
+				array[0][1] = mazePanel.getMouseState(Maze.SOUTH);
+				array[0][2] = mazePanel.getMouseState(Maze.EAST);
+				array[0][3] = mazePanel.getMouseState(Maze.WEST);
 
 			}
 		} catch (InterruptedException e) {
@@ -80,10 +87,10 @@ public class MouseMaze extends JFrame implements Runnable {
 	}
 
 	protected void displayState() {
-		stateNorth.setText("" + maze.getMouseState(MazePanel.NORTH));
-		stateSouth.setText("" + maze.getMouseState(MazePanel.SOUTH));
-		stateEast.setText("" + maze.getMouseState(MazePanel.EAST));
-		stateWest.setText("" + maze.getMouseState(MazePanel.WEST));
+		stateNorth.setText("" + mazePanel.getMouseState(Maze.NORTH));
+		stateSouth.setText("" + mazePanel.getMouseState(Maze.SOUTH));
+		stateEast.setText("" + mazePanel.getMouseState(Maze.EAST));
+		stateWest.setText("" + mazePanel.getMouseState(Maze.WEST));
 	}
 
 	public static void main(String args[]) {
