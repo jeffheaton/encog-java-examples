@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
-public class Maze extends Canvas {
+public class MazePanel extends Canvas {
 	/**
 	 * 
 	 */
@@ -25,7 +25,7 @@ public class Maze extends Canvas {
 	protected int mouseX = 0;
 	protected int mouseY = 0;
 
-	public Maze() {
+	public MazePanel() {
 		createBuffer();
 		generateMaze();
 	}
