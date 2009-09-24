@@ -32,7 +32,7 @@ public class MouseMaze extends JFrame implements Runnable {
 		c.gridheight = 2;
 		c.anchor = GridBagConstraints.NORTHWEST;
 
-		mazePanel.setSize(300, 300);
+		mazePanel.setSize(301, 301);
 		content.add(mazePanel, c);
 
 		// Current state

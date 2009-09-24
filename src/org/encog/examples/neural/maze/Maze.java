@@ -75,13 +75,25 @@ public class Maze {
 			return true;
 		switch (direction) {
 		case NORTH:
-			return (columnWalls[x][y - 1]);
+			if( y<=0 )
+				return true;
+			else
+				return (columnWalls[x][y - 1]);
 		case SOUTH:
-			return (columnWalls[x][y]);
+			if( y>=(this.rows-1))
+				return true;
+			else
+				return (columnWalls[x][y]);
 		case EAST:
-			return (rowWalls[y][x]);
+			if(x>=(this.columns-1))
+				return true;
+			else
+				return (rowWalls[y][x]);
 		case WEST:
-			return (rowWalls[y][x - 1]);
+			if(x<=0)
+				return true;
+			else
+				return (rowWalls[y][x - 1]);
 		}
 		return false;
 	}
@@ -103,6 +115,7 @@ public class Maze {
 	public static int getRandom(int range) {
 		return ((int) (Math.random() * range));
 	}
+	
 
 	public void generateMaze() {
 		MazeCell currentCell = new MazeCell(getRandom(columns), getRandom(rows));
@@ -145,8 +158,7 @@ public class Maze {
 				currentCell = (MazeCell) cellStack.elementAt(cellStack.size() - 1);
 				cellStack.remove(cellStack.size() - 1);
 			}
-		}
-
+		}			
 	}
 
 	public int getRows() {
