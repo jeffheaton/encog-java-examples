@@ -24,10 +24,14 @@
  02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<project name="encog-core" default="dist" basedir=".">
+<project name="encog-examples" default="build" basedir=".">
 	<description>
         Build the example JAR file for Encog.
     </description>
+		
+	<!-- load the properties file -->
+	<property file="encog.properties"/>
+	
 	<!-- set global properties for this build -->
 	<property name="path.src" location="${basedir}/src" />
 	<property name="path.build" location="${basedir}/build" />
@@ -46,6 +50,9 @@
 			<arg value="http://encog-java.googlecode.com/svn/trunk/encog-examples" />
 			<arg value="${basedir}" />
 		</exec>
+		
+		<!-- load the properties file -->
+		<property file="encog.properties"/>
 	</target>
 
 	<target name="init">
@@ -54,72 +61,53 @@
 		
 	</target>
 
-	<target name="compile" depends="init" description="compile the source ">
-	
+	<target name="compile" depends="init" description="compile the source ">	
 		<javac srcdir="${path.src}" source="1.5" target="1.5" destdir="${path.build}">
 			<classpath refid="classpath" />
 		</javac>
-
 	</target>
 
-	<target name="dist" depends="compile" description="generate the distribution">
+	<target name="build" depends="compile" description="generate the distribution">
 
 		<!-- Create the distribution directory -->
 		<mkdir dir="${path.dist}" />
 		<mkdir dir="${path.stage}" />
-		<mkdir dir="${path.lib}" />
-		
-		<!-- Get the program version -->
-		<exec executable="svn">			
-			<arg value="export" />
-			<arg value="http://encog-java.googlecode.com/svn/trunk/encog-core/src/org/encog/Encog.java" />
-		</exec>
-
-		<loadfile srcfile="${basedir}/Encog.java" property="build.version">
-			<filterchain>
-				<linecontainsregexp>
-					<regexp pattern='^.*String VERSION = ".*";.*$' />
-				</linecontainsregexp>
-				<tokenfilter>
-					<replaceregex replace='\1' pattern='^.*String VERSION = "(.*)";.*$' />
-				</tokenfilter>
-				<striplinebreaks />
-			</filterchain>
-		</loadfile>
-		
+		<mkdir dir="${path.lib}" />		
 
 		<manifest file="MANIFEST.MF">
 			<attribute name="Built-By" value="${user.name}" />
-			<attribute name="Implementation-Version" value="${version.num}-b${build.version}" />
+			<attribute name="Implementation-Version" value="${version.num}-b${encog.version}" />
 		</manifest>
 
-		<property name="jarfile" location="${path.lib}/encog-examples-${build.version}.jar" />
+		<property name="jarfile" location="${path.lib}/encog-examples-${encog.version}.jar" />
 
 		<jar jarfile="${jarfile}" basedir="${path.build}" manifest="MANIFEST.MF" />
 
 	</target>
 
-	<target name="cc-build" depends="clean-all,checkout,compile,dist">
+	<target name="cc-build" depends="clean-all,checkout,compile,build">
 
-		<copy todir="${path.stage}" file="${basedir}/copyright.txt" />
-		<copy todir="${path.stage}" file="${basedir}/readme.txt" />
-		<copy todir="${path.stage}" file="${basedir}/build.xml" />
-		<copy todir="${path.stage}" file="${basedir}/.classpath" />
-		<copy todir="${path.stage}" file="${basedir}/.project" />
+		<property name="path.stage.sub" value="${path.stage}/encog-java-examples-${encog.version}"/>
+
+		<copy todir="${path.stage.sub}" file="${basedir}/copyright.txt" />
+		<copy todir="${path.stage.sub}" file="${basedir}/readme.txt" />
+		<copy todir="${path.stage.sub}" file="${basedir}/build.xml" />
+		<copy todir="${path.stage.sub}" file="${basedir}/.classpath" />
+		<copy todir="${path.stage.sub}" file="${basedir}/.project" />
 
 
-		<copy todir="${path.stage}/src">
+		<copy todir="${path.stage.sub}/src">
 			<fileset dir="${path.src}" />
 		</copy>
 
-		<copy todir="${path.stage}/jar">
+		<copy todir="${path.stage.sub}/jar">
 			<fileset dir="${path.jar}" />
 		</copy>
 
 		<tstamp/>
-		<copy todir="${path.stage}/lib" file="${jarfile}" />
+		<copy todir="${path.stage.sub}/lib" file="${jarfile}" />
 		
-		<zip destfile="${path.dist}/encog-core-${build.version}-${DSTAMP}-${TSTAMP}.zip">
+		<zip destfile="${path.dist}/encog-examples-${encog.version}-${DSTAMP}-${TSTAMP}.zip">
 			<fileset dir="${path.stage}" />
 		</zip>
 
