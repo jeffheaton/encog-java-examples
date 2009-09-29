@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
+import org.encog.util.logging.Logging;
+
 public class EvaluateMouse {
 	
 	private List<Maze> mazes = new ArrayList<Maze>();
@@ -40,23 +43,37 @@ public class EvaluateMouse {
 			score+=segmentScore.size();
 		}
 		
-		return score;
+		return ((30*30) - score);
 	}
 	
 	public static void main(String args[])
 	{
-		Maze maze1 = new Maze(30,30);
-		maze1.generateMaze();
-		Maze maze2 = new Maze(30,30);
-		maze2.generateMaze();
+		Logging.stopConsoleLogging();
+		List<NeuralMouse> population = new ArrayList<NeuralMouse>();
 		
-		NeuralMouse mouse = MouseFactory.generateMouse(maze1);
 		EvaluateMouse eval = new EvaluateMouse(10);
-		for(;;)
+		
+		/*while(population.size()<1000)
 		{
-			mouse.getBrain().reset();
+			NeuralMouse mouse = MouseFactory.generateMouse(null);
 			int score = eval.evaluate(mouse);
-			System.out.println(score);
-		}
+			if(score<1000 ) {
+				System.out.println(population.size() + " - " + score);
+				population.add(mouse);
+			}
+		}*/
+		
+		MouseGA ga = new MouseGA(250,.1,.5,eval);
+		
+		int epoch = 1;
+
+		do {
+			ga.iteration();
+			System.out
+					.println("Epoch #" + epoch + " Error:" + ga.getError());
+			epoch++;
+		} while (ga.getError()>1);
+		
+		
 	}
 }
