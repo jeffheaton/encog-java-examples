@@ -153,15 +153,7 @@ public class MouseMaze extends JFrame implements Runnable, ActionListener {
 	
 	public void threadRun()
 	{
-		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(Constants.INPUT_NEURON_COUNT));
-		network.addLayer(new BasicLayer(30));
-		network.addLayer(new BasicLayer(30));
-		network.addLayer(new BasicLayer(Constants.OUTPUT_NEURON_COUNT));
-		network.getStructure().finalizeStructure();
-		network.reset();
-		
-		NeuralMouse mouse = new NeuralMouse(network,this.maze);
+		NeuralMouse mouse = MouseFactory.generateSmartMouse();
 		
 		while(!this.requestStop)
 		{

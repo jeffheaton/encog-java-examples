@@ -3,11 +3,12 @@ package org.encog.examples.neural.gui.maze;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.layers.BasicLayer;
 
 public class NeuralMouse {
 
-	private final BasicNetwork brain;
-	private final Maze environment;
+	private BasicNetwork brain;
+	private Maze environment;
 	private int x;
 	private int y;
 	NeuralData vision;
@@ -110,39 +111,49 @@ public class NeuralMouse {
 		return true;
 	}
 	
+	private int directionFromIndex(int i)
+	{
+		if( i==Constants.MOTOR_NORTH )
+			return Maze.NORTH;
+		else if( i==Constants.MOTOR_SOUTH )
+			return Maze.SOUTH;
+		else if( i==Constants.MOTOR_EAST )
+			return Maze.EAST;
+		else
+			return Maze.WEST;
+	}
+	
 	public int autonomousMoveDirection()
 	{
 		updateVision();
 		NeuralData result = this.brain.compute(this.vision);
 		
 		double winningOutput = Double.NEGATIVE_INFINITY;
-		int winningIndex = -1;
+		int winningDirection = 0;
 		
 		for(int i=0;i<result.size();i++)
 		{
+			// determine direction
+			int direction = directionFromIndex(i);			
+			
+			if( this.environment.isWall(this.x, this.y, direction))
+				continue;
+			
+			// evaluate if this is a "winning" direction
 			double thisOutput = result.getData(i);
 			if( thisOutput>winningOutput)
 			{
 				winningOutput = thisOutput;
-				winningIndex = i;
+				winningDirection = direction;
 			}
 		}
 		
-		if( winningIndex==Constants.MOTOR_NORTH )
-			return Maze.NORTH;
-		else if( winningIndex==Constants.MOTOR_SOUTH )
-			return Maze.SOUTH;
-		else if( winningIndex==Constants.MOTOR_EAST )
-			return Maze.EAST;
-		else
-			return Maze.WEST;
-		
+		return winningDirection;		
 	}
 	
 	public boolean move()
 	{
 		int direction = autonomousMoveDirection();
-		System.out.println( direction );
 		return move(direction);		
 	}
 
@@ -161,5 +172,24 @@ public class NeuralMouse {
 	public void setY(int y) {
 		this.y = y;
 	}
+
+
+	public BasicNetwork getBrain() {
+		return brain;
+	}
+
+	public void setBrain(BasicNetwork brain) {
+		this.brain = brain;
+	}
+
+	public Maze getEnvironment() {
+		return environment;
+	}
+
+	public void setEnvironment(Maze environment) {
+		this.environment = environment;
+	}
+
+	
 
 }
