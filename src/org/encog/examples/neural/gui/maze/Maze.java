@@ -29,6 +29,13 @@ public class Maze {
 	}
 	
 	public boolean isBorder(int x, int y, int direction) {
+		
+		if( x<0 || y<0 )
+			return true;
+		
+		if( x>=this.columns || y>=this.rows )
+			return true;
+		
 		switch (direction) {
 		case NORTH:
 			if (y < 1)

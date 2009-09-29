@@ -65,49 +65,29 @@ public class MazePanel extends Canvas {
 	}
 
 
-	public boolean moveMouse(int direction) {
-		if (maze.isWall(mouseX, mouseY, direction))
-			return false;
-		switch (direction) {
-		case Maze.NORTH:
-			mouseY--;
-			break;
-		case Maze.SOUTH:
-			mouseY++;
-			break;
-		case Maze.WEST:
-			mouseX--;
-			break;
-		case Maze.EAST:
-			mouseX++;
-			break;
-		}
-		paint(getGraphics());
-		return true;
+
+	public int getMouseX() {
+		return mouseX;
 	}
 
-	public int getMouseState(int direction) {
-		int state = 0;
-		int x = mouseX;
-		int y = mouseY;
 
-		while (!maze.isWall(x, y, direction)) {
-			switch (direction) {
-			case Maze.NORTH:
-				y--;
-				break;
-			case Maze.SOUTH:
-				y++;
-				break;
-			case Maze.EAST:
-				x++;
-				break;
-			case Maze.WEST:
-				x--;
-				break;
-			}
-			state++;
-		}
-		return state;
+
+	public void setMouseX(int mouseX) {
+		this.mouseX = mouseX;
 	}
+
+
+
+	public int getMouseY() {
+		return mouseY;
+	}
+
+
+
+	public void setMouseY(int mouseY) {
+		this.mouseY = mouseY;
+	}
+
+
+
 }

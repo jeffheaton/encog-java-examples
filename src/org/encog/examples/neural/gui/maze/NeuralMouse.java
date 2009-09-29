@@ -142,8 +142,8 @@ public class NeuralMouse {
 	public boolean move()
 	{
 		int direction = autonomousMoveDirection();
-		return false;
-		
+		System.out.println( direction );
+		return move(direction);		
 	}
 
 	public int getX() {

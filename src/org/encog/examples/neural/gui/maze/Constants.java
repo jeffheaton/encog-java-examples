@@ -19,6 +19,8 @@ public class Constants {
 	final public static int MOTOR_EAST = 1;
 	final public static int MOTOR_SOUTH = 2;
 	final public static int MOTOR_WEST = 3;
+	public static final int INPUT_NEURON_COUNT = VISION_POINTS;
+	public static final int OUTPUT_NEURON_COUNT = 4;
 	
 	
 	
