@@ -17,6 +17,10 @@ public class MouseChromosome extends NeuralChromosome {
 	
 	@Override
 	public void calculateCost() {
+		// update the network with the new gene values
+		updateNetwork();
+		
+		// calculate the cost
 		this.setCost(this.eval.evaluate(this.mouse));		
 	}
 

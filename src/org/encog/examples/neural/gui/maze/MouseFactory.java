@@ -9,8 +9,8 @@ public class MouseFactory {
 	{
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(Constants.INPUT_NEURON_COUNT));
-		network.addLayer(new BasicLayer(30));
-		network.addLayer(new BasicLayer(30));
+		network.addLayer(new BasicLayer(60));
+		//network.addLayer(new BasicLayer(30));
 		network.addLayer(new BasicLayer(Constants.OUTPUT_NEURON_COUNT));
 		network.getStructure().finalizeStructure();
 		network.reset();

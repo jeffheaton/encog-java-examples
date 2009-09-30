@@ -40,51 +40,51 @@ public class NeuralMouse {
 
 		// twelve o'clock
 		this.vision.setData(Constants.VISION_POINT_12_OCLOCK, environment
-				.isWall(x, y, Maze.NORTH) ? 1 : -1);
+				.isWall(x, y, Maze.NORTH) ? Constants.HI:Constants.LO);
 
 		// one o'clock
 		this.vision.setData(Constants.VISION_POINT_1_OCLOCK, environment
-				.isWall(xNE, yNE, Maze.WEST) ? 1 : -1);
+				.isWall(xNE, yNE, Maze.WEST) ? Constants.HI:Constants.LO);
 
 		// two o'clock
 		this.vision.setData(Constants.VISION_POINT_2_OCLOCK, environment
-				.isWall(xNE, yNE, Maze.SOUTH) ? 1 : -1);
+				.isWall(xNE, yNE, Maze.SOUTH) ? Constants.HI:Constants.LO);
 
 		// three o'clock
 		this.vision.setData(Constants.VISION_POINT_3_OCLOCK, environment
-				.isWall(x, y, Maze.EAST) ? 1 : -1);
+				.isWall(x, y, Maze.EAST) ? Constants.HI:Constants.LO);
 
 		// four o'clock
 		this.vision.setData(Constants.VISION_POINT_4_OCLOCK, environment
-				.isWall(xSE, ySE, Maze.NORTH) ? 1 : -1);
+				.isWall(xSE, ySE, Maze.NORTH) ? Constants.HI:Constants.LO);
 
 		// five o'clock
 		this.vision.setData(Constants.VISION_POINT_5_OCLOCK, environment
-				.isWall(xSE, ySE, Maze.WEST) ? 1 : -1);
+				.isWall(xSE, ySE, Maze.WEST) ? Constants.HI:Constants.LO);
 
 		// six o'clock
 		this.vision.setData(Constants.VISION_POINT_6_OCLOCK, environment
-				.isWall(x, y, Maze.SOUTH) ? 1 : -1);
+				.isWall(x, y, Maze.SOUTH) ? Constants.HI:Constants.LO);
 
 		// seven o'clock
 		this.vision.setData(Constants.VISION_POINT_7_OCLOCK, environment
-				.isWall(xSW, ySW, Maze.EAST) ? 1 : -1);
+				.isWall(xSW, ySW, Maze.EAST) ? Constants.HI:Constants.LO);
 
 		// eight o'clock
 		this.vision.setData(Constants.VISION_POINT_8_OCLOCK, environment
-				.isWall(xSW, ySW, Maze.NORTH) ? 1 : -1);
+				.isWall(xSW, ySW, Maze.NORTH) ? Constants.HI:Constants.LO);
 
 		// nine o'clock
 		this.vision.setData(Constants.VISION_POINT_9_OCLOCK, environment
-				.isWall(x, y, Maze.WEST) ? 1 : -1);
+				.isWall(x, y, Maze.WEST) ? Constants.HI:Constants.LO);
 
 		// ten o'clock
 		this.vision.setData(Constants.VISION_POINT_10_OCLOCK, environment
-				.isWall(xNW, yNW, Maze.SOUTH) ? 1 : -1);
+				.isWall(xNW, yNW, Maze.SOUTH) ? Constants.HI:Constants.LO);
 
 		// eleven o'clock
 		this.vision.setData(Constants.VISION_POINT_11_OCLOCK, environment
-				.isWall(xNW, yNW, Maze.EAST) ? 1 : -1);
+				.isWall(xNW, yNW, Maze.EAST) ? Constants.HI:Constants.LO);
 	}
 
 	public boolean move(int direction) {

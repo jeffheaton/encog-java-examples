@@ -75,7 +75,6 @@ public class MouseMaze extends JFrame implements Runnable, ActionListener {
 		(new MouseMaze()).setVisible(true);
 	}
 	
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if( e.getSource()==this.buttonRun )
 		{

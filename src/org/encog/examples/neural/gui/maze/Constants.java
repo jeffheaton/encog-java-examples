@@ -22,6 +22,9 @@ public class Constants {
 	public static final int INPUT_NEURON_COUNT = VISION_POINTS;
 	public static final int OUTPUT_NEURON_COUNT = 4;
 	
+	final public static double HI = 0.5;
+	final public static double LO = -0.5;
+	
 	
 	
 	
