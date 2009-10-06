@@ -10,10 +10,7 @@ import org.encog.normalize.input.InputFieldCSV;
 import org.encog.normalize.output.OutputFieldRangeMapped;
 import org.encog.normalize.output.mapped.OutputFieldEncode;
 import org.encog.normalize.segregate.RangeSegregator;
-import org.encog.normalize.target.NormalizationTargetCSV;
 import org.encog.normalize.target.NormalizationTargetNeuralDataSet;
-
-import com.sun.tools.corba.se.idl.ConstEntry;
 
 /**
  * Elevation (meters)                       Elevation in meters, field 0

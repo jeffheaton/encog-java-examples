@@ -9,6 +9,7 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 
 public class TrainNetwork {
@@ -33,13 +34,25 @@ public class TrainNetwork {
 		final Train train = new ResilientPropagation(network, trainingSet);
 
 		int epoch = 1;
+		long remaining;
 
+		System.out.println("Beginning training...");
+		long start = System.currentTimeMillis();
 		do {
 			train.iteration();
+			
+			long current = System.currentTimeMillis();
+			long elapsed = (current-start)/1000;// seconds
+			elapsed/=60;// minutes
+			remaining = Constant.TRAINING_MINUTES - elapsed;
+			
 			System.out
-					.println("Epoch #" + epoch + " Error:" + train.getError());
+					.println("Epoch #" + epoch + " Error:" + train.getError() + " remaining minutes = " +remaining);
 			epoch++;
-		} while(train.getError() > 0.01);
+		} while(remaining>0);
+		
+		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
+		encog.add(Constant.TRAINED_NETWORK_NAME, network);
 	}
 	
 	public static void main(String[] args)
