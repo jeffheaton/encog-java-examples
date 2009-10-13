@@ -3,10 +3,11 @@ package org.encog.examples.neural.forest;
 import java.io.File;
 
 public class Constant {
-	public static final File COVER_TYPE_FILE = new File("/Users/jeff/data/covtype.data");
-	public static final File TRAINING_FILE = new File("/Users/jeff/data/output.csv");
-	public static final File BUFFER_FILE = new File("/Users/jeff/data/buffered.ser");
-	public static final File TRAINED_NETWORK_FILE = new File("/Users/jeff/data/forst.eg");
+	public static final File BASE_DIRECTORY = new File("d:\\data");
+	public static final File COVER_TYPE_FILE = new File(BASE_DIRECTORY,"covtype.data");
+	public static final File TRAINING_FILE = new File(BASE_DIRECTORY,"output.csv");
+	public static final File BUFFER_FILE = new File(BASE_DIRECTORY,"buffered.ser");
+	public static final File TRAINED_NETWORK_FILE = new File(BASE_DIRECTORY,"forst.eg");
 	
 	public static final String TRAINED_NETWORK_NAME = "forest-network";
 	

@@ -9,6 +9,7 @@ import org.encog.normalize.input.InputField;
 import org.encog.normalize.input.InputFieldCSV;
 import org.encog.normalize.output.OutputFieldRangeMapped;
 import org.encog.normalize.output.mapped.OutputFieldEncode;
+import org.encog.normalize.output.nominal.OutputOneOf;
 import org.encog.normalize.segregate.RangeSegregator;
 import org.encog.normalize.target.NormalizationTargetNeuralDataSet;
 
@@ -108,7 +109,7 @@ public class GenerateTraining implements StatusReportable {
 		norm.addOutputField(new OutputFieldRangeMapped(shade3,0.1,0.9));
 		norm.addOutputField(new OutputFieldRangeMapped(firepoint,0.1,0.9));
 		
-		OutputFieldEncode mapped1 = new OutputFieldEncode(coverType);
+		/*OutputFieldEncode mapped1 = new OutputFieldEncode(coverType);
 		mapped1.addRange(1, 1, 0.9);
 		mapped1.setCatchAll(0.1);
 		norm.addOutputField(mapped1);
@@ -135,7 +136,17 @@ public class GenerateTraining implements StatusReportable {
 		OutputFieldEncode mapped7 = new OutputFieldEncode(coverType);
 		mapped7.addRange(7, 7, 0.9);
 		mapped7.setCatchAll(0.1);
-		norm.addOutputField(mapped7);
+		norm.addOutputField(mapped7);*/
+		
+		OutputOneOf outType = new OutputOneOf();
+		outType.addItemTF(coverType, 1, 1);
+		outType.addItemTF(coverType, 2, 2);
+		outType.addItemTF(coverType, 3, 3);
+		outType.addItemTF(coverType, 4, 4);
+		outType.addItemTF(coverType, 5, 5);
+		outType.addItemTF(coverType, 6, 6);
+		outType.addItemTF(coverType, 7, 7);
+		norm.addOutputField(outType);
 		
 		norm.process();
 		buffer.endLoad();
