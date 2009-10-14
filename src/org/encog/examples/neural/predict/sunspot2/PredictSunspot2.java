@@ -19,7 +19,7 @@ import org.encog.normalize.Normalization;
 import org.encog.normalize.input.InputField;
 import org.encog.normalize.input.InputFieldArray1D;
 import org.encog.normalize.output.OutputFieldRangeMapped;
-import org.encog.normalize.target.NormalizationTargetArray1D;
+import org.encog.normalize.target.NormalizationStorageArray1D;
 import org.encog.util.logging.Logging;
 
 public class PredictSunspot2 {
@@ -103,7 +103,7 @@ public class PredictSunspot2 {
 		norm.setReport(new NullStatusReportable());
 		norm.addInputField(in = new InputFieldArray1D(SUNSPOTS));
 		norm.addOutputField(new OutputFieldRangeMapped(in, lo, hi));
-		norm.setTarget(new NormalizationTargetArray1D(normalizedSunspots));
+		norm.setTarget(new NormalizationStorageArray1D(normalizedSunspots));
 		norm.process();
 		System.arraycopy(normalizedSunspots, 0, closedLoopSunspots, 0, normalizedSunspots.length);
 		

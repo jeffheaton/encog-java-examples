@@ -8,18 +8,19 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.Train;
+import org.encog.neural.networks.training.propagation.multi.MultiPropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 
 public class TrainNetwork {
 	
-	public static BasicNetwork generateNetwork()
+	public static BasicNetwork generateNetwork(NeuralDataSet trainingSet)
 	{
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,10));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,trainingSet.getInputSize()));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,20));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,7));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,trainingSet.getIdealSize()));
 		network.setLogic(new FeedforwardLogic());
 		network.getStructure().finalizeStructure();
 		network.reset();
@@ -27,11 +28,12 @@ public class TrainNetwork {
 	}
 	
 	public void train()
-	{
-		BasicNetwork network = generateNetwork();
-		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.BUFFER_FILE);
+	{		
+		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.TRAINING_FILE);
+		BasicNetwork network = generateNetwork(trainingSet);
 
-		final Train train = new ResilientPropagation(network, trainingSet);
+		//final Train train = new ResilientPropagation(network, trainingSet);
+		final Train train = new MultiPropagation(network, trainingSet,1);
 
 		int epoch = 1;
 		long remaining;
@@ -54,11 +56,5 @@ public class TrainNetwork {
 		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
 		encog.add(Constant.TRAINED_NETWORK_NAME, network);
 	}
-	
-	public static void main(String[] args)
-	{
-		Logging.stopConsoleLogging();
-		TrainNetwork program = new TrainNetwork();
-		program.train();
-	}
+
 }
