@@ -1,5 +1,7 @@
 package org.encog.examples.neural.forest;
 
+import org.encog.normalize.Normalization;
+import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 /**
  * Elevation (meters)                       Elevation in meters, field 0
@@ -41,8 +43,10 @@ public class ForestCover {
 	public static void generate()
 	{
 		GenerateData generate = new GenerateData();
-		generate.generate(Constant.TRAINING_FILE,0, 0,2,4);
+		Normalization norm = generate.generate(Constant.TRAINING_FILE,0, 0,2,4);
 		generate.generate(Constant.EVAL_FILE,0, 2,3,4);
+		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
+		encog.add(Constant.NORMALIZATION_NAME, norm);
 	}
 	
 	public static void train()

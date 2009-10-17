@@ -6,6 +6,7 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.data.market.MarketNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
+import org.encog.normalize.Normalization;
 import org.encog.persist.EncogPersistedCollection;
 
 public class Evaluate {
@@ -22,7 +23,8 @@ public class Evaluate {
 		
 		EncogPersistedCollection encog = new EncogPersistedCollection(file);					
 		BasicNetwork network = (BasicNetwork) encog.find(Constant.TRAINED_NETWORK_NAME);
-		
+		Normalization norm = (Normalization) encog.find(Constant.NORMALIZATION_NAME);
+		System.out.println(norm);
 		if( network==null )
 		{
 			System.out.println("Can't find network resource: " + Constant.TRAINED_NETWORK_NAME );

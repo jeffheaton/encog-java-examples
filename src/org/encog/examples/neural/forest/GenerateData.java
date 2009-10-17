@@ -75,7 +75,7 @@ public class GenerateData implements StatusReportable {
 		norm.addOutputField(outType, true);
 	}
 	
-	public void generate(File output, int area,int start,int stop, int sample)
+	public Normalization generate(File output, int area,int start,int stop, int sample)
 	{
 		InputField inputElevation;
 		InputField inputAspect;
@@ -151,6 +151,7 @@ public class GenerateData implements StatusReportable {
 		
 		norm.process();
 		buffer.endLoad();
+		return norm;
 	}
 	
 	public void report(int total, int current, String message) {
