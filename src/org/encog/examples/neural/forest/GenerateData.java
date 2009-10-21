@@ -7,12 +7,15 @@ import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.normalize.Normalization;
 import org.encog.normalize.input.InputField;
 import org.encog.normalize.input.InputFieldCSV;
+import org.encog.normalize.output.OutputField;
+import org.encog.normalize.output.OutputFieldDirect;
 import org.encog.normalize.output.OutputFieldRangeMapped;
 import org.encog.normalize.output.mapped.OutputFieldEncode;
 import org.encog.normalize.output.nominal.OutputEquilateral;
 import org.encog.normalize.output.nominal.OutputOneOf;
 import org.encog.normalize.segregate.RangeSegregator;
 import org.encog.normalize.segregate.index.IndexSampleSegregator;
+import org.encog.normalize.target.NormalizationStorageCSV;
 import org.encog.normalize.target.NormalizationStorageNeuralDataSet;
 
 public class GenerateData implements StatusReportable {
@@ -75,7 +78,7 @@ public class GenerateData implements StatusReportable {
 		norm.addOutputField(outType, true);
 	}
 	
-	public Normalization generate(File output, int area,int start,int stop, int sample)
+	public Normalization generateTraining(File output, int area,int start,int stop, int sample)
 	{
 		InputField inputElevation;
 		InputField inputAspect;
@@ -97,28 +100,28 @@ public class GenerateData implements StatusReportable {
 		norm.setReport(this);
 		norm.setTarget(new NormalizationStorageNeuralDataSet(buffer));
 		//norm.setTarget(new NormalizationTargetCSV(Constant.TRAINING_FILE));
-		norm.addInputField(inputElevation = new InputFieldCSV(Constant.COVER_TYPE_FILE,0));
-		norm.addInputField(inputAspect = new InputFieldCSV(Constant.COVER_TYPE_FILE,1));
-		norm.addInputField(inputSlope = new InputFieldCSV(Constant.COVER_TYPE_FILE,2));
-		norm.addInputField(hWater = new InputFieldCSV(Constant.COVER_TYPE_FILE,3));
-		norm.addInputField(vWater = new InputFieldCSV(Constant.COVER_TYPE_FILE,4));
-		norm.addInputField(roadway = new InputFieldCSV(Constant.COVER_TYPE_FILE,5));
-		norm.addInputField(shade9 = new InputFieldCSV(Constant.COVER_TYPE_FILE,6));
-		norm.addInputField(shade12 = new InputFieldCSV(Constant.COVER_TYPE_FILE,7));
-		norm.addInputField(shade3 = new InputFieldCSV(Constant.COVER_TYPE_FILE,8));
-		norm.addInputField(firepoint = new InputFieldCSV(Constant.COVER_TYPE_FILE,9));
+		norm.addInputField(inputElevation = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,0));
+		norm.addInputField(inputAspect = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,1));
+		norm.addInputField(inputSlope = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,2));
+		norm.addInputField(hWater = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,3));
+		norm.addInputField(vWater = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,4));
+		norm.addInputField(roadway = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,5));
+		norm.addInputField(shade9 = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,6));
+		norm.addInputField(shade12 = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,7));
+		norm.addInputField(shade3 = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,8));
+		norm.addInputField(firepoint = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,9));
 		
 		for(int i=0;i<4;i++)
 		{
-			norm.addInputField(wilderness[i]=new InputFieldCSV(Constant.COVER_TYPE_FILE,10+i));
+			norm.addInputField(wilderness[i]=new InputFieldCSV(false,Constant.COVER_TYPE_FILE,10+i));
 		}
 		
 		for(int i=0;i<40;i++)
 		{
-			norm.addInputField(soilType[i]=new InputFieldCSV(Constant.COVER_TYPE_FILE,14+i));
+			norm.addInputField(soilType[i]=new InputFieldCSV(false,Constant.COVER_TYPE_FILE,14+i));
 		}
 		
-		norm.addInputField(coverType=new InputFieldCSV(Constant.COVER_TYPE_FILE,54));
+		norm.addInputField(coverType=new InputFieldCSV(false,Constant.COVER_TYPE_FILE,54));
 		
 		// select the wilderness area
 		RangeSegregator segregator = new RangeSegregator(wilderness[area],false);
@@ -153,6 +156,36 @@ public class GenerateData implements StatusReportable {
 		buffer.endLoad();
 		return norm;
 	}
+	
+	public Normalization generateIdeal(File output, int area,int start,int stop, int sample)
+	{
+		InputField inputField[] = new InputField[55];
+		
+		Normalization norm = new Normalization();
+		norm.setReport(this);
+		norm.setTarget(new NormalizationStorageCSV(Constant.EVAL_FILE));
+		for(int i=0;i<55;i++)
+		{
+			inputField[i] = new InputFieldCSV(true,Constant.COVER_TYPE_FILE,i);
+			norm.addInputField(inputField[i]);
+			OutputField outputField = new OutputFieldDirect(inputField[i]);
+			norm.addOutputField(outputField);
+		}
+		
+		
+		// select the wilderness area
+		RangeSegregator segregator = new RangeSegregator(inputField[10+area],false);
+		segregator.addRange(1, 1, true);
+		norm.addSegregator(segregator);
+		
+		// load only the part we actually want, i.e. training or eval
+		IndexSampleSegregator segregator2 = new IndexSampleSegregator(start,stop,sample);
+		norm.addSegregator(segregator2);
+						
+		norm.process();
+		return norm;
+	}
+
 	
 	public void report(int total, int current, String message) {
 		System.out.println( current + "/" + total + " " + message );

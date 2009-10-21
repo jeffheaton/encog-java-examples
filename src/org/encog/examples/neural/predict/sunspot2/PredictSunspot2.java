@@ -101,7 +101,7 @@ public class PredictSunspot2 {
 		// normalize the sunspots
 		Normalization norm = new Normalization();
 		norm.setReport(new NullStatusReportable());
-		norm.addInputField(in = new InputFieldArray1D(SUNSPOTS));
+		norm.addInputField(in = new InputFieldArray1D(true,SUNSPOTS));
 		norm.addOutputField(new OutputFieldRangeMapped(in, lo, hi));
 		norm.setTarget(new NormalizationStorageArray1D(normalizedSunspots));
 		norm.process();
