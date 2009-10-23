@@ -27,6 +27,7 @@ package org.encog.examples.neural.benchmark;
 
 import org.encog.StatusReportable;
 import org.encog.util.benchmark.EncogBenchmark;
+import org.encog.util.benchmark.EncogBenchmark2;
 
 /**
  * Simple console app that uses the Encog benchmarking class.
@@ -48,7 +49,7 @@ public class Benchmark implements StatusReportable {
 	}
 
 	public double run() {
-		final EncogBenchmark mark = new EncogBenchmark(this);
+		final EncogBenchmark2 mark = new EncogBenchmark2(this);
 		return mark.process();
 	}
 
