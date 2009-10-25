@@ -33,7 +33,7 @@ public class TrainNetwork {
 		BasicNetwork network = generateNetwork(trainingSet);
 
 		//final Train train = new ResilientPropagation(network, trainingSet);
-		final Train train = new MultiPropagation(network, trainingSet,1);
+		final Train train = new MultiPropagation(network, trainingSet );
 
 		int epoch = 1;
 		long remaining;
