@@ -27,7 +27,6 @@ package org.encog.examples.neural.benchmark;
 
 import org.encog.StatusReportable;
 import org.encog.util.benchmark.EncogBenchmark;
-import org.encog.util.benchmark.EncogBenchmark2;
 
 /**
  * Simple console app that uses the Encog benchmarking class.
