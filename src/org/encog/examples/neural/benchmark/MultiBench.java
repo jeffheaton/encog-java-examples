@@ -3,10 +3,8 @@ package org.encog.examples.neural.benchmark;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.multi.MultiPropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.util.benchmark.EncogBenchmark;
 import org.encog.util.benchmark.RandomTrainingFactory;
 import org.encog.util.logging.Logging;
 
@@ -34,7 +32,7 @@ public class MultiBench {
 		return training;
 	}
 	
-	public static void evaluateRPROP(BasicNetwork network,NeuralDataSet data)
+	public static double evaluateRPROP(BasicNetwork network,NeuralDataSet data)
 	{
 
 		ResilientPropagation train = new ResilientPropagation(network,data);
@@ -45,13 +43,15 @@ public class MultiBench {
 			train.iteration();
 			System.out.println("Iteration #" + i + " Error:" + train.getError());
 		}
+		train.finishTraining();
 		long stop = System.currentTimeMillis();
-		long diff = stop - start;
-		System.out.println("RPROP Result:" + ((double)diff/1000.0) + " seconds." );
+		double diff = ((double)(stop - start))/1000.0;
+		System.out.println("RPROP Result:" + diff + " seconds." );
 		System.out.println("Final RPROP error: " + network.calculateError(data));
+		return diff;
 	}
 	
-	public static void evaluateMPROP(BasicNetwork network,NeuralDataSet data)
+	public static double evaluateMPROP(BasicNetwork network,NeuralDataSet data)
 	{
 
 		MultiPropagation train = new MultiPropagation(network,data);
@@ -62,10 +62,12 @@ public class MultiBench {
 			train.iteration();
 			System.out.println("Iteration #" + i + " Error:" + train.getError());
 		}
+		train.finishTraining();
 		long stop = System.currentTimeMillis();
-		long diff = stop - start;
-		System.out.println("MPROP Result:" + ((double)diff/1000.0) + " seconds." );
+		double diff = ((double)(stop - start))/1000.0;
+		System.out.println("MPROP Result:" + diff + " seconds." );
 		System.out.println("Final MPROP error: " + network.calculateError(data));
+		return diff;
 	}
 	
 	public static void main(String args[])
@@ -74,7 +76,9 @@ public class MultiBench {
 		BasicNetwork network = generateNetwork();
 		NeuralDataSet data = generateTraining();
 		
-		evaluateRPROP(network,data);
-		evaluateMPROP(network,data);
+		double rprop = evaluateRPROP(network,data);
+		double mprop = evaluateMPROP(network,data);
+		double factor = rprop/mprop;
+		System.out.println("Factor improvement:" + factor);
 	}
 }
