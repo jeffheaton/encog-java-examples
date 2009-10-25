@@ -49,7 +49,7 @@ public class Benchmark implements StatusReportable {
 	}
 
 	public double run() {
-		final EncogBenchmark2 mark = new EncogBenchmark2(this);
+		final EncogBenchmark mark = new EncogBenchmark(this);
 		return mark.process();
 	}
 
