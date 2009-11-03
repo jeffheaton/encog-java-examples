@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.encog.StatusReportable;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
-import org.encog.normalize.Normalization;
+import org.encog.normalize.DataNormalization;
 import org.encog.normalize.input.InputField;
 import org.encog.normalize.input.InputFieldCSV;
 import org.encog.normalize.output.OutputField;
@@ -20,7 +20,7 @@ import org.encog.normalize.target.NormalizationStorageNeuralDataSet;
 
 public class GenerateData implements StatusReportable {
 	
-	public void buildOutputMapped(Normalization norm, InputField coverType)
+	public void buildOutputMapped(DataNormalization norm, InputField coverType)
 	{
 		OutputFieldEncode mapped1 = new OutputFieldEncode(coverType);
 		mapped1.addRange(1, 1, 0.9);
@@ -52,7 +52,7 @@ public class GenerateData implements StatusReportable {
 		norm.addOutputField(mapped7);
 	}
 	
-	public void buildOutputOneOf(Normalization norm, InputField coverType)
+	public void buildOutputOneOf(DataNormalization norm, InputField coverType)
 	{
 		OutputOneOf outType = new OutputOneOf(0.9,0.1);
 		outType.addItem(coverType, 1);
@@ -65,7 +65,7 @@ public class GenerateData implements StatusReportable {
 		norm.addOutputField(outType);
 	}
 	
-	public void buildOutputEquilateral(Normalization norm, InputField coverType)
+	public void buildOutputEquilateral(DataNormalization norm, InputField coverType)
 	{
 		OutputEquilateral outType = new OutputEquilateral(0.9,0.1);
 		outType.addItem(coverType, 1);
@@ -78,7 +78,7 @@ public class GenerateData implements StatusReportable {
 		norm.addOutputField(outType, true);
 	}
 	
-	public Normalization generateTraining(File output, int area,int start,int stop, int sample)
+	public DataNormalization generateTraining(File output, int area,int start,int stop, int sample)
 	{
 		InputField inputElevation;
 		InputField inputAspect;
@@ -96,7 +96,7 @@ public class GenerateData implements StatusReportable {
 		
 		BufferedNeuralDataSet buffer = new BufferedNeuralDataSet(output);		
 		
-		Normalization norm = new Normalization();
+		DataNormalization norm = new DataNormalization();
 		norm.setReport(this);
 		norm.setTarget(new NormalizationStorageNeuralDataSet(buffer));
 		//norm.setTarget(new NormalizationTargetCSV(Constant.TRAINING_FILE));
@@ -157,11 +157,11 @@ public class GenerateData implements StatusReportable {
 		return norm;
 	}
 	
-	public Normalization generateIdeal(File output, int area,int start,int stop, int sample)
+	public DataNormalization generateIdeal(File output, int area,int start,int stop, int sample)
 	{
 		InputField inputField[] = new InputField[55];
 		
-		Normalization norm = new Normalization();
+		DataNormalization norm = new DataNormalization();
 		norm.setReport(this);
 		norm.setTarget(new NormalizationStorageCSV(Constant.EVAL_FILE));
 		for(int i=0;i<55;i++)

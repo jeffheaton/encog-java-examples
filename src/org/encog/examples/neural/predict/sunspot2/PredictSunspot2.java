@@ -15,7 +15,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.normalize.Normalization;
+import org.encog.normalize.DataNormalization;
 import org.encog.normalize.input.InputField;
 import org.encog.normalize.input.InputFieldArray1D;
 import org.encog.normalize.output.OutputFieldRangeMapped;
@@ -99,7 +99,7 @@ public class PredictSunspot2 {
 		  closedLoopSunspots = new double[SUNSPOTS.length];
 
 		// normalize the sunspots
-		Normalization norm = new Normalization();
+		DataNormalization norm = new DataNormalization();
 		norm.setReport(new NullStatusReportable());
 		norm.addInputField(in = new InputFieldArray1D(true,SUNSPOTS));
 		norm.addOutputField(new OutputFieldRangeMapped(in, lo, hi));

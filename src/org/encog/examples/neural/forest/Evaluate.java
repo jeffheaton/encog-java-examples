@@ -8,7 +8,7 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.data.market.MarketNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.normalize.Normalization;
+import org.encog.normalize.DataNormalization;
 import org.encog.normalize.output.nominal.OutputEquilateral;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.csv.CSVFormat;
@@ -53,13 +53,13 @@ public class Evaluate {
 		return trainingSet;
 	}
 	
-	public Normalization loadNormalization()
+	public DataNormalization loadNormalization()
 	{
 		File file = Constant.TRAINED_NETWORK_FILE;
 		
 		EncogPersistedCollection encog = new EncogPersistedCollection(file);
 		
-		Normalization norm = (Normalization) encog.find(Constant.NORMALIZATION_NAME);
+		DataNormalization norm = (DataNormalization) encog.find(Constant.NORMALIZATION_NAME);
 		if( norm==null )
 		{
 			System.out.println("Can't find normalization resource: " + Constant.NORMALIZATION_NAME );
@@ -72,7 +72,7 @@ public class Evaluate {
 	public void evaluate()
 	{
 		BasicNetwork network = loadNetwork();
-		Normalization norm = loadNormalization();
+		DataNormalization norm = loadNormalization();
 		
 		ReadCSV csv = new ReadCSV(Constant.EVAL_FILE.toString(),false,',');
 		double[] input = new double[network.getLayer(BasicNetwork.TAG_INPUT).getNeuronCount()];
