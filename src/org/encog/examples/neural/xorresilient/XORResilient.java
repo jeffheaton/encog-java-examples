@@ -26,6 +26,7 @@
 
 package org.encog.examples.neural.xorresilient;
 
+import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
@@ -33,11 +34,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.back.Backpropagation;
-import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
-import org.encog.neural.networks.training.propagation.multi.MultiPropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.util.logging.Logging;
 
 /**
@@ -48,8 +45,10 @@ import org.encog.util.logging.Logging;
  * RPROP is the best general purpose supervised training method provided by
  * Encog.
  * 
- * @author $Author$
- * @version $Revision$
+ * For the XOR example with RPROP I use 4 hidden neurons.  XOR can get by on just
+ * 2, but often the random numbers generated for the weights are not enough for
+ * RPROP to actually find a solution.  RPROP can have issues on really small
+ * neural networks, but 4 neurons seems to work just fine.
  */
 public class XORResilient {
 
@@ -63,9 +62,9 @@ public class XORResilient {
 		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(1));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), false,2));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), false,4));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), false,1));
 		network.getStructure().finalizeStructure();
 		network.reset();
 
