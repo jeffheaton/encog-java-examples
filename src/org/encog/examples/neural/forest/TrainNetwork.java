@@ -19,7 +19,7 @@ public class TrainNetwork {
 	{
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,trainingSet.getInputSize()));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,20));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,Constant.HIDDEN_COUNT));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,trainingSet.getIdealSize()));
 		network.setLogic(new FeedforwardLogic());
 		network.getStructure().finalizeStructure();

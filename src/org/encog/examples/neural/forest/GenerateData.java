@@ -141,7 +141,12 @@ public class GenerateData implements StatusReportable {
 		norm.addOutputField(new OutputFieldRangeMapped(shade9,0.1,0.9));
 		norm.addOutputField(new OutputFieldRangeMapped(shade12,0.1,0.9));
 		norm.addOutputField(new OutputFieldRangeMapped(shade3,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(firepoint,0.1,0.9));		
+		norm.addOutputField(new OutputFieldRangeMapped(firepoint,0.1,0.9));
+		
+		for(int i=0;i<40;i++)
+		{
+			norm.addOutputField(new OutputFieldDirect(soilType[i]));
+		}
 		
 		//buildOutputMapped(norm,coverType);
 		//buildOutputOneOf(norm,coverType);
