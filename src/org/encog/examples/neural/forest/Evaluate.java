@@ -78,8 +78,11 @@ public class Evaluate {
 		double[] input = new double[network.getLayer(BasicNetwork.TAG_INPUT).getNeuronCount()];
 		OutputEquilateral eqField = (OutputEquilateral)norm.findOutputField(OutputEquilateral.class, 0);
 		
+		int correct = 0;
+		int total = 0;
 		while(csv.next())
 		{
+			total++;
 			for(int i=0;i<input.length;i++)
 			{
 				input[i] = csv.getDouble(i);
@@ -88,9 +91,15 @@ public class Evaluate {
 			NeuralData output = network.compute(inputData);
 			int coverTypeActual = eqField.getEquilateral().decode(output.getData());
 			int coverTypeIdeal = (int)csv.getDouble(54)-1;
+			if( coverTypeActual==coverTypeIdeal ) {
+				correct++;
+			}
 			System.out.println(coverTypeActual + " - " + coverTypeIdeal );
 		}
 		
-		//System.out.println(network.calculateError(data));
+		System.out.println("Total cases:" + total);
+		System.out.println("Correct cases:" + correct);
+		double percent = (double)correct/(double)total;
+		System.out.println("Correct percent:" + (percent*100.0));
 	}
 }

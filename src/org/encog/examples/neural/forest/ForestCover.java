@@ -43,10 +43,13 @@ public class ForestCover {
 	public static void generate()
 	{
 		GenerateData generate = new GenerateData();
-		DataNormalization norm = generate.generateTraining(Constant.TRAINING_FILE,0, 0,2,4);
-		generate.generateIdeal(Constant.EVAL_FILE,0, 2,3,4);
+		DataNormalization trainingNorm = generate.generateTraining(Constant.TRAINING_FILE,0, 0,2,4);
+		DataNormalization evaluateNorm = generate.generateIdeal(Constant.EVAL_FILE,0, 2,3,4);
 		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
-		encog.add(Constant.NORMALIZATION_NAME, norm);
+		encog.add(Constant.NORMALIZATION_NAME, trainingNorm);
+		
+		System.out.println("Training samples:" + trainingNorm.getRecordCount());
+		System.out.println("Evaluate samples:" + evaluateNorm.getRecordCount());
 	}
 	
 	public static void train()

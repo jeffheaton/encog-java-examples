@@ -13,6 +13,7 @@ import org.encog.normalize.output.OutputFieldRangeMapped;
 import org.encog.normalize.output.mapped.OutputFieldEncode;
 import org.encog.normalize.output.nominal.OutputEquilateral;
 import org.encog.normalize.output.nominal.OutputOneOf;
+import org.encog.normalize.segregate.IntegerBalanceSegregator;
 import org.encog.normalize.segregate.RangeSegregator;
 import org.encog.normalize.segregate.index.IndexSampleSegregator;
 import org.encog.normalize.target.NormalizationStorageCSV;
@@ -80,6 +81,7 @@ public class GenerateData implements StatusReportable {
 	
 	public DataNormalization generateTraining(File output, int area,int start,int stop, int sample)
 	{
+		System.out.println("Generating training");
 		InputField inputElevation;
 		InputField inputAspect;
 		InputField inputSlope;
@@ -124,13 +126,15 @@ public class GenerateData implements StatusReportable {
 		norm.addInputField(coverType=new InputFieldCSV(false,Constant.COVER_TYPE_FILE,54));
 		
 		// select the wilderness area
-		RangeSegregator segregator = new RangeSegregator(wilderness[area],false);
+/*		RangeSegregator segregator = new RangeSegregator(wilderness[area],false);
 		segregator.addRange(1, 1, true);
-		norm.addSegregator(segregator);
+		norm.addSegregator(segregator);*/
 		
 		// load only the part we actually want, i.e. training or eval
 		IndexSampleSegregator segregator2 = new IndexSampleSegregator(start,stop,sample);
 		norm.addSegregator(segregator2);
+		IntegerBalanceSegregator segregator3 = new IntegerBalanceSegregator(coverType,3000);
+		norm.addSegregator(segregator3);
 		
 		norm.addOutputField(new OutputFieldRangeMapped(inputElevation,0.1,0.9));
 		norm.addOutputField(new OutputFieldRangeMapped(inputAspect,0.1,0.9));
@@ -159,11 +163,13 @@ public class GenerateData implements StatusReportable {
 		
 		norm.process();
 		buffer.endLoad();
+		System.out.println(segregator3.dumpCounts());
 		return norm;
 	}
 	
 	public DataNormalization generateIdeal(File output, int area,int start,int stop, int sample)
 	{
+		System.out.println("Generating training");
 		InputField inputField[] = new InputField[55];
 		
 		DataNormalization norm = new DataNormalization();
@@ -179,9 +185,9 @@ public class GenerateData implements StatusReportable {
 		
 		
 		// select the wilderness area
-		RangeSegregator segregator = new RangeSegregator(inputField[10+area],false);
-		segregator.addRange(1, 1, true);
-		norm.addSegregator(segregator);
+		//RangeSegregator segregator = new RangeSegregator(inputField[10+area],false);
+		//segregator.addRange(1, 1, true);
+		//norm.addSegregator(segregator);
 		
 		// load only the part we actually want, i.e. training or eval
 		IndexSampleSegregator segregator2 = new IndexSampleSegregator(start,stop,sample);
