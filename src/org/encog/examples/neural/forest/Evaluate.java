@@ -1,6 +1,8 @@
 package org.encog.examples.neural.forest;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
@@ -16,6 +18,16 @@ import org.encog.util.csv.ReadCSV;
 import org.encog.util.math.Equilateral;
 
 public class Evaluate {
+	
+	private int[] treeCount = new int[10];
+	private int[] treeCorrect = new int[10];
+	
+	public void keepScore(int actual,int ideal)
+	{
+		treeCount[ideal]++;
+		if(actual==ideal)
+			treeCorrect[ideal]++;	
+	}
 	
 	public BasicNetwork loadNetwork()
 	{
@@ -69,6 +81,32 @@ public class Evaluate {
 		return norm;
 	}
 	
+	public int determineTreeType(OutputEquilateral eqField, NeuralData output)
+	{
+		int result = 0;
+		
+		if( eqField!=null )
+		{
+			result = eqField.getEquilateral().decode(output.getData());			
+		}
+		else
+		{
+			double maxOutput = Double.NEGATIVE_INFINITY;
+			result = -1;
+			
+			for(int i=0;i<output.size();i++)
+			{
+				if( output.getData(i)>maxOutput )
+				{
+					maxOutput = output.getData(i);
+					result = i;
+				}
+			}
+		}
+			
+		return result;
+	}
+	
 	public void evaluate()
 	{
 		BasicNetwork network = loadNetwork();
@@ -89,17 +127,25 @@ public class Evaluate {
 			}
 			NeuralData inputData = norm.buildForNetworkInput(input);
 			NeuralData output = network.compute(inputData);
-			int coverTypeActual = eqField.getEquilateral().decode(output.getData());
+			int coverTypeActual = determineTreeType(eqField,output);
 			int coverTypeIdeal = (int)csv.getDouble(54)-1;
+			
+			keepScore(coverTypeActual,coverTypeIdeal);
+			
 			if( coverTypeActual==coverTypeIdeal ) {
 				correct++;
 			}
-			System.out.println(coverTypeActual + " - " + coverTypeIdeal );
+			//System.out.println(coverTypeActual + " - " + coverTypeIdeal );
 		}
 		
 		System.out.println("Total cases:" + total);
 		System.out.println("Correct cases:" + correct);
 		double percent = (double)correct/(double)total;
 		System.out.println("Correct percent:" + (percent*100.0));
+		for(int i=0;i<10;i++)
+		{
+			double p = ((double)this.treeCorrect[i] / (double)this.treeCount[i])*100.0;
+			System.out.println("Tree #" + i + " - Correct" + this.treeCorrect[i] + "/" + treeCount[i] + "(" + p + ")" );
+		}
 	}
 }

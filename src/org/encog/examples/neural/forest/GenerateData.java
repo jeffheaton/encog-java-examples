@@ -63,7 +63,7 @@ public class GenerateData implements StatusReportable {
 		outType.addItem(coverType, 5);
 		outType.addItem(coverType, 6);
 		outType.addItem(coverType, 7);
-		norm.addOutputField(outType);
+		norm.addOutputField(outType, true);
 	}
 	
 	public void buildOutputEquilateral(DataNormalization norm, InputField coverType)
@@ -79,7 +79,7 @@ public class GenerateData implements StatusReportable {
 		norm.addOutputField(outType, true);
 	}
 	
-	public DataNormalization generateTraining(File output, int area,int start,int stop, int sample)
+	public DataNormalization generateTraining(File output, int area,int start,int stop, int sample, boolean useOneOf)
 	{
 		System.out.println("Generating training");
 		InputField inputElevation;
@@ -152,9 +152,10 @@ public class GenerateData implements StatusReportable {
 			norm.addOutputField(new OutputFieldDirect(soilType[i]));
 		}
 		
-		//buildOutputMapped(norm,coverType);
-		//buildOutputOneOf(norm,coverType);
-		buildOutputEquilateral(norm,coverType);
+		if( useOneOf )
+			buildOutputOneOf(norm,coverType);
+		else
+			buildOutputEquilateral(norm,coverType);
 		
 		int inputLayerSize = norm.getNetworkInputLayerSize();
 		int outputLayerSize = norm.getNetworkOutputLayerSize();

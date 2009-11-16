@@ -40,10 +40,10 @@ import org.encog.util.logging.Logging;
 
 public class ForestCover {
 	
-	public static void generate()
+	public static void generate(boolean useOneOf)
 	{
 		GenerateData generate = new GenerateData();
-		DataNormalization trainingNorm = generate.generateTraining(Constant.TRAINING_FILE,0, 0,2,4);
+		DataNormalization trainingNorm = generate.generateTraining(Constant.TRAINING_FILE,0, 0,2,4,useOneOf);
 		DataNormalization evaluateNorm = generate.generateIdeal(Constant.EVAL_FILE,0, 2,3,4);
 		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
 		encog.add(Constant.NORMALIZATION_NAME, trainingNorm);
@@ -52,13 +52,13 @@ public class ForestCover {
 		System.out.println("Evaluate samples:" + evaluateNorm.getRecordCount());
 	}
 	
-	public static void train()
+	public static void train(boolean useOneOf)
 	{		
 		TrainNetwork program = new TrainNetwork();
 		program.train();
 	}
 	
-	public static void evaluate()
+	public static void evaluate(boolean useOneOf)
 	{
 		Evaluate evaluate = new Evaluate();
 		evaluate.evaluate();
@@ -66,12 +66,26 @@ public class ForestCover {
 	
 	public static void main(String args[])
 	{
-		Logging.stopConsoleLogging();
-		if( args[0].equalsIgnoreCase("generate") )
-			generate();
-		else if( args[0].equalsIgnoreCase("train") )
-			train();
-		else if( args[0].equalsIgnoreCase("evaluate") )
-			evaluate();
+		if( args.length<2 )
+		{
+			System.out.println("Usage: ForestCover [generate/train/evaluate] [e/o]");
+		}
+		else
+		{
+			boolean useOneOf;
+			
+			if( args[1].toLowerCase().equals("e") )
+				useOneOf = false;
+			else
+				useOneOf = true;
+				
+			Logging.stopConsoleLogging();
+			if( args[0].equalsIgnoreCase("generate") )
+				generate(useOneOf);
+			else if( args[0].equalsIgnoreCase("train") )
+				train(useOneOf);
+			else if( args[0].equalsIgnoreCase("evaluate") )
+				evaluate(useOneOf);
+		}
 	}
 }

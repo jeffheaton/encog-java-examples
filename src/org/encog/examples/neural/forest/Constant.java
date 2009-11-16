@@ -11,7 +11,7 @@ public class Constant {
 	
 	public static final String TRAINED_NETWORK_NAME = "forest-network";
 
-	public static final int TRAINING_MINUTES = 60;
+	public static final int TRAINING_MINUTES = 10;
 	public static final String NORMALIZATION_NAME = "forest-norm";
 	public static final int HIDDEN_COUNT = 100;
 }
