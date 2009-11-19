@@ -67,7 +67,7 @@ public class PoleSimulator {
 		this.force = 0;
 
 		do {
-			this.poleAngle = RangeRandomizer.randomize(-30, 30);
+			this.poleAngle = RangeRandomizer.randomize(-10, 10);
 		} while ((int) this.poleAngle == 0);
 	}
 	
@@ -117,6 +117,11 @@ public class PoleSimulator {
 		this.force = force;
 	}
 	
+	public double getForce()
+	{
+		return this.force;
+	}
+	
 	public double getPoleAngle()
 	{
 		return this.poleAngle;
@@ -130,7 +135,7 @@ public class PoleSimulator {
 	public static void main(String[] args)
 	{
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 10, 0, 1, true);
-		
+		network.reset();
 		ScorePole score = new ScorePole();
 		System.out.println(score.score(network));
 	}
