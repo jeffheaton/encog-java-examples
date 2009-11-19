@@ -1,6 +1,9 @@
 package org.encog.examples.neural.forest;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +11,7 @@ import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
+import org.encog.neural.data.csv.CSVNeuralDataSet;
 import org.encog.neural.data.market.MarketNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.normalize.DataNormalization;
@@ -51,19 +55,7 @@ public class Evaluate {
 		return network;
 	}
 	
-	public NeuralDataSet loadData()
-	{
-		File file = Constant.EVAL_FILE;
-		
-		if( !file.exists() )
-		{
-			System.out.println("Can't read file: " + file.getAbsolutePath() );
-			return null;
-		}
-		
-		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.EVAL_FILE);
-		return trainingSet;
-	}
+
 	
 	public DataNormalization loadNormalization()
 	{
@@ -107,13 +99,69 @@ public class Evaluate {
 		return result;
 	}
 	
+	public void evaluate2()
+	{
+		BasicNetwork network = loadNetwork();
+		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.BINARY_FILE);
+		System.out.println("Error:" + network.calculateError(trainingSet));
+	}
+	
+	public void evaluate1()
+	{
+		int[] count = new int[7];
+		
+		Equilateral equ = new Equilateral(7,0.9,0.1);
+		BasicNetwork network = loadNetwork();
+		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.BINARY_FILE);
+		for(NeuralDataPair pair : trainingSet)
+		{
+			NeuralData actual = network.compute(pair.getInput());
+			int tree = equ.decode(actual.getData());
+			count[tree]++;
+		}
+		
+		for(int i=0;i<count.length;i++)
+		{
+			System.out.println(i+"-"+count[i]);
+		}
+	}
+	
+	public void evaluate3()
+	{
+		int[] count = new int[7];
+		int correct = 0;
+		int total = 0;
+				
+		Equilateral equ = new Equilateral(7,0.9,0.1);
+		BasicNetwork network = loadNetwork();
+		DataNormalization norm = loadNormalization();
+		
+		NeuralDataSet trainingSet = new CSVNeuralDataSet(
+				Constant.BALANCE_FILE.toString(),54,0,false);
+		
+		for(NeuralDataPair pair : trainingSet)
+		{
+			total++;
+			NeuralData input = norm.buildForNetworkInput(pair.getInput().getData());
+			NeuralData actual = network.compute(input);
+			int actualTree = equ.decode(actual.getData());
+			int idealTree = (int)(pair.getInput().getData(53))-1;
+			count[actualTree]++;
+		}
+		
+		for(int i=0;i<count.length;i++)
+		{
+			System.out.println(i+"-"+count[i]);
+		}
+	}
+	
 	public void evaluate()
 	{
 		BasicNetwork network = loadNetwork();
 		DataNormalization norm = loadNormalization();
 		
-		ReadCSV csv = new ReadCSV(Constant.EVAL_FILE.toString(),false,',');
-		double[] input = new double[network.getLayer(BasicNetwork.TAG_INPUT).getNeuronCount()];
+		ReadCSV csv = new ReadCSV(Constant.BALANCE_FILE.toString(),false,',');
+		double[] input = new double[norm.getInputFields().size()];
 		OutputEquilateral eqField = (OutputEquilateral)norm.findOutputField(OutputEquilateral.class, 0);
 		
 		int correct = 0;

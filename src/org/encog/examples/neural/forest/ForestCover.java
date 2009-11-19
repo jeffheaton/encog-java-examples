@@ -43,22 +43,29 @@ public class ForestCover {
 	public static void generate(boolean useOneOf)
 	{
 		GenerateData generate = new GenerateData();
-		DataNormalization trainingNorm = generate.generateTraining(Constant.TRAINING_FILE,0, 0,2,4,useOneOf);
-		DataNormalization evaluateNorm = generate.generateIdeal(Constant.EVAL_FILE,0, 2,3,4);
-		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
-		encog.add(Constant.NORMALIZATION_NAME, trainingNorm);
+		generate.step1();
+		generate.step2();
+		DataNormalization norm = generate.step3(useOneOf);
 		
-		System.out.println("Training samples:" + trainingNorm.getRecordCount());
-		System.out.println("Evaluate samples:" + evaluateNorm.getRecordCount());
+		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
+		encog.add(Constant.NORMALIZATION_NAME, norm);
+		
+		//DataNormalization trainingNorm = generate.generateTraining(Constant.TRAINING_FILE,0, 0,2,4,useOneOf);
+		//DataNormalization evaluateNorm = generate.generateIdeal(Constant.EVAL_FILE,0, 2,3,4);
+		//EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
+		//encog.add(Constant.NORMALIZATION_NAME, trainingNorm);
+		
+		//System.out.println("Training samples:" + trainingNorm.getRecordCount());
+		//System.out.println("Evaluate samples:" + evaluateNorm.getRecordCount());
 	}
 	
-	public static void train(boolean useOneOf)
+	public static void train(boolean useGUI)
 	{		
 		TrainNetwork program = new TrainNetwork();
-		program.train();
+		program.train(useGUI);
 	}
 	
-	public static void evaluate(boolean useOneOf)
+	public static void evaluate()
 	{
 		Evaluate evaluate = new Evaluate();
 		evaluate.evaluate();
@@ -83,9 +90,11 @@ public class ForestCover {
 			if( args[0].equalsIgnoreCase("generate") )
 				generate(useOneOf);
 			else if( args[0].equalsIgnoreCase("train") )
-				train(useOneOf);
+				train(false);
+			else if( args[0].equalsIgnoreCase("traingui") )
+				train(true);
 			else if( args[0].equalsIgnoreCase("evaluate") )
-				evaluate(useOneOf);
+				evaluate();
 		}
 	}
 }

@@ -10,8 +10,10 @@ import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.multi.MultiPropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.normalize.DataNormalization;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
+import org.encog.util.simple.EncogUtility;
 
 public class TrainNetwork {
 	
@@ -27,33 +29,26 @@ public class TrainNetwork {
 		return network;
 	}
 	
-	public void train()
-	{		
-		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.TRAINING_FILE);
-		BasicNetwork network = generateNetwork(trainingSet);
-
-		//final Train train = new ResilientPropagation(network, trainingSet);
-		final Train train = new MultiPropagation(network, trainingSet );
-
-		int epoch = 1;
-		long remaining;
-
-		System.out.println("Beginning training...");
-		long start = System.currentTimeMillis();
-		do {
-			train.iteration();
-			
-			long current = System.currentTimeMillis();
-			long elapsed = (current-start)/1000;// seconds
-			elapsed/=60;// minutes
-			remaining = Constant.TRAINING_MINUTES - elapsed;
-			
-			System.out
-					.println("Epoch #" + epoch + " Error:" + train.getError() + " remaining minutes = " +remaining);
-			epoch++;
-		} while(remaining>0);
-		
+	public void train(boolean useGUI)
+	{
+		System.out.println("Converting training file to binary");
 		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
+		DataNormalization norm = (DataNormalization) encog.find(Constant.NORMALIZATION_NAME);
+		
+		EncogUtility.convertCSV2Binary(Constant.NORMALIZED_FILE, Constant.BINARY_FILE, norm.getNetworkInputLayerSize(),norm.getNetworkOutputLayerSize(), false);
+		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.BINARY_FILE);
+		BasicNetwork network = EncogUtility.simpleFeedForward(norm.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm.getNetworkOutputLayerSize(), false);
+
+		System.out.println("Beginning training.");
+		if( useGUI)
+		{
+			EncogUtility.trainDialog(network, trainingSet);
+		}
+		else
+		{
+			EncogUtility.trainConsole(network, trainingSet, Constant.TRAINING_MINUTES);
+		}
+		
 		encog.add(Constant.TRAINED_NETWORK_NAME, network);
 	}
 
