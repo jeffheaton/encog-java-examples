@@ -96,7 +96,9 @@ public class GenerateData implements StatusReportable {
 	public void step1()
 	{
 		System.out.println("Step 1: Generate training and evaluation files");
+		System.out.println("Generate training file");
 		copy(Constant.COVER_TYPE_FILE,Constant.TRAINING_FILE,0,2,4); // take 3/4
+		System.out.println("Generate evaluation file");
 		copy(Constant.COVER_TYPE_FILE,Constant.EVALUATE_FILE,3,3,4); // take 1/4
 	}
 	

@@ -39,7 +39,6 @@ public class TrainNetwork {
 		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.BINARY_FILE);
 		BasicNetwork network = EncogUtility.simpleFeedForward(norm.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm.getNetworkOutputLayerSize(), false);
 
-		System.out.println("Beginning training.");
 		if( useGUI)
 		{
 			EncogUtility.trainDialog(network, trainingSet);
@@ -48,7 +47,8 @@ public class TrainNetwork {
 		{
 			EncogUtility.trainConsole(network, trainingSet, Constant.TRAINING_MINUTES);
 		}
-		
+
+		System.out.println("Training complete, saving network...");
 		encog.add(Constant.TRAINED_NETWORK_NAME, network);
 	}
 
