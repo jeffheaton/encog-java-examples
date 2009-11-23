@@ -68,19 +68,19 @@ public class TSPChromosome extends Chromosome<Integer> {
 			}
 		}
 		setGenes(genes);
-		calculateCost();
+		calculateScore();
 
 	}
 
 	@Override
-	public void calculateCost() throws NeuralNetworkError {
+	public void calculateScore() throws NeuralNetworkError {
 		double cost = 0.0;
 		for (int i = 0; i < this.cities.length - 1; i++) {
 			final double dist = this.cities[getGene(i)]
 					.proximity(this.cities[getGene(i + 1)]);
 			cost += dist;
 		}
-		setCost(cost);
+		setScore(cost);
 
 	}
 

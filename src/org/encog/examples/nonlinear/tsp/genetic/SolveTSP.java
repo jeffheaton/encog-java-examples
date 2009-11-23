@@ -133,7 +133,7 @@ public class SolveTSP {
 		while (sameSolutionCount < MAX_SAME_SOLUTION) {
 			genetic.iteration();
 
-			double thisSolution = genetic.getChromosome(0).getCost();
+			double thisSolution = genetic.getChromosome(0).getScore();
 
 			builder.setLength(0);
 			builder.append("Iteration: ");
