@@ -33,9 +33,10 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.layers.ContextLayer;
 import org.encog.neural.networks.layers.Layer;
 import org.encog.neural.networks.synapse.SynapseType;
+import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.Train;
+import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
-import org.encog.neural.networks.training.anneal.NeuralTrainingSetSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
@@ -111,8 +112,9 @@ public class ElmanXOR {
 	public static double trainNetwork(final String what,
 			final BasicNetwork network, final NeuralDataSet trainingSet) {
 		// train the neural network
-		final NeuralSimulatedAnnealing trainAlt = new NeuralTrainingSetSimulatedAnnealing(
-				network, trainingSet, 10, 2, 100);
+		CalculateScore score = new TrainingSetScore(trainingSet);
+		final Train trainAlt = new NeuralSimulatedAnnealing(
+				network, score, 10, 2, 100);
 
 		final Train trainMain = new Backpropagation(network, trainingSet,
 				0.00001, 0.0);

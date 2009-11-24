@@ -63,7 +63,7 @@ public class EvaluateMouse {
 			}
 		}*/
 		
-		MouseGA ga = new MouseGA(1000,0.5,0.1,eval);
+		/*MouseGA ga = new MouseGA(1000,0.5,0.1,eval);
 		
 		int epoch = 1;
 
@@ -73,12 +73,12 @@ public class EvaluateMouse {
 					.println("Epoch #" + epoch + " Error:" + ga.getError());
 			epoch++;
 			
-			/*for(int i=0;i<500;i++)
+		for(int i=0;i<500;i++)
 			{
 				((MouseChromosome)ga.getGenetic().getChromosome(999-i)).getMouse().getBrain().reset();
 				((MouseChromosome)ga.getGenetic().getChromosome(999-i)).updateGenes();
-			}*/
-		} while (ga.getError()>1);
+			}
+		} while (ga.getError()>1);*/
 		
 		
 	}

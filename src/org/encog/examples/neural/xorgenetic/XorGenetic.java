@@ -32,7 +32,10 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.genetic.TrainingSetNeuralGeneticAlgorithm;
+import org.encog.neural.networks.training.CalculateScore;
+import org.encog.neural.networks.training.Train;
+import org.encog.neural.networks.training.TrainingSetScore;
+import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.util.logging.Logging;
 import org.encog.util.randomize.FanInRandomizer;
 
@@ -65,9 +68,10 @@ public class XorGenetic {
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
+		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
-		final TrainingSetNeuralGeneticAlgorithm train = new TrainingSetNeuralGeneticAlgorithm(
-				network, new FanInRandomizer(), trainingSet, 5000, 0.1, 0.25);
+		final Train train = new NeuralGeneticAlgorithm(
+				network, new FanInRandomizer(), score, 5000, 0.1, 0.25);
 
 		int epoch = 1;
 

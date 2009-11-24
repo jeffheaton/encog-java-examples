@@ -61,7 +61,7 @@ public class TSPSimulatedAnnealing extends SimulatedAnnealing<Integer> {
 
 	
 	@Override
-	public double determineError() throws NeuralNetworkError {
+	public double calculateScore() throws NeuralNetworkError {
 		double cost = 0.0;
 		for (int i = 0; i < this.cities.length - 1; i++) {
 			final double dist = this.cities[this.path[i]]

@@ -124,7 +124,7 @@ public class SolveTSP {
 		while (sameSolutionCount < MAX_SAME_SOLUTION) {
 			anneal.iteration();
 
-			double thisSolution = anneal.getError();
+			double thisSolution = anneal.getScore();
 
 			builder.setLength(0);
 			builder.append("Iteration: ");
