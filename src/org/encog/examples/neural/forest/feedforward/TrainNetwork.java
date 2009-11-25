@@ -1,4 +1,4 @@
-package org.encog.examples.neural.forest;
+package org.encog.examples.neural.forest.feedforward;
 
 import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralDataSet;

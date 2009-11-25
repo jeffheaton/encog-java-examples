@@ -1,4 +1,4 @@
-package org.encog.examples.neural.forest;
+package org.encog.examples.neural.forest.feedforward;
 
 import java.io.File;
 
