@@ -74,19 +74,4 @@ public class NeuralPilot {
 		}
 		return(sim.cost());
 	}
-	
-	public static void main(String[] args)
-	{
-		FeedForwardPattern pattern = new FeedForwardPattern();
-		pattern.setInputNeurons(3);
-		pattern.addHiddenLayer(10);
-		pattern.setOutputNeurons(1);
-		pattern.setActivationFunction(new ActivationTANH());
-		BasicNetwork network = pattern.generate();
-		network.reset();
-		
-		NeuralPilot pilot = new NeuralPilot(network, true);
-		int score = pilot.scorePilot();
-		System.out.println(pilot.scorePilot());
-	}
 }

@@ -1,5 +1,7 @@
 package org.encog.examples.neural.lunar;
 
+import java.text.NumberFormat;
+
 public class LanderSimulator {
 	
 	public static final double GRAVITY = 1.62;
@@ -40,15 +42,18 @@ public class LanderSimulator {
 	
 	public String telemetry()
 	{
+		NumberFormat nf = NumberFormat.getNumberInstance();
+		nf.setMinimumFractionDigits(4);
+		nf.setMaximumFractionDigits(4);
 		StringBuilder result = new StringBuilder();
 		result.append("Elapsed: ");
 		result.append(seconds);
 		result.append(" s, Fuel: ");
 		result.append(this.fuel);
 		result.append(" l, Velocity: ");
-		result.append(velocity);
+		result.append(nf.format(velocity));
 		result.append(" m/s, ");
-		result.append(altitude);
+		result.append((int)altitude);
 		result.append(" m");
 		return result.toString();
 	}

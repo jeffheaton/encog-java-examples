@@ -3,6 +3,7 @@ package org.encog.examples.neural.lunar;
 import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
+import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.util.logging.Logging;
@@ -25,9 +26,21 @@ public class LunarLander {
 	public static void main(String args[])
 	{
 		Logging.stopConsoleLogging();
-		BasicNetwork model = createNetwork();
-		final Train train = new NeuralGeneticAlgorithm(
-				model, new FanInRandomizer(), new PilotGA(),500, 0.1, 0.25);
+		BasicNetwork network = createNetwork();
+		
+		Train train;
+		
+		if( args.length>0 && args[0].equalsIgnoreCase("anneal"))
+		{
+			train = new NeuralSimulatedAnnealing(
+					network, new PilotScore(), 10, 2, 100);
+		}
+		else
+		{
+			train = new NeuralGeneticAlgorithm(
+					network, new FanInRandomizer(), 
+					new PilotScore(),500, 0.1, 0.25);
+		}
 		
 		int epoch = 1;
 
@@ -39,7 +52,7 @@ public class LunarLander {
 		} 
 
 		System.out.println("\nHow the winning network landed:");
-		BasicNetwork network = train.getNetwork();
+		network = train.getNetwork();
 		NeuralPilot pilot = new NeuralPilot(network,true);
 		System.out.println(pilot.scorePilot());
 	}
