@@ -72,6 +72,6 @@ public class NeuralPilot {
 			if( track )
 				System.out.println(sim.telemetry());
 		}
-		return(sim.cost());
+		return(sim.score());
 	}
 }

@@ -58,7 +58,7 @@ public class LanderSimulator {
 		return result.toString();
 	}
 	
-	public int cost()
+	public int score()
 	{
 		return (int)((this.fuel*10) + this.seconds + (this.velocity*1000));
 	}
