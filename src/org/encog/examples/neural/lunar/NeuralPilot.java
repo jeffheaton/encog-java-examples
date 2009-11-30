@@ -20,9 +20,6 @@ public class NeuralPilot {
 		InputField fuelIN;
 		InputField altitudeIN;
 		InputField velocityIN;
-		OutputFieldRangeMapped fuelOUT;
-		OutputFieldRangeMapped altitudeOUT;
-		OutputFieldRangeMapped velocityOUT;
 	
 		this.track = track;
 		this.network = network;
@@ -31,9 +28,9 @@ public class NeuralPilot {
 		norm.addInputField(fuelIN = new BasicInputField());
 		norm.addInputField(altitudeIN = new BasicInputField());
 		norm.addInputField(velocityIN = new BasicInputField());
-		norm.addOutputField(fuelOUT = new OutputFieldRangeMapped(fuelIN,-0.9,0.9));
-		norm.addOutputField(altitudeOUT = new OutputFieldRangeMapped(altitudeIN,-0.9,0.9));
-		norm.addOutputField(velocityOUT = new OutputFieldRangeMapped(velocityIN,-0.9,0.9));
+		norm.addOutputField(new OutputFieldRangeMapped(fuelIN,-0.9,0.9));
+		norm.addOutputField(new OutputFieldRangeMapped(altitudeIN,-0.9,0.9));
+		norm.addOutputField(new OutputFieldRangeMapped(velocityIN,-0.9,0.9));
 		fuelIN.setMax(200);
 		fuelIN.setMin(0);
 		altitudeIN.setMax(10000);
