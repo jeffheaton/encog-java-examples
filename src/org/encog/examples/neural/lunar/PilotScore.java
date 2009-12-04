@@ -4,13 +4,13 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
 
 public class PilotScore implements CalculateScore {
-	@Override
+
 	public double calculateScore(BasicNetwork network) {
 		NeuralPilot pilot = new NeuralPilot(network, false);
 		return pilot.scorePilot();
 	}
 
-	@Override
+
 	public boolean shouldMinimize() {
 		return false;
 	}
