@@ -63,4 +63,6 @@ public class Constant {
 	 * How many hidden neurons to use.
 	 */
 	public static final int HIDDEN_COUNT = 100;
+	
+	public static final int OUTPUT_COUNT = 10;
 }
