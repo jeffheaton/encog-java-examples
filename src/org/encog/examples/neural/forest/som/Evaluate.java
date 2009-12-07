@@ -94,6 +94,7 @@ public class Evaluate {
 		DataNormalization norm = loadNormalization();
 		
 		ReadCSV csv = new ReadCSV(Constant.EVALUATE_FILE.toString(),false,',');
+		int[][][] cube = new int[Constant.OUTPUT_COUNT][Constant.OUTPUT_COUNT][7];
 		double[] input = new double[norm.getInputFields().size()];
 		OutputEquilateral eqField = (OutputEquilateral)norm.findOutputField(OutputEquilateral.class, 0);
 		
@@ -107,29 +108,37 @@ public class Evaluate {
 				input[i] = csv.getDouble(i);
 			}
 			NeuralData inputData = norm.buildForNetworkInput(input);
-			NeuralData output = network.compute(inputData);
-			int coverTypeActual = determineTreeType(eqField,output);
+			int output = network.winner(inputData);
+			int outputY = output/10;
+			int outputX = output-(outputY*10);
+			
 			int coverTypeIdeal = (int)csv.getDouble(54)-1;
-			
-			keepScore(coverTypeActual,coverTypeIdeal);
-			
-			if( coverTypeActual==coverTypeIdeal ) {
-				correct++;
-			}
+			cube[outputX][outputY][coverTypeIdeal]++;
 		}
 		
-		System.out.println("Total cases:" + total);
-		System.out.println("Correct cases:" + correct);
-		double percent = (double)correct/(double)total;
-		System.out.println("Correct percent:" + Format.formatPercentWhole(percent));
-		for(int i=0;i<7;i++)
+		for(int x=0;x<10;x++)
 		{
-			double p = ((double)this.treeCorrect[i] / (double)this.treeCount[i]);
-			System.out.println("Tree Type #" 
-					+ i 
-					+ " - Correct/total: " 
-					+ this.treeCorrect[i] 
-					+ "/" + treeCount[i] + "(" + Format.formatPercentWhole(p) + ")" );
+			StringBuilder str = new StringBuilder();
+			for(int y=0;y<10;y++)
+			{
+				int max = Integer.MIN_VALUE;
+				int maxIndex = -1;
+				for(int z=0;z<7;z++)
+				{
+					int value = cube[x][y][z];
+					if( value>max && value>0 )
+					{
+						max = value;
+						maxIndex = z;
+					}
+				}
+				if( maxIndex==-1)
+					str.append('-');
+				else
+					str.append(maxIndex);
+				
+			}
+			System.out.println(str.toString());
 		}
 	}
 }

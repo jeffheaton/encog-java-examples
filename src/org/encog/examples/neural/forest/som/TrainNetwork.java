@@ -20,7 +20,7 @@ public class TrainNetwork {
 	{
 		SOMPattern pattern = new SOMPattern();		 	
 		pattern.setInputNeurons(trainingSet.getInputSize());
-		pattern.setOutputNeurons(Constant.OUTPUT_COUNT);
+		pattern.setOutputNeurons(Constant.OUTPUT_COUNT*Constant.OUTPUT_COUNT);
 		BasicNetwork result = pattern.generate();
 		result.reset();
 		return result;
@@ -38,7 +38,7 @@ public class TrainNetwork {
 		System.out.println("Beginning training...");
 		BasicNetwork network = generateNetwork(trainingSet);
 
-		NeighborhoodGaussianMulti neighborhood = new NeighborhoodGaussianMulti(Constant.OUTPUT_COUNT,Constant.OUTPUT_COUNT,1,5,0);
+		NeighborhoodGaussianMulti neighborhood = new NeighborhoodGaussianMulti(Constant.OUTPUT_COUNT,Constant.OUTPUT_COUNT);
 		CompetitiveTraining train = new CompetitiveTraining(
 				network,
 				0.1,
@@ -48,12 +48,12 @@ public class TrainNetwork {
 				
 		int iteration = 0;
 
-		train.setAutoDecay(10, 0.3, 0.1, 6, 1);
-		for(iteration = 0;iteration<=10;iteration++)
+		train.setAutoDecay(10, 0.00000003, 0.00000001, 6, 2);
+		for(iteration = 0;iteration<10;iteration++)
 		{
 			train.iteration();
 			train.autoDecay();
-			System.out.println("Iteration: " + iteration + ", Error:" + train.getError());
+			System.out.println("Iteration: " + iteration + ", Error:" + train.getError()+"," + train.toString());
 		}
 
 		System.out.println("Training complete, saving network...");

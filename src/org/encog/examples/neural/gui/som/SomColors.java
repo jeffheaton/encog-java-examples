@@ -27,7 +27,7 @@ public class SomColors extends JFrame  implements Runnable {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.network = createNetwork();
 		this.getContentPane().add(map = new MapPanel(this));
-		this.gaussian = new NeighborhoodGaussianMulti(MapPanel.WIDTH,MapPanel.HEIGHT,1,5,0);
+		this.gaussian = new NeighborhoodGaussianMulti(MapPanel.WIDTH,MapPanel.HEIGHT);
 		this.train = new CompetitiveTraining(this.network,0.01,null,gaussian);
 		train.setForceWinner(false);
 		this.thread = new Thread(this);
