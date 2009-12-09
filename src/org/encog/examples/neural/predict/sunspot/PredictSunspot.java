@@ -2,37 +2,25 @@ package org.encog.examples.neural.predict.sunspot;
 
 import java.text.NumberFormat;
 
+import org.encog.NullStatusReportable;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.data.temporal.TemporalDataDescription;
+import org.encog.neural.data.temporal.TemporalNeuralDataSet;
+import org.encog.neural.data.temporal.TemporalPoint;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.normalize.DataNormalization;
+import org.encog.normalize.input.InputField;
+import org.encog.normalize.input.InputFieldArray1D;
+import org.encog.normalize.output.OutputFieldRangeMapped;
+import org.encog.normalize.target.NormalizationStorageArray1D;
 import org.encog.util.logging.Logging;
 
-/**
- * Simple class to predict sun spots.  This is very loosely based on a 
- * an example by Karsten Kutza written in C on 1996-04-17.
- * http://www.neural-networks-at-your-fingertips.com/bpn.html
- * 
- * I translated it to Java and adapted it to use Encog.  This example also
- * trains with RPROP, whereas the original used backprop.
- * 
- * The acceptable error rate is set to 6%.  This is just for a quick example,
- * you should lower this, but it will take considerable time to train.  6%
- * will not be overly accurate.
- * 
- * This example creates two types of predictions:
- * 
- * Regular: All predictions are based on actual SunSpot data.
- * 
- * Closed Loop: Predictions are based on previously predicted data.
- * 
- * @author jeff
- *
- */
 public class PredictSunspot {
 
 	public final static double[] SUNSPOTS = {
@@ -96,48 +84,48 @@ public class PredictSunspot {
 	 * This really should be lowered, I am setting it to a level here that will
 	 * train in under a minute.
 	 */
-	public final static double MAX_ERROR = 0.06;
+	public final static double MAX_ERROR = 0.01;
 
 	private double[] normalizedSunspots;
 	private double[] closedLoopSunspots;
-	private double mean;
 	
 	public void normalizeSunspots(double lo,double hi)
 	{			
-		  double min = Double.MAX_VALUE;
-		  double max = Double.MIN_VALUE;
-		  for (int year=0; year<SUNSPOTS.length; year++) {
-		    min = Math.min(min, SUNSPOTS[year]);
-		    max = Math.max(max, SUNSPOTS[year]);
-		  }
-		  
+		InputField in;
+
+		// create arrays to hold the normalized sunspots
 		  normalizedSunspots = new double[SUNSPOTS.length];
 		  closedLoopSunspots = new double[SUNSPOTS.length];
-		  
-		  mean = 0;
-		  for (int year=0; year<SUNSPOTS.length; year++) {
-			  normalizedSunspots[year] = 
-			  closedLoopSunspots [year] = ((SUNSPOTS[year]-min) / (max-min)) * (hi-lo) + lo;
-		    mean += normalizedSunspots[year] / SUNSPOTS.length;
-		  }
+
+		// normalize the sunspots
+		DataNormalization norm = new DataNormalization();
+		norm.setReport(new NullStatusReportable());
+		norm.addInputField(in = new InputFieldArray1D(true,SUNSPOTS));
+		norm.addOutputField(new OutputFieldRangeMapped(in, lo, hi));
+		norm.setTarget(new NormalizationStorageArray1D(normalizedSunspots));
+		norm.process();
+		System.arraycopy(normalizedSunspots, 0, closedLoopSunspots, 0, normalizedSunspots.length);
+		
 	}
 	
 	public NeuralDataSet generateTraining()
 	{
-		NeuralDataSet result = new BasicNeuralDataSet();
+		TemporalNeuralDataSet result = new TemporalNeuralDataSet(WINDOW_SIZE,1);
+		
+		TemporalDataDescription desc = new TemporalDataDescription(
+				TemporalDataDescription.Type.RAW,true,true);
+		result.addDescription(desc);
+		
 		for(int year = TRAIN_START;year<TRAIN_END;year++)
 		{
-			BasicNeuralData input = new BasicNeuralData(WINDOW_SIZE);
-			BasicNeuralData ideal = new BasicNeuralData(1);
-			int index = 0;
-			for(int i=year-WINDOW_SIZE;i<year;i++)
-			{
-				input.setData(index++,this.normalizedSunspots[i]);
-			}
-			ideal.setData(0, this.normalizedSunspots[year]);
-			
-			result.add(input,ideal);
+			TemporalPoint point = new TemporalPoint(1);
+			point.setSequence(year);
+			point.setData(0, this.normalizedSunspots[year]);
+			result.getPoints().add(point);
 		}
+		
+		result.generate();
+		
 		return result;
 	}
 	
