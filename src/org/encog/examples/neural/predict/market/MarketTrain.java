@@ -44,8 +44,7 @@ import org.encog.util.logging.Logging;
  */
 public class MarketTrain {
 
-	public static void main(final String args[]) {
-		Logging.stopConsoleLogging();
+	public static void train() {
 
 		final File file = new File(Config.FILENAME);
 

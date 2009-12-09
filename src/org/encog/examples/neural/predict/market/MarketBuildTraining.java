@@ -45,8 +45,8 @@ import org.encog.util.logging.Logging;
  */
 public class MarketBuildTraining {
 
-	public static void main(final String args[]) {
-		Logging.stopConsoleLogging();
+	public static void generate() {
+		
 		final MarketLoader loader = new YahooFinanceLoader();
 		final MarketNeuralDataSet market = new MarketNeuralDataSet(loader,
 				Config.INPUT_WINDOW, Config.PREDICT_WINDOW);
