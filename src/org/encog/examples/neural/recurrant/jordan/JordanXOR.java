@@ -42,6 +42,7 @@ import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
 import org.encog.neural.networks.training.strategy.ResetStrategy;
@@ -103,7 +104,7 @@ public class JordanXOR {
 		final NeuralSimulatedAnnealing trainAlt = new NeuralSimulatedAnnealing(
 				network, score, 10, 2, 100);
 		
-		final Train trainMain = new Backpropagation(network, trainingSet, 0.00001, 0.0);
+		final Train trainMain = new ResilientPropagation(network, trainingSet);
 
 		StopTrainingStrategy stop = new StopTrainingStrategy();
 		trainMain.addStrategy(new Greedy());
