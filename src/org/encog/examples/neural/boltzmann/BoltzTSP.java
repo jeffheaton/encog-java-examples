@@ -111,32 +111,28 @@ public class BoltzTSP {
 	}
 
 	public void calculateWeights(BasicNetwork network) {
-		int n1, n2, n3, n4;
-		int i, j;
-		int predN3, succN3;
-		double weight;
 		
 		BoltzmannLogic logic = (BoltzmannLogic)network.getLogic();
 
-		for (n1 = 0; n1 < NUM_CITIES; n1++) {
-			for (n2 = 0; n2 < NUM_CITIES; n2++) {
-				i = n1 * NUM_CITIES + n2;
-				for (n3 = 0; n3 < NUM_CITIES; n3++) {
-					for (n4 = 0; n4 < NUM_CITIES; n4++) {
-						j = n3 * NUM_CITIES + n4;
-						weight = 0;
-						if (i != j) {
-							predN3 = (n3 == 0 ? NUM_CITIES - 1 : n3 - 1);
-							succN3 = (n3 == NUM_CITIES - 1 ? 0 : n3 + 1);
-							if ((n1 == n3) || (n2 == n4))
+		for (int sourceTour = 0; sourceTour < NUM_CITIES; sourceTour++) {
+			for (int sourceCity = 0; sourceCity < NUM_CITIES; sourceCity++) {
+				int sourceIndex = sourceTour * NUM_CITIES + sourceCity;
+				for (int targetTour = 0; targetTour < NUM_CITIES; targetTour++) {
+					for (int targetCity = 0; targetCity < NUM_CITIES; targetCity++) {
+						int targetIndex = targetTour * NUM_CITIES + targetCity;
+						double weight = 0;
+						if (sourceIndex != targetIndex) {
+							int predTargetTour = (targetTour == 0 ? NUM_CITIES - 1 : targetTour - 1);
+							int succTargetTour = (targetTour == NUM_CITIES - 1 ? 0 : targetTour + 1);
+							if ((sourceTour == targetTour) || (sourceCity == targetCity))
 								weight = -gamma;
-							else if ((n1 == predN3) || (n1 == succN3))
-								weight = -distance[n2][n4];
+							else if ((sourceTour == predTargetTour) || (sourceTour == succTargetTour))
+								weight = -distance[sourceCity][targetCity];
 						}
-						logic.getThermalSynapse().getMatrix().set(i, j, weight);
+						logic.getThermalSynapse().getMatrix().set(sourceIndex, targetIndex, weight);
 					}
 				}
-				logic.getThermalLayer().setThreshold(i, -gamma / 2);
+				logic.getThermalLayer().setThreshold(sourceIndex, -gamma / 2);
 			}
 		}
 	}
