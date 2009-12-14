@@ -57,7 +57,7 @@ public class MarketPredict {
 		Logging.stopConsoleLogging();
 		
 		if( args.length<1 ) {
-			System.out.println("Specify one of the following arguments: generate, train or evaluate.");
+			System.out.println("Specify one of the following arguments: generate, train, incremental, selective or evaluate.");
 		}
 		else
 		{
@@ -67,8 +67,12 @@ public class MarketPredict {
 			else if( args[0].equalsIgnoreCase("train") ) {
 				MarketTrain.train();
 			} 
-			else if( args[0].equalsIgnoreCase("generate") ) {
-				
+			else if( args[0].equalsIgnoreCase("evaluate") ) {
+				MarketEvaluate.evaluate();
+			} else if( args[0].equalsIgnoreCase("incremental") ) {
+				MarketPrune.incremental();
+			} else if( args[0].equalsIgnoreCase("selective") ) {
+				MarketPrune.incremental();
 			} 
 		}
 	}
