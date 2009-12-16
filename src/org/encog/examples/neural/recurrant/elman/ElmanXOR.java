@@ -27,6 +27,7 @@
 package org.encog.examples.neural.recurrant.elman;
 
 import org.encog.examples.neural.util.TemporalXOR;
+import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
@@ -42,6 +43,8 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
 import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
+import org.encog.neural.pattern.ElmanPattern;
+import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 import org.encog.util.randomize.RangeRandomizer;
@@ -61,30 +64,22 @@ public class ElmanXOR {
 
 	static BasicNetwork createElmanNetwork() {
 		// construct an Elman type network
-		Layer hidden;
-		final Layer context = new ContextLayer(2);
-		final BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(1));
-		network.addLayer(hidden = new BasicLayer(2));
-		hidden.addNext(context, SynapseType.OneToOne);
-		context.addNext(hidden);
-		network.addLayer(new BasicLayer(1));
-		network.getStructure().finalizeStructure();
-		// network.reset();
-		(new RangeRandomizer(-1.0, 1.0)).randomize(network);
-		return network;
+		ElmanPattern pattern = new ElmanPattern();
+		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setInputNeurons(1);
+		pattern.addHiddenLayer(2);
+		pattern.setOutputNeurons(1);
+		return pattern.generate();
 	}
 
 	static BasicNetwork createFeedforwardNetwork() {
 		// construct a feedforward type network
-
-		final BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(1));
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(1));
-		network.getStructure().finalizeStructure();
-		network.reset();
-		return network;
+		FeedForwardPattern pattern = new FeedForwardPattern();
+		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setInputNeurons(1);
+		pattern.addHiddenLayer(2);
+		pattern.setOutputNeurons(1);
+		return pattern.generate();
 	}
 
 	public static void main(final String args[]) {
