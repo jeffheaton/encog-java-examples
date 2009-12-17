@@ -69,9 +69,7 @@ public class MarketPredict {
 			} 
 			else if( args[0].equalsIgnoreCase("evaluate") ) {
 				MarketEvaluate.evaluate();
-			} else if( args[0].equalsIgnoreCase("incremental") ) {
-				MarketPrune.incremental();
-			} else if( args[0].equalsIgnoreCase("selective") ) {
+			} else if( args[0].equalsIgnoreCase("prune") ) {
 				MarketPrune.incremental();
 			} 
 		}
