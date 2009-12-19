@@ -37,7 +37,9 @@ import org.encog.neural.networks.layers.RadialBasisFunctionLayer;
 import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.neural.pattern.RadialBasisPattern;
 import org.encog.util.logging.Logging;
+import org.encog.util.simple.EncogUtility;
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network
@@ -59,14 +61,13 @@ public class XorRadial {
 
 		Logging.stopConsoleLogging();
 
-		RadialBasisFunctionLayer rbfLayer;
-		final BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationLinear(), false, 2));
-		network.addLayer(rbfLayer = new RadialBasisFunctionLayer(4),
-				SynapseType.Direct);
-		network.addLayer(new BasicLayer(1));
-		network.getStructure().finalizeStructure();
-		network.reset();
+		RadialBasisPattern pattern = new RadialBasisPattern();
+		pattern.setInputNeurons(2);
+		pattern.addHiddenLayer(4);
+		pattern.setOutputNeurons(1);
+		BasicNetwork network = pattern.generate();
+		RadialBasisFunctionLayer rbfLayer = (RadialBasisFunctionLayer)network.getLayer(RadialBasisPattern.RBF_LAYER);
+
 		// rbfLayer.setRadialBasisFunction(0, new GaussianFunction(0.0,1,0.5));
 		// rbfLayer.setRadialBasisFunction(1, new GaussianFunction(0.25,1,0.5));
 		// rbfLayer.setRadialBasisFunction(2, new GaussianFunction(0.5,1,0.5));
@@ -77,25 +78,10 @@ public class XorRadial {
 				XorRadial.XOR_INPUT, XorRadial.XOR_IDEAL);
 
 		// train the neural network
-		final Train train = new ResilientPropagation(network, trainingSet);
-
-		int epoch = 1;
-
-		do {
-			train.iteration();
-			System.out
-					.println("Epoch #" + epoch + " Error:" + train.getError());
-			epoch++;
-		} while (train.getError() > 0.01);
+		EncogUtility.trainToError(network, trainingSet, 0.01);
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
-		for (final NeuralDataPair pair : trainingSet) {
-			final NeuralData output = network.compute(pair.getInput());
-			System.out.println(pair.getInput().getData(0) + ","
-					+ pair.getInput().getData(1) + ", actual="
-					+ output.getData(0) + ",ideal="
-					+ pair.getIdeal().getData(0));
-		}
+		EncogUtility.evaluate(network, trainingSet);
 	}
 }
