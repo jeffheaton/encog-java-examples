@@ -11,6 +11,7 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.layers.Layer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.simple.TrainAdaline;
+import org.encog.neural.pattern.ADALINEPattern;
 import org.encog.util.randomize.RangeRandomizer;
 
 public class AdalineDigits {
@@ -146,16 +147,10 @@ public class AdalineDigits {
 		int inputNeurons = CHAR_WIDTH * CHAR_HEIGHT;
 		int outputNeurons = DIGITS.length;
 		
-		BasicNetwork network = new BasicNetwork();
-		
-		Layer inputLayer = new BasicLayer(new ActivationLinear(), false, inputNeurons );
-		Layer outputLayer = new BasicLayer(new ActivationLinear(), true, outputNeurons );
-		
-		network.addLayer(inputLayer);
-		network.addLayer(outputLayer);
-		network.getStructure().finalizeStructure();
-		
-		(new RangeRandomizer(-0.5,0.5)).randomize(network);
+		ADALINEPattern pattern = new ADALINEPattern();
+		pattern.setInputNeurons(inputNeurons);
+		pattern.setOutputNeurons(outputNeurons);
+		BasicNetwork network = pattern.generate();
 		
 		// train it
 		NeuralDataSet training = generateTraining();
