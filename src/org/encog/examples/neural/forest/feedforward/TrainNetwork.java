@@ -8,7 +8,6 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.multi.MultiPropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.normalize.DataNormalization;
 import org.encog.persist.EncogPersistedCollection;

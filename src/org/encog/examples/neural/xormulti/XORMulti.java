@@ -36,7 +36,6 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
-import org.encog.neural.networks.training.propagation.multi.MultiPropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.util.logging.Logging;
@@ -73,8 +72,8 @@ public class XORMulti {
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
-		final Train train = new MultiPropagation(network, trainingSet);
-		
+		final ResilientPropagation train = new ResilientPropagation(network, trainingSet);
+		train.setNumThreads(0);
 		
 		int epoch = 1;
 

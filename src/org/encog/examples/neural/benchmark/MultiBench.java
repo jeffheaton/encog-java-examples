@@ -3,7 +3,6 @@ package org.encog.examples.neural.benchmark;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.propagation.multi.MultiPropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.benchmark.RandomTrainingFactory;
 import org.encog.util.logging.Logging;
@@ -54,7 +53,8 @@ public class MultiBench {
 	public static double evaluateMPROP(BasicNetwork network,NeuralDataSet data)
 	{
 
-		MultiPropagation train = new MultiPropagation(network,data);
+		ResilientPropagation train = new ResilientPropagation(network,data);
+		train.setNumThreads(0);
 		long start = System.currentTimeMillis();
 		System.out.println("Training 20 Iterations with MPROP");
 		for(int i=1;i<=20;i++)

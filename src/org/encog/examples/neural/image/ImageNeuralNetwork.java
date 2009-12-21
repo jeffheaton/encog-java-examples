@@ -22,7 +22,7 @@ import org.encog.neural.data.image.ImageNeuralData;
 import org.encog.neural.data.image.ImageNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.multi.MultiPropagation;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.util.downsample.Downsample;
 import org.encog.util.downsample.RGBDownsample;
@@ -241,7 +241,7 @@ public class ImageNeuralNetwork {
 		final double strategyError = Double.parseDouble(strStrategyError);
 		final int strategyCycles = Integer.parseInt(strStrategyCycles);
 
-		final Train train = new MultiPropagation(this.network, this.training);
+		final ResilientPropagation train = new ResilientPropagation(this.network, this.training);
 		train.addStrategy(new ResetStrategy(strategyError, strategyCycles));
 
 		if (strMode.equalsIgnoreCase("gui")) {
