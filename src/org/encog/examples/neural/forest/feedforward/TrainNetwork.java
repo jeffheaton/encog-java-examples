@@ -36,7 +36,10 @@ public class TrainNetwork {
 		
 		EncogUtility.convertCSV2Binary(Constant.NORMALIZED_FILE, Constant.BINARY_FILE, norm.getNetworkInputLayerSize(),norm.getNetworkOutputLayerSize(), false);
 		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.BINARY_FILE);
-		BasicNetwork network = EncogUtility.simpleFeedForward(norm.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm.getNetworkOutputLayerSize(), false);
+		
+		BasicNetwork network = (BasicNetwork)encog.find(Constant.TRAINED_NETWORK_NAME);
+		if( network==null )
+			EncogUtility.simpleFeedForward(norm.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm.getNetworkOutputLayerSize(), false);
 
 		if( useGUI)
 		{
