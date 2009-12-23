@@ -27,8 +27,6 @@
 package org.encog.examples.neural.recurrant.jordan;
 
 
-
-import org.encog.bot.browse.extract.ListExtractListener;
 import org.encog.examples.neural.util.TemporalXOR;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
