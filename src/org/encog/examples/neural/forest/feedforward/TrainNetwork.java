@@ -39,7 +39,7 @@ public class TrainNetwork {
 		
 		BasicNetwork network = (BasicNetwork)encog.find(Constant.TRAINED_NETWORK_NAME);
 		if( network==null )
-			EncogUtility.simpleFeedForward(norm.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm.getNetworkOutputLayerSize(), false);
+			network = EncogUtility.simpleFeedForward(norm.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm.getNetworkOutputLayerSize(), false);
 
 		if( useGUI)
 		{
