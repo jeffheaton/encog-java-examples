@@ -46,7 +46,6 @@ import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.image.ImageNeuralData;
 import org.encog.neural.data.image.ImageNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.util.downsample.Downsample;
@@ -58,14 +57,18 @@ import org.encog.util.simple.EncogUtility;
 /**
  * Should have an input file similar to:
  * 
- * CreateTraining: width:16,height:16,type:RGB Input: image:./coins/dime.png,
- * identity:dime Input: image:./coins/dollar.png, identity:dollar Input:
- * image:./coins/half.png, identity:half dollar Input: image:./coins/nickle.png,
- * identity:nickle Input: image:./coins/penny.png, identity:penny Input:
- * image:./coins/quarter.png, identity:quarter Network: hidden1:100, hidden2:0
- * Train: Mode:console, Minutes:1, StrategyError:0.25, StrategyCycles:50 Whatis:
- * image:./coins/dime.png Whatis: image:./coins/half.png Whatis:
- * image:./coins/testcoin.png
+ * CreateTraining: width:16,height:16,type:RGB 
+ * Input: image:./coins/dime.png, identity:dime 
+ * Input: image:./coins/dollar.png, identity:dollar 
+ * Input: image:./coins/half.png, identity:half dollar 
+ * Input: image:./coins/nickle.png, identity:nickle 
+ * Input: image:./coins/penny.png, identity:penny 
+ * Input: image:./coins/quarter.png, identity:quarter 
+ * Network: hidden1:100, hidden2:0
+ * Train: Mode:console, Minutes:1, StrategyError:0.25, StrategyCycles:50 
+ * Whatis: image:./coins/dime.png 
+ * Whatis: image:./coins/half.png 
+ * Whatis: image:./coins/testcoin.png
  * 
  */
 public class ImageNeuralNetwork {
