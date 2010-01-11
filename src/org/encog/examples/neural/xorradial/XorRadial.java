@@ -26,17 +26,10 @@
 
 package org.encog.examples.neural.xorradial;
 
-import org.encog.neural.activation.ActivationLinear;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.layers.RadialBasisFunctionLayer;
-import org.encog.neural.networks.synapse.SynapseType;
-import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.pattern.RadialBasisPattern;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;

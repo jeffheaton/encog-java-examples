@@ -4,7 +4,7 @@
  * http://www.heatonresearch.com/encog/
  * http://code.google.com/p/encog-java/
  * 
- * Copyright 2008-2009, Heaton Research Inc., and individual contributors.
+ * Copyright 2008-2010, Heaton Research Inc., and individual contributors.
  * See the copyright.txt in the distribution for a full listing of 
  * individual contributors.
  *
@@ -23,31 +23,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.encog.examples.neural.recurrent.elman;
 
 import org.encog.examples.neural.util.TemporalXOR;
 import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.layers.ContextLayer;
-import org.encog.neural.networks.layers.Layer;
-import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
-import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
 import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
 import org.encog.neural.pattern.ElmanPattern;
 import org.encog.neural.pattern.FeedForwardPattern;
-import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
-import org.encog.util.randomize.RangeRandomizer;
 
 /**
  * Implement an Elman style neural network with Encog. This network attempts to

@@ -4,7 +4,7 @@
  * http://www.heatonresearch.com/encog/
  * http://code.google.com/p/encog-java/
  * 
- * Copyright 2008-2009, Heaton Research Inc., and individual contributors.
+ * Copyright 2008-2010, Heaton Research Inc., and individual contributors.
  * See the copyright.txt in the distribution for a full listing of 
  * individual contributors.
  *
@@ -23,26 +23,8 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.encog.examples.neural.predict.market;
 
-import java.io.File;
-import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import javax.swing.text.NumberFormatter;
-
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.market.MarketDataDescription;
-import org.encog.neural.data.market.MarketDataType;
-import org.encog.neural.data.market.MarketNeuralDataSet;
-import org.encog.neural.data.market.loader.MarketLoader;
-import org.encog.neural.data.market.loader.YahooFinanceLoader;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 
 

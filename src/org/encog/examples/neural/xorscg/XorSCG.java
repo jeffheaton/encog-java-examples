@@ -34,11 +34,8 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.logic.FeedforwardLogic;
-import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.scg.ScaledConjugateGradient;
 import org.encog.util.logging.Logging;
-import org.encog.util.randomize.ConsistentRandomizer;
 import org.encog.util.randomize.RangeRandomizer;
 
 /**
