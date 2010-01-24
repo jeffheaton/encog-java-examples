@@ -40,6 +40,10 @@ import org.encog.util.randomize.RangeRandomizer;
 
 public class SomColors extends JFrame  implements Runnable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6762179069967224817L;
 	private MapPanel map;
 	private BasicNetwork network;
 	private Thread thread;
