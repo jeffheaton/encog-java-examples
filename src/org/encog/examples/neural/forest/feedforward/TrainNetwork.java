@@ -36,39 +36,46 @@ import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.simple.EncogUtility;
 
 public class TrainNetwork {
-	
-	public static BasicNetwork generateNetwork(NeuralDataSet trainingSet)
-	{
+
+	public static BasicNetwork generateNetwork(NeuralDataSet trainingSet) {
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,trainingSet.getInputSize()));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,Constant.HIDDEN_COUNT));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,trainingSet.getIdealSize()));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,
+				trainingSet.getInputSize()));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,
+				Constant.HIDDEN_COUNT));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,
+				trainingSet.getIdealSize()));
 		network.setLogic(new FeedforwardLogic());
 		network.getStructure().finalizeStructure();
 		network.reset();
 		return network;
 	}
-	
-	public void train(boolean useGUI)
-	{
-		System.out.println("Converting training file to binary");
-		EncogPersistedCollection encog = new EncogPersistedCollection(Constant.TRAINED_NETWORK_FILE);
-		DataNormalization norm = (DataNormalization) encog.find(Constant.NORMALIZATION_NAME);
-		
-		EncogUtility.convertCSV2Binary(Constant.NORMALIZED_FILE, Constant.BINARY_FILE, norm.getNetworkInputLayerSize(),norm.getNetworkOutputLayerSize(), false);
-		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.BINARY_FILE);
-		
-		BasicNetwork network = (BasicNetwork)encog.find(Constant.TRAINED_NETWORK_NAME);
-		if( network==null )
-			network = EncogUtility.simpleFeedForward(norm.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm.getNetworkOutputLayerSize(), false);
 
-		if( useGUI)
-		{
+	public void train(boolean useGUI) {
+		System.out.println("Converting training file to binary");
+		EncogPersistedCollection encog = new EncogPersistedCollection(
+				Constant.TRAINED_NETWORK_FILE);
+		DataNormalization norm = (DataNormalization) encog
+				.find(Constant.NORMALIZATION_NAME);
+
+		EncogUtility.convertCSV2Binary(Constant.NORMALIZED_FILE,
+				Constant.BINARY_FILE, norm.getNetworkInputLayerSize(), norm
+						.getNetworkOutputLayerSize(), false);
+		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(
+				Constant.BINARY_FILE);
+
+		BasicNetwork network = (BasicNetwork) encog
+				.find(Constant.TRAINED_NETWORK_NAME);
+		if (network == null)
+			network = EncogUtility.simpleFeedForward(norm
+					.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm
+					.getNetworkOutputLayerSize(), false);
+
+		if (useGUI) {
 			EncogUtility.trainDialog(network, trainingSet);
-		}
-		else
-		{
-			EncogUtility.trainConsole(network, trainingSet, Constant.TRAINING_MINUTES);
+		} else {
+			EncogUtility.trainConsole(network, trainingSet,
+					Constant.TRAINING_MINUTES);
 		}
 
 		System.out.println("Training complete, saving network...");
