@@ -41,100 +41,88 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.persist.EncogPersistedCollection;
 
 public class MarketEvaluate {
-	
+
 	enum Direction {
-		up,
-		down		
+		up, down
 	};
-	
-	public static Direction determineDirection(double d)
-	{
-		if( d<0 )
+
+	public static Direction determineDirection(double d) {
+		if (d < 0)
 			return Direction.down;
 		else
 			return Direction.up;
 	}
-	
-	
-	public static MarketNeuralDataSet grabData()
-	{
+
+	public static MarketNeuralDataSet grabData() {
 		MarketLoader loader = new YahooFinanceLoader();
-		MarketNeuralDataSet result = new MarketNeuralDataSet(
-				loader, 
-				Config.INPUT_WINDOW,
-				Config.PREDICT_WINDOW);
-		MarketDataDescription desc = new MarketDataDescription(
-				Config.TICKER, 
-				MarketDataType.ADJUSTED_CLOSE, 
-				true,
-				true);
+		MarketNeuralDataSet result = new MarketNeuralDataSet(loader,
+				Config.INPUT_WINDOW, Config.PREDICT_WINDOW);
+		MarketDataDescription desc = new MarketDataDescription(Config.TICKER,
+				MarketDataType.ADJUSTED_CLOSE, true, true);
 		result.addDescription(desc);
-		
-		Calendar end = new GregorianCalendar();// end today		
-		Calendar begin = (Calendar)end.clone();// begin 30 days ago
+
+		Calendar end = new GregorianCalendar();// end today
+		Calendar begin = (Calendar) end.clone();// begin 30 days ago
 		begin.add(Calendar.DATE, -60);
-		
+
 		result.load(begin.getTime(), end.getTime());
 		result.generate();
-		
+
 		return result;
 
 	}
-	
-	public static void evaluate()
-	{
+
+	public static void evaluate() {
 
 		File file = new File(Config.FILENAME);
-		
-		if( !file.exists() )
-		{
-			System.out.println("Can't read file: " + file.getAbsolutePath() );
+
+		if (!file.exists()) {
+			System.out.println("Can't read file: " + file.getAbsolutePath());
 			return;
 		}
-		
-		EncogPersistedCollection encog = new EncogPersistedCollection(file);					
+
+		EncogPersistedCollection encog = new EncogPersistedCollection(file);
 		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
-		
-		if( network==null )
-		{
-			System.out.println("Can't find network resource: " + Config.MARKET_NETWORK );
+
+		if (network == null) {
+			System.out.println("Can't find network resource: "
+					+ Config.MARKET_NETWORK);
 			return;
 		}
-				
+
 		MarketNeuralDataSet data = grabData();
-		
+
 		DecimalFormat format = new DecimalFormat("#0.00");
-		
+
 		int count = 0;
 		int correct = 0;
-		for(NeuralDataPair pair: data)
-		{
+		for (NeuralDataPair pair : data) {
 			NeuralData input = pair.getInput();
-			NeuralData actualData = pair.getIdeal();			
+			NeuralData actualData = pair.getIdeal();
 			NeuralData predictData = network.compute(input);
-			
+
 			double actual = actualData.getData(0);
-			double predict = predictData.getData(0);			
-			double diff = Math.abs(predict-actual);
-			
+			double predict = predictData.getData(0);
+			double diff = Math.abs(predict - actual);
+
 			Direction actualDirection = determineDirection(actual);
 			Direction predictDirection = determineDirection(predict);
-			
-			if( actualDirection==predictDirection )
+
+			if (actualDirection == predictDirection)
 				correct++;
-			
+
 			count++;
-						
-			System.out.println("Day " + count+":actual="
-					+format.format(actual)+"("+actualDirection+")"
-					+",predict=" 
-					+format.format(predict)+"("+actualDirection+")"
-					+",diff="+diff);			
-			
+
+			System.out.println("Day " + count + ":actual="
+					+ format.format(actual) + "(" + actualDirection + ")"
+					+ ",predict=" + format.format(predict) + "("
+					+ actualDirection + ")" + ",diff=" + diff);
+
 		}
-		double percent = (double)correct/(double)count;
+		double percent = (double) correct / (double) count;
 		System.out.println("Direction correct:" + correct + "/" + count);
-		System.out.println("Directional Accuracy:"+format.format(percent*100)+"%");
-		
+		System.out.println("Directional Accuracy:"
+				+ format.format(percent * 100) + "%");
+
 	}
 }
