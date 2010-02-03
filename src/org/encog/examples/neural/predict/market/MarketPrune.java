@@ -35,36 +35,33 @@ import org.encog.neural.prune.PruneIncremental;
 import org.encog.persist.EncogPersistedCollection;
 
 public class MarketPrune {
-		
-	public static void incremental()
-	{
+
+	public static void incremental() {
 		File file = new File(Config.FILENAME);
-		
-		if( !file.exists() )
-		{
-			System.out.println("Can't read file: " + file.getAbsolutePath() );
+
+		if (!file.exists()) {
+			System.out.println("Can't read file: " + file.getAbsolutePath());
 			return;
 		}
-		
-		EncogPersistedCollection encog = new EncogPersistedCollection(file);					
-		//BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
-		NeuralDataSet training = (NeuralDataSet)encog.find(Config.MARKET_TRAIN);
+
+		EncogPersistedCollection encog = new EncogPersistedCollection(file);
+		// BasicNetwork network = (BasicNetwork)
+		// encog.find(Config.MARKET_NETWORK);
+		NeuralDataSet training = (NeuralDataSet) encog
+				.find(Config.MARKET_TRAIN);
 		FeedForwardPattern pattern = new FeedForwardPattern();
 		pattern.setInputNeurons(training.getInputSize());
 		pattern.setOutputNeurons(training.getIdealSize());
 		pattern.setActivationFunction(new ActivationTANH());
-		
-		PruneIncremental prune = new PruneIncremental(
-				training,
-				pattern,
-				100,
+
+		PruneIncremental prune = new PruneIncremental(training, pattern, 100,
 				new ConsoleStatusReportable());
-		
+
 		prune.addHiddenLayer(5, 50);
 		prune.addHiddenLayer(0, 50);
-		
+
 		prune.process();
-		
+
 		encog.add(Config.MARKET_NETWORK, prune.getBestNetwork());
 
 	}

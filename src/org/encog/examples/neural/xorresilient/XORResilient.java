@@ -61,9 +61,9 @@ public class XORResilient {
 		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), false,2));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), false,4));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), false,1));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,2));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,4));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,1));
 		network.getStructure().finalizeStructure();
 		network.reset();
 

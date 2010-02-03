@@ -32,7 +32,7 @@ public class Constant {
 	/**
 	 * The base directory that all of the data for this example is stored in.
 	 */
-	public static final File BASE_DIRECTORY = new File("c:\\data");
+	public static final File BASE_DIRECTORY = new File("/Users/jeff/data");
 	
 	/**
 	 * The source data file from which all others are built.  This file can
