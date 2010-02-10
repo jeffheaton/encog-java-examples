@@ -32,6 +32,7 @@
 package org.encog.examples.neural.recurrent.jordan;
 
 import org.encog.examples.neural.util.TemporalXOR;
+import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
@@ -46,6 +47,7 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
 import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
+import org.encog.neural.pattern.JordanPattern;
 import org.encog.util.logging.Logging;
 
 /**
@@ -63,18 +65,12 @@ public class JordanXOR {
 
 	static BasicNetwork createJordanNetwork() {
 		// construct an Jordan type network
-		Layer hidden, output;
-		Layer context = new ContextLayer(1);
-		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(1));
-		network.addLayer(hidden = new BasicLayer(2));
-		network.addLayer(output = new BasicLayer(1));
-
-		output.addNext(context, SynapseType.OneToOne);
-		context.addNext(hidden);
-		network.getStructure().finalizeStructure();
-		network.reset();
-		return network;
+		JordanPattern pattern = new JordanPattern();
+		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setInputNeurons(1);
+		pattern.addHiddenLayer(2);
+		pattern.setOutputNeurons(1);
+		return pattern.generate();
 	}
 
 	static BasicNetwork createFeedforwardNetwork() {
