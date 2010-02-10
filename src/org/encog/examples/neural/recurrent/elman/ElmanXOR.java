@@ -32,6 +32,7 @@
 package org.encog.examples.neural.recurrent.elman;
 
 import org.encog.examples.neural.util.TemporalXOR;
+import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
@@ -39,6 +40,7 @@ import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
+import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
@@ -65,7 +67,7 @@ public class ElmanXOR {
 		ElmanPattern pattern = new ElmanPattern();
 		pattern.setActivationFunction(new ActivationTANH());
 		pattern.setInputNeurons(1);
-		pattern.addHiddenLayer(2);
+		pattern.addHiddenLayer(8);
 		pattern.setOutputNeurons(1);
 		return pattern.generate();
 	}
@@ -110,7 +112,7 @@ public class ElmanXOR {
 		final Train trainAlt = new NeuralSimulatedAnnealing(
 				network, score, 10, 2, 100);
 
-		final Train trainMain = new ResilientPropagation(network, trainingSet);
+		final Train trainMain = new Backpropagation(network, trainingSet,0.00001, 0.0);
 
 		final StopTrainingStrategy stop = new StopTrainingStrategy();
 		trainMain.addStrategy(new Greedy());
