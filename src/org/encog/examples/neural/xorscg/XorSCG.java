@@ -31,6 +31,7 @@
 
 package org.encog.examples.neural.xorscg;
 
+import org.encog.math.randomize.RangeRandomizer;
 import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
@@ -41,7 +42,6 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.propagation.scg.ScaledConjugateGradient;
 import org.encog.util.logging.Logging;
-import org.encog.util.randomize.RangeRandomizer;
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network

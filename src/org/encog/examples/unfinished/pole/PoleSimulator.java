@@ -31,8 +31,8 @@
 
 package org.encog.examples.unfinished.pole;
 
+import org.encog.math.randomize.RangeRandomizer;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.util.randomize.RangeRandomizer;
 import org.encog.util.simple.EncogUtility;
 
 public class PoleSimulator {

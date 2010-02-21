@@ -31,6 +31,7 @@
 
 package org.encog.examples.neural.som;
 
+import org.encog.math.randomize.RangeRandomizer;
 import org.encog.neural.activation.ActivationLinear;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
@@ -41,7 +42,6 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
 import org.encog.util.logging.Logging;
-import org.encog.util.randomize.RangeRandomizer;
 
 /**
  * Implement a simple SOM using Encog.  It learns to recognize two patterns.

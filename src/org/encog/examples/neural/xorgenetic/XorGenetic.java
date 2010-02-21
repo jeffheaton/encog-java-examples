@@ -31,6 +31,7 @@
 
 package org.encog.examples.neural.xorgenetic;
 
+import org.encog.math.randomize.FanInRandomizer;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
@@ -42,7 +43,6 @@ import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.util.logging.Logging;
-import org.encog.util.randomize.FanInRandomizer;
 
 /**
  * XOR-Genetic: This example solves the classic XOR operator neural

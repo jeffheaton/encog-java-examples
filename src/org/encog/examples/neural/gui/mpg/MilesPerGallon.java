@@ -101,7 +101,6 @@ public class MilesPerGallon extends JFrame implements ActionListener, Runnable {
 		}
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent event) {
 		if( event.getSource()==this.buttonEvaluate ) {
 			performEvaluate();
@@ -227,7 +226,6 @@ public class MilesPerGallon extends JFrame implements ActionListener, Runnable {
 		}
 	}
 
-	@Override
 	public void run() {
 		obtainPaths();
 		calc = null;

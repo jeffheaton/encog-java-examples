@@ -36,13 +36,13 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import org.encog.math.randomize.RangeRandomizer;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodGaussianMulti;
 import org.encog.neural.pattern.SOMPattern;
-import org.encog.util.randomize.RangeRandomizer;
 
 public class SomColors extends JFrame implements Runnable {
 

@@ -52,6 +52,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 
+import org.encog.math.rbf.GaussianFunction;
 import org.encog.neural.activation.ActivationLinear;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
@@ -63,7 +64,6 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
 import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodGaussian;
 import org.encog.util.logging.Logging;
-import org.encog.util.math.rbf.GaussianFunction;
 
 /**
  * OCR: Main form that allows the user to interact with the OCR application.

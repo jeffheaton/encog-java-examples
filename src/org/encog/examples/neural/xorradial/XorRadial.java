@@ -44,9 +44,6 @@ import org.encog.util.simple.EncogUtility;
  * programming. This example shows how to construct an Encog neural network to
  * predict the output from the XOR operator using a RBF neural network. This
  * example uses RPROP to train.
- * 
- * @author $Author$
- * @version $Revision$
  */
 public class XorRadial {
 
