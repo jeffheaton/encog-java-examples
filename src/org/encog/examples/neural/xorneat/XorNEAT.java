@@ -31,25 +31,20 @@
 
 package org.encog.examples.neural.xorneat;
 
-import org.encog.math.randomize.FanInRandomizer;
+import org.encog.neural.activation.ActivationStep;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.CalculateScore;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
-import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.util.logging.Logging;
-import org.encog.util.simple.EncogUtility;
 import org.encog.neural.networks.training.neat.NEATTraining;
 
 /**
- * XOR-Genetic: This example solves the classic XOR operator neural
- * network problem.  However, it uses a genetic algorithm, rather than
- * backpropagation.
+ * XOR-NEAT: This example solves the classic XOR operator neural
+ * network problem.  However, it uses a NEAT evolving network.
  * 
  * @author $Author$
  * @version $Revision$
@@ -68,8 +63,12 @@ public class XorNEAT {
 		
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
-		final Train train = new NEATTraining(
+		ActivationStep step = new ActivationStep();
+		step.setCenter(0.5);
+		
+		final NEATTraining train = new NEATTraining(
 				score, 2, 1, 1000);
+		train.setOutputActivationFunction(step);
 
 		int epoch = 1;
 
@@ -78,7 +77,7 @@ public class XorNEAT {
 			System.out
 					.println("Epoch #" + epoch + " Error:" + train.getError());
 			epoch++;
-		} while ((epoch < 5000) && (train.getError() > 0.001));
+		} while ((train.getError() > 0.001));
 
 		BasicNetwork network = train.getNetwork();
 
