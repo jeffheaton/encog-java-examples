@@ -31,7 +31,7 @@
 
 package org.encog.examples.unfinished.pole;
 
-import org.encog.math.randomize.RangeRandomizer;
+import org.encog.mathutil.randomize.RangeRandomizer;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.util.simple.EncogUtility;
 

@@ -31,7 +31,7 @@
 
 package org.encog.examples.neural.som;
 
-import org.encog.math.randomize.RangeRandomizer;
+import org.encog.mathutil.randomize.RangeRandomizer;
 import org.encog.neural.activation.ActivationLinear;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;

@@ -31,7 +31,7 @@
 
 package org.encog.examples.neural.xorgenetic;
 
-import org.encog.math.randomize.FanInRandomizer;
+import org.encog.mathutil.randomize.FanInRandomizer;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;

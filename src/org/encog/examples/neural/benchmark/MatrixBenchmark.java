@@ -31,8 +31,8 @@
 
 package org.encog.examples.neural.benchmark;
 
-import org.encog.math.matrices.Matrix;
-import org.encog.math.matrices.MatrixMath;
+import org.encog.mathutil.matrices.Matrix;
+import org.encog.mathutil.matrices.MatrixMath;
 
 public class MatrixBenchmark {
 	

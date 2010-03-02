@@ -52,7 +52,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 
-import org.encog.math.rbf.GaussianFunction;
+import org.encog.mathutil.rbf.GaussianFunction;
 import org.encog.neural.activation.ActivationLinear;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;

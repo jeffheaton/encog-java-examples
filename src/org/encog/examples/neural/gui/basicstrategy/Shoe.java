@@ -1,6 +1,6 @@
 package org.encog.examples.neural.gui.basicstrategy;
 
-import org.encog.math.randomize.RangeRandomizer;
+import org.encog.mathutil.randomize.RangeRandomizer;
 
 
 public class Shoe {

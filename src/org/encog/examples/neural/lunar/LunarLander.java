@@ -31,7 +31,7 @@
 
 package org.encog.examples.neural.lunar;
 
-import org.encog.math.randomize.FanInRandomizer;
+import org.encog.mathutil.randomize.FanInRandomizer;
 import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
