@@ -32,7 +32,10 @@ package org.encog.examples.nonlinear.tsp.genetic;
 
 import org.encog.examples.nonlinear.tsp.City;
 import org.encog.neural.NeuralNetworkError;
+import org.encog.solve.genetic.BasicGenome;
 import org.encog.solve.genetic.Chromosome;
+import org.encog.solve.genetic.IntegerGene;
+import org.encog.solve.genetic.genes.Gene;
 
 
 
@@ -42,15 +45,17 @@ import org.encog.solve.genetic.Chromosome;
  * TSPChromosome: A chromosome that is used to attempt to solve the 
  * traveling salesman problem.  A chromosome is a list of cities.
  */
-public class TSPChromosome extends Chromosome<Integer> {
+public class TSPGenome extends BasicGenome {
 
-	protected City cities[];
+	private City cities[];
+	private Chromosome pathChromosome;
 
-	TSPChromosome(final TSPGeneticAlgorithm owner, final City cities[]) {
-		this.setGeneticAlgorithm(owner);
+	public TSPGenome(final TSPGeneticAlgorithm owner, final City cities[]) {
+		super(owner);
+
 		this.cities = cities;
 
-		final Integer genes[] = new Integer[this.cities.length];
+		final int genes[] = new int[this.cities.length];
 		final boolean taken[] = new boolean[cities.length];
 
 		for (int i = 0; i < genes.length; i++) {
@@ -71,17 +76,30 @@ public class TSPChromosome extends Chromosome<Integer> {
 				genes[i + 1] = icandidate;
 			}
 		}
-		setGenes(genes);
+		
+		this.pathChromosome = new Chromosome();
+		this.getChromosomes().add(this.pathChromosome);
+		
+		for(int i=0;i<genes.length;i++)
+		{
+			IntegerGene gene = new IntegerGene();
+			gene.setValue(genes[i]);
+			this.pathChromosome.getGenes().add(gene);
+		}
+				
 		calculateScore();
 
 	}
-
-	@Override
+	
 	public void calculateScore() throws NeuralNetworkError {
-		double cost = 0.0;
+		double cost = 0.0;	
+		
 		for (int i = 0; i < this.cities.length - 1; i++) {
-			final double dist = this.cities[getGene(i)]
-					.proximity(this.cities[getGene(i + 1)]);
+			IntegerGene gene1 = (IntegerGene)this.pathChromosome.getGene(i);
+			IntegerGene gene2 = (IntegerGene)this.pathChromosome.getGene(i+1);
+			
+			final double dist = this.cities[gene1.getValue()]
+					.proximity(this.cities[gene2.getValue()]);
 			cost += dist;
 		}
 		setScore(cost);
@@ -89,13 +107,14 @@ public class TSPChromosome extends Chromosome<Integer> {
 	}
 
 	@Override
-	public void mutate() {
-		final int length = this.getGenes().length;
-		final int iswap1 = (int) (Math.random() * length);
-		final int iswap2 = (int) (Math.random() * length);
-		final Integer temp = getGene(iswap1);
-		setGene(iswap1, getGene(iswap2));
-		setGene(iswap2, temp);
+	public void decode() {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
+	public void encode() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -31,6 +31,7 @@
 package org.encog.examples.neural.xorgenetic;
 
 import org.encog.mathutil.randomize.FanInRandomizer;
+import org.encog.mathutil.randomize.RangeRandomizer;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
@@ -73,7 +74,7 @@ public class XorGenetic {
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
 		final Train train = new NeuralGeneticAlgorithm(
-				network, new FanInRandomizer(), score, 5000, 0.1, 0.25);
+				network, new RangeRandomizer(-1,1), score, 5000, 0.1, 0.25);
 
 		int epoch = 1;
 

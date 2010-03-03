@@ -32,13 +32,17 @@ package org.encog.examples.nonlinear.tsp.genetic;
 
 import org.encog.examples.nonlinear.tsp.City;
 import org.encog.neural.NeuralNetworkError;
+import org.encog.solve.genetic.BasicGenome;
 import org.encog.solve.genetic.GeneticAlgorithm;
+import org.encog.solve.genetic.Genome;
+import org.encog.solve.genetic.population.BasicPopulation;
+import org.encog.solve.genetic.population.Population;
 
 /**
  * TSPGeneticAlgorithm: An implementation of the genetic algorithm that attempts
  * to solve the traveling salesman problem.
  */
-public class TSPGeneticAlgorithm extends GeneticAlgorithm<Integer> {
+public class TSPGeneticAlgorithm extends GeneticAlgorithm {
 
 	public TSPGeneticAlgorithm(final City cities[], final int populationSize,
 			final double mutationPercent, final double percentToMate,
@@ -46,18 +50,16 @@ public class TSPGeneticAlgorithm extends GeneticAlgorithm<Integer> {
 			throws NeuralNetworkError {
 		setMutationPercent(mutationPercent);
 		setMatingPopulation(matingPopulationPercent);
-		setPopulationSize(populationSize);
+		Population population = new BasicPopulation(populationSize);
+		setPopulation(population);
 		setPercentToMate(percentToMate);
-		setCutLength(cutLength);
-		setPreventRepeat(true);
 
-		setChromosomes(new TSPChromosome[getPopulationSize()]);
-		for (int i = 0; i < getChromosomes().length; i++) {
+		for (int i = 0; i < populationSize; i++) {
 
-			final TSPChromosome c = new TSPChromosome(this, cities);
-			setChromosome(i, c);
+			final TSPGenome genome = new TSPGenome(this, cities);
+			this.getPopulation().add(genome);
 		}
-		sortChromosomes();
+		population.sort();
 	}
 
 }

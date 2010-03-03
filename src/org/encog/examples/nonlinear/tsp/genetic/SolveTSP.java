@@ -30,6 +30,10 @@
 
 package org.encog.examples.nonlinear.tsp.genetic;
 
+import org.encog.solve.genetic.IntegerGene;
+import org.encog.solve.genetic.crossover.SpliceNoRepeat;
+import org.encog.solve.genetic.genes.Gene;
+import org.encog.solve.genetic.mutate.MutateShuffle;
 import org.encog.examples.nonlinear.tsp.City;
 
 /**
@@ -92,21 +96,23 @@ public class SolveTSP {
 				path[i + 1] = icandidate;
 			}
 		}
-
-		//this.anneal.putArray(path);
 	}
 
 	/**
 	 * Display the cities in the final path.
 	 */
 	public void displaySolution() {
-		Integer path[] = genetic.getChromosome(0).getGenes();
-		for (int i = 0; i < path.length; i++) {
-			if (i != 0) {
+
+		boolean first = true;
+		
+		for(Gene gene : genetic.getPopulation().getBest().getChromosomes().get(0).getGenes() )
+		{
+			if( !first )
 				System.out.print(">");
-			}
-			System.out.print("" + path[i]);
+			System.out.print( ""+ ((IntegerGene)gene).getValue());
+			first = false;
 		}
+		
 		System.out.println("");
 	}
 
@@ -126,8 +132,9 @@ public class SolveTSP {
 				MATING_POPULATION_PERCENT,
 				CUT_LENGTH);
 		
+		genetic.setCrossover(new SpliceNoRepeat(CITIES/3));
+		genetic.setMutate(new MutateShuffle());
 		
-
 		initPath();
 
 		int sameSolutionCount = 0;
@@ -137,7 +144,7 @@ public class SolveTSP {
 		while (sameSolutionCount < MAX_SAME_SOLUTION) {
 			genetic.iteration();
 
-			double thisSolution = genetic.getChromosome(0).getScore();
+			double thisSolution = genetic.getPopulation().getBest().getScore();
 
 			builder.setLength(0);
 			builder.append("Iteration: ");
