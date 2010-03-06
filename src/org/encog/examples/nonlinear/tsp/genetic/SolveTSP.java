@@ -30,15 +30,19 @@
 
 package org.encog.examples.nonlinear.tsp.genetic;
 
-import org.encog.solve.genetic.IntegerGene;
+import org.encog.solve.genetic.GeneticAlgorithm;
 import org.encog.solve.genetic.crossover.SpliceNoRepeat;
 import org.encog.solve.genetic.genes.Gene;
+import org.encog.solve.genetic.genes.IntegerGene;
+import org.encog.solve.genetic.genome.CalculateGenomeScore;
 import org.encog.solve.genetic.mutate.MutateShuffle;
+import org.encog.solve.genetic.population.BasicPopulation;
+import org.encog.solve.genetic.population.Population;
 import org.encog.examples.nonlinear.tsp.City;
 
 /**
- * SolveTSP with Simulated Annealing.  The Encog API includes a generic
- * simulated annealing problem solver.  This example shows how to use it
+ * SolveTSP with a genetic algorithm.  The Encog API includes a generic
+ * genetic algorithm problem solver.  This example shows how to use it
  * to find a solution to the Traveling Salesman Problem (TSP).  This 
  * example does not use any sort of neural network.
  * @author 
@@ -55,7 +59,7 @@ public class SolveTSP {
 	public static final int MAP_SIZE = 256;
 	public static final int MAX_SAME_SOLUTION = 25;
 	
-	private TSPGeneticAlgorithm genetic;
+	private GeneticAlgorithm genetic;
 	private City cities[];
 
 	/**
@@ -70,33 +74,23 @@ public class SolveTSP {
 			cities[i] = new City(xPos, yPos);
 		}
 	}
+	
+	private void initPopulation(GeneticAlgorithm ga)
+	{
+		CalculateGenomeScore score =  new TSPScore(cities);
+		ga.setCalculateScore(score);
+		Population population = new BasicPopulation(POPULATION_SIZE);
+		ga.setPopulation(population);
 
-	/**
-	 * Create an initial path of cities.
-	 */
-	private void initPath() {
-		final boolean taken[] = new boolean[this.cities.length];
-		final Integer path[] = new Integer[this.cities.length];
+		for (int i = 0; i < POPULATION_SIZE; i++) {
 
-		for (int i = 0; i < path.length; i++) {
-			taken[i] = false;
+			final TSPGenome genome = new TSPGenome(ga, cities);
+			ga.getPopulation().add(genome);
+			ga.calculateScore(genome);
 		}
-		for (int i = 0; i < path.length - 1; i++) {
-			int icandidate;
-			do {
-				icandidate = (int) (Math.random() * path.length);
-			} while (taken[icandidate]);
-			path[i] = icandidate;
-			taken[icandidate] = true;
-			if (i == path.length - 2) {
-				icandidate = 0;
-				while (taken[icandidate]) {
-					icandidate++;
-				}
-				path[i + 1] = icandidate;
-			}
-		}
+		population.sort();
 	}
+
 
 	/**
 	 * Display the cities in the final path.
@@ -124,18 +118,14 @@ public class SolveTSP {
 
 		initCities();
 
-		genetic = new TSPGeneticAlgorithm(
-				cities,
-				POPULATION_SIZE,
-				MUTATION_PERCENT,
-				PERCENT_TO_MATE,
-				MATING_POPULATION_PERCENT,
-				CUT_LENGTH);
+		genetic = new GeneticAlgorithm();
 		
+		initPopulation(genetic);
+		genetic.setMutationPercent(MUTATION_PERCENT);
+		genetic.setPercentToMate(PERCENT_TO_MATE);
+		genetic.setMatingPopulation(MATING_POPULATION_PERCENT);
 		genetic.setCrossover(new SpliceNoRepeat(CITIES/3));
 		genetic.setMutate(new MutateShuffle());
-		
-		initPath();
 
 		int sameSolutionCount = 0;
 		int iteration = 1;
