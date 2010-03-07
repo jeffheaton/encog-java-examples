@@ -81,12 +81,12 @@ public class XORFlat {
 			epoch++;
 		} while(train.getError() > 0.01 );
 
-		
+		double[] output = new double[1];
 		// test the neural network
 		System.out.println("Neural Network Results:");
 		for(NeuralDataPair pair: trainingSet ) {
 			double[] input = pair.getInput().getData();
-			double[] output = flat.calculate(input);
+			flat.calculate(input,output);
 			System.out.println(input[0] + "," + input[1] + ":" + output[0]);
 		}
 	}
