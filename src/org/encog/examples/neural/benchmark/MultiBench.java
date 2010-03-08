@@ -65,6 +65,7 @@ public class MultiBench {
 	{
 
 		ResilientPropagation train = new ResilientPropagation(network,data);
+		train.setNumThreads(1);
 		long start = System.currentTimeMillis();
 		System.out.println("Training 20 Iterations with RPROP");
 		for(int i=1;i<=20;i++)
