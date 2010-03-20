@@ -66,7 +66,7 @@ public class GraphPanel extends JPanel implements ComponentListener {
 		graphArray(g,this.predict);
 		
 		g.setColor(Color.black);
-		g.drawString("Current error:" + Format.formatPercent(this.error), 10, 10);
+		g.drawString("Current error:" + Format.formatPercent(this.error) + ",black = actual, blue= predict", 10, 10);
 	}
 	
 	private void graphArray(Graphics g, double[] array)
