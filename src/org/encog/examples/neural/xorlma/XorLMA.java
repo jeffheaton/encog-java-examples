@@ -30,6 +30,7 @@
 
 package org.encog.examples.neural.xorlma;
 
+import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
@@ -55,8 +56,8 @@ public class XorLMA {
 		
 		Logging.stopConsoleLogging();
 		
-		BasicNetwork network = EncogUtility.simpleFeedForward(2, 10, 0, 1, false);
-
+		BasicNetwork network = EncogUtility.simpleFeedForward(2, 2, 0, 1, false);
+		(new NguyenWidrowRandomizer(-1,1)).randomize(network);
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
