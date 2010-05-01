@@ -90,7 +90,7 @@ public class WeightInitialization {
 		RangeRandomizer rangeRandom = new RangeRandomizer(-1, 1);
 		NguyenWidrowRandomizer nwrRandom = new NguyenWidrowRandomizer(-1, 1);
 		FanInRandomizer fanRandom = new FanInRandomizer();
-		GaussianRandomizer gaussianRandom = new GaussianRandomizer(-1, 1);
+		GaussianRandomizer gaussianRandom = new GaussianRandomizer(0, 1);
 
 		BasicNeuralDataSet training = new BasicNeuralDataSet(XOR_INPUT,
 				XOR_IDEAL);
