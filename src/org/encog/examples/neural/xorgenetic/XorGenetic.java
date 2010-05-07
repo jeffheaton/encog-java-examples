@@ -83,7 +83,7 @@ public class XorGenetic {
 			System.out
 					.println("Epoch #" + epoch + " Error:" + train.getError());
 			epoch++;
-		} while ((epoch < 5000) && (train.getError() > 0.001));
+		} while ((epoch < 5000) && (train.getError() > 0.01));
 
 		network = train.getNetwork();
 
