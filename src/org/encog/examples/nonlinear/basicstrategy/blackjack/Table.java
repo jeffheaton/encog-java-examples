@@ -93,7 +93,7 @@ public class Table {
 		// award money as needed
 		awardMoney();
 		
-		System.out.println( toString() );
+		//System.out.println( toString() );
 	}
 	
 	public void awardMoney()
