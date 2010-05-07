@@ -28,7 +28,7 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.neural.gui.basicstrategy;
+package org.encog.examples.neural.gui.basicstrategy.blackjack;
 
 import org.encog.mathutil.randomize.RangeRandomizer;
 

@@ -30,6 +30,10 @@
 
 package org.encog.examples.neural.gui.basicstrategy;
 
+import org.encog.examples.neural.gui.basicstrategy.blackjack.Hand;
+import org.encog.examples.neural.gui.basicstrategy.blackjack.Participant;
+import org.encog.examples.neural.gui.basicstrategy.blackjack.Shoe;
+import org.encog.examples.neural.gui.basicstrategy.blackjack.Table;
 import org.encog.mathutil.randomize.RangeRandomizer;
 
 
@@ -105,7 +109,12 @@ public class Player extends Participant {
 		this.rules = new Character[400];
 		
 		// process pairs
-		String pairChoices = "hsdlr";
+		String pairChoices = ""+
+			Participant.ACTION_HIT+
+			Participant.ACTION_STAND+
+			Participant.ACTION_SPLIT+
+			Participant.ACTION_DOUBLE+
+			Participant.ACTION_SURRENDER;
 		for(int i=0;i<100;i++)
 		{
 			int index = (int)RangeRandomizer.randomize(0,pairChoices.length());
@@ -113,7 +122,12 @@ public class Player extends Participant {
 		}		
 		
 		// process hard
-		String hardChoices = "hsdr";
+		String hardChoices = ""+
+			Participant.ACTION_HIT+
+			Participant.ACTION_STAND+
+			Participant.ACTION_DOUBLE+
+			Participant.ACTION_SURRENDER;
+			
 		for(int i=0;i<200;i++)
 		{
 			int index = (int)RangeRandomizer.randomize(0,hardChoices.length());
@@ -121,7 +135,12 @@ public class Player extends Participant {
 		}		
 		
 		// process soft
-		String softChoices = "hsdr";
+		String softChoices = ""+
+			Participant.ACTION_HIT+
+			Participant.ACTION_STAND+
+			Participant.ACTION_DOUBLE+
+			Participant.ACTION_SURRENDER;
+		
 		for(int i=0;i<100;i++)
 		{
 			int index = (int)RangeRandomizer.randomize(0,softChoices.length());

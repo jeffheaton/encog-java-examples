@@ -28,7 +28,8 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.neural.gui.basicstrategy;
+package org.encog.examples.neural.gui.basicstrategy.blackjack;
+
 
 public class Hand {
 	private int[] hand = new int[21];

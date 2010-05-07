@@ -28,10 +28,12 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.neural.gui.basicstrategy;
+package org.encog.examples.neural.gui.basicstrategy.blackjack;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.encog.examples.neural.gui.basicstrategy.Player;
 
 public class Table {
 	private Shoe shoe;
@@ -72,17 +74,23 @@ public class Table {
 	
 	public void play()
 	{
+		// place bets
 		resetAll();
+		
+		// deal everyone two cards
 		deal();
 		deal();				
 		
+		// allow each player to play.  play until this player is done.
 		for(Player player: this.players)
 		{
 			playPlayer(player);
 		}
 		
+		// now allow the dealer to play
 		playPlayer(dealer);
 		
+		// award money as needed
 		awardMoney();
 		
 		System.out.println( toString() );

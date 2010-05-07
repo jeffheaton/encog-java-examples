@@ -28,10 +28,11 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.neural.gui.basicstrategy;
+package org.encog.examples.neural.gui.basicstrategy.blackjack;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public abstract class Participant {
 	

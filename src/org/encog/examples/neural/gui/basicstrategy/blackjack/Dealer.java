@@ -28,7 +28,8 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.neural.gui.basicstrategy;
+package org.encog.examples.neural.gui.basicstrategy.blackjack;
+
 
 public class Dealer extends Participant {
 
