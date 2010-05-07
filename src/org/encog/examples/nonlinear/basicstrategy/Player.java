@@ -28,12 +28,12 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.nonlinear.tsp.basicstrategy;
+package org.encog.examples.nonlinear.basicstrategy;
 
-import org.encog.examples.nonlinear.tsp.basicstrategy.blackjack.Hand;
-import org.encog.examples.nonlinear.tsp.basicstrategy.blackjack.Participant;
-import org.encog.examples.nonlinear.tsp.basicstrategy.blackjack.Shoe;
-import org.encog.examples.nonlinear.tsp.basicstrategy.blackjack.Table;
+import org.encog.examples.nonlinear.basicstrategy.blackjack.Hand;
+import org.encog.examples.nonlinear.basicstrategy.blackjack.Participant;
+import org.encog.examples.nonlinear.basicstrategy.blackjack.Shoe;
+import org.encog.examples.nonlinear.basicstrategy.blackjack.Table;
 import org.encog.mathutil.randomize.RangeRandomizer;
 
 

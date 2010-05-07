@@ -28,7 +28,7 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.nonlinear.tsp.basicstrategy.blackjack;
+package org.encog.examples.nonlinear.basicstrategy.blackjack;
 
 
 public class Dealer extends Participant {

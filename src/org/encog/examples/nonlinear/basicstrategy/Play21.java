@@ -1,7 +1,7 @@
-package org.encog.examples.nonlinear.tsp.basicstrategy;
+package org.encog.examples.nonlinear.basicstrategy;
 
-import org.encog.examples.nonlinear.tsp.basicstrategy.blackjack.Dealer;
-import org.encog.examples.nonlinear.tsp.basicstrategy.blackjack.Table;
+import org.encog.examples.nonlinear.basicstrategy.blackjack.Dealer;
+import org.encog.examples.nonlinear.basicstrategy.blackjack.Table;
 
 public class Play21 {
 	public static void main(String[] args)

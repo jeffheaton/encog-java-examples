@@ -28,12 +28,12 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.nonlinear.tsp.basicstrategy.blackjack;
+package org.encog.examples.nonlinear.basicstrategy.blackjack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.encog.examples.nonlinear.tsp.basicstrategy.Player;
+import org.encog.examples.nonlinear.basicstrategy.Player;
 
 public class Table {
 	private Shoe shoe;
