@@ -28,12 +28,12 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.neural.gui.basicstrategy.blackjack;
+package org.encog.examples.nonlinear.tsp.basicstrategy.blackjack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.encog.examples.neural.gui.basicstrategy.Player;
+import org.encog.examples.nonlinear.tsp.basicstrategy.Player;
 
 public class Table {
 	private Shoe shoe;

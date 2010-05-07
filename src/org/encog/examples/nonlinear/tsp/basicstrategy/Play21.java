@@ -1,7 +1,7 @@
-package org.encog.examples.neural.gui.basicstrategy;
+package org.encog.examples.nonlinear.tsp.basicstrategy;
 
-import org.encog.examples.neural.gui.basicstrategy.blackjack.Dealer;
-import org.encog.examples.neural.gui.basicstrategy.blackjack.Table;
+import org.encog.examples.nonlinear.tsp.basicstrategy.blackjack.Dealer;
+import org.encog.examples.nonlinear.tsp.basicstrategy.blackjack.Table;
 
 public class Play21 {
 	public static void main(String[] args)

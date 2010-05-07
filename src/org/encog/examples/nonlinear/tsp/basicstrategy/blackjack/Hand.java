@@ -28,7 +28,7 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.neural.gui.basicstrategy.blackjack;
+package org.encog.examples.nonlinear.tsp.basicstrategy.blackjack;
 
 
 public class Hand {

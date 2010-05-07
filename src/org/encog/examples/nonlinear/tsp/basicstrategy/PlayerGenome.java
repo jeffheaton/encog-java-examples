@@ -1,4 +1,4 @@
-package org.encog.examples.neural.gui.basicstrategy;
+package org.encog.examples.nonlinear.tsp.basicstrategy;
 
 import org.encog.solve.genetic.GeneticAlgorithm;
 import org.encog.solve.genetic.genome.BasicGenome;
