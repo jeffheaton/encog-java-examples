@@ -59,7 +59,7 @@ public class MarketPrune {
 		pattern.setOutputNeurons(training.getIdealSize());
 		pattern.setActivationFunction(new ActivationTANH());
 
-		PruneIncremental prune = new PruneIncremental(training, pattern, 100,
+		PruneIncremental prune = new PruneIncremental(training, pattern, 100, 1,
 				new ConsoleStatusReportable());
 
 		prune.addHiddenLayer(5, 50);
