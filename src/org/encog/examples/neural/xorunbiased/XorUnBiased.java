@@ -28,7 +28,7 @@
  * http://www.heatonresearch.com/copyright.html
  */
 
-package org.encog.examples.neural.xorthresholdless;
+package org.encog.examples.neural.xorunbiased;
 
 import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
@@ -42,15 +42,15 @@ import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.util.logging.Logging;
 
 /**
- * Neural networks in Encog can be created without threshold values (weight
- * matrix only). Encog can still learn the XOR, even without thresholds. Usually
- * you will want threshold values, however some network types require
- * thresholdless layers.
+ * Neural networks in Encog can be created without bias values (weight
+ * matrix only). Encog can still learn the XOR, even without biases. Usually
+ * you will want bias values, however some network types require
+ * unbiased layers.
  * 
  * @author jeff
  * 
  */
-public class XorThresholdless {
+public class XorUnBiased {
 	public static double XOR_INPUT[][] = { { 0.0, 0.0 }, { 1.0, 0.0 },
 			{ 0.0, 1.0 }, { 1.0, 1.0 } };
 
@@ -68,7 +68,7 @@ public class XorThresholdless {
 		network.reset();
 
 		final NeuralDataSet trainingSet = new BasicNeuralDataSet(
-				XorThresholdless.XOR_INPUT, XorThresholdless.XOR_IDEAL);
+				XorUnBiased.XOR_INPUT, XorUnBiased.XOR_IDEAL);
 
 		// train the neural network
 		final Train train = new Backpropagation(network, trainingSet, 0.1, 0.0);

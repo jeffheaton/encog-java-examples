@@ -156,7 +156,7 @@ public class BoltzTSP {
 						logic.getThermalSynapse().getMatrix().set(sourceIndex, targetIndex, weight);
 					}
 				}
-				logic.getThermalLayer().setThreshold(sourceIndex, -gamma / 2);
+				logic.getThermalLayer().setBiasWeight(sourceIndex, -gamma / 2);
 			}
 		}
 	}
