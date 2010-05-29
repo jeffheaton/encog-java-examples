@@ -57,7 +57,7 @@ public class SolveTSP {
 	public static final double MATING_POPULATION_PERCENT = 0.5;
 	public static final int CUT_LENGTH = CITIES/5;
 	public static final int MAP_SIZE = 256;
-	public static final int MAX_SAME_SOLUTION = 25;
+	public static final int MAX_SAME_SOLUTION = 25000000;
 	
 	private GeneticAlgorithm genetic;
 	private City cities[];

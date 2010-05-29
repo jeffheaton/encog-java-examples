@@ -86,7 +86,7 @@ public class XORFlat {
 		System.out.println("Neural Network Results:");
 		for(NeuralDataPair pair: trainingSet ) {
 			double[] input = pair.getInput().getData();
-			flat.calculate(input,output);
+			flat.compute(input, output);
 			System.out.println(input[0] + "," + input[1] + ":" + output[0]);
 		}
 	}
