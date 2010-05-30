@@ -40,6 +40,8 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.propagation.scg.ScaledConjugateGradient;
+import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
+import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.util.logging.Logging;
 
 /**
@@ -76,6 +78,8 @@ public class XorSCG {
 		
 		// train the neural network
 		final ScaledConjugateGradient train = new ScaledConjugateGradient(network, trainingSet);
+		// reset if improve is less than 1% over 5 cycles
+		train.addStrategy(new RequiredImprovementStrategy(5));
 
 		int epoch = 1;
 		

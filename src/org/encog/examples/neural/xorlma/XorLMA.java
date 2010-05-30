@@ -36,6 +36,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.lma.LevenbergMarquardtTraining;
+import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
@@ -62,6 +63,9 @@ public class XorLMA {
 		
 		// train the neural network
 		final Train train = new LevenbergMarquardtTraining(network, trainingSet);
+		
+		// reset if improve is less than 1% over 5 cycles
+		train.addStrategy(new RequiredImprovementStrategy(5));
 
 		EncogUtility.trainToError(train, network, trainingSet, 0.01);
 		

@@ -39,6 +39,8 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
+import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.util.logging.Logging;
 
 /**
@@ -76,7 +78,8 @@ public class XORResilient {
 		
 		// train the neural network
 		final Train train = new ResilientPropagation(network, trainingSet);
-
+		// reset if improve is less than 1% over 5 cycles
+		train.addStrategy(new RequiredImprovementStrategy(5));
 		
 		int epoch = 1;
 
