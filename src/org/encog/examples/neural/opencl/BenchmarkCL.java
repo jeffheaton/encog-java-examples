@@ -31,8 +31,15 @@ public class BenchmarkCL {
 
     public static long benchmarkCL(BasicNetwork network, NeuralDataSet training)
     {
+    	System.out.println("Tuning OpenCL ratio.");
         ResilientPropagation train = new ResilientPropagation(network, training);
-        
+        train.iteration();
+        double ratio = train.getFlatTraining().getCalculatedCLRatio();
+        System.out.println("Ratio is: " + ratio);
+        train.finishTraining();
+
+        Encog.getInstance().getCL().setEnforcedCLRatio(ratio);
+        train = new ResilientPropagation(network, training);
         train.iteration();
 
         Stopwatch stopwatch = new Stopwatch();
