@@ -33,18 +33,6 @@ public class BenchmarkCL {
     {
         ResilientPropagation train = new ResilientPropagation(network, training);
         
-        // if there is ONLY a CPU OpenCL device, then use ONLY it
-        if (Encog.getInstance().getCL().areCPUsPresent() && Encog.getInstance().getCL().getDevices().size()==1)
-        {
-            train.setNumThreads(-1); // NO non-CL threads
-        }
-        else if (Encog.getInstance().getCL().areCPUsPresent() && Encog.getInstance().getCL().getDevices().size() > 1)
-        {
-            // if there are CPU OpenCL devices and OpenCL GPU's then disable the CPU's
-            Encog.getInstance().getCL().disableAllCPUs();
-            train.setNumThreads(0);
-        }
-
         train.iteration();
 
         Stopwatch stopwatch = new Stopwatch();
