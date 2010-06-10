@@ -37,7 +37,6 @@
 	<property name="path.build" location="${basedir}/build" />
 	<property name="path.dist" location="${basedir}/dist" />
 	<property name="path.lib" location="${basedir}/lib" />
-	<property name="path.stage" location="${basedir}/stage" />
 	<property name="path.jar" location="${basedir}/jar" />
 	<path id="classpath">
 		<fileset dir="${path.jar}" />
@@ -85,35 +84,6 @@
 
 	</target>
 
-	<target name="cc-build" depends="clean-all,checkout,compile,build">
-
-		<property name="path.stage.sub" value="${path.stage}/encog-java-examples-${encog.version}"/>
-
-		<copy todir="${path.stage.sub}" file="${basedir}/copyright.txt" />
-		<copy todir="${path.stage.sub}" file="${basedir}/readme.txt" />
-		<copy todir="${path.stage.sub}" file="${basedir}/build.xml" />
-		<copy todir="${path.stage.sub}" file="${basedir}/.classpath" />
-		<copy todir="${path.stage.sub}" file="${basedir}/.project" />
-
-
-		<copy todir="${path.stage.sub}/src">
-			<fileset dir="${path.src}" />
-		</copy>
-
-		<copy todir="${path.stage.sub}/jar">
-			<fileset dir="${path.jar}" />
-		</copy>
-
-		<tstamp/>
-		<copy todir="${path.stage.sub}/lib" file="${jarfile}" />
-		
-		<zip destfile="${path.dist}/encog-examples-${encog.version}-${DSTAMP}-${TSTAMP}.zip">
-			<fileset dir="${path.stage}" />
-		</zip>
-
-
-	</target>
-
 	<target name="clean-all" depends="clean" description="Delete the source code">
 		<delete dir="${path.src}" />
 		<delete>
@@ -124,8 +94,6 @@
 	<target name="clean" description="clean up">
 		<!-- Delete the ${build} and ${dist} directory trees -->
 		<delete dir="${path.stage}" />
-		<delete dir="${path.jar}" />
-		<delete dir="${path.lib}" />
 		<delete dir="${path.build}" />
 		<delete dir="${path.dist}" />
 	</target>
