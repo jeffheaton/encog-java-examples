@@ -52,6 +52,8 @@ import org.encog.normalize.input.InputFieldArray1D;
 import org.encog.normalize.output.OutputFieldRangeMapped;
 import org.encog.normalize.target.NormalizationStorageArray1D;
 import org.encog.util.logging.Logging;
+import org.encog.util.simple.EncogUtility;
+import org.encog.util.Format;
 
 public class PredictSunspotSVM {
 
@@ -169,8 +171,8 @@ public class PredictSunspotSVM {
 	
 	public void train(BasicNetwork network,NeuralDataSet training)
 	{
-		final SVMTrain train = new SVMTrain(network, (Indexable)training);
-		train.train();
+		EncogUtility.trainToError(network, training, 0.01);
+		System.out.println("Final training error: " + Format.formatPercent(network.calculateError(training)));
 	}
 	
 	public void predict(BasicNetwork network)
