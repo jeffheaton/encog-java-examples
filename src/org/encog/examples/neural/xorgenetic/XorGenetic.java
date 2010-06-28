@@ -30,6 +30,7 @@
 
 package org.encog.examples.neural.xorgenetic;
 
+import org.encog.Encog;
 import org.encog.mathutil.randomize.FanInRandomizer;
 import org.encog.mathutil.randomize.RangeRandomizer;
 import org.encog.neural.data.NeuralData;
@@ -94,5 +95,7 @@ public class XorGenetic {
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}
+		
+		Encog.getInstance().shutdown();
 	}
 }
