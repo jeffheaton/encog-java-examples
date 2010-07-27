@@ -32,7 +32,7 @@ package org.encog.examples.neural.forest.som;
 
 import java.io.File;
 
-import org.encog.StatusReportable;
+import org.encog.engine.StatusReportable;
 import org.encog.normalize.DataNormalization;
 import org.encog.normalize.input.InputField;
 import org.encog.normalize.input.InputFieldCSV;

@@ -31,12 +31,13 @@
 package org.encog.examples.neural.forest.feedforward;
 
 import java.io.File;
+
+import org.encog.engine.util.Format;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.normalize.DataNormalization;
 import org.encog.normalize.output.nominal.OutputEquilateral;
 import org.encog.persist.EncogPersistedCollection;
-import org.encog.util.Format;
 import org.encog.util.csv.ReadCSV;
 
 public class Evaluate {

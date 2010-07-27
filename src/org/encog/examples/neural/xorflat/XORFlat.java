@@ -30,14 +30,15 @@
 
 package org.encog.examples.neural.xorflat;
 
+import org.encog.engine.network.flat.FlatNetwork;
+import org.encog.engine.network.train.TrainFlatNetwork;
+import org.encog.engine.network.train.TrainFlatNetworkResilient;
 import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.flat.FlatNetwork;
-import org.encog.neural.networks.flat.TrainFlatNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
@@ -60,17 +61,13 @@ public class XORFlat {
 		
 		Logging.stopConsoleLogging();
 		
-		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,2));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,4));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,1));
-		network.getStructure().finalizeStructure();
-		network.reset();
-
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
-		FlatNetwork flat = new FlatNetwork(network);
+		FlatNetwork network = new FlatNetwork(2,3,0,1,false);
+		network.randomize();
 		
-		TrainFlatNetwork train = new TrainFlatNetwork(flat,trainingSet);
+		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		
+		
+		TrainFlatNetworkResilient train = new TrainFlatNetworkResilient(network,trainingSet);
 		
 		int epoch = 1;
 
@@ -86,7 +83,7 @@ public class XORFlat {
 		System.out.println("Neural Network Results:");
 		for(NeuralDataPair pair: trainingSet ) {
 			double[] input = pair.getInput().getData();
-			flat.compute(input, output);
+			network.compute(input, output);
 			System.out.println(input[0] + "," + input[1] + ":" + output[0]);
 		}
 	}

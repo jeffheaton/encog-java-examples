@@ -1,8 +1,8 @@
 package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
-import org.encog.util.cl.EncogCLDevice;
-import org.encog.util.cl.kernels.KernelVectorAdd;
+import org.encog.engine.opencl.EncogCLDevice;
+import org.encog.engine.opencl.kernels.KernelVectorAdd;
 
 public class SimpleCLTest {
 	public static void main(String[] args)

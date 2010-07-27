@@ -1,13 +1,13 @@
 package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
+import org.encog.engine.opencl.EncogCLError;
+import org.encog.engine.util.Format;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.util.Format;
 import org.encog.util.Stopwatch;
 import org.encog.util.benchmark.RandomTrainingFactory;
-import org.encog.util.cl.EncogCLError;
 import org.encog.util.simple.EncogUtility;
 
 public class BenchmarkCL {

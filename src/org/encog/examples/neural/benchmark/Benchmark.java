@@ -30,7 +30,7 @@
 
 package org.encog.examples.neural.benchmark;
 
-import org.encog.StatusReportable;
+import org.encog.engine.StatusReportable;
 import org.encog.util.benchmark.EncogBenchmark;
 
 /**

@@ -9,11 +9,11 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JPanel;
 
+import org.encog.engine.util.Format;
 import org.encog.mathutil.EncogMath;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.util.Format;
 
 public class GraphPanel extends JPanel implements ComponentListener {
 

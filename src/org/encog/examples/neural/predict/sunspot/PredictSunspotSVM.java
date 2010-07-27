@@ -33,6 +33,7 @@ package org.encog.examples.neural.predict.sunspot;
 import java.text.NumberFormat;
 
 import org.encog.NullStatusReportable;
+import org.encog.engine.util.Format;
 import org.encog.neural.data.Indexable;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
@@ -53,7 +54,6 @@ import org.encog.normalize.output.OutputFieldRangeMapped;
 import org.encog.normalize.target.NormalizationStorageArray1D;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
-import org.encog.util.Format;
 
 public class PredictSunspotSVM {
 
