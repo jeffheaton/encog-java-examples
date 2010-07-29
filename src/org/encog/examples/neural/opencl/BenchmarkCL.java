@@ -38,10 +38,14 @@ public class BenchmarkCL {
         System.out.println("Ratio is: " + ratio);
         train.finishTraining();
 
-        Encog.getInstance().getCL().setEnforcedCLRatio(ratio);
+        if( ((int)ratio)>0 )
+        	Encog.getInstance().getCL().setEnforcedCLRatio(ratio);
+        else
+        	System.out.println("Ratio was zero, likely using CPU emulation only on OpenCL.");
         train = new ResilientPropagation(network, training);
         train.iteration();
 
+        System.out.println("Running OpenCL test.");
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
         for (int i = 0; i < 100; i++)
