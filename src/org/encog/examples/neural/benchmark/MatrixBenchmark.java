@@ -31,14 +31,13 @@
 package org.encog.examples.neural.benchmark;
 
 import org.encog.mathutil.matrices.Matrix;
-import org.encog.mathutil.matrices.Matrix2D;
 import org.encog.mathutil.matrices.MatrixMath;
 
 public class MatrixBenchmark {
 	
 	public static Matrix generateRandomMatrix(int size)
 	{
-		Matrix result = new Matrix2D(size,size);
+		Matrix result = new Matrix(size,size);
 		for(int row=0;row<size;row++)
 		{
 			for(int col=0;col<size;col++)
