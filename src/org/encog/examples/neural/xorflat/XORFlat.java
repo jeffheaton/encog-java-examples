@@ -61,7 +61,7 @@ public class XORFlat {
 		
 		Logging.stopConsoleLogging();
 		
-		FlatNetwork network = new FlatNetwork(2,3,0,1,false);
+		FlatNetwork network = new FlatNetwork(2,4,0,1,false);
 		network.randomize();
 		
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);

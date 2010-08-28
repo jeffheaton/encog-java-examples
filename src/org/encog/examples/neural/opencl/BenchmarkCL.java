@@ -8,6 +8,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.Stopwatch;
 import org.encog.util.benchmark.RandomTrainingFactory;
+import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
 public class BenchmarkCL {
@@ -15,8 +16,8 @@ public class BenchmarkCL {
     public static long benchmarkCPU(BasicNetwork network, NeuralDataSet training)
     {
         ResilientPropagation train = new ResilientPropagation(network, training);
-
-        train.iteration();
+        train.assignCPU();
+        train.iteration(); // warmup
 
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
@@ -31,21 +32,10 @@ public class BenchmarkCL {
 
     public static long benchmarkCL(BasicNetwork network, NeuralDataSet training)
     {
-    	System.out.println("Tuning OpenCL ratio.");
         ResilientPropagation train = new ResilientPropagation(network, training);
-        train.iteration();
-        double ratio = train.getFlatTraining().getCalculatedCLRatio();
-        System.out.println("Ratio is: " + ratio);
-        train.finishTraining();
+        train.assignOpenCL();
+        train.iteration(); // warmup
 
-        if( ((int)ratio)>0 )
-        	Encog.getInstance().getCL().setEnforcedCLRatio(ratio);
-        else
-        	System.out.println("Ratio was zero, likely using CPU emulation only on OpenCL.");
-        train = new ResilientPropagation(network, training);
-        train.iteration();
-
-        System.out.println("Running OpenCL test.");
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
         for (int i = 0; i < 100; i++)
@@ -66,6 +56,7 @@ public class BenchmarkCL {
     {
         try
         {
+        	Logging.stopConsoleLogging();
             int outputSize = 2;
             int inputSize = 10;
             int trainingSize = 100000;
@@ -76,18 +67,24 @@ public class BenchmarkCL {
                 training.getInputSize(), 6, 0, training.getIdealSize(), true);
             network.reset();
 
+
+
+            
             System.out.println("Running non-OpenCL test.");
             long cpuTime = benchmarkCPU(network, training);
             System.out.println("Non-OpenCL test took " + cpuTime + "ms.");
+            System.out.println();
+            
             System.out.println("Starting OpenCL");
             Encog.getInstance().initCL();
+            
             System.out.println("Running OpenCL test.");
             long clTime = benchmarkCL(network, training);
             System.out.println("OpenCL test took " + clTime + "ms.");
-
-            double diff = ((double)cpuTime - (double)clTime);
+            System.out.println();
             String percent = Format.formatPercent((double)cpuTime/(double)clTime);
             System.out.println("OpenCL Performed at " + percent + " the speed of non-OpenCL");
+            Encog.getInstance().shutdown();
         }
         catch (EncogCLError ex)
         {

@@ -30,6 +30,8 @@
 
 package org.encog.examples.neural.recurrent.elman;
 
+import org.encog.engine.util.ErrorCalculation;
+import org.encog.engine.util.ErrorCalculationMode;
 import org.encog.examples.neural.util.TemporalXOR;
 import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.activation.ActivationTANH;
@@ -39,6 +41,7 @@ import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
+import org.encog.neural.networks.training.propagation.Propagation;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
@@ -64,9 +67,9 @@ public class ElmanXOR {
 	static BasicNetwork createElmanNetwork() {
 		// construct an Elman type network
 		ElmanPattern pattern = new ElmanPattern();
-		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setActivationFunction(new ActivationSigmoid());
 		pattern.setInputNeurons(1);
-		pattern.addHiddenLayer(8);
+		pattern.addHiddenLayer(6);
 		pattern.setOutputNeurons(1);
 		return pattern.generate();
 	}
@@ -83,6 +86,9 @@ public class ElmanXOR {
 
 	public static void main(final String args[]) {
 		Logging.stopConsoleLogging();
+		
+		ErrorCalculation.setMode(ErrorCalculationMode.RMS);
+		
 		final TemporalXOR temp = new TemporalXOR();
 		final NeuralDataSet trainingSet = temp.generate(100);
 
@@ -92,8 +98,8 @@ public class ElmanXOR {
 
 		final double elmanError = ElmanXOR.trainNetwork("Elman", elmanNetwork,
 				trainingSet);
-		final double feedforwardError = ElmanXOR.trainNetwork("Feedforward",
-				feedforwardNetwork, trainingSet);		
+		final double feedforwardError = 0; //ElmanXOR.trainNetwork("Feedforward",
+				//feedforwardNetwork, trainingSet);		
 
 		System.out.println("Best error rate with Elman Network: " + elmanError);
 		System.out.println("Best error rate with Feedforward Network: "
@@ -111,12 +117,16 @@ public class ElmanXOR {
 		final Train trainAlt = new NeuralSimulatedAnnealing(
 				network, score, 10, 2, 100);
 
-		final Train trainMain = new Backpropagation(network, trainingSet,0.00001, 0.0);
-
+		final Train trainMain = new Backpropagation(network, trainingSet,0.000001, 0.0);
+		//final Train trainMain = new ResilientPropagation(network, trainingSet,
+		//		ResilientPropagation.DEFAULT_ZERO_TOLERANCE,
+		//		0.001,
+		//		ResilientPropagation.DEFAULT_MAX_STEP);
+		((Propagation)trainMain).setNumThreads(1);
 		final StopTrainingStrategy stop = new StopTrainingStrategy();
-		trainMain.addStrategy(new Greedy());
-		trainMain.addStrategy(new HybridStrategy(trainAlt));
-		trainMain.addStrategy(stop);
+		//trainMain.addStrategy(new Greedy());
+		//trainMain.addStrategy(new HybridStrategy(trainAlt));
+		//trainMain.addStrategy(stop);
 
 		int epoch = 0;
 		while (!stop.shouldStop()) {
