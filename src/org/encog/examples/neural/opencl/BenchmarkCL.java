@@ -16,7 +16,7 @@ public class BenchmarkCL {
     public static long benchmarkCPU(BasicNetwork network, NeuralDataSet training)
     {
         ResilientPropagation train = new ResilientPropagation(network, training);
-        //train.assignCPU();
+        train.assignCPU();
         train.iteration(); // warmup
 
         Stopwatch stopwatch = new Stopwatch();
@@ -33,7 +33,7 @@ public class BenchmarkCL {
     public static long benchmarkCL(BasicNetwork network, NeuralDataSet training)
     {
         ResilientPropagation train = new ResilientPropagation(network, training);
-        //train.assignOpenCL();
+        train.assignOpenCL();
         train.iteration(); // warmup
 
         Stopwatch stopwatch = new Stopwatch();
