@@ -30,23 +30,22 @@
 
 package org.encog.examples.neural.recurrent.jordan;
 
+import org.encog.engine.util.ErrorCalculation;
+import org.encog.engine.util.ErrorCalculationMode;
 import org.encog.examples.neural.util.TemporalXOR;
 import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.layers.ContextLayer;
-import org.encog.neural.networks.layers.Layer;
-import org.encog.neural.networks.synapse.SynapseType;
 import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
+import org.encog.neural.networks.training.propagation.Propagation;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
 import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
+import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.neural.pattern.JordanPattern;
 import org.encog.util.logging.Logging;
 
@@ -58,8 +57,6 @@ import org.encog.util.logging.Logging;
  * Elman networks are typically used for temporal neural networks. A Jordan
  * network has a single context layer connected to the output layer.
  * 
- * @author jeff
- * 
  */
 public class JordanXOR {
 
@@ -68,32 +65,58 @@ public class JordanXOR {
 		JordanPattern pattern = new JordanPattern();
 		pattern.setActivationFunction(new ActivationTANH());
 		pattern.setInputNeurons(1);
-		pattern.addHiddenLayer(2);
+		pattern.addHiddenLayer(6);
 		pattern.setOutputNeurons(1);
 		return pattern.generate();
 	}
 
 	static BasicNetwork createFeedforwardNetwork() {
 		// construct a feedforward type network
-
-		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(1));
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(1));
-		network.getStructure().finalizeStructure();
-		network.reset();
-		return network;
+		FeedForwardPattern pattern = new FeedForwardPattern();
+		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setInputNeurons(1);
+		pattern.addHiddenLayer(2);
+		pattern.setOutputNeurons(1);
+		return pattern.generate();
 	}
 
-	public static double trainNetwork(String what, BasicNetwork network,
-			NeuralDataSet trainingSet) {
+	public static void main(final String args[]) {
+		Logging.stopConsoleLogging();
+		
+		ErrorCalculation.setMode(ErrorCalculationMode.RMS);
+		
+		final TemporalXOR temp = new TemporalXOR();
+		final NeuralDataSet trainingSet = temp.generate(120);
+
+		final BasicNetwork jordanNetwork = JordanXOR.createJordanNetwork();
+		final BasicNetwork feedforwardNetwork = JordanXOR
+				.createFeedforwardNetwork();
+
+		final double jordanError = JordanXOR.trainNetwork("Jordan", jordanNetwork,
+				trainingSet);
+		final double feedforwardError = JordanXOR.trainNetwork("Feedforward",
+				feedforwardNetwork, trainingSet);		
+
+		System.out.println("Best error rate with Elman Network: " + jordanError);
+		System.out.println("Best error rate with Feedforward Network: "
+				+ feedforwardError);
+		System.out
+				.println("Jordan should be able to get into the 30% range,\nfeedforward should not go below 50%.\nThe recurrent Elment net can learn better in this case.");
+		System.out
+				.println("If your results are not as good, try rerunning, or perhaps training longer.");
+	}
+
+	public static double trainNetwork(final String what,
+			final BasicNetwork network, final NeuralDataSet trainingSet) {
 		// train the neural network
 		CalculateScore score = new TrainingSetScore(trainingSet);
-		final NeuralSimulatedAnnealing trainAlt = new NeuralSimulatedAnnealing(
+		final Train trainAlt = new NeuralSimulatedAnnealing(
 				network, score, 10, 2, 100);
 
-		final Train trainMain = new Backpropagation(network, trainingSet,0.00001, 0.0);
-		StopTrainingStrategy stop = new StopTrainingStrategy();
+		final Train trainMain = new Backpropagation(network, trainingSet,0.000001, 0.0);
+
+		((Propagation)trainMain).setNumThreads(1);
+		final StopTrainingStrategy stop = new StopTrainingStrategy();
 		trainMain.addStrategy(new Greedy());
 		trainMain.addStrategy(new HybridStrategy(trainAlt));
 		trainMain.addStrategy(stop);
@@ -106,27 +129,5 @@ public class JordanXOR {
 			epoch++;
 		}
 		return trainMain.getError();
-	}
-
-	public static void main(String args[]) {
-		Logging.stopConsoleLogging();
-		TemporalXOR temp = new TemporalXOR();
-		NeuralDataSet trainingSet = temp.generate(100);
-
-		BasicNetwork jordanNetwork = createJordanNetwork();
-		BasicNetwork feedforwardNetwork = createFeedforwardNetwork();
-
-		double jordanError = trainNetwork("Jordan", jordanNetwork, trainingSet);
-		double feedforwardError = trainNetwork("Feedforward",
-				feedforwardNetwork, trainingSet);
-
-		System.out.println("Best error rate with Jordan Network: "
-				+ jordanError);
-		System.out.println("Best error rate with Feedforward Network: "
-				+ feedforwardError);
-		System.out
-				.println("Jordan should be able to get into the 40% range,\nfeedforward should not go below 50%.\nThe recurrent Elment net can learn better in this case.");
-		System.out
-				.println("If your results are not as good, try rerunning, or perhaps training longer.");
 	}
 }
