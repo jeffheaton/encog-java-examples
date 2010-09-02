@@ -46,6 +46,7 @@ import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.Greedy;
 import org.encog.neural.networks.training.strategy.HybridStrategy;
+import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
 import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
 import org.encog.neural.pattern.ElmanPattern;
 import org.encog.neural.pattern.FeedForwardPattern;
@@ -67,7 +68,7 @@ public class ElmanXOR {
 	static BasicNetwork createElmanNetwork() {
 		// construct an Elman type network
 		ElmanPattern pattern = new ElmanPattern();
-		pattern.setActivationFunction(new ActivationSigmoid());
+		pattern.setActivationFunction(new ActivationTANH());
 		pattern.setInputNeurons(1);
 		pattern.addHiddenLayer(6);
 		pattern.setOutputNeurons(1);
@@ -90,7 +91,7 @@ public class ElmanXOR {
 		ErrorCalculation.setMode(ErrorCalculationMode.RMS);
 		
 		final TemporalXOR temp = new TemporalXOR();
-		final NeuralDataSet trainingSet = temp.generate(100);
+		final NeuralDataSet trainingSet = temp.generate(120);
 
 		final BasicNetwork elmanNetwork = ElmanXOR.createElmanNetwork();
 		final BasicNetwork feedforwardNetwork = ElmanXOR
@@ -98,8 +99,8 @@ public class ElmanXOR {
 
 		final double elmanError = ElmanXOR.trainNetwork("Elman", elmanNetwork,
 				trainingSet);
-		final double feedforwardError = 0; //ElmanXOR.trainNetwork("Feedforward",
-				//feedforwardNetwork, trainingSet);		
+		final double feedforwardError = ElmanXOR.trainNetwork("Feedforward",
+				feedforwardNetwork, trainingSet);		
 
 		System.out.println("Best error rate with Elman Network: " + elmanError);
 		System.out.println("Best error rate with Feedforward Network: "
@@ -118,15 +119,12 @@ public class ElmanXOR {
 				network, score, 10, 2, 100);
 
 		final Train trainMain = new Backpropagation(network, trainingSet,0.000001, 0.0);
-		//final Train trainMain = new ResilientPropagation(network, trainingSet,
-		//		ResilientPropagation.DEFAULT_ZERO_TOLERANCE,
-		//		0.001,
-		//		ResilientPropagation.DEFAULT_MAX_STEP);
+
 		((Propagation)trainMain).setNumThreads(1);
 		final StopTrainingStrategy stop = new StopTrainingStrategy();
-		//trainMain.addStrategy(new Greedy());
-		//trainMain.addStrategy(new HybridStrategy(trainAlt));
-		//trainMain.addStrategy(stop);
+		trainMain.addStrategy(new Greedy());
+		trainMain.addStrategy(new HybridStrategy(trainAlt));
+		trainMain.addStrategy(stop);
 
 		int epoch = 0;
 		while (!stop.shouldStop()) {
