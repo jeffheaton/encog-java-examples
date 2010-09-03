@@ -30,14 +30,14 @@
 
 package org.encog.examples.neural.recurrent;
 
+import org.encog.engine.util.ErrorCalculation;
+import org.encog.engine.util.ErrorCalculationMode;
+import org.encog.engine.util.Format;
 import org.encog.neural.activation.ActivationSigmoid;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataPair;
+import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.pattern.ElmanPattern;
@@ -47,20 +47,35 @@ import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
 /**
- * XOR: This example is essentially the "Hello World" of neural network
- * programming.  This example shows how to construct an Encog neural
- * network to predict the output from the XOR operator.  This example
- * uses backpropagation to train the neural network.
+ * This is a very simple example that shows where a temporal neural network, in
+ * this case an Jordan neural network, can be useful. A binary message is
+ * constantly coming into the neural network. The neural network has a single
+ * input neuron and a single output neuron. The network should detect a
+ * "distress signal" in the stream of bits. A distress signal is defined to be
+ * three 1's, or "111".
  * 
- * @author $Author$
- * @version $Revision$
+ * Training data is provided with some sample signals, and several distress
+ * signals. The "!" character is placed after each distress signal, for
+ * training. The neural network should produce a "1" on the same cycle as the
+ * final "1" in the distress signal.
+ * 
+ * An Jordan neural network becomes quite good at detecting the signal.
+ * Feedforward is never really able to do it. A feedforward is only looking at
+ * one bit at a time, and because the distress signal spans 3 bits, the neural
+ * network must have some sort of short term memory, to remember the past few
+ * patterns. A short-term memory is exactly what an Jordan neural network has.
  */
 public class TemporalString {
 
-	public final static String DATA = "0010111!00101010111!00110000111!0010010111!01001";
+	public final static String DATA = "000000111!00000111!000000";
 	private double[][] input;
 	private double[][] ideal;
-	
+
+	/**
+	 * Generate training from the input sequence. The input sequence is a string
+	 * of 0's and 1's. Three 1's("111") is a "distress signal", and is indicated
+	 * by a "!".
+	 */
 	public void generateTraining()
 	{
 		// first figure out the length
@@ -122,17 +137,7 @@ public class TemporalString {
 		pattern.setActivationFunction(new ActivationSigmoid());
 		return pattern.generate();
 	}
-	
-	public BasicNetwork createElmann()
-	{
-		ElmanPattern pattern = new ElmanPattern();
-		pattern.setInputNeurons(this.input[0].length);
-		pattern.setOutputNeurons(this.ideal[0].length);
-		pattern.addHiddenLayer(16);
-		pattern.setActivationFunction(new ActivationSigmoid());
-		return pattern.generate();
-	}
-	
+		
 	public BasicNetwork createJordan()
 	{
 		JordanPattern pattern = new JordanPattern();
@@ -149,18 +154,26 @@ public class TemporalString {
 		
 		generateTraining();
 		
-		//BasicNetwork network = createFeedForward();
-		//BasicNetwork network = createElmann();
-		BasicNetwork network = createJordan();
+		BasicNetwork ffNetwork = createFeedForward();	
+		BasicNetwork jordanNetwork = createJordan();
 		
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(this.input, this.ideal);
 		
 		// train the neural network
-		final Train train = new Backpropagation(network, trainingSet, 0.000001, 0.0);
-
-		EncogUtility.trainDialog(network, trainingSet);
+		EncogUtility.trainConsole( jordanNetwork, trainingSet, 1);
+		EncogUtility.trainConsole( ffNetwork, trainingSet, 1);
 		
-		EncogUtility.evaluate(network, trainingSet);
+		System.out.println("Final Jordan Error: " + Format.formatPercent(jordanNetwork.calculateError(trainingSet)));
+		System.out.println("Final Feedforwd Error: " + Format.formatPercent(jordanNetwork.calculateError(trainingSet)));
+		
+		System.out.println("However, the error rate can be misleading.  Consider the evaluations of each network.");
+		
+		System.out.println("Feedforward Evaluation:");
+		EncogUtility.evaluate(ffNetwork, trainingSet);
+		
+		System.out.println("Jordan Evaluation:");
+		EncogUtility.evaluate(jordanNetwork, trainingSet);
+		
 		
 	}
 	
