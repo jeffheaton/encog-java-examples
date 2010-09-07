@@ -61,7 +61,7 @@ public class BenchmarkCL {
             int inputSize = 10;
             int trainingSize = 100000;
 
-            NeuralDataSet training = RandomTrainingFactory.generate(
+            NeuralDataSet training = RandomTrainingFactory.generate(1000,
                 trainingSize, inputSize, outputSize, -1, 1);
             BasicNetwork network = EncogUtility.simpleFeedForward(
                 training.getInputSize(), 6, 0, training.getIdealSize(), true);

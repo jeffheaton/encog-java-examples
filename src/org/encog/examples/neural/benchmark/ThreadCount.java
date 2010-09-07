@@ -22,7 +22,7 @@ public class ThreadCount {
 		network.getStructure().finalizeStructure();
 		network.reset();
 		
-		final NeuralDataSet training = RandomTrainingFactory.generate(50000,
+		final NeuralDataSet training = RandomTrainingFactory.generate(1000,50000,
 				INPUT_COUNT, OUTPUT_COUNT, -1, 1);
 		
 		ResilientPropagation rprop = new ResilientPropagation(network,training);

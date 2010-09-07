@@ -31,17 +31,10 @@
 package org.encog.examples.neural.xorflat;
 
 import org.encog.engine.network.flat.FlatNetwork;
-import org.encog.engine.network.train.TrainFlatNetwork;
-import org.encog.engine.network.train.TrainFlatNetworkResilient;
-import org.encog.neural.activation.ActivationSigmoid;
-import org.encog.neural.data.NeuralData;
+import org.encog.engine.network.train.prop.TrainFlatNetworkResilient;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.logging.Logging;
 
 /**

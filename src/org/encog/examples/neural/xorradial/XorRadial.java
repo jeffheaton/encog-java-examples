@@ -62,11 +62,8 @@ public class XorRadial {
 		BasicNetwork network = pattern.generate();
 		RadialBasisFunctionLayer rbfLayer = (RadialBasisFunctionLayer)network.getLayer(RadialBasisPattern.RBF_LAYER);
 
-		// rbfLayer.setRadialBasisFunction(0, new GaussianFunction(0.0,1,0.5));
-		// rbfLayer.setRadialBasisFunction(1, new GaussianFunction(0.25,1,0.5));
-		// rbfLayer.setRadialBasisFunction(2, new GaussianFunction(0.5,1,0.5));
-		// rbfLayer.setRadialBasisFunction(3, new GaussianFunction(1.0,1,0.5));
 		rbfLayer.randomizeGaussianCentersAndWidths(0, 1);
+		network.getStructure().finalizeStructure();
 
 		final NeuralDataSet trainingSet = new BasicNeuralDataSet(
 				XorRadial.XOR_INPUT, XorRadial.XOR_IDEAL);
