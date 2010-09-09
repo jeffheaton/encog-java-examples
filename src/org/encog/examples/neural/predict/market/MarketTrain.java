@@ -32,11 +32,15 @@ package org.encog.examples.neural.predict.market;
 
 import java.io.File;
 
+import org.encog.Encog;
+import org.encog.engine.util.ErrorCalculation;
+import org.encog.engine.util.ErrorCalculationMode;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.persist.EncogPersistedCollection;
+import org.encog.util.simple.EncogUtility;
 
 /**
  * Load the training data from an Encog file, produced during the
@@ -64,27 +68,16 @@ public class MarketTrain {
 		final BasicNetwork network = (BasicNetwork) encog
 				.find(Config.MARKET_NETWORK);
 
+		ErrorCalculation.setMode(ErrorCalculationMode.RMS);
 		// train the neural network
-		final Train train = new ResilientPropagation(network, trainingSet);
-		// final Train train = new Backpropagation(network, trainingSet, 0.0001,
-		// 0.0);
-
-		int epoch = 1;
-		final long startTime = System.currentTimeMillis();
-		int left = 0;
-
-		do {
-			final int running = (int) ((System.currentTimeMillis() - startTime) / 60000);
-			left = Config.TRAINING_MINUTES - running;
-			train.iteration();
-			System.out.println("Epoch #" + epoch + " Error:"
-					+ (train.getError() * 100.0) + "%," + " Time Left: " + left
-					+ " Minutes");
-			epoch++;
-		} while ((left >= 0) && (train.getError() > 0.001));
-
+		EncogUtility.trainConsole(network, trainingSet, Config.TRAINING_MINUTES);
+		
+		System.out.println("Training complete, saving network.");
 		network.setDescription("Trained neural network");
 		encog.add(Config.MARKET_NETWORK, network);
+		System.out.println("Network saved.");
+		
+		Encog.getInstance().shutdown();
 
 	}
 }
