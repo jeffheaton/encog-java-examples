@@ -121,7 +121,7 @@ public class MarketEvaluate {
 			System.out.println("Day " + count + ":actual="
 					+ format.format(actual) + "(" + actualDirection + ")"
 					+ ",predict=" + format.format(predict) + "("
-					+ actualDirection + ")" + ",diff=" + diff);
+					+ predictDirection + ")" + ",diff=" + diff);
 
 		}
 		double percent = (double) correct / (double) count;
