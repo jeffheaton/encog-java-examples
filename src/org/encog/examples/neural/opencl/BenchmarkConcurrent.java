@@ -62,6 +62,11 @@ public class BenchmarkConcurrent {
 		System.out.println("Performing CPU-only test.");
 		int cpu = benchmark();
 		System.out.println("CPU-only took: " + cpu + " seconds.");
+		Logging.stopConsoleLogging();
+		Encog.getInstance().initCL();
+		System.out.println("Performing CPU&GPU test.");
+		int gpu = benchmark();
+		System.out.println("CPU-only took: " + gpu + " seconds.");
 	}
 	
 	public static void main(String[] args)
