@@ -66,23 +66,23 @@ public class XOROpenCL {
 
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
-	public static void main(final String args[]) {
-		
+	public static void regular()
+	{
 		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1, false);
 		network.reset();
-
+		
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		Encog.getInstance().initCL();
 		
 		// train the neural network
 		final Propagation train = new ResilientPropagation(network, trainingSet);
-		train.assignOpenCL();
+		//train.assignOpenCL();
 		
 		// reset if improve is less than 1% over 5 cycles
-		train.addStrategy(new RequiredImprovementStrategy(5));
+		//train.addStrategy(new RequiredImprovementStrategy(5));
 		
 		int epoch = 1;
 
@@ -99,6 +99,50 @@ public class XOROpenCL {
 			final NeuralData output = network.compute(pair.getInput());
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
+		}	
+	}
+	
+	public static void dual()
+	{
+		Logging.stopConsoleLogging();
+		
+		BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1, false);
+		network.reset();
+		
+		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		
+		Encog.getInstance().initCL();
+		
+		// train the neural network
+		final Propagation train = new ResilientPropagation(network, trainingSet);
+		train.assignOpenCL();
+		
+		// reset if improve is less than 1% over 5 cycles
+		train.addStrategy(new RequiredImprovementStrategy(5));
+		
+		int epoch = 1;
+		
+		train.iteration();
+
+		do {
+			train.iteration();
+			System.out
+					.println("Epoch #" + epoch + " Error:" + train.getError());
+			epoch++;
+		} while(train.getError() > 0.01);
+
+		// test the neural network
+		System.out.println("Neural Network Results:");
+		for(NeuralDataPair pair: trainingSet ) {
+			final NeuralData output = network.compute(pair.getInput());
+			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
+					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}
+		
+	}
+	
+	
+	public static void main(final String args[]) {
+		regular();
 	}
 }
