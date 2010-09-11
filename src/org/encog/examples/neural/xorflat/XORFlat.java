@@ -30,6 +30,7 @@
 
 package org.encog.examples.neural.xorflat;
 
+import org.encog.Encog;
 import org.encog.engine.network.flat.FlatNetwork;
 import org.encog.engine.network.train.prop.TrainFlatNetworkResilient;
 import org.encog.neural.data.NeuralDataPair;
@@ -61,6 +62,9 @@ public class XORFlat {
 		
 		
 		TrainFlatNetworkResilient train = new TrainFlatNetworkResilient(network,trainingSet);
+		
+		//Encog.getInstance().initCL();
+		//train.setTargetDevice(Encog.getInstance().getCL().getDevices().get(0));
 		
 		int epoch = 1;
 

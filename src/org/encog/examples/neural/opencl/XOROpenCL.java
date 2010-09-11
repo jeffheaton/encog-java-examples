@@ -79,10 +79,10 @@ public class XOROpenCL {
 		
 		// train the neural network
 		final Propagation train = new ResilientPropagation(network, trainingSet);
-		//train.assignOpenCL();
+		train.assignOpenCL();
 		
-		// reset if improve is less than 1% over 5 cycles
-		//train.addStrategy(new RequiredImprovementStrategy(5));
+		// reset if improve is less than 1% over 50 cycles
+		//train.addStrategy(new RequiredImprovementStrategy(50));
 		
 		int epoch = 1;
 
