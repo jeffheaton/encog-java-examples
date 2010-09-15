@@ -75,7 +75,7 @@ public class BenchmarkCL {
             
             System.out.println("Starting OpenCL");
             Encog.getInstance().initCL();
-            Encog.getInstance().getCL().setCLThreads(400);
+            //Encog.getInstance().getCL().setCLThreads(400);
             
             System.out.println("Running OpenCL test.");
             long clTime = benchmarkCL(network, training);
