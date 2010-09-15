@@ -10,7 +10,7 @@ public class SimpleCLTest {
         Encog.getInstance().initCL();
 
         EncogCLDevice device = Encog.getInstance().getCL().getDevices().get(0);
-        KernelVectorAdd k = Encog.getInstance().getCL().getDevices().get(0).getPlatform().getVectorAdd();
+        KernelVectorAdd k = new KernelVectorAdd(device);
         k.compile();
 
         double[] a = { 1, 2, 3, 4 };

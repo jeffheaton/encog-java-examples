@@ -32,18 +32,13 @@ package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
 import org.encog.engine.opencl.EncogCLDevice;
-import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.Propagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
-import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
@@ -66,9 +61,8 @@ public class XOROpenCL {
 			{ 0.0, 1.0 }, { 1.0, 1.0 } };
 
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
-
-	public static void regular()
-	{
+	
+	public static void main(final String args[]) {
 		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1, false);
@@ -83,7 +77,7 @@ public class XOROpenCL {
 		final Propagation train = new ResilientPropagation(network, trainingSet, device);
 		
 		// reset if improve is less than 1% over 50 cycles
-		train.addStrategy(new RequiredImprovementStrategy(5));
+		//train.addStrategy(new RequiredImprovementStrategy(5));
 		
 		int epoch = 1;
 
@@ -101,49 +95,6 @@ public class XOROpenCL {
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}	
-	}
-	
-	public static void dual()
-	{
-		Logging.stopConsoleLogging();
-		
-		BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1, false);
-		network.reset();
-		
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
-		
-		Encog.getInstance().initCL();
-		
-		// train the neural network
-		final Propagation train = new ResilientPropagation(network, trainingSet);
-		train.assignOpenCL();
-		
-		// reset if improve is less than 1% over 5 cycles
-		train.addStrategy(new RequiredImprovementStrategy(5));
-		
-		int epoch = 1;
-		
-		train.iteration();
 
-		do {
-			train.iteration();
-			System.out
-					.println("Epoch #" + epoch + " Error:" + train.getError());
-			epoch++;
-		} while(train.getError() > 0.01);
-
-		// test the neural network
-		System.out.println("Neural Network Results:");
-		for(NeuralDataPair pair: trainingSet ) {
-			final NeuralData output = network.compute(pair.getInput());
-			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
-					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
-		}
-		
-	}
-	
-	
-	public static void main(final String args[]) {
-		regular();
 	}
 }
