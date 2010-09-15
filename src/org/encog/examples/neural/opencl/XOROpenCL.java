@@ -31,6 +31,7 @@
 package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
+import org.encog.engine.opencl.EncogCLDevice;
 import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
@@ -78,11 +79,11 @@ public class XOROpenCL {
 		Encog.getInstance().initCL();
 		
 		// train the neural network
-		final Propagation train = new ResilientPropagation(network, trainingSet);
-		train.assignOpenCL();
+		EncogCLDevice device = Encog.getInstance().getCL().getDevices().get(0);
+		final Propagation train = new ResilientPropagation(network, trainingSet, device);
 		
 		// reset if improve is less than 1% over 50 cycles
-		//train.addStrategy(new RequiredImprovementStrategy(50));
+		train.addStrategy(new RequiredImprovementStrategy(5));
 		
 		int epoch = 1;
 

@@ -1,6 +1,7 @@
 package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
+import org.encog.engine.opencl.EncogCLDevice;
 import org.encog.engine.opencl.EncogCLError;
 import org.encog.engine.util.Format;
 import org.encog.engine.util.Stopwatch;
@@ -16,7 +17,7 @@ public class BenchmarkCL {
     public static long benchmarkCPU(BasicNetwork network, NeuralDataSet training)
     {
         ResilientPropagation train = new ResilientPropagation(network, training);
-        train.assignCPU();
+        
         train.iteration(); // warmup
 
         Stopwatch stopwatch = new Stopwatch();
@@ -32,8 +33,8 @@ public class BenchmarkCL {
 
     public static long benchmarkCL(BasicNetwork network, NeuralDataSet training)
     {
-        ResilientPropagation train = new ResilientPropagation(network, training);
-        train.assignOpenCL();
+    	EncogCLDevice device = Encog.getInstance().getCL().getDevices().get(0);
+        ResilientPropagation train = new ResilientPropagation(network, training, device);
         train.iteration(); // warmup
 
         Stopwatch stopwatch = new Stopwatch();
