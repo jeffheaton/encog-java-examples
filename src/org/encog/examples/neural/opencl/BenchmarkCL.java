@@ -68,9 +68,6 @@ public class BenchmarkCL {
                 training.getInputSize(), 6, 0, training.getIdealSize(), true);
             network.reset();
 
-
-
-            
             System.out.println("Running non-OpenCL test.");
             long cpuTime = benchmarkCPU(network, training);
             System.out.println("Non-OpenCL test took " + cpuTime + "ms.");
@@ -78,6 +75,7 @@ public class BenchmarkCL {
             
             System.out.println("Starting OpenCL");
             Encog.getInstance().initCL();
+            Encog.getInstance().getCL().setCLThreads(400);
             
             System.out.println("Running OpenCL test.");
             long clTime = benchmarkCL(network, training);
@@ -85,12 +83,15 @@ public class BenchmarkCL {
             System.out.println();
             String percent = Format.formatPercent((double)cpuTime/(double)clTime);
             System.out.println("OpenCL Performed at " + percent + " the speed of non-OpenCL");
-            Encog.getInstance().shutdown();
+            
         }
         catch (EncogCLError ex)
         {
         	System.out.println("Can't startup CL, make sure you have drivers loaded.");
             System.out.println(ex.toString());
+        }
+        finally {
+        	Encog.getInstance().shutdown();	
         }
     }
 
