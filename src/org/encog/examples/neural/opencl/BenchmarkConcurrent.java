@@ -5,33 +5,35 @@ import org.encog.Encog;
 import org.encog.engine.util.Stopwatch;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.concurrent.ConcurrentTrainingManager;
-import org.encog.neural.networks.training.concurrent.TrainingJob;
-import org.encog.neural.networks.training.concurrent.performers.ConcurrentTrainingPerformerCPU;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.neural.networks.training.concurrent.jobs.TrainingJob;
 import org.encog.neural.networks.training.strategy.end.EndIterationsStrategy;
 import org.encog.util.benchmark.RandomTrainingFactory;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
 public class BenchmarkConcurrent {
-	public TrainingJob generateTrainingJob()
+	
+	
+	public static final int OUTPUT_SIZE = 2;
+	public static final int INPUT_SIZE = 10;
+	public static final int HIDDEN1 = 6;
+	public static final int HIDDEN2 = 0;
+	public static final int TRAINING_SIE = 1000;
+	public static final int ITERATIONS = 100;
+	
+	public TrainingJob generateTrainingJob(ConcurrentTrainingManager manager)
 	{
-        int outputSize = 2;
-        int inputSize = 10;
-        int trainingSize = 100000;
-
         NeuralDataSet training = RandomTrainingFactory.generate(1000,
-            trainingSize, inputSize, outputSize, -1, 1);
+        		TRAINING_SIE, INPUT_SIZE, OUTPUT_SIZE, -1, 1);
         BasicNetwork network = EncogUtility.simpleFeedForward(
-            training.getInputSize(), 6, 0, training.getIdealSize(), true);
+            training.getInputSize(), HIDDEN1, HIDDEN2, training.getIdealSize(), true);
         network.reset();
         
-        Train train = new ResilientPropagation(network,training);
-        train.addStrategy(new EndIterationsStrategy(100));
+        return manager.addTrainRPROP(
+        		     		network,training,new EndIterationsStrategy(100));
         
-        return new TrainingJob(network,train);
+
 	}
 	
 	public int benchmark()
@@ -45,7 +47,7 @@ public class BenchmarkConcurrent {
 
 		manager.clearQueue();
 		for(int i=0;i<10;i++)
-			manager.addTrainingJob(generateTrainingJob());
+			generateTrainingJob(manager);
 		
 		manager.start();
 		System.out.println("Manager has started.");
