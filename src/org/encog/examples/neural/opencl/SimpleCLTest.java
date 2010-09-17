@@ -4,6 +4,10 @@ import org.encog.Encog;
 import org.encog.engine.opencl.EncogCLDevice;
 import org.encog.engine.opencl.kernels.KernelVectorAdd;
 
+/**
+ * VERY VERY simple OpenCL test.  I used this just to make sure Encog is talking to OpenCL.
+ *
+ */
 public class SimpleCLTest {
 	public static void main(String[] args)
 	{

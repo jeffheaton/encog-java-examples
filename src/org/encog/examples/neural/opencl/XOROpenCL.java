@@ -43,6 +43,8 @@ import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
 /**
+ * Learn the XOR operator using OpenCL.
+ * 
  * XOR: This example is essentially the "Hello World" of neural network
  * programming.  This example shows how to construct an Encog neural
  * network to predict the output from the XOR operator.  This example
