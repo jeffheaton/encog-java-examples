@@ -20,7 +20,8 @@ public class BenchmarkConcurrent {
 	public static final int HIDDEN1 = 6;
 	public static final int HIDDEN2 = 0;
 	public static final int TRAINING_SIZE = 10000;
-	public static final int ITERATIONS = 10000;
+	public static final int ITERATIONS = 1000;
+	public static final int JOBS = 4;
 	
 	public TrainingJob generateTrainingJob(ConcurrentTrainingManager manager)
 	{
@@ -46,14 +47,14 @@ public class BenchmarkConcurrent {
 		manager.detectPerformers();
 		System.out.println(manager.toString());
 		manager.clearQueue();
-		for(int i=0;i<10;i++)
+		for(int i=0;i<JOBS;i++)
 			generateTrainingJob(manager);
 		
 		manager.start();
 		System.out.println("Manager has started.");
 		manager.join();
 		System.out.println("Manager has stopped.");
-		Encog.getInstance().shutdown();
+
 		stopWatch.stop();
 		return (int)(stopWatch.getElapsedMilliseconds()/1000);
 	}
@@ -75,5 +76,6 @@ public class BenchmarkConcurrent {
 	{		
 		BenchmarkConcurrent program = new BenchmarkConcurrent();
 		program.run();
+		Encog.getInstance().shutdown();
 	}
 }
