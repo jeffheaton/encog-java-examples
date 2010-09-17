@@ -19,19 +19,19 @@ public class BenchmarkConcurrent {
 	public static final int INPUT_SIZE = 10;
 	public static final int HIDDEN1 = 6;
 	public static final int HIDDEN2 = 0;
-	public static final int TRAINING_SIE = 1000;
-	public static final int ITERATIONS = 100;
+	public static final int TRAINING_SIZE = 10000;
+	public static final int ITERATIONS = 10000;
 	
 	public TrainingJob generateTrainingJob(ConcurrentTrainingManager manager)
 	{
         NeuralDataSet training = RandomTrainingFactory.generate(1000,
-        		TRAINING_SIE, INPUT_SIZE, OUTPUT_SIZE, -1, 1);
+        		TRAINING_SIZE, INPUT_SIZE, OUTPUT_SIZE, -1, 1);
         BasicNetwork network = EncogUtility.simpleFeedForward(
             training.getInputSize(), HIDDEN1, HIDDEN2, training.getIdealSize(), true);
         network.reset();
         
         return manager.addTrainRPROP(
-        		     		network,training,new EndIterationsStrategy(100));
+        		     		network,training,new EndIterationsStrategy(ITERATIONS));
         
 
 	}
@@ -44,7 +44,7 @@ public class BenchmarkConcurrent {
 		
 		manager.setReport(new ConsoleStatusReportable());
 		manager.detectPerformers();
-
+		System.out.println(manager.toString());
 		manager.clearQueue();
 		for(int i=0;i<10;i++)
 			generateTrainingJob(manager);
@@ -68,7 +68,7 @@ public class BenchmarkConcurrent {
 		Encog.getInstance().initCL();
 		System.out.println("Performing CPU&GPU test.");
 		int gpu = benchmark();
-		System.out.println("CPU-only took: " + gpu + " seconds.");
+		System.out.println("GPU&CPU-only took: " + gpu + " seconds.");
 	}
 	
 	public static void main(String[] args)
