@@ -30,8 +30,10 @@
 
 package org.encog.examples.neural.benchmark;
 
+import org.encog.Encog;
 import org.encog.engine.StatusReportable;
 import org.encog.util.benchmark.EncogBenchmark;
+import org.encog.util.logging.Logging;
 
 /**
  * Simple console app that uses the Encog benchmarking class.
@@ -43,8 +45,11 @@ import org.encog.util.benchmark.EncogBenchmark;
 public class Benchmark implements StatusReportable {
 
 	public static void main(final String args[]) {
+		Logging.stopConsoleLogging();
+		System.setErr(null);
 		final Benchmark b = new Benchmark();
 		System.out.println("Benchmark result: " + b.run());
+		Encog.getInstance().shutdown();
 	}
 
 	public void report(final int total, final int current, final String message) {
@@ -52,7 +57,7 @@ public class Benchmark implements StatusReportable {
 
 	}
 
-	public double run() {
+	public String run() {
 		final EncogBenchmark mark = new EncogBenchmark(this);
 		return mark.process();
 	}
