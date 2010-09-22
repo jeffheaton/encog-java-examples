@@ -39,6 +39,7 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.Propagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
@@ -79,24 +80,16 @@ public class XOROpenCL {
 		final Propagation train = new ResilientPropagation(network, trainingSet, device);
 		
 		// reset if improve is less than 1% over 50 cycles
-		//train.addStrategy(new RequiredImprovementStrategy(5));
+		train.addStrategy(new RequiredImprovementStrategy(5));
 		
-		int epoch = 1;
-
-		do {
-			train.iteration();
-			System.out
-					.println("Epoch #" + epoch + " Error:" + train.getError());
-			epoch++;
-		} while(train.getError() > 0.01);
+		EncogUtility.trainToError(train, network, trainingSet, 0.01);
 
 		// test the neural network
+		
+		EncogUtility.evaluate(network, trainingSet);
 		System.out.println("Neural Network Results:");
-		for(NeuralDataPair pair: trainingSet ) {
-			final NeuralData output = network.compute(pair.getInput());
-			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
-					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
-		}	
+		
+		System.out.println("OpenCL device used: " + device.toString());
 
 	}
 }

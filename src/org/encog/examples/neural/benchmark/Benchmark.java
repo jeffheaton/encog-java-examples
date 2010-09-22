@@ -46,9 +46,9 @@ public class Benchmark implements StatusReportable {
 
 	public static void main(final String args[]) {
 		Logging.stopConsoleLogging();
-		System.setErr(null);
 		final Benchmark b = new Benchmark();
 		System.out.println("Benchmark result: " + b.run());
+		
 		Encog.getInstance().shutdown();
 	}
 
@@ -59,7 +59,12 @@ public class Benchmark implements StatusReportable {
 
 	public String run() {
 		final EncogBenchmark mark = new EncogBenchmark(this);
-		return mark.process();
+		String result = mark.process();
+		if( mark.getDevice()!=null )
+		{
+			System.out.println("OpenCL Device Used: " + mark.getDevice().toString() );
+		}
+		return result;
 	}
 
 }
