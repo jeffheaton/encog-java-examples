@@ -1,0 +1,78 @@
+/*
+ * Encog(tm) Examples v2.4
+ * http://www.heatonresearch.com/encog/
+ * http://code.google.com/p/encog-java/
+ * 
+ * Copyright 2008-2010 by Heaton Research Inc.
+ * 
+ * Released under the LGPL.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * 
+ * Encog and Heaton Research are Trademarks of Heaton Research, Inc.
+ * For information on Heaton Research trademarks, visit:
+ * 
+ * http://www.heatonresearch.com/copyright.html
+ */
+
+package org.encog.examples.neural.opencl;
+
+import org.encog.Encog;
+import org.encog.engine.opencl.EncogCLDevice;
+import org.encog.neural.data.NeuralData;
+import org.encog.neural.data.NeuralDataPair;
+import org.encog.neural.data.NeuralDataSet;
+import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.training.propagation.Propagation;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
+import org.encog.util.benchmark.RandomTrainingFactory;
+import org.encog.util.logging.Logging;
+import org.encog.util.simple.EncogUtility;
+
+
+public class TestCL {
+
+	public static final int INPUT_SIZE = 500;
+	public static final int IDEAL_SIZE = 1;
+	public static final int HIDDEN1 = 50;
+	public static final int HIDDEN2 = 500;
+	public static final int TRAINING_SIZE = 1000;
+	
+	public static void main(final String args[]) {
+		Logging.stopConsoleLogging();
+		
+		NeuralDataSet trainingSet = RandomTrainingFactory.generate(1000,
+				TRAINING_SIZE, INPUT_SIZE, IDEAL_SIZE, -1, 1);
+		
+		BasicNetwork network = EncogUtility.simpleFeedForward(2, HIDDEN1, HIDDEN2, 1, false);
+		network.reset();
+		
+		Encog.getInstance().initCL();
+
+		
+		// train the neural network
+		EncogCLDevice device = Encog.getInstance().getCL().chooseDevice();
+
+		System.out.println("OpenCL device used: " + device.toString());
+
+		final Propagation train = new ResilientPropagation(network, trainingSet, device);
+		
+		EncogUtility.trainToError(train, network, trainingSet, 0.01);
+
+	}
+}
