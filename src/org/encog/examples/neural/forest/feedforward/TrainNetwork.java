@@ -30,7 +30,7 @@
 
 package org.encog.examples.neural.forest.feedforward;
 
-import org.encog.neural.activation.ActivationSigmoid;
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;

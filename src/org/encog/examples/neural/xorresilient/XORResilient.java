@@ -30,7 +30,7 @@
 
 package org.encog.examples.neural.xorresilient;
 
-import org.encog.neural.activation.ActivationSigmoid;
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
@@ -40,7 +40,6 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
-import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.util.logging.Logging;
 
 /**

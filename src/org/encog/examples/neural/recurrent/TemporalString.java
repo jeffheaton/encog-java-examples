@@ -30,17 +30,11 @@
 
 package org.encog.examples.neural.recurrent;
 
-import org.encog.engine.util.ErrorCalculation;
-import org.encog.engine.util.ErrorCalculationMode;
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.util.Format;
-import org.encog.neural.activation.ActivationSigmoid;
-import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.back.Backpropagation;
-import org.encog.neural.pattern.ElmanPattern;
 import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.neural.pattern.JordanPattern;
 import org.encog.util.logging.Logging;

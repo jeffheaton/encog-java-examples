@@ -30,10 +30,10 @@
 
 package org.encog.examples.neural.recurrent.jordan;
 
+import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.engine.util.ErrorCalculation;
 import org.encog.engine.util.ErrorCalculationMode;
 import org.encog.examples.neural.util.TemporalXOR;
-import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;

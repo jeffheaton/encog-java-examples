@@ -30,8 +30,8 @@
 
 package org.encog.examples.neural.xorscg;
 
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.mathutil.randomize.RangeRandomizer;
-import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
@@ -41,7 +41,6 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.propagation.scg.ScaledConjugateGradient;
 import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
-import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.util.logging.Logging;
 
 /**

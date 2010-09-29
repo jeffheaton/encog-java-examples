@@ -30,7 +30,8 @@
 
 package org.encog.examples.neural.forest.binary;
 
-import org.encog.neural.activation.ActivationSigmoid;
+import org.encog.engine.network.activation.ActivationSigmoid;
+import org.encog.examples.neural.forest.feedforward.Constant;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BinaryDataLoader;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
@@ -42,7 +43,6 @@ import org.encog.normalize.DataNormalization;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.simple.EncogUtility;
-import org.encog.examples.neural.forest.feedforward.Constant;
 
 
 public class TrainNetwork {

@@ -30,7 +30,7 @@
 
 package org.encog.examples.neural.xorgaussian;
 
-import org.encog.neural.activation.ActivationGaussian;
+import org.encog.engine.network.activation.ActivationGaussian;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
