@@ -47,11 +47,12 @@ import org.encog.util.simple.EncogUtility;
 
 public class TestCL {
 
-	public static final int INPUT_SIZE = 500;
-	public static final int IDEAL_SIZE = 1;
-	public static final int HIDDEN1 = 50;
-	public static final int HIDDEN2 = 500;
-	public static final int TRAINING_SIZE = 1000;
+	public static final int INPUT_SIZE = 100;
+	public static final int HIDDEN1 = 200;
+	public static final int HIDDEN2 = 40;
+	public static final int IDEAL_SIZE = 5;
+
+	public static final int TRAINING_SIZE = 10000;
 	
 	public static void main(final String args[]) {
 		Logging.stopConsoleLogging();
@@ -59,7 +60,7 @@ public class TestCL {
 		NeuralDataSet trainingSet = RandomTrainingFactory.generate(1000,
 				TRAINING_SIZE, INPUT_SIZE, IDEAL_SIZE, -1, 1);
 		
-		BasicNetwork network = EncogUtility.simpleFeedForward(2, HIDDEN1, HIDDEN2, 1, false);
+		BasicNetwork network = EncogUtility.simpleFeedForward(INPUT_SIZE, HIDDEN1, HIDDEN2, IDEAL_SIZE, true);
 		network.reset();
 		
 		Encog.getInstance().initCL();
