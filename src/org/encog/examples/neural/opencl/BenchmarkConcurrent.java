@@ -24,9 +24,9 @@ public class BenchmarkConcurrent {
 	public static final int INPUT_SIZE = 10;
 	public static final int HIDDEN1 = 6;
 	public static final int HIDDEN2 = 0;
-	public static final int TRAINING_SIZE = 10000;
-	public static final int ITERATIONS = 10000;
-	public static final int JOBS = 10;
+	public static final int TRAINING_SIZE = 1000;
+	public static final int ITERATIONS = 1000;
+	public static final int JOBS = 50;
 	
 	public TrainingJob generateTrainingJob(ConcurrentTrainingManager manager)
 	{
@@ -42,14 +42,14 @@ public class BenchmarkConcurrent {
 
 	}
 	
-	public int benchmark()
+	public int benchmark(boolean splitCores)
 	{
 		Stopwatch stopWatch = new Stopwatch();
 		stopWatch.start();
 		ConcurrentTrainingManager manager = ConcurrentTrainingManager.getInstance();
 		
 		manager.setReport(new ConsoleStatusReportable());
-		manager.detectPerformers();
+		manager.detectPerformers(splitCores);
 		System.out.println("Device(s) in use:");
 		System.out.println(manager.toString());
 		manager.clearQueue();
@@ -69,17 +69,28 @@ public class BenchmarkConcurrent {
 	{
 		Logging.stopConsoleLogging();
 		System.out.println("* * * Performing CPU-Only Test * * *");
-		int cpu = benchmark();
+		int cpu = benchmark(false);
 		System.out.println("CPU-only took: " + cpu + " seconds.");
+		
+		
+		System.out.println();
+		System.out.println("* * * Performing CPU-Only(split cores) Test * * *");
+		int cpuSplit = benchmark(true);
+		System.out.println("CPU-only(split cores took: " + cpuSplit + " seconds.");
 		Logging.stopConsoleLogging();
 		Encog.getInstance().initCL();
 		System.out.println();
+		
 		System.out.println("* * * Performing OpenCL Test * * *");
-		int gpu = benchmark();
+		Encog.getInstance().initCL();
+		int gpu = benchmark(true);
+		
 		System.out.println("OpenCL took: " + gpu + " seconds.");
 		System.out.println();
-		double percent = (double)cpu/(double)gpu;
-		System.out.println("OpenCL performed at " + Format.formatPercent(percent) + " of CPU-only");
+		System.out.println("Final times:");
+		System.out.println("CPU-Only       : " + cpu + "ms" );
+		System.out.println("CPU-Split Cores: " + cpuSplit + "ms" );
+		System.out.println("CPU and OpenCL : " + gpu + "ms" );
 	}
 	
 	public static void main(String[] args)

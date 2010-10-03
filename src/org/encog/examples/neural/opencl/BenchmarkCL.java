@@ -1,6 +1,7 @@
 package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
+import org.encog.engine.network.train.prop.TrainFlatNetworkOpenCL;
 import org.encog.engine.opencl.EncogCLDevice;
 import org.encog.engine.opencl.EncogCLError;
 import org.encog.engine.util.Format;
@@ -20,6 +21,9 @@ import org.encog.util.simple.EncogUtility;
  * 
  */
 public class BenchmarkCL {
+
+	public static int numGlobalWorkItems;
+	public static int itemsPerGlobalWorkItem;
 
 	public static long benchmarkCPU(BasicNetwork network, NeuralDataSet training) {
 		ResilientPropagation train = new ResilientPropagation(network, training);
@@ -42,6 +46,10 @@ public class BenchmarkCL {
 		ResilientPropagation train = new ResilientPropagation(network,
 				training, device);
 		train.iteration(); // warmup
+		BenchmarkCL.numGlobalWorkItems = ((TrainFlatNetworkOpenCL) train
+				.getFlatTraining()).getNumGlobalWorkItems();
+		BenchmarkCL.itemsPerGlobalWorkItem = ((TrainFlatNetworkOpenCL) train
+				.getFlatTraining()).getItemsPerGlobalWorkItem();
 
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();
@@ -53,10 +61,6 @@ public class BenchmarkCL {
 		return stopwatch.getElapsedMilliseconds();
 	}
 
-	// / <summary>
-	// / Program entry point.
-	// / </summary>
-	// / <param name="args">Not used.</param>
 	public static void main(String[] args) {
 		try {
 			Logging.stopConsoleLogging();
@@ -66,9 +70,8 @@ public class BenchmarkCL {
 
 			NeuralDataSet training = RandomTrainingFactory.generate(1000,
 					trainingSize, inputSize, outputSize, -1, 1);
-			BasicNetwork network = EncogUtility.simpleFeedForward(
-					training.getInputSize(), 6, 0, training.getIdealSize(),
-					true);
+			BasicNetwork network = EncogUtility.simpleFeedForward(training
+					.getInputSize(), 6, 0, training.getIdealSize(), true);
 			network.reset();
 
 			System.out.println("Running non-OpenCL test.");
@@ -78,6 +81,7 @@ public class BenchmarkCL {
 
 			System.out.println("Starting OpenCL");
 			Encog.getInstance().initCL();
+
 			int i = 0;
 			System.out
 					.println("OpenCL Devices: (Encog will use the first one)");
@@ -95,7 +99,12 @@ public class BenchmarkCL {
 					/ (double) clTime);
 			System.out.println("OpenCL Performed at " + percent
 					+ " the speed of non-OpenCL");
-
+			System.out
+					.println("Note, this was using a numGlobalWorkItems of "
+							+ BenchmarkCL.numGlobalWorkItems
+							+ " and a itemsPerGlobalWorkItem of "
+							+ BenchmarkCL.itemsPerGlobalWorkItem
+							+ ", better results may be possible if your GPU supports higher values.");
 		} catch (EncogCLError ex) {
 			System.out
 					.println("Can't startup CL, make sure you have drivers loaded.");
