@@ -1,6 +1,7 @@
 package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
+import org.encog.engine.network.train.prop.OpenCLTrainingProfile;
 import org.encog.engine.network.train.prop.TrainFlatNetworkOpenCL;
 import org.encog.engine.opencl.EncogCLDevice;
 import org.encog.engine.opencl.EncogCLError;
@@ -41,15 +42,13 @@ public class BenchmarkCL {
 	}
 
 	public static long benchmarkCL(BasicNetwork network, NeuralDataSet training) {
-		EncogCLDevice device = Encog.getInstance().getCL().getDevices().get(0);
-		System.out.println("Using device: " + device.toString());
+		OpenCLTrainingProfile profile = EncogUtility.createProfile(network,training);
+		System.out.println("Using device: " + profile.getDevice().toString());
 		ResilientPropagation train = new ResilientPropagation(network,
-				training, device);
+				training, profile);
 		train.iteration(); // warmup
-		BenchmarkCL.numGlobalWorkItems = ((TrainFlatNetworkOpenCL) train
-				.getFlatTraining()).getNumGlobalWorkItems();
-		BenchmarkCL.itemsPerGlobalWorkItem = ((TrainFlatNetworkOpenCL) train
-				.getFlatTraining()).getItemsPerGlobalWorkItem();
+		BenchmarkCL.numGlobalWorkItems = profile.getNumGlobalWorkItems();
+		BenchmarkCL.itemsPerGlobalWorkItem = profile.getItemsPerGlobalWorkItem();
 
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();

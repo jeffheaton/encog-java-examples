@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.encog.Encog;
 import org.encog.engine.network.flat.FlatNetwork;
+import org.encog.engine.network.train.prop.OpenCLTrainingProfile;
 import org.encog.engine.network.train.prop.TrainFlatNetworkOpenCL;
 import org.encog.engine.network.train.prop.TrainFlatNetworkResilient;
 import org.encog.engine.opencl.EncogCLDevice;
@@ -60,12 +61,12 @@ public class CompareCL {
 		displayWeights(networkCPU, networkGPU);
 
 		Encog.getInstance().initCL();
-		EncogCLDevice device = Encog.getInstance().getCL().getDevices().get(0);
+		OpenCLTrainingProfile profile = OpenCLTrainingProfile.createProfile();
 
 		final TrainFlatNetworkResilient trainCPU = new TrainFlatNetworkResilient(
 				networkCPU, trainingSet);
 		final TrainFlatNetworkOpenCL trainGPU = new TrainFlatNetworkOpenCL(
-				networkGPU, trainingSet, device);
+				networkGPU, trainingSet, profile);
 
 		trainGPU.learnRPROP();
 

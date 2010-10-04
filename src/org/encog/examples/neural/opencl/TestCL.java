@@ -31,6 +31,7 @@
 package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
+import org.encog.engine.network.train.prop.OpenCLTrainingProfile;
 import org.encog.engine.opencl.EncogCLDevice;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
@@ -67,11 +68,11 @@ public class TestCL {
 
 		
 		// train the neural network
-		EncogCLDevice device = Encog.getInstance().getCL().chooseDevice();
+		OpenCLTrainingProfile profile = OpenCLTrainingProfile.createProfile();
 
-		System.out.println("OpenCL device used: " + device.toString());
+		System.out.println("OpenCL device used: " + profile.getDevice().toString());
 
-		final Propagation train = new ResilientPropagation(network, trainingSet, device);
+		final Propagation train = new ResilientPropagation(network, trainingSet, profile);
 		
 		EncogUtility.trainToError(train, network, trainingSet, 0.01);
 
