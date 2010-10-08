@@ -36,11 +36,12 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.encog.mathutil.randomize.RangeRandomizer;
+import org.encog.mathutil.rbf.RBFEnum;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
-import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodGaussianMulti;
+import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodRBF;
 import org.encog.neural.pattern.SOMPattern;
 
 public class SomColors extends JFrame implements Runnable {
@@ -53,14 +54,14 @@ public class SomColors extends JFrame implements Runnable {
 	private BasicNetwork network;
 	private Thread thread;
 	private CompetitiveTraining train;
-	private NeighborhoodGaussianMulti gaussian;
+	private NeighborhoodRBF gaussian;
 
 	public SomColors() {
 		this.setSize(640, 480);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.network = createNetwork();
 		this.getContentPane().add(map = new MapPanel(this));
-		this.gaussian = new NeighborhoodGaussianMulti(MapPanel.WIDTH,
+		this.gaussian = new NeighborhoodRBF(RBFEnum.Gaussian,MapPanel.WIDTH,
 				MapPanel.HEIGHT);
 		this.train = new CompetitiveTraining(this.network, 0.01, null, gaussian);
 		train.setForceWinner(false);

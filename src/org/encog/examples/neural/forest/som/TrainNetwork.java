@@ -30,11 +30,12 @@
 
 package org.encog.examples.neural.forest.som;
 
+import org.encog.mathutil.rbf.RBFEnum;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.competitive.CompetitiveTraining;
-import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodGaussianMulti;
+import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodRBF;
 import org.encog.neural.pattern.SOMPattern;
 import org.encog.persist.EncogPersistedCollection;
 
@@ -60,7 +61,7 @@ public class TrainNetwork {
 		System.out.println("Beginning training...");
 		BasicNetwork network = generateNetwork(trainingSet);
 
-		NeighborhoodGaussianMulti neighborhood = new NeighborhoodGaussianMulti(Constant.OUTPUT_COUNT,Constant.OUTPUT_COUNT);
+		NeighborhoodRBF neighborhood = new NeighborhoodRBF(RBFEnum.Gaussian,Constant.OUTPUT_COUNT,Constant.OUTPUT_COUNT);
 		CompetitiveTraining train = new CompetitiveTraining(
 				network,
 				0.1,

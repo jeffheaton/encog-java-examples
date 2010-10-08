@@ -38,8 +38,8 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.util.SerializeObject;
 import org.encog.util.logging.Logging;
+import org.encog.util.obj.SerializeObject;
 
 public class Serial {
 
