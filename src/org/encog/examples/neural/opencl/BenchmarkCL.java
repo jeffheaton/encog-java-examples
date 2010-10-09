@@ -10,6 +10,7 @@ import org.encog.engine.util.Stopwatch;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.neural.networks.training.strategy.end.EndIterationsStrategy;
 import org.encog.util.benchmark.RandomTrainingFactory;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
@@ -25,16 +26,19 @@ public class BenchmarkCL {
 
 	public static int numGlobalWorkItems;
 	public static int itemsPerGlobalWorkItem;
-
+	public static final int BENCHMARK_ITERATIONS = 100;
+	public static final int ITERATION_GROUP_SIZE = 1;
+	
 	public static long benchmarkCPU(BasicNetwork network, NeuralDataSet training) {
 		ResilientPropagation train = new ResilientPropagation(network, training);
-
+		EndIterationsStrategy stop;
+		train.addStrategy(stop = new EndIterationsStrategy(BENCHMARK_ITERATIONS));
 		train.iteration(); // warmup
 
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();
-		for (int i = 0; i < 100; i++) {
-			train.iteration();
+		while( !stop.shouldStop() ) {
+			train.iteration(ITERATION_GROUP_SIZE);
 		}
 		stopwatch.stop();
 
@@ -46,14 +50,18 @@ public class BenchmarkCL {
 		System.out.println("Using device: " + profile.getDevice().toString());
 		ResilientPropagation train = new ResilientPropagation(network,
 				training, profile);
+		
 		train.iteration(); // warmup
+		
 		BenchmarkCL.numGlobalWorkItems = profile.getNumGlobalWorkItems();
 		BenchmarkCL.itemsPerGlobalWorkItem = profile.getItemsPerGlobalWorkItem();
-
+		EndIterationsStrategy stop;
+		
+		train.addStrategy(stop = new EndIterationsStrategy(BENCHMARK_ITERATIONS));
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();
-		for (int i = 0; i < 100; i++) {
-			train.iteration();
+		while( !stop.shouldStop() ) {
+			train.iteration(ITERATION_GROUP_SIZE);
 		}
 		stopwatch.stop();
 

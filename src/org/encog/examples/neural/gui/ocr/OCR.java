@@ -128,8 +128,6 @@ public class OCR extends JFrame implements Runnable {
 	 */
 	static final int DOWNSAMPLE_HEIGHT = 7;
 
-	static final double MAX_ERROR = 0.01;
-
 	/**
 	 * The main method.
 	 * 
@@ -334,6 +332,7 @@ public class OCR extends JFrame implements Runnable {
 		this.train.addActionListener(lSymAction);
 		this.recognize.addActionListener(lSymAction);
 		this.letters.setModel(this.letterListModel);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.numberFormat = NumberFormat.getNumberInstance();
 	}
@@ -596,7 +595,8 @@ public class OCR extends JFrame implements Runnable {
 			final CompetitiveTraining train = new CompetitiveTraining(this.net,
 					0.25, trainingSet, new NeighborhoodSingleRBF(
 							new GaussianFunction(0, 1, 2)));
-
+			train.setForceWinner(true);
+			
 			int tries = 1;
 			while (!this.halt) {
 				train.iteration();
