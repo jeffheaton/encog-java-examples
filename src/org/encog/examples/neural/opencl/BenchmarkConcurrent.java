@@ -2,7 +2,6 @@ package org.encog.examples.neural.opencl;
 
 import org.encog.ConsoleStatusReportable;
 import org.encog.Encog;
-import org.encog.engine.util.Format;
 import org.encog.engine.util.Stopwatch;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
@@ -27,12 +26,6 @@ public class BenchmarkConcurrent {
 	public static final int TRAINING_SIZE = 1000;
 	public static final int ITERATIONS = 1000;
 	public static final int JOBS = 50;
-	
-	/**
-	 * The OpenCL ratio.  This specifies how much each cycle should split up the training.
-	 * 1.0 is the maximum, but it might timeout your GPU.
-	 */
-	public static final double OPENCL_RATIO = 1.0;
 
 	/**
 	 * Iterations per cycle.  Higher numbers load up OpenCL more, but too high may 
@@ -43,7 +36,7 @@ public class BenchmarkConcurrent {
 	public static final int ITERATIONS_PER = 1;
 	
 	public static final double LOCAL_RATIO = 1.0;
-	public static final double GLOBAL_RATIO = 1.0;
+	public static final int GLOBAL_RATIO = 1;
 	public static final double SEGMENTATION_RATIO = 1.0;
 
 	/**
