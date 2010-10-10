@@ -77,7 +77,8 @@ public class XOROpenCL {
 		Encog.getInstance().initCL();
 		
 		// train the neural network
-		OpenCLTrainingProfile profile = OpenCLTrainingProfile.createProfile();
+		EncogCLDevice device = Encog.getInstance().getCL().chooseDevice();
+		OpenCLTrainingProfile profile = new OpenCLTrainingProfile(device);
 		final Propagation train = new ResilientPropagation(network, trainingSet, profile);
 		
 		// reset if improve is less than 1% over 50 cycles

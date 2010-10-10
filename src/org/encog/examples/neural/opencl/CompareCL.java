@@ -61,7 +61,8 @@ public class CompareCL {
 		displayWeights(networkCPU, networkGPU);
 
 		Encog.getInstance().initCL();
-		OpenCLTrainingProfile profile = OpenCLTrainingProfile.createProfile();
+		EncogCLDevice device = Encog.getInstance().getCL().chooseDevice();
+		OpenCLTrainingProfile profile = new OpenCLTrainingProfile(device);
 
 		final TrainFlatNetworkResilient trainCPU = new TrainFlatNetworkResilient(
 				networkCPU, trainingSet);

@@ -7,6 +7,7 @@ import org.encog.engine.util.Stopwatch;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.concurrent.ConcurrentTrainingManager;
+import org.encog.neural.networks.training.concurrent.jobs.RPROPJob;
 import org.encog.neural.networks.training.concurrent.jobs.TrainingJob;
 import org.encog.neural.networks.training.strategy.end.EndIterationsStrategy;
 import org.encog.util.benchmark.RandomTrainingFactory;
@@ -40,6 +41,10 @@ public class BenchmarkConcurrent {
 	 * and will throw an error.
 	 */
 	public static final int ITERATIONS_PER = 1;
+	
+	public static final double LOCAL_RATIO = 1.0;
+	public static final double GLOBAL_RATIO = 1.0;
+	public static final double SEGMENTATION_RATIO = 1.0;
 
 	/**
 	 * Max cores to use, 0=autodetect, -1=no CPU cores, other number is the # of cores.
@@ -54,8 +59,11 @@ public class BenchmarkConcurrent {
 				training.getIdealSize(), true);
 		network.reset();
 
-		return manager.addTrainRPROP(network, training,
-				new EndIterationsStrategy(ITERATIONS), OPENCL_RATIO, ITERATIONS_PER);
+		RPROPJob job = new RPROPJob(network,training,true,LOCAL_RATIO,GLOBAL_RATIO,SEGMENTATION_RATIO,ITERATIONS_PER);
+		job.getStrategies().add(new EndIterationsStrategy(ITERATIONS));
+		
+		manager.addTrainingJob(job);
+		return job;
 
 	}
 

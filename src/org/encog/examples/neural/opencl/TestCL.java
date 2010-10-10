@@ -68,7 +68,8 @@ public class TestCL {
 
 		
 		// train the neural network
-		OpenCLTrainingProfile profile = OpenCLTrainingProfile.createProfile();
+		EncogCLDevice device = Encog.getInstance().getCL().chooseDevice();
+		OpenCLTrainingProfile profile = new OpenCLTrainingProfile(device);
 
 		System.out.println("OpenCL device used: " + profile.getDevice().toString());
 

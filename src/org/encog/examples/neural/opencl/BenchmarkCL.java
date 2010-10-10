@@ -23,11 +23,12 @@ import org.encog.util.simple.EncogUtility;
  * 
  */
 public class BenchmarkCL {
-
-	public static int numGlobalWorkItems;
-	public static int itemsPerGlobalWorkItem;
+	
+	public static final int GLOBAL_SIZE = 200;
 	public static final int BENCHMARK_ITERATIONS = 100;
-	public static final int ITERATION_GROUP_SIZE = 1;
+	public static final double OPENCL_RATIO = 1.0;
+	public static final int ITERATIONS_PER_CYCLE = 1;
+	public static OpenCLTrainingProfile profile;
 	
 	public static long benchmarkCPU(BasicNetwork network, NeuralDataSet training) {
 		ResilientPropagation train = new ResilientPropagation(network, training);
@@ -37,8 +38,9 @@ public class BenchmarkCL {
 
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();
+		
 		while( !stop.shouldStop() ) {
-			train.iteration(ITERATION_GROUP_SIZE);
+			train.iteration(ITERATIONS_PER_CYCLE);
 		}
 		stopwatch.stop();
 
@@ -46,22 +48,22 @@ public class BenchmarkCL {
 	}
 
 	public static long benchmarkCL(BasicNetwork network, NeuralDataSet training) {
-		OpenCLTrainingProfile profile = EncogUtility.createProfile(network,training);
+		profile = new OpenCLTrainingProfile(Encog.getInstance().getCL().chooseDevice());
+
 		System.out.println("Using device: " + profile.getDevice().toString());
 		ResilientPropagation train = new ResilientPropagation(network,
 				training, profile);
 		
 		train.iteration(); // warmup
 		
-		BenchmarkCL.numGlobalWorkItems = profile.getNumGlobalWorkItems();
-		BenchmarkCL.itemsPerGlobalWorkItem = profile.getItemsPerGlobalWorkItem();
 		EndIterationsStrategy stop;
 		
 		train.addStrategy(stop = new EndIterationsStrategy(BENCHMARK_ITERATIONS));
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();
+
 		while( !stop.shouldStop() ) {
-			train.iteration(ITERATION_GROUP_SIZE);
+			train.iteration(ITERATIONS_PER_CYCLE);
 		}
 		stopwatch.stop();
 
@@ -91,7 +93,7 @@ public class BenchmarkCL {
 
 			int i = 0;
 			System.out
-					.println("OpenCL Devices: (Encog will use the first one)");
+					.println("OpenCL Devices: (Encog will use the first GPU, or CPU if no GPU's)");
 			for (EncogCLDevice device : Encog.getInstance().getCL()
 					.getDevices()) {
 				System.out.println("Device " + i + ": " + device.toString());
@@ -102,16 +104,18 @@ public class BenchmarkCL {
 			long clTime = benchmarkCL(network, training);
 			System.out.println("OpenCL test took " + clTime + "ms.");
 			System.out.println();
+			
+			System.out.println("ITERATIONS_PER_CYCLE: " +  ITERATIONS_PER_CYCLE);
+			
+			System.out.println();
+			System.out.println(profile.toString());
+			System.out.println();
 			String percent = Format.formatPercent((double) cpuTime
 					/ (double) clTime);
 			System.out.println("OpenCL Performed at " + percent
 					+ " the speed of non-OpenCL");
-			System.out
-					.println("Note, this was using a numGlobalWorkItems of "
-							+ BenchmarkCL.numGlobalWorkItems
-							+ " and a itemsPerGlobalWorkItem of "
-							+ BenchmarkCL.itemsPerGlobalWorkItem
-							+ ", better results may be possible if your GPU supports higher values.");
+			System.out.println("You will likely get better performance by tuning: ITERATIONS_PER_CYCLE, local ratio, global ratio & segmentation ratio.");
+			
 		} catch (EncogCLError ex) {
 			System.out
 					.println("Can't startup CL, make sure you have drivers loaded.");
