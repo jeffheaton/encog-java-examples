@@ -129,8 +129,7 @@ public class ActivationSigmoidPosNeg implements ActivationFunction {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getOpenCLExpression(final boolean derivative,
-			final boolean allSlopeOne) {
+	public String getOpenCLExpression(final boolean derivative) {
 		if (derivative) {
 			return "(1.0f / (1.0f + exp(-slope * x)))";
 		} else {
