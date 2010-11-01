@@ -30,6 +30,7 @@
 
 package org.encog.examples.neural.xorradial;
 
+import org.encog.mathutil.rbf.RBFEnum;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
@@ -62,7 +63,7 @@ public class XorRadial {
 		BasicNetwork network = pattern.generate();
 		RadialBasisFunctionLayer rbfLayer = (RadialBasisFunctionLayer)network.getLayer(RadialBasisPattern.RBF_LAYER);
 
-		rbfLayer.randomizeGaussianCentersAndWidths(0, 1);
+		rbfLayer.randomizeRBFCentersAndWidths(2, 0, 1, RBFEnum.Gaussian);
 		network.getStructure().finalizeStructure();
 
 		final NeuralDataSet trainingSet = new BasicNeuralDataSet(
