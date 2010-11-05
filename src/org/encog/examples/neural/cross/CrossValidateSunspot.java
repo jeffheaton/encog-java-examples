@@ -8,14 +8,14 @@ import org.encog.neural.data.Indexable;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
-//import org.encog.neural.data.folded.FoldedDataSet;
+import org.encog.neural.data.folded.FoldedDataSet;
 import org.encog.neural.data.temporal.TemporalDataDescription;
 import org.encog.neural.data.temporal.TemporalNeuralDataSet;
 import org.encog.neural.data.temporal.TemporalPoint;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
-//import org.encog.neural.networks.training.cross.CrossValidationKFold;
+import org.encog.neural.networks.training.cross.CrossValidationKFold;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.normalize.DataNormalization;
 import org.encog.normalize.input.InputField;
@@ -127,7 +127,7 @@ public class CrossValidateSunspot {
 	}
 
 	public void train(BasicNetwork network, NeuralDataSet training) {
-		/*(final FoldedDataSet folded = new FoldedDataSet((Indexable)training); 
+		final FoldedDataSet folded = new FoldedDataSet((Indexable)training); 
 		final Train train = new ResilientPropagation(network, folded);
 		final CrossValidationKFold trainFolded = new CrossValidationKFold(train,4);
 
@@ -138,7 +138,7 @@ public class CrossValidateSunspot {
 			System.out
 					.println("Epoch #" + epoch + " Error:" + trainFolded.getError());
 			epoch++;
-		} while (trainFolded.getError() > MAX_ERROR);*/
+		} while (trainFolded.getError() > MAX_ERROR);
 	}
 
 	public void predict(BasicNetwork network) {
