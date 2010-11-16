@@ -21,7 +21,7 @@ C:\Users\jeff\workspace\encog-examples>
 
 Once the examples have been compiled they can be ran with the regular java command.  For example to run the XOR example, use the following command:
 
-java -classpath ./jar/encog-core.jar;./lib/encog-examples.jar org.encog.examples.neural.xorbackprop.XorBackprop
+java -cp jar/slf4j-api-1.5.6.jar;jar/slf4j-jdk14-1.5.6.jar;lib/encog-core-2.5.0.jar;examples/lib/encog-examples-2.5.0.jar org.encog.examples.neural.xorbackprop.XorBackprop
 
 Executing this example will look something like this:
 
