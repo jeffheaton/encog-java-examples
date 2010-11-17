@@ -1,0 +1,78 @@
+<!-- This POM makes Encog a Maven artifact, accessible from other programs 
+	using Maven. Autor of this POM: iirekm -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.encog</groupId>
+		<artifactId>encog</artifactId>
+		<version>2.6.0-SNAPSHOT</version>
+		<relativePath>../encog-build/pom.xml</relativePath>
+	</parent>
+	<packaging>jar</packaging>
+
+	<artifactId>encog-examples</artifactId>
+	<name>Encog Examples</name>
+	<description>Encog Java Neural Network Framework - Examples</description>
+
+	<build>
+		<!-- use src/main/java for resources as well -->
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>coins</include>
+					<include>*.eg</include>
+					<include>*.dat</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<!-- use src/main/java for test resources as well -->
+		<testResources>
+			<testResource>
+				<directory>test</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
+			<testResource>
+				<directory>.</directory>
+				<includes>
+					<include>coins</include>
+					<include>*.eg</include>
+					<include>*.dat</include>
+				</includes>
+			</testResource>
+		</testResources>
+	</build>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>encog-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>
