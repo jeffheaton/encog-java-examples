@@ -1,5 +1,5 @@
 /*
- * Encog(tm) Core v2.5 - Java Version
+ * Encog(tm) Examples v2.6 
  * http://www.heatonresearch.com/encog/
  * http://code.google.com/p/encog-java/
  
@@ -21,7 +21,6 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-
 package org.encog.examples.neural.activation;
 
 import org.encog.engine.network.activation.ActivationFunction;
