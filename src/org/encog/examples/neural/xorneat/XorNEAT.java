@@ -72,7 +72,7 @@ public class XorNEAT {
 		} while ((train.getError() > 0.001));
 
 		BasicNetwork network = train.getNetwork();
-
+		network.clearContext();
 		// test the neural network
 		System.out.println("Neural Network Results:");
 		for(NeuralDataPair pair: trainingSet ) {
