@@ -35,7 +35,7 @@ public class SimpleKMeans {
         int i = 1;
         for(KMeansCluster cluster: kmeans.getClusters())
         {
-        	System.out.println("*** Cluser " + (i++) + " ***");
+        	System.out.println("*** Cluster " + (i++) + " ***");
         	EngineIndexableSet ds = cluster.createDataSet();
             EngineData pair = BasicEngineData.createPair(ds.getInputSize(), ds.getIdealSize());
             for(int j=0;j<ds.getRecordCount();j++)
