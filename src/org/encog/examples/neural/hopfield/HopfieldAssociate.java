@@ -27,6 +27,7 @@ import org.encog.neural.data.bipolar.BiPolarNeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.logic.HopfieldLogic;
 import org.encog.neural.pattern.HopfieldPattern;
+import org.encog.neural.thermal.HopfieldNetwork;
 
 /**
  * Simple class to recognize some patterns with a Hopfield Neural Network.
@@ -212,9 +213,8 @@ public class HopfieldAssociate {
 	}
 
 	
-	public void evaluate(BasicNetwork hopfield, String[][] pattern)
+	public void evaluate(HopfieldNetwork hopfieldLogic, String[][] pattern)
 	{
-		HopfieldLogic hopfieldLogic = (HopfieldLogic)hopfield.getLogic();
 		for(int i=0;i<pattern.length;i++)
 		{
 			BiPolarNeuralData pattern1 = convertPattern(pattern,i);
@@ -229,18 +229,20 @@ public class HopfieldAssociate {
 	
 	public void run()
 	{
-		HopfieldPattern pattern = new HopfieldPattern();
+		/*HopfieldPattern pattern = new HopfieldPattern();
 		pattern.setInputNeurons(WIDTH*HEIGHT);
 		BasicNetwork hopfield = pattern.generate();
-		HopfieldLogic hopfieldLogic = (HopfieldLogic)hopfield.getLogic();
+		HopfieldLogic hopfieldLogic = (HopfieldLogic)hopfield.getLogic();*/
+		
+		HopfieldNetwork hopfieldLogic = new HopfieldNetwork(WIDTH*HEIGHT);
 
 		for(int i=0;i<PATTERN.length;i++)
 		{
 			hopfieldLogic.addPattern(convertPattern(PATTERN,i));
 		}
 		
-		evaluate(hopfield,PATTERN);
-		evaluate(hopfield,PATTERN2);
+		evaluate(hopfieldLogic,PATTERN);
+		evaluate(hopfieldLogic,PATTERN2);
 	}
 	
 	public static void main(String[] args)

@@ -26,8 +26,6 @@ package org.encog.examples.neural.cross;
 import java.text.NumberFormat;
 
 import org.encog.NullStatusReportable;
-import org.encog.examples.neural.predict.sunspot.PredictSunspot;
-import org.encog.neural.data.Indexable;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
@@ -150,7 +148,7 @@ public class CrossValidateSunspot {
 	}
 
 	public void train(BasicNetwork network, NeuralDataSet training) {
-		final FoldedDataSet folded = new FoldedDataSet((Indexable)training); 
+		final FoldedDataSet folded = new FoldedDataSet(training); 
 		final Train train = new ResilientPropagation(network, folded);
 		final CrossValidationKFold trainFolded = new CrossValidationKFold(train,4);
 

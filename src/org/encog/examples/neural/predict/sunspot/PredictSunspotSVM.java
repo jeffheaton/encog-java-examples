@@ -56,7 +56,6 @@ package org.encog.examples.neural.predict.sunspot;
 import java.text.NumberFormat;
 
 import org.encog.NullStatusReportable;
-import org.encog.neural.data.Indexable;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
@@ -64,10 +63,7 @@ import org.encog.neural.data.temporal.TemporalDataDescription;
 import org.encog.neural.data.temporal.TemporalNeuralDataSet;
 import org.encog.neural.data.temporal.TemporalPoint;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.svm.SVMNetwork;
-import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.svm.SVMTrain;
 import org.encog.normalize.DataNormalization;
 import org.encog.normalize.input.InputField;
@@ -192,7 +188,7 @@ public class PredictSunspotSVM {
 	
 	public void train(BasicNetwork network,NeuralDataSet training)
 	{
-		final SVMTrain train = new SVMTrain(network, (Indexable)training);
+		final SVMTrain train = new SVMTrain(network, training);
 		train.train();
 	}
 	

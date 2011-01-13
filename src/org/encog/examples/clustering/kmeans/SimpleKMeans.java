@@ -6,7 +6,7 @@ import org.encog.engine.cluster.kmeans.KMeansCluster;
 import org.encog.engine.cluster.kmeans.KMeansClustering;
 import org.encog.engine.data.BasicEngineData;
 import org.encog.engine.data.EngineData;
-import org.encog.engine.data.EngineIndexableSet;
+import org.encog.engine.data.EngineDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 
@@ -36,7 +36,7 @@ public class SimpleKMeans {
         for(KMeansCluster cluster: kmeans.getClusters())
         {
         	System.out.println("*** Cluster " + (i++) + " ***");
-        	EngineIndexableSet ds = cluster.createDataSet();
+        	EngineDataSet ds = cluster.createDataSet();
             EngineData pair = BasicEngineData.createPair(ds.getInputSize(), ds.getIdealSize());
             for(int j=0;j<ds.getRecordCount();j++)
             {

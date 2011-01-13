@@ -25,10 +25,9 @@ package org.encog.examples.neural.opencl;
 
 import org.encog.Encog;
 import org.encog.engine.concurrency.calc.ConcurrentCalculate;
-import org.encog.engine.data.EngineIndexableSet;
+import org.encog.engine.data.EngineDataSet;
 import org.encog.engine.network.flat.FlatNetwork;
 import org.encog.engine.util.Stopwatch;
-import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.util.benchmark.RandomTrainingFactory;
 import org.encog.util.simple.EncogUtility;
@@ -47,7 +46,7 @@ public class BenchmarkErrorCalc {
 		ConcurrentCalculate calc = ConcurrentCalculate.getInstance();
 		
 		
-		EngineIndexableSet training = RandomTrainingFactory.generate(1000,
+		EngineDataSet training = RandomTrainingFactory.generate(1000,
 				TRAINING_SIZE, INPUT_SIZE, IDEAL_SIZE, -1, 1);
 		BasicNetwork network = EncogUtility.simpleFeedForward(training
 				.getInputSize(), HIDDEN1_SIZE, HIDDEN2_SIZE, training.getIdealSize(), true);
