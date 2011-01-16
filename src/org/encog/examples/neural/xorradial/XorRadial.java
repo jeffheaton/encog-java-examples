@@ -53,7 +53,7 @@ public class XorRadial {
 		pattern.setInputNeurons(2);
 		pattern.addHiddenLayer(4);
 		pattern.setOutputNeurons(1);
-		BasicNetwork network = pattern.generate();
+		BasicNetwork network = (BasicNetwork)pattern.generate();
 		RadialBasisFunctionLayer rbfLayer = (RadialBasisFunctionLayer)network.getLayer(RadialBasisPattern.RBF_LAYER);
 
 		rbfLayer.randomizeRBFCentersAndWidths(2, 0, 1, RBFEnum.Gaussian);

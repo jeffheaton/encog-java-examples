@@ -24,9 +24,7 @@
 package org.encog.examples.neural.boltzmann;
 
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.logic.BoltzmannLogic;
-import org.encog.neural.pattern.BoltzmannPattern;
+import org.encog.neural.thermal.BoltzmannMachine;
 
 public class BoltzTSP {
 
@@ -127,10 +125,8 @@ public class BoltzTSP {
 		return result.toString();
 	}
 
-	public void calculateWeights(BasicNetwork network) {
+	public void calculateWeights(BoltzmannMachine logic) {
 		
-		BoltzmannLogic logic = (BoltzmannLogic)network.getLogic();
-
 		for (int sourceTour = 0; sourceTour < NUM_CITIES; sourceTour++) {
 			for (int sourceCity = 0; sourceCity < NUM_CITIES; sourceCity++) {
 				int sourceIndex = sourceTour * NUM_CITIES + sourceCity;
@@ -146,32 +142,29 @@ public class BoltzTSP {
 							else if ((sourceTour == predTargetTour) || (sourceTour == succTargetTour))
 								weight = -distance[sourceCity][targetCity];
 						}
-						logic.getThermalSynapse().getMatrix().set(sourceIndex, targetIndex, weight);
+						logic.setWeight(sourceIndex, targetIndex, weight);
 					}
 				}
-				logic.getThermalLayer().setBiasWeight(sourceIndex, -gamma / 2);
+				logic.getThreshold()[sourceIndex] = -gamma / 2;
 			}
 		}
 	}
 
 
 	public void run() {
-		BoltzmannPattern pattern = new BoltzmannPattern();
-		pattern.setInputNeurons(NEURON_COUNT);
-		BasicNetwork network = pattern.generate();
-		BoltzmannLogic logic = (BoltzmannLogic)network.getLogic();
+		BoltzmannMachine boltz = new BoltzmannMachine(NEURON_COUNT);
 
 		createCities();
-		calculateWeights(network);
+		calculateWeights(boltz);
 
-		logic.setTemperature(100);
+		boltz.setTemperature(100);
 		do {
-			logic.establishEquilibrium();
-			System.out.println(logic.getTemperature()+" : "+displayTour(logic.getCurrentState()));
-			logic.decreaseTemperature(0.99);
-		} while (!isValidTour(logic.getCurrentState()));
+			boltz.establishEquilibrium();
+			System.out.println(boltz.getTemperature()+" : "+displayTour(boltz.getCurrentState()));
+			boltz.decreaseTemperature(0.99);
+		} while (!isValidTour(boltz.getCurrentState()));
 
-		System.out.println("Final Length: " + this.lengthOfTour(logic.getCurrentState()) );
+		System.out.println("Final Length: " + this.lengthOfTour(boltz.getCurrentState()) );
 	}
 
 	public static void main(String[] args) {

@@ -168,7 +168,7 @@ public class AdalineDigits {
 		ADALINEPattern pattern = new ADALINEPattern();
 		pattern.setInputNeurons(inputNeurons);
 		pattern.setOutputNeurons(outputNeurons);
-		BasicNetwork network = pattern.generate();
+		BasicNetwork network = (BasicNetwork)pattern.generate();
 		
 		// train it
 		NeuralDataSet training = generateTraining();

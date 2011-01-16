@@ -23,10 +23,8 @@
  */
 package org.encog.examples.neural.art.art1;
 
+import org.encog.neural.art.ART1;
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.logic.ART1Logic;
-import org.encog.neural.pattern.ART1Pattern;
 
 public class NeuralART1 {
 	
@@ -78,11 +76,7 @@ public class NeuralART1 {
 
 	public void run() {
 		this.setupInput();
-		ART1Pattern pattern = new ART1Pattern();
-		pattern.setInputNeurons(INPUT_NEURONS);
-		pattern.setOutputNeurons(OUTPUT_NEURONS);
-		BasicNetwork network = pattern.generate();
-		ART1Logic logic = (ART1Logic) network.getLogic();
+		ART1 logic = new ART1(INPUT_NEURONS,OUTPUT_NEURONS);
 
 		for (int i = 0; i < PATTERN.length; i++) {
 			BiPolarNeuralData in = new BiPolarNeuralData(this.input[i]);

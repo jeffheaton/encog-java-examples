@@ -306,7 +306,7 @@ public class RocketCPN {
         pattern.setInstarCount( this.instarNeurons );
         pattern.setOutstarCount( this.outstarNeurons );
 
-        BasicNetwork network = pattern.generate();
+        BasicNetwork network = (BasicNetwork)pattern.generate();
         network.reset();
 
         return network;

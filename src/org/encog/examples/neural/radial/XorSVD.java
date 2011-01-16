@@ -54,7 +54,7 @@ public class XorSVD {
 		pattern.setInputNeurons(2);
 		pattern.addHiddenLayer(4);
 		pattern.setOutputNeurons(1);
-		BasicNetwork network = pattern.generate();
+		BasicNetwork network = (BasicNetwork)pattern.generate();
 
 		network.getStructure().finalizeStructure();
 

@@ -71,7 +71,7 @@ public class SomColors extends JFrame implements Runnable {
 		SOMPattern pattern = new SOMPattern();
 		pattern.setInputNeurons(3);
 		pattern.setOutputNeurons(MapPanel.WIDTH * MapPanel.HEIGHT);
-		result = pattern.generate();
+		result = (BasicNetwork)pattern.generate();
 		result.reset();
 		return result;
 	}

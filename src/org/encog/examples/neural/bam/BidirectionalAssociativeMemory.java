@@ -23,11 +23,9 @@
  */
 package org.encog.examples.neural.bam;
 
+import org.encog.neural.bam.BAM;
 import org.encog.neural.data.bipolar.BiPolarNeuralData;
-import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.NeuralDataMapping;
-import org.encog.neural.networks.logic.BAMLogic;
-import org.encog.neural.pattern.BAMPattern;
 
 /**
  * Simple class to recognize some patterns with a Bidirectional
@@ -123,9 +121,8 @@ public class BidirectionalAssociativeMemory {
 		return result.toString();
 	}
 	
-	public void runBAM(BasicNetwork network, NeuralDataMapping data )
+	public void runBAM(BAM logic, NeuralDataMapping data )
 	{
-		BAMLogic logic = (BAMLogic)network.getLogic();
 		StringBuilder line = new StringBuilder();
 		line.append(mappingToString(data));
 		logic.compute(data);
@@ -136,11 +133,7 @@ public class BidirectionalAssociativeMemory {
 	
 	public void run()
 	{		
-		BAMPattern pattern = new BAMPattern();
-		pattern.setF1Neurons(INPUT_NEURONS);
-		pattern.setF2Neurons(OUTPUT_NEURONS);
-		BasicNetwork network = pattern.generate();
-		BAMLogic logic = (BAMLogic)network.getLogic();
+		BAM logic = new BAM(INPUT_NEURONS, OUTPUT_NEURONS);
 		
 		// train
 		for(int i=0;i<NAMES.length;i++)
@@ -156,7 +149,7 @@ public class BidirectionalAssociativeMemory {
 			NeuralDataMapping data = new NeuralDataMapping(
 					stringToBipolar(NAMES[i]),
 					randomBiPolar(OUT_CHARS*BITS_PER_CHAR));	
-			runBAM(network, data);
+			runBAM(logic, data);
 		}
 		
 		System.out.println();
@@ -166,7 +159,7 @@ public class BidirectionalAssociativeMemory {
 			NeuralDataMapping data = new NeuralDataMapping(
 					stringToBipolar(PHONES[i]),
 					randomBiPolar(IN_CHARS*BITS_PER_CHAR) );	
-			runBAM(network, data);
+			runBAM(logic, data);
 		}
 		
 		System.out.println();
@@ -176,7 +169,7 @@ public class BidirectionalAssociativeMemory {
 			NeuralDataMapping data = new NeuralDataMapping(
 					stringToBipolar(NAMES2[i]),
 					randomBiPolar(OUT_CHARS*BITS_PER_CHAR));	
-			runBAM(network, data);
+			runBAM(logic, data);
 		}
 		
 		

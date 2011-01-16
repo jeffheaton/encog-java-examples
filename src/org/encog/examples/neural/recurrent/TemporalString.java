@@ -122,7 +122,7 @@ public class TemporalString {
 		pattern.setOutputNeurons(this.ideal[0].length);
 		pattern.addHiddenLayer(8);
 		pattern.setActivationFunction(new ActivationSigmoid());
-		return pattern.generate();
+		return (BasicNetwork)pattern.generate();
 	}
 		
 	public BasicNetwork createJordan()
@@ -132,7 +132,7 @@ public class TemporalString {
 		pattern.setOutputNeurons(this.ideal[0].length);
 		pattern.addHiddenLayer(16);
 		pattern.setActivationFunction(new ActivationSigmoid());
-		return pattern.generate();
+		return (BasicNetwork)pattern.generate();
 	}
 	
 	public void run()

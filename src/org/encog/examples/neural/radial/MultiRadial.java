@@ -78,7 +78,7 @@ public class MultiRadial {
 
         pattern.addHiddenLayer(numNeurons);
 
-        BasicNetwork network = pattern.generate();
+        BasicNetwork network = (BasicNetwork)pattern.generate();
         RadialBasisFunctionLayer rbfLayer = (RadialBasisFunctionLayer)network.getLayer(RadialBasisPattern.RBF_LAYER);
         network.reset();
 

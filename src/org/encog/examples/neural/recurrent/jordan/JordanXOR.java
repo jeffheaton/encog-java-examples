@@ -60,7 +60,7 @@ public class JordanXOR {
 		pattern.setInputNeurons(1);
 		pattern.addHiddenLayer(6);
 		pattern.setOutputNeurons(1);
-		return pattern.generate();
+		return (BasicNetwork)pattern.generate();
 	}
 
 	static BasicNetwork createFeedforwardNetwork() {
@@ -70,7 +70,7 @@ public class JordanXOR {
 		pattern.setInputNeurons(1);
 		pattern.addHiddenLayer(2);
 		pattern.setOutputNeurons(1);
-		return pattern.generate();
+		return (BasicNetwork)pattern.generate();
 	}
 
 	public static void main(final String args[]) {

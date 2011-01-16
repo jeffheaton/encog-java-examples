@@ -42,7 +42,7 @@ public class LunarLander {
 		pattern.addHiddenLayer(50);
 		pattern.setOutputNeurons(1);
 		pattern.setActivationFunction(new ActivationTANH());
-		BasicNetwork network = pattern.generate();
+		BasicNetwork network = (BasicNetwork)pattern.generate();
 		network.reset();
 		return network;
 	}

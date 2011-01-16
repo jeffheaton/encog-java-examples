@@ -38,7 +38,7 @@ public class TrainNetwork {
 		SOMPattern pattern = new SOMPattern();		 	
 		pattern.setInputNeurons(trainingSet.getInputSize());
 		pattern.setOutputNeurons(Constant.OUTPUT_COUNT*Constant.OUTPUT_COUNT);
-		BasicNetwork result = pattern.generate();
+		BasicNetwork result = (BasicNetwork)pattern.generate();
 		result.reset();
 		return result;
 	}
