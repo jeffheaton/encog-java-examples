@@ -27,18 +27,19 @@ import org.encog.mathutil.rbf.RBFEnum;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.competitive.CompetitiveTraining;
-import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodRBF;
 import org.encog.neural.pattern.SOMPattern;
+import org.encog.neural.som.SOM;
+import org.encog.neural.som.training.basic.BasicTrainSOM;
+import org.encog.neural.som.training.basic.neighborhood.NeighborhoodRBF;
 import org.encog.persist.EncogPersistedCollection;
 
 public class TrainNetwork {
-	public static BasicNetwork generateNetwork(NeuralDataSet trainingSet)
+	public static SOM generateNetwork(NeuralDataSet trainingSet)
 	{
 		SOMPattern pattern = new SOMPattern();		 	
 		pattern.setInputNeurons(trainingSet.getInputSize());
 		pattern.setOutputNeurons(Constant.OUTPUT_COUNT*Constant.OUTPUT_COUNT);
-		BasicNetwork result = (BasicNetwork)pattern.generate();
+		SOM result = (SOM)pattern.generate();
 		result.reset();
 		return result;
 	}
@@ -52,10 +53,10 @@ public class TrainNetwork {
 		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(Constant.BINARY_FILE);
 		
 		System.out.println("Beginning training...");
-		BasicNetwork network = generateNetwork(trainingSet);
+		SOM network = generateNetwork(trainingSet);
 
 		NeighborhoodRBF neighborhood = new NeighborhoodRBF(RBFEnum.Gaussian,Constant.OUTPUT_COUNT,Constant.OUTPUT_COUNT);
-		CompetitiveTraining train = new CompetitiveTraining(
+		BasicTrainSOM train = new BasicTrainSOM(
 				network,
 				0.1,
 				trainingSet,

@@ -28,6 +28,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import org.encog.mathutil.matrices.Matrix;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.synapse.Synapse;
 
@@ -41,11 +42,11 @@ public class MapPanel extends JPanel {
 	public static final int WIDTH = 50;
 	public static final int HEIGHT = 50;
 
-	private Synapse synapse;
+	private Matrix weights;
 	
 	public MapPanel(SomColors som)
 	{
-		this.synapse = som.getNetwork().getLayer(BasicNetwork.TAG_INPUT).getNext().get(0);
+		this.weights = som.getNetwork().getWeights();
 	}
 	
 	private int convertColor(double d)
@@ -66,9 +67,9 @@ public class MapPanel extends JPanel {
 			for(int x = 0; x< WIDTH; x++)
 			{
 				int index = (y*WIDTH)+x;
-				int red = convertColor(this.synapse.getMatrix().get(0, index));
-				int green = convertColor(this.synapse.getMatrix().get(1, index));
-				int blue = convertColor(this.synapse.getMatrix().get(2, index));
+				int red = convertColor(weights.get(0, index));
+				int green = convertColor(weights.get(1, index));
+				int blue = convertColor(weights.get(2, index));
 				g.setColor(new Color(red,green,blue));
 				g.fillRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 			}

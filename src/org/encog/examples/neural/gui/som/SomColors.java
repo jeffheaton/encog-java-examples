@@ -33,9 +33,10 @@ import org.encog.mathutil.rbf.RBFEnum;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.competitive.CompetitiveTraining;
-import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodRBF;
 import org.encog.neural.pattern.SOMPattern;
+import org.encog.neural.som.SOM;
+import org.encog.neural.som.training.basic.BasicTrainSOM;
+import org.encog.neural.som.training.basic.neighborhood.NeighborhoodRBF;
 
 public class SomColors extends JFrame implements Runnable {
 
@@ -44,9 +45,9 @@ public class SomColors extends JFrame implements Runnable {
 	 */
 	private static final long serialVersionUID = -6762179069967224817L;
 	private MapPanel map;
-	private BasicNetwork network;
+	private SOM network;
 	private Thread thread;
-	private CompetitiveTraining train;
+	private BasicTrainSOM train;
 	private NeighborhoodRBF gaussian;
 
 	public SomColors() {
@@ -56,22 +57,18 @@ public class SomColors extends JFrame implements Runnable {
 		this.getContentPane().add(map = new MapPanel(this));
 		this.gaussian = new NeighborhoodRBF(RBFEnum.Gaussian,MapPanel.WIDTH,
 				MapPanel.HEIGHT);
-		this.train = new CompetitiveTraining(this.network, 0.01, null, gaussian);
+		this.train = new BasicTrainSOM(this.network, 0.01, null, gaussian);
 		train.setForceWinner(false);
 		this.thread = new Thread(this);
 		thread.start();
 	}
 
-	public BasicNetwork getNetwork() {
+	public SOM getNetwork() {
 		return this.network;
 	}
 
-	private BasicNetwork createNetwork() {
-		BasicNetwork result = new BasicNetwork();
-		SOMPattern pattern = new SOMPattern();
-		pattern.setInputNeurons(3);
-		pattern.setOutputNeurons(MapPanel.WIDTH * MapPanel.HEIGHT);
-		result = (BasicNetwork)pattern.generate();
+	private SOM createNetwork() {
+		SOM result = new SOM(3,MapPanel.WIDTH * MapPanel.HEIGHT);
 		result.reset();
 		return result;
 	}

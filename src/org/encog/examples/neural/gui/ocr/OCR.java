@@ -53,8 +53,9 @@ import org.encog.neural.data.basic.BasicNeuralDataPair;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.competitive.CompetitiveTraining;
-import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingleRBF;
+import org.encog.neural.som.SOM;
+import org.encog.neural.som.training.basic.BasicTrainSOM;
+import org.encog.neural.som.training.basic.neighborhood.NeighborhoodSingleRBF;
 import org.encog.util.logging.Logging;
 
 /**
@@ -154,7 +155,7 @@ public class OCR extends JFrame implements Runnable {
 	/**
 	 * The neural network.
 	 */
-	private BasicNetwork net;
+	private SOM net;
 
 	/**
 	 * The background thread used for training.
@@ -577,15 +578,10 @@ public class OCR extends JFrame implements Runnable {
 				trainingSet.add(new BasicNeuralDataPair(item, null));
 			}
 
-			this.net = new BasicNetwork();
-			this.net.addLayer(new BasicLayer(new ActivationLinear(), false,
-					inputNeuron));
-			this.net.addLayer(new BasicLayer(new ActivationLinear(), false,
-					outputNeuron));
-			this.net.getStructure().finalizeStructure();
+			this.net = new SOM(inputNeuron,outputNeuron);
 			this.net.reset();
 
-			final CompetitiveTraining train = new CompetitiveTraining(this.net,
+			final BasicTrainSOM train = new BasicTrainSOM(this.net,
 					0.25, trainingSet, new NeighborhoodSingleRBF(
 							new GaussianFunction(0, 1, 2)));
 			train.setForceWinner(true);

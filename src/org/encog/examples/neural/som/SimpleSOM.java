@@ -31,8 +31,9 @@ import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.competitive.CompetitiveTraining;
-import org.encog.neural.networks.training.competitive.neighborhood.NeighborhoodSingle;
+import org.encog.neural.som.SOM;
+import org.encog.neural.som.training.basic.BasicTrainSOM;
+import org.encog.neural.som.training.basic.neighborhood.NeighborhoodSingle;
 import org.encog.util.logging.Logging;
 
 /**
@@ -54,13 +55,10 @@ public class SimpleSOM {
 		NeuralDataSet training = new BasicNeuralDataSet(SOM_INPUT,null);
 		
 		// Create the neural network.
-		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationLinear(),false,4));
-		network.addLayer(new BasicLayer(new ActivationLinear(),false,2));
-		network.getStructure().finalizeStructure();
-		(new RangeRandomizer(-0.5, 0.5)).randomize(network);
+		SOM network = new SOM(4,2);
+		network.reset();
 		
-		CompetitiveTraining train = new CompetitiveTraining(
+		BasicTrainSOM train = new BasicTrainSOM(
 				network,
 				0.7,
 				training,
