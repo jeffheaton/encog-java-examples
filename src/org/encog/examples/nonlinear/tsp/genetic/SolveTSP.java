@@ -23,15 +23,15 @@
  */
 package org.encog.examples.nonlinear.tsp.genetic;
 
-import org.encog.solve.genetic.GeneticAlgorithm;
-import org.encog.solve.genetic.crossover.SpliceNoRepeat;
-import org.encog.solve.genetic.genes.Gene;
-import org.encog.solve.genetic.genes.IntegerGene;
-import org.encog.solve.genetic.genome.CalculateGenomeScore;
-import org.encog.solve.genetic.mutate.MutateShuffle;
-import org.encog.solve.genetic.population.BasicPopulation;
-import org.encog.solve.genetic.population.Population;
 import org.encog.examples.nonlinear.tsp.City;
+import org.encog.ml.genetic.GeneticAlgorithm;
+import org.encog.ml.genetic.crossover.SpliceNoRepeat;
+import org.encog.ml.genetic.genes.Gene;
+import org.encog.ml.genetic.genes.IntegerGene;
+import org.encog.ml.genetic.genome.CalculateGenomeScore;
+import org.encog.ml.genetic.mutate.MutateShuffle;
+import org.encog.ml.genetic.population.BasicPopulation;
+import org.encog.ml.genetic.population.Population;
 
 /**
  * SolveTSP with a genetic algorithm.  The Encog API includes a generic

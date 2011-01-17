@@ -79,7 +79,7 @@ public class XorGenetic {
 			epoch++;
 		} while ((epoch < 5000) && (train.getError() > 0.01));
 
-		network = train.getNetwork();
+		network = (BasicNetwork)train.getNetwork();
 
 		// test the neural network
 		System.out.println("Neural Network Results:");

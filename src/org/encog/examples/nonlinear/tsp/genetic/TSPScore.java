@@ -24,9 +24,8 @@
 package org.encog.examples.nonlinear.tsp.genetic;
 
 import org.encog.examples.nonlinear.tsp.City;
-import org.encog.solve.genetic.genes.IntegerGene;
-import org.encog.solve.genetic.genome.CalculateGenomeScore;
-import org.encog.solve.genetic.genome.Genome;
+import org.encog.ml.genetic.genome.CalculateGenomeScore;
+import org.encog.ml.genetic.genome.Genome;
 
 public class TSPScore implements CalculateGenomeScore {
 

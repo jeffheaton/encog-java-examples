@@ -76,7 +76,7 @@ public class LunarLander {
 		} 
 
 		System.out.println("\nHow the winning network landed:");
-		network = train.getNetwork();
+		network = (BasicNetwork)train.getNetwork();
 		NeuralPilot pilot = new NeuralPilot(network,true);
 		System.out.println(pilot.scorePilot());
 		Encog.getInstance().shutdown();

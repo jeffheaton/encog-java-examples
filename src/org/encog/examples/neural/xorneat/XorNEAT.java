@@ -28,10 +28,11 @@ import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.neat.NEATNetwork;
+import org.encog.neural.neat.training.NEATTraining;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.TrainingSetScore;
-import org.encog.neural.networks.training.neat.NEATTraining;
 import org.encog.util.logging.Logging;
 
 /**
@@ -71,7 +72,7 @@ public class XorNEAT {
 			epoch++;
 		} while ((train.getError() > 0.001));
 
-		BasicNetwork network = train.getNetwork();
+		NEATNetwork network = train.getNetwork();
 		network.clearContext();
 		// test the neural network
 		System.out.println("Neural Network Results:");

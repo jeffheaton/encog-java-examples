@@ -23,10 +23,10 @@
  */
 package org.encog.examples.nonlinear.basicstrategy;
 
-import org.encog.solve.genetic.GeneticAlgorithm;
-import org.encog.solve.genetic.genes.CharGene;
-import org.encog.solve.genetic.genome.BasicGenome;
-import org.encog.solve.genetic.genome.Chromosome;
+import org.encog.ml.genetic.GeneticAlgorithm;
+import org.encog.ml.genetic.genes.CharGene;
+import org.encog.ml.genetic.genome.BasicGenome;
+import org.encog.ml.genetic.genome.Chromosome;
 
 public class PlayerGenome extends BasicGenome {
 

@@ -25,15 +25,11 @@ package org.encog.examples.nonlinear.basicstrategy;
 
 import org.encog.examples.nonlinear.basicstrategy.blackjack.Dealer;
 import org.encog.examples.nonlinear.basicstrategy.blackjack.Table;
-import org.encog.examples.nonlinear.tsp.genetic.TSPGenome;
-import org.encog.examples.nonlinear.tsp.genetic.TSPScore;
-import org.encog.solve.genetic.GeneticAlgorithm;
-import org.encog.solve.genetic.crossover.Splice;
-import org.encog.solve.genetic.crossover.SpliceNoRepeat;
-import org.encog.solve.genetic.genome.CalculateGenomeScore;
-import org.encog.solve.genetic.mutate.MutateShuffle;
-import org.encog.solve.genetic.population.BasicPopulation;
-import org.encog.solve.genetic.population.Population;
+import org.encog.ml.genetic.GeneticAlgorithm;
+import org.encog.ml.genetic.crossover.Splice;
+import org.encog.ml.genetic.mutate.MutateShuffle;
+import org.encog.ml.genetic.population.BasicPopulation;
+import org.encog.ml.genetic.population.Population;
 
 public class Play21 {
 

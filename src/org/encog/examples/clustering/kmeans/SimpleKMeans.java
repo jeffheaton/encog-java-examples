@@ -2,11 +2,11 @@ package org.encog.examples.clustering.kmeans;
 
 import java.util.Arrays;
 
-import org.encog.engine.cluster.kmeans.KMeansCluster;
-import org.encog.engine.cluster.kmeans.KMeansClustering;
 import org.encog.engine.data.BasicEngineData;
 import org.encog.engine.data.EngineData;
 import org.encog.engine.data.EngineDataSet;
+import org.encog.ml.kmeans.KMeansCluster;
+import org.encog.ml.kmeans.KMeansClustering;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 

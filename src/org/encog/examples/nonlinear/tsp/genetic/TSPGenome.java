@@ -24,12 +24,10 @@
 package org.encog.examples.nonlinear.tsp.genetic;
 
 import org.encog.examples.nonlinear.tsp.City;
-import org.encog.neural.NeuralNetworkError;
-import org.encog.solve.genetic.GeneticAlgorithm;
-import org.encog.solve.genetic.genes.Gene;
-import org.encog.solve.genetic.genes.IntegerGene;
-import org.encog.solve.genetic.genome.BasicGenome;
-import org.encog.solve.genetic.genome.Chromosome;
+import org.encog.ml.genetic.GeneticAlgorithm;
+import org.encog.ml.genetic.genes.IntegerGene;
+import org.encog.ml.genetic.genome.BasicGenome;
+import org.encog.ml.genetic.genome.Chromosome;
 
 
 

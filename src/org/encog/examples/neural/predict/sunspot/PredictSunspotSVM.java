@@ -56,6 +56,8 @@ package org.encog.examples.neural.predict.sunspot;
 import java.text.NumberFormat;
 
 import org.encog.NullStatusReportable;
+import org.encog.ml.svm.SVM;
+import org.encog.ml.svm.training.SVMTrain;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
@@ -63,8 +65,6 @@ import org.encog.neural.data.temporal.TemporalDataDescription;
 import org.encog.neural.data.temporal.TemporalNeuralDataSet;
 import org.encog.neural.data.temporal.TemporalPoint;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.svm.SVMNetwork;
-import org.encog.neural.networks.training.svm.SVMTrain;
 import org.encog.normalize.DataNormalization;
 import org.encog.normalize.input.InputField;
 import org.encog.normalize.input.InputFieldArray1D;
@@ -180,19 +180,19 @@ public class PredictSunspotSVM {
 		return result;
 	}
 	
-	public BasicNetwork createNetwork()
+	public SVM createNetwork()
 	{
-		BasicNetwork network = new SVMNetwork(WINDOW_SIZE,1,true);
+		SVM network = new SVM(WINDOW_SIZE,1,true);
 		return network;
 	}
 	
-	public void train(BasicNetwork network,NeuralDataSet training)
+	public void train(SVM network,NeuralDataSet training)
 	{
 		final SVMTrain train = new SVMTrain(network, training);
 		train.train();
 	}
 	
-	public void predict(BasicNetwork network)
+	public void predict(SVM network)
 	{
 		NumberFormat f = NumberFormat.getNumberInstance();
 		f.setMaximumFractionDigits(4);
@@ -233,7 +233,7 @@ public class PredictSunspotSVM {
 	public void run()
 	{
 		normalizeSunspots(0.1,0.9);
-		BasicNetwork network = createNetwork();
+		SVM network = createNetwork();
 		NeuralDataSet training = generateTraining();
 		train(network,training);
 		predict(network);

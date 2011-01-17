@@ -25,8 +25,8 @@ package org.encog.examples.nonlinear.basicstrategy;
 
 import org.encog.examples.nonlinear.basicstrategy.blackjack.Dealer;
 import org.encog.examples.nonlinear.basicstrategy.blackjack.Table;
-import org.encog.solve.genetic.genome.CalculateGenomeScore;
-import org.encog.solve.genetic.genome.Genome;
+import org.encog.ml.genetic.genome.CalculateGenomeScore;
+import org.encog.ml.genetic.genome.Genome;
 
 public class ScorePlayer implements CalculateGenomeScore {
 

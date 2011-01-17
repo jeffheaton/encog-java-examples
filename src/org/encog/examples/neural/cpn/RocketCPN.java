@@ -23,14 +23,15 @@
  */
 package org.encog.examples.neural.cpn;
 
+import org.encog.neural.cpn.CPN;
+import org.encog.neural.cpn.training.TrainInstar;
+import org.encog.neural.cpn.training.TrainOutstar;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.cpn.TrainInstar;
-import org.encog.neural.networks.training.cpn.TrainOutstar;
 import org.encog.neural.pattern.CPNPattern;
 
 public class RocketCPN {
@@ -299,20 +300,13 @@ public class RocketCPN {
 	  }
 	}
 
-	public BasicNetwork createNetwork()
+	public CPN createNetwork()
 	{		
-        CPNPattern pattern = new CPNPattern();
-        pattern.setInputNeurons( this.inputNeurons );
-        pattern.setInstarCount( this.instarNeurons );
-        pattern.setOutstarCount( this.outstarNeurons );
-
-        BasicNetwork network = (BasicNetwork)pattern.generate();
-        network.reset();
-
-        return network;
+		CPN result = new CPN(this.inputNeurons, this.instarNeurons, this.outstarNeurons,1);
+        return result;
 	}
 	
-	public void trainInstar(BasicNetwork network,NeuralDataSet training)
+	public void trainInstar(CPN network,NeuralDataSet training)
 	{
 		int epoch = 1;
 
@@ -325,7 +319,7 @@ public class RocketCPN {
 		} 
 	}
 	
-	public void trainOutstar(BasicNetwork network,NeuralDataSet training)
+	public void trainOutstar(CPN network,NeuralDataSet training)
 	{
 		int epoch = 1;
 
@@ -355,7 +349,7 @@ public class RocketCPN {
 		  return result;
 	}
 	
-	public void test(BasicNetwork network,String[][] pattern,double[][] input)
+	public void test(CPN network,String[][] pattern,double[][] input)
 	{
 		for(int i=0;i<pattern.length;i++)
 		{
@@ -380,7 +374,7 @@ public class RocketCPN {
 	{
 		prepareInput();
 		normalizeInput();
-		BasicNetwork network = createNetwork();
+		CPN network = createNetwork();
 		NeuralDataSet training = generateTraining(this.input1,this.ideal1);
 		trainInstar(network,training);
 		trainOutstar(network,training);
