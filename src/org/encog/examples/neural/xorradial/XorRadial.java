@@ -26,9 +26,8 @@ package org.encog.examples.neural.xorradial;
 import org.encog.mathutil.rbf.RBFEnum;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.RadialBasisFunctionLayer;
-import org.encog.neural.pattern.RadialBasisPattern;
+import org.encog.neural.rbf.RBFNetwork;
+import org.encog.neural.rbf.training.SVDTraining;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
@@ -48,25 +47,22 @@ public class XorRadial {
 	public static void main(final String args[]) {
 
 		Logging.stopConsoleLogging();
-
-		RadialBasisPattern pattern = new RadialBasisPattern();
-		pattern.setInputNeurons(2);
-		pattern.addHiddenLayer(4);
-		pattern.setOutputNeurons(1);
-		BasicNetwork network = (BasicNetwork)pattern.generate();
-		RadialBasisFunctionLayer rbfLayer = (RadialBasisFunctionLayer)network.getLayer(RadialBasisPattern.RBF_LAYER);
-
-		rbfLayer.randomizeRBFCentersAndWidths(2, 0, 1, RBFEnum.Gaussian);
-		network.getStructure().finalizeStructure();
-
+		
 		final NeuralDataSet trainingSet = new BasicNeuralDataSet(
 				XorRadial.XOR_INPUT, XorRadial.XOR_IDEAL);
 
+		RBFNetwork network = new RBFNetwork(2,4,1, RBFEnum.Gaussian);
+
+		SVDTraining training = new SVDTraining(network,trainingSet);
+		training.iteration();
+		System.out.println(training.getError());
+
+		/*
 		// train the neural network
 		EncogUtility.trainToError(network, trainingSet, 0.01);
 
 		// test the neural network
-		System.out.println("Neural Network Results:");
+		System.out.println("Neural Network Results:");*/
 		EncogUtility.evaluate(network, trainingSet);
 	}
 }

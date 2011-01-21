@@ -23,13 +23,15 @@
  */
 package org.encog.examples.neural.radial;
 
+import org.encog.examples.neural.xorradial.XorRadial;
+import org.encog.mathutil.rbf.RBFEnum;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.svd.SVDTraining;
-import org.encog.neural.pattern.RadialBasisPattern;
+import org.encog.neural.rbf.RBFNetwork;
+import org.encog.neural.rbf.training.SVDTraining;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
+
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network
@@ -50,18 +52,13 @@ public class XorSVD {
 
 		Logging.stopConsoleLogging();
 
-		RadialBasisPattern pattern = new RadialBasisPattern();
-		pattern.setInputNeurons(2);
-		pattern.addHiddenLayer(4);
-		pattern.setOutputNeurons(1);
-		BasicNetwork network = (BasicNetwork)pattern.generate();
-
-		network.getStructure().finalizeStructure();
-
 		final NeuralDataSet trainingSet = new BasicNeuralDataSet(
-				XorSVD.XOR_INPUT, XorSVD.XOR_IDEAL);
+				XorRadial.XOR_INPUT, XorRadial.XOR_IDEAL);
+
+		RBFNetwork network = new RBFNetwork(2,4,1, RBFEnum.Gaussian);
 
 		SVDTraining train = new SVDTraining(network,trainingSet);
+		
 		// train the neural network
 		EncogUtility.trainToError(train, network, trainingSet, 0.01);
 

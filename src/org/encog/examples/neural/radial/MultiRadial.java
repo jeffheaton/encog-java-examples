@@ -34,10 +34,10 @@ import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.RadialBasisFunctionLayer;
 import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.svd.SVDTraining;
 import org.encog.neural.pattern.RadialBasisPattern;
+import org.encog.neural.rbf.RBFNetwork;
+import org.encog.neural.rbf.training.SVDTraining;
 
 /**
  * 
@@ -78,12 +78,10 @@ public class MultiRadial {
 
         pattern.addHiddenLayer(numNeurons);
 
-        BasicNetwork network = (BasicNetwork)pattern.generate();
-        RadialBasisFunctionLayer rbfLayer = (RadialBasisFunctionLayer)network.getLayer(RadialBasisPattern.RBF_LAYER);
-        network.reset();
+        RBFNetwork network = (RBFNetwork)pattern.generate();
 
         //Position the multidimensional RBF neurons, with equal spacing, within the provided sample space from 0 to 1.
-        rbfLayer.setRBFCentersAndWidthsEqualSpacing(0, 1, RBFEnum.Gaussian, dimensions, volumeNeuronWidth, includeEdgeRBFs);
+        network.setRBFCentersAndWidthsEqualSpacing(0, 1, RBFEnum.Gaussian, dimensions, volumeNeuronWidth, includeEdgeRBFs);
 
         //Create some training data that can not easily be represented by gaussians
         //There are other training examples for both 1D and 2D
