@@ -60,9 +60,9 @@ public class XORResilient {
 		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(null, true,2));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,2));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,4));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,1));
+		network.addLayer(new BasicLayer(null, false,1));
 		network.getStructure().finalizeStructure();
 		network.reset();
 
@@ -71,7 +71,7 @@ public class XORResilient {
 		// train the neural network
 		final Train train = new ResilientPropagation(network, trainingSet);
 		// reset if improve is less than 1% over 5 cycles
-		train.addStrategy(new RequiredImprovementStrategy(5));
+		//train.addStrategy(new RequiredImprovementStrategy(5));
 		
 		int epoch = 1;
 

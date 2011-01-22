@@ -31,7 +31,6 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.propagation.scg.ScaledConjugateGradient;
 import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
 import org.encog.util.logging.Logging;
@@ -57,11 +56,10 @@ public class XorSCG {
 		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),false,2));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,2));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,3));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,3));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,1));
-		network.setLogic(new FeedforwardLogic());
 		network.getStructure().finalizeStructure();
 		network.reset();
 		(new RangeRandomizer(-5,5)).randomize(network);

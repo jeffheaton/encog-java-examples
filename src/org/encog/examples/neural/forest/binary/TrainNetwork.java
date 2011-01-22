@@ -31,7 +31,6 @@ import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.data.buffer.codec.CSVDataCODEC;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.normalize.DataNormalization;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.csv.CSVFormat;
@@ -48,7 +47,6 @@ public class TrainNetwork {
 				Constant.HIDDEN_COUNT));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,
 				trainingSet.getIdealSize()));
-		network.setLogic(new FeedforwardLogic());
 		network.getStructure().finalizeStructure();
 		network.reset();
 		return network;

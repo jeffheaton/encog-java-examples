@@ -30,7 +30,6 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.logic.FeedforwardLogic;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.util.logging.Logging;
@@ -56,10 +55,9 @@ public class XorBackprop {
 		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,2));
+		network.addLayer(new BasicLayer(null,false,2));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,3));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,1));
-		network.setLogic(new FeedforwardLogic());
 		network.getStructure().finalizeStructure();
 		network.reset();
 

@@ -29,8 +29,6 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import org.encog.mathutil.matrices.Matrix;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.synapse.Synapse;
 
 public class MapPanel extends JPanel {
 	

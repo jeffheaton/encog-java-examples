@@ -23,15 +23,6 @@
  */
 package org.encog.examples.neural.xorpartial;
 
-import org.encog.engine.util.Format;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.Layer;
-import org.encog.neural.networks.structure.AnalyzeNetwork;
-import org.encog.neural.networks.synapse.Synapse;
-import org.encog.util.logging.Logging;
-import org.encog.util.simple.EncogUtility;
 
 /**
  * Partial neural networks. Encog allows you to remove any neuron connection in
@@ -47,7 +38,7 @@ public class XORPartialAuto {
 
 	public static void main(final String args[]) {
 
-		Logging.stopConsoleLogging();
+/*		Logging.stopConsoleLogging();
 
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 10, 10, 1,
 				false);
@@ -73,6 +64,6 @@ public class XORPartialAuto {
 		
 		System.out.println("Final output:");
 		EncogUtility.evaluate(network, trainingSet);
-		
+	*/	
 	}
 }
