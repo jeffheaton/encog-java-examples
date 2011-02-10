@@ -25,120 +25,122 @@ package org.encog.examples.neural.forest.feedforward;
 
 import java.io.File;
 
+import org.encog.app.quant.classify.ClassItem;
+import org.encog.app.quant.classify.ClassifyStats;
+import org.encog.app.quant.normalize.NormalizationStats;
+import org.encog.app.quant.normalize.NormalizeCSV;
 import org.encog.engine.util.Format;
 import org.encog.neural.data.NeuralData;
+import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.normalize.DataNormalization;
-import org.encog.normalize.output.nominal.OutputEquilateral;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.csv.ReadCSV;
 
 public class Evaluate {
 
-	private int[] treeCount = new int[10];
-	private int[] treeCorrect = new int[10];
+    private int[] treeCount = new int[10];
+    private int[] treeCorrect = new int[10];
 
-	public void keepScore(int actual, int ideal) {
-		treeCount[ideal]++;
-		if (actual == ideal)
-			treeCorrect[ideal]++;
-	}
+    public void keepScore(int actual, int ideal)
+    {
+        treeCount[ideal]++;
+        if (actual == ideal)
+            treeCorrect[ideal]++;
+    }
 
-	public BasicNetwork loadNetwork() {
-		File file = Constant.TRAINED_NETWORK_FILE;
+    
+    public BasicNetwork loadNetwork()
+    {
+        String file = Constant.TRAINED_NETWORK_FILE;
 
-		if (!file.exists()) {
-			System.out.println("Can't read file: " + file.getAbsolutePath());
-			return null;
-		}
+        if (!(new File(file)).exists() )
+        {
+            System.out.println("Can't read file: " + file);
+            return null;
+        }
 
-		EncogPersistedCollection encog = new EncogPersistedCollection(file);
-		BasicNetwork network = (BasicNetwork) encog
-				.find(Constant.TRAINED_NETWORK_NAME);
+        EncogPersistedCollection encog = new EncogPersistedCollection(file);
+        BasicNetwork network = (BasicNetwork)encog.find(Constant.TRAINED_NETWORK_NAME);
 
-		if (network == null) {
-			System.out.println("Can't find network resource: "
-					+ Constant.TRAINED_NETWORK_NAME);
-			return null;
-		}
+        if (network == null)
+        {
+            System.out.println("Can't find network resource: " + Constant.TRAINED_NETWORK_NAME);
+            return null;
+        }
 
-		return network;
-	}
+        return network;
+    }
 
-	public DataNormalization loadNormalization() {
-		File file = Constant.TRAINED_NETWORK_FILE;
+    public NeuralData buildForNetworkInput(NormalizationStats stats, double[] input)
+    {
+        NeuralData neuralInput = new BasicNeuralData(input.length);
+        for (int i = 0; i < input.length; i++)
+        {
+            neuralInput.setData(i, stats.getStats()[i].normalize(input[i]));
+        }
 
-		EncogPersistedCollection encog = new EncogPersistedCollection(file);
+        return neuralInput;
+    }
 
-		DataNormalization norm = (DataNormalization) encog
-				.find(Constant.NORMALIZATION_NAME);
-		if (norm == null) {
-			System.out.println("Can't find normalization resource: "
-					+ Constant.NORMALIZATION_NAME);
-			return null;
-		}
+    public ClassItem determineType(ClassifyStats stats, NeuralData output)
+    {
+        ClassItem item = stats.determineClass(output.getData());
+        return item;
+    }
 
-		return norm;
-	}
 
-	public int determineTreeType(OutputEquilateral eqField, NeuralData output) {
-		int result = 0;
+    public void evaluate()
+    {
+        BasicNetwork network = loadNetwork();
+      
+        ReadCSV csv = new ReadCSV(Constant.EVALUATE_FILE.toString(), false, ',');
+        double[] input = new double[Constant.INPUT_COUNT];
 
-		if (eqField != null) {
-			result = eqField.getEquilateral().decode(output.getData());
-		} else {
-			double maxOutput = Double.NEGATIVE_INFINITY;
-			result = -1;
+        NormalizeCSV norm = new NormalizeCSV();
+        norm.readStatsFile(Constant.NORMALIZED_STATS_FILE);
+        ClassifyStats stats = new ClassifyStats();
+        stats.readStatsFile(Constant.CLASSIFY_STATS_FILE);
 
-			for (int i = 0; i < output.size(); i++) {
-				if (output.getData(i) > maxOutput) {
-					maxOutput = output.getData(i);
-					result = i;
-				}
-			}
-		}
+        int correct = 0;
+        int total = 0;
+        while (csv.next())
+        {
+            total++;
+            for (int i = 0; i < input.length; i++)
+            {
+                input[i] = csv.getDouble(i);
+            }
 
-		return result;
-	}
+            NeuralData inputData = buildForNetworkInput(norm.getStats(), input);
+            NeuralData output = network.compute(inputData);
+            ClassItem coverTypeActual = determineType(stats, output);
+            String coverTypeIdealStr = csv.get(54);
+            int coverTypeIdeal = stats.lookup(coverTypeIdealStr);
 
-	public void evaluate() {
-		BasicNetwork network = loadNetwork();
-		DataNormalization norm = loadNormalization();
+            keepScore(coverTypeActual.getIndex(), coverTypeIdeal);
 
-		ReadCSV csv = new ReadCSV(Constant.EVALUATE_FILE.toString(), false, ',');
-		double[] input = new double[norm.getInputFields().size()];
-		OutputEquilateral eqField = (OutputEquilateral) norm.findOutputField(
-				OutputEquilateral.class, 0);
+            if (coverTypeActual.getIndex() == coverTypeIdeal)
+            {
+                correct++;
+            }
+        }
 
-		int correct = 0;
-		int total = 0;
-		while (csv.next()) {
-			total++;
-			for (int i = 0; i < input.length; i++) {
-				input[i] = csv.getDouble(i);
-			}
-			NeuralData inputData = norm.buildForNetworkInput(input);
-			NeuralData output = network.compute(inputData);
-			int coverTypeActual = determineTreeType(eqField, output);
-			int coverTypeIdeal = (int) csv.getDouble(54) - 1;
+        System.out.println("Total cases:" + total);
+        System.out.println("Correct cases:" + correct);
+        double percent = (double)correct / (double)total;
+        System.out.println("Correct percent:" + Format.formatPercentWhole(percent));
+        for (int i = 0; i < 7; i++)
+        {
+            if (this.treeCount[i] > 0)
+            {
+                double p = ((double)this.treeCorrect[i] / (double)this.treeCount[i]);
+                System.out.println("Tree Type #"
+                        + i
+                        + " - Correct/total: "
+                        + this.treeCorrect[i]
+                        + "/" + treeCount[i] + "(" + Format.formatPercentWhole(p) + ")");
+            }
+        }
+    }
 
-			keepScore(coverTypeActual, coverTypeIdeal);
-
-			if (coverTypeActual == coverTypeIdeal) {
-				correct++;
-			}
-		}
-
-		System.out.println("Total cases:" + total);
-		System.out.println("Correct cases:" + correct);
-		double percent = (double) correct / (double) total;
-		System.out.println("Correct percent:"
-				+ Format.formatPercentWhole(percent));
-		for (int i = 0; i < 7; i++) {
-			double p = ((double) this.treeCorrect[i] / (double) this.treeCount[i]);
-			System.out.println("Tree Type #" + i + " - Correct/total: "
-					+ this.treeCorrect[i] + "/" + treeCount[i] + "("
-					+ Format.formatPercentWhole(p) + ")");
-		}
-	}
 }

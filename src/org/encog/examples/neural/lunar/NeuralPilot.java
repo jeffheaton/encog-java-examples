@@ -23,42 +23,28 @@
  */
 package org.encog.examples.neural.lunar;
 
+import org.encog.app.quant.normalize.NormalizationDesired;
+import org.encog.app.quant.normalize.NormalizedFieldStats;
 import org.encog.neural.data.NeuralData;
+import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.normalize.DataNormalization;
-import org.encog.normalize.input.BasicInputField;
-import org.encog.normalize.input.InputField;
-import org.encog.normalize.output.OutputFieldRangeMapped;
 
 public class NeuralPilot {
 	
 	private BasicNetwork network;
-	private DataNormalization norm;
 	private boolean track;
+    private NormalizedFieldStats fuelStats;
+    private NormalizedFieldStats altitudeStats;
+    private NormalizedFieldStats velocityStats;
 	
 	public NeuralPilot(BasicNetwork network, boolean track)
 	{
-		InputField fuelIN;
-		InputField altitudeIN;
-		InputField velocityIN;
-	
+        fuelStats = new NormalizedFieldStats(NormalizationDesired.Normalize, "fuel", 200, 0, -0.9, 0.9);
+        altitudeStats = new NormalizedFieldStats(NormalizationDesired.Normalize, "altitude", 10000, 0, -0.9, 0.9);
+        velocityStats = new NormalizedFieldStats(NormalizationDesired.Normalize, "velocity", LanderSimulator.TERMINAL_VELOCITY, -LanderSimulator.TERMINAL_VELOCITY, -0.9, 0.9);
+
 		this.track = track;
 		this.network = network;
-		
-		norm = new DataNormalization();
-		norm.addInputField(fuelIN = new BasicInputField());
-		norm.addInputField(altitudeIN = new BasicInputField());
-		norm.addInputField(velocityIN = new BasicInputField());
-		norm.addOutputField(new OutputFieldRangeMapped(fuelIN,-0.9,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(altitudeIN,-0.9,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(velocityIN,-0.9,0.9));
-		fuelIN.setMax(200);
-		fuelIN.setMin(0);
-		altitudeIN.setMax(10000);
-		altitudeIN.setMin(0);
-		velocityIN.setMin(-LanderSimulator.TERMINAL_VELOCITY);
-		velocityIN.setMax(LanderSimulator.TERMINAL_VELOCITY);
-
 	}
 	
 	public int scorePilot()
@@ -66,16 +52,14 @@ public class NeuralPilot {
 		LanderSimulator sim = new LanderSimulator();
 		while(sim.flying())
 		{
-			double[] data = new double[3];
-			data[0] = sim.getFuel();
-			data[1] = sim.getAltitude();
-			data[2] = sim.getVelocity();
-			
-			NeuralData input = this.norm.buildForNetworkInput(data);
-			NeuralData output = this.network.compute(input);
-			double value = output.getData(0);
-			
-			boolean thrust;
+			NeuralData input = new BasicNeuralData(3);
+            input.setData(0, this.fuelStats.normalize(sim.getFuel()));
+            input.setData(1, this.fuelStats.normalize(sim.getAltitude()));
+            input.setData(2, this.fuelStats.normalize(sim.getVelocity()));
+            NeuralData output = this.network.compute(input);
+            double value = output.getData(0);
+
+            boolean thrust;
 			
 			if( value > 0 )
 			{

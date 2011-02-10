@@ -23,12 +23,14 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
+import java.io.File;
+
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.normalize.DataNormalization;
+import org.encog.persist.EncogMemoryCollection;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.simple.EncogUtility;
 
@@ -48,34 +50,29 @@ public class TrainNetwork {
 	}
 
 	public void train(boolean useGUI) {
-		System.out.println("Converting training file to binary");
-		EncogPersistedCollection encog = new EncogPersistedCollection(
-				Constant.TRAINED_NETWORK_FILE);
-		DataNormalization norm = (DataNormalization) encog
-				.find(Constant.NORMALIZATION_NAME);
+		BufferedNeuralDataSet dataFile = new BufferedNeuralDataSet(new File(Constant.BINARY_FILE));
+        NeuralDataSet trainingSet = dataFile.loadToMemory();
+        int inputSize = trainingSet.getInputSize();
+        int idealSize = trainingSet.getIdealSize();
 
-		EncogUtility.convertCSV2Binary(Constant.NORMALIZED_FILE,
-				Constant.BINARY_FILE, norm.getNetworkInputLayerSize(), norm
-						.getNetworkOutputLayerSize(), false);
-		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(
-				Constant.BINARY_FILE);
+        BasicNetwork network = EncogUtility.simpleFeedForward(inputSize, Constant.HIDDEN_COUNT, 0, idealSize, true);
 
-		BasicNetwork network = (BasicNetwork) encog
-				.find(Constant.TRAINED_NETWORK_NAME);
-		if (network == null)
-			network = EncogUtility.simpleFeedForward(norm
-					.getNetworkInputLayerSize(), Constant.HIDDEN_COUNT, 0, norm
-					.getNetworkOutputLayerSize(), false);
+        if (useGUI)
+        {
+            EncogUtility.trainDialog(network, trainingSet);
+        }
+        else
+        {
+            EncogUtility.trainConsole(network, trainingSet, Constant.TRAINING_MINUTES);
+        }
 
-		if (useGUI) {
-			EncogUtility.trainDialog(network, trainingSet);
-		} else {
-			EncogUtility.trainConsole(network, trainingSet,
-					Constant.TRAINING_MINUTES);
-		}
+        EncogMemoryCollection encog = new EncogMemoryCollection();
+        if (new File(Constant.TRAINED_NETWORK_FILE).exists())
+            encog.load(Constant.TRAINED_NETWORK_FILE);
+        encog.add(Constant.TRAINED_NETWORK_NAME, network);
+        encog.save(Constant.TRAINED_NETWORK_FILE);
 
-		System.out.println("Training complete, saving network...");
-		encog.add(Constant.TRAINED_NETWORK_NAME, network);
+        System.out.println("Training complete, saving network...");
 	}
 
 }

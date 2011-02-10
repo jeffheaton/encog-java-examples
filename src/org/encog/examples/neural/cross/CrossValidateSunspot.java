@@ -26,6 +26,8 @@ package org.encog.examples.neural.cross;
 import java.text.NumberFormat;
 
 import org.encog.NullStatusReportable;
+import org.encog.app.quant.normalize.NormalizeArray;
+import org.encog.engine.util.EngineArray;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
@@ -38,11 +40,6 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.cross.CrossValidationKFold;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.normalize.DataNormalization;
-import org.encog.normalize.input.InputField;
-import org.encog.normalize.input.InputFieldArray1D;
-import org.encog.normalize.output.OutputFieldRangeMapped;
-import org.encog.normalize.target.NormalizationStorageArray1D;
 import org.encog.util.logging.Logging;
 
 public class CrossValidateSunspot {
@@ -100,21 +97,14 @@ public class CrossValidateSunspot {
 	private double[] closedLoopSunspots;
 
 	public void normalizeSunspots(double lo, double hi) {
-		InputField in;
+        NormalizeArray norm = new NormalizeArray();
+        norm.setNormalizedHigh( hi);
+        norm.setNormalizedLow( lo);
 
-		// create arrays to hold the normalized sunspots
-		normalizedSunspots = new double[SUNSPOTS.length];
-		closedLoopSunspots = new double[SUNSPOTS.length];
-
-		// normalize the sunspots
-		DataNormalization norm = new DataNormalization();
-		norm.setReport(new NullStatusReportable());
-		norm.addInputField(in = new InputFieldArray1D(true, SUNSPOTS));
-		norm.addOutputField(new OutputFieldRangeMapped(in, lo, hi));
-		norm.setTarget(new NormalizationStorageArray1D(normalizedSunspots));
-		norm.process();
-		System.arraycopy(normalizedSunspots, 0, closedLoopSunspots, 0,
-				normalizedSunspots.length);
+        // create arrays to hold the normalized sunspots
+        normalizedSunspots = norm.process(SUNSPOTS);
+        double[] test = norm.process(SUNSPOTS);
+        closedLoopSunspots = EngineArray.arrayCopy(normalizedSunspots);
 
 	}
 
