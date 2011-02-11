@@ -25,17 +25,14 @@ package org.encog.examples.neural.gui.predict;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import org.encog.app.quant.temporal.TemporalWindowArray;
 import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.temporal.TemporalDataDescription;
-import org.encog.neural.data.temporal.TemporalNeuralDataSet;
-import org.encog.neural.data.temporal.TemporalPoint;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
@@ -82,22 +79,17 @@ public class PredictSIN extends JFrame implements ActionListener {
 	
 	public NeuralDataSet generateTraining()
 	{
-		TemporalNeuralDataSet result = new TemporalNeuralDataSet(INPUT_WINDOW,PREDICT_WINDOW);
+		TemporalWindowArray temp = new TemporalWindowArray(INPUT_WINDOW,PREDICT_WINDOW);
 		
-		TemporalDataDescription desc = new TemporalDataDescription(
-				TemporalDataDescription.Type.RAW,true,true);
-		result.addDescription(desc);
+		double[] a = new double[360];
 		
 		for(int i = 0;i<360;i++)
 		{
-			TemporalPoint point = new TemporalPoint(1);
-			point.setSequence(i);
-			point.setData(0, GraphPanel.obtainActual(i));
-			result.getPoints().add(point);
+			a[i] = GraphPanel.obtainActual(i);
 		}
 		
-		result.generate();
-		return result;
+		temp.analyze(a);
+		return temp.process(a);
 	}
 	
 

@@ -26,101 +26,89 @@ package org.encog.examples.neural.predict.market;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.encog.app.quant.loader.MarketLoader;
+import org.encog.app.quant.normalize.NormalizeCSV;
+import org.encog.app.quant.normalize.NormalizedFieldStats;
+import org.encog.engine.util.Format;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.market.MarketDataDescription;
-import org.encog.neural.data.market.MarketDataType;
-import org.encog.neural.data.market.MarketNeuralDataSet;
-import org.encog.neural.data.market.loader.MarketLoader;
-import org.encog.neural.data.market.loader.YahooFinanceLoader;
+import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
+import org.encog.persist.EncogMemoryCollection;
 import org.encog.persist.EncogPersistedCollection;
+import org.encog.util.csv.CSVFormat;
+import org.encog.util.csv.ReadCSV;
+import org.encog.util.time.NumericDateUtil;
 
 public class MarketEvaluate {
 
-	enum Direction {
-		up, down
-	};
+	public enum Direction
+    {
+        up,
+        down
+    };
 
-	public static Direction determineDirection(double d) {
-		if (d < 0)
-			return Direction.down;
-		else
-			return Direction.up;
-	}
+    public static Direction determineDirection(double d)
+    {
+        if (d < 0)
+            return Direction.down;
+        else
+            return Direction.up;
+    }
 
-	public static MarketNeuralDataSet grabData() {
-		MarketLoader loader = new YahooFinanceLoader();
-		MarketNeuralDataSet result = new MarketNeuralDataSet(loader,
-				Config.INPUT_WINDOW, Config.PREDICT_WINDOW);
-		MarketDataDescription desc = new MarketDataDescription(Config.TICKER,
-				MarketDataType.ADJUSTED_CLOSE, true, true);
-		result.addDescription(desc);
 
-		Calendar end = new GregorianCalendar();// end today
-		Calendar begin = (Calendar) end.clone();// begin 30 days ago
-		begin.add(Calendar.DATE, -60);
 
-		result.load(begin.getTime(), end.getTime());
-		result.generate();
+    public static void run()
+    {            
+        Date end = new Date();
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(end);
+        gc.add(Calendar.YEAR, -1);
+        Date begin = gc.getTime();
 
-		return result;
+        MarketBuildTraining.generate(begin, end, false);
 
-	}
+        EncogMemoryCollection encog = new EncogMemoryCollection();
+        encog.load(Config.FILENAME);
+        BasicNetwork network = (BasicNetwork)encog.find(Config.MARKET_NETWORK);
 
-	public static void evaluate() {
+        NormalizeCSV norm = new NormalizeCSV();
+        norm.readStatsFile(Config.STEP4STATS);
 
-		File file = new File(Config.FILENAME);
+        NormalizedFieldStats n = norm.getStats().getStats()[1];
 
-		if (!file.exists()) {
-			System.out.println("Can't read file: " + file.getAbsolutePath());
-			return;
-		}
+        BasicNeuralData input = new BasicNeuralData(Config.INPUT_WINDOW);
 
-		EncogPersistedCollection encog = new EncogPersistedCollection(file);
-		BasicNetwork network = (BasicNetwork) encog.find(Config.MARKET_NETWORK);
+        ReadCSV csv = new ReadCSV(Config.FILENAME_PREDICT, true, CSVFormat.ENGLISH);
+        while (csv.next())
+        {
+            StringBuilder line = new StringBuilder();
+            int index = 0;
+            long d = Long.parseLong( csv.get(index++) );
+            Date dt = NumericDateUtil.long2Date(d);
+            line.append(dt.toString());
 
-		if (network == null) {
-			System.out.println("Can't find network resource: "
-					+ Config.MARKET_NETWORK);
-			return;
-		}
+            // prepare input
+            for (int i = 0; i < input.size(); i++)
+            {
+                input.setData(i, csv.getDouble(index++) );
+            }
 
-		MarketNeuralDataSet data = grabData();
+            // query neural network
+            NeuralData actualData = network.compute(input);
+            double prediction = actualData.getData(0);
+            double ideal = csv.getDouble(index++);
 
-		DecimalFormat format = new DecimalFormat("#0.00");
+            // 
+            line.append(" Prediction=");
+            line.append(Format.formatDouble(n.deNormalize(prediction),2));
+            line.append(", Actual= ");
+            line.append(Format.formatDouble(n.deNormalize(ideal),2));
 
-		int count = 0;
-		int correct = 0;
-		for (NeuralDataPair pair : data) {
-			NeuralData input = pair.getInput();
-			NeuralData actualData = pair.getIdeal();
-			NeuralData predictData = network.compute(input);
-
-			double actual = actualData.getData(0);
-			double predict = predictData.getData(0);
-			double diff = Math.abs(predict - actual);
-
-			Direction actualDirection = determineDirection(actual);
-			Direction predictDirection = determineDirection(predict);
-
-			if (actualDirection == predictDirection)
-				correct++;
-
-			count++;
-
-			System.out.println("Day " + count + ":actual="
-					+ format.format(actual) + "(" + actualDirection + ")"
-					+ ",predict=" + format.format(predict) + "("
-					+ predictDirection + ")" + ",diff=" + diff);
-
-		}
-		double percent = (double) correct / (double) count;
-		System.out.println("Direction correct:" + correct + "/" + count);
-		System.out.println("Directional Accuracy:"
-				+ format.format(percent * 100) + "%");
-
-	}
+            System.out.println(line.toString());
+        }
+    }
 }

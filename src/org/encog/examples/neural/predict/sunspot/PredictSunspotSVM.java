@@ -55,17 +55,14 @@ package org.encog.examples.neural.predict.sunspot;
 
 import java.text.NumberFormat;
 
-import org.encog.NullStatusReportable;
 import org.encog.app.quant.normalize.NormalizeArray;
+import org.encog.app.quant.temporal.TemporalWindowArray;
 import org.encog.engine.util.EngineArray;
 import org.encog.ml.svm.SVM;
 import org.encog.ml.svm.training.SVMTrain;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.data.temporal.TemporalDataDescription;
-import org.encog.neural.data.temporal.TemporalNeuralDataSet;
-import org.encog.neural.data.temporal.TemporalPoint;
 import org.encog.util.logging.Logging;
 
 public class PredictSunspotSVM {
@@ -148,25 +145,10 @@ public class PredictSunspotSVM {
 
 	}
 	
-	public NeuralDataSet generateTraining()
-	{
-		TemporalNeuralDataSet result = new TemporalNeuralDataSet(WINDOW_SIZE,1);
-		
-		TemporalDataDescription desc = new TemporalDataDescription(
-				TemporalDataDescription.Type.RAW,true,true);
-		result.addDescription(desc);
-		
-		for(int year = TRAIN_START;year<TRAIN_END;year++)
-		{
-			TemporalPoint point = new TemporalPoint(1);
-			point.setSequence(year);
-			point.setData(0, this.normalizedSunspots[year]);
-			result.getPoints().add(point);
-		}
-		
-		result.generate();
-		
-		return result;
+	public NeuralDataSet generateTraining() {		
+		TemporalWindowArray temp = new TemporalWindowArray(WINDOW_SIZE, 1);
+		temp.analyze(this.normalizedSunspots);
+		return temp.process(this.normalizedSunspots);
 	}
 	
 	public SVM createNetwork()

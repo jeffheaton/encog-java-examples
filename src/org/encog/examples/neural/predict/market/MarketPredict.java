@@ -42,13 +42,13 @@ public class MarketPredict {
 		else
 		{
 			if( args[0].equalsIgnoreCase("generate") ) {
-				MarketBuildTraining.generate();
+				MarketBuildTraining.run();
 			} 
 			else if( args[0].equalsIgnoreCase("train") ) {
 				MarketTrain.train();
 			} 
 			else if( args[0].equalsIgnoreCase("evaluate") ) {
-				MarketEvaluate.evaluate();
+				MarketEvaluate.run();
 			} else if( args[0].equalsIgnoreCase("prune") ) {
 				MarketPrune.incremental();
 			} 
