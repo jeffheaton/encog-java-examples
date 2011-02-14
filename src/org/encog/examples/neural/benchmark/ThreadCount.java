@@ -28,6 +28,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.benchmark.RandomTrainingFactory;
+import org.encog.util.logging.Logging;
 
 public class ThreadCount {
 	
@@ -62,6 +63,7 @@ public class ThreadCount {
 	
 	public static void main(String[] args)
 	{
+		Logging.stopConsoleLogging();
 		for(int i=1;i<16;i++)
 		{
 			perform(i);
