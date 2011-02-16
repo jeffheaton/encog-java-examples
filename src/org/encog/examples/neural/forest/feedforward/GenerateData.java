@@ -28,6 +28,7 @@ import java.io.File;
 import org.encog.app.quant.balance.BalanceCSV;
 import org.encog.app.quant.classify.ClassifyCSV;
 import org.encog.app.quant.classify.ClassifyMethod;
+import org.encog.app.quant.classify.ClassifyTarget;
 import org.encog.app.quant.filter.FilterCSV;
 import org.encog.app.quant.normalize.NormalizationDesired;
 import org.encog.app.quant.normalize.NormalizeCSV;
@@ -86,10 +87,12 @@ public class GenerateData  {
     {
     	System.out.println("Step 5: Classify training data");
         ClassifyCSV cls = new ClassifyCSV();
-        cls.analyze(Constant.BALANCE_FILE, false, CSVFormat.ENGLISH, 54);
-        cls.process(Constant.CLASSIFY_FILE, method, -1, null);
+        cls.analyze(Constant.BALANCE_FILE, false, CSVFormat.ENGLISH);
+        cls.addTarget(54, method, -1, null);
+        cls.process(Constant.CLASSIFY_FILE);
         cls.getStats().writeStatsFile(Constant.CLASSIFY_STATS_FILE);
-        return cls.getStats().getColumnsNeeded();
+        ClassifyTarget target = cls.getStats().findTarget(54); 
+        return target.getColumnsNeeded();
     }
 
     public void step6(int outputColumns)

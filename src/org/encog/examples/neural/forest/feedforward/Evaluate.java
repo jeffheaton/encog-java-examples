@@ -27,6 +27,7 @@ import java.io.File;
 
 import org.encog.app.quant.classify.ClassItem;
 import org.encog.app.quant.classify.ClassifyStats;
+import org.encog.app.quant.classify.ClassifyTarget;
 import org.encog.app.quant.normalize.NormalizationStats;
 import org.encog.app.quant.normalize.NormalizeCSV;
 import org.encog.engine.util.Format;
@@ -82,7 +83,7 @@ public class Evaluate {
         return neuralInput;
     }
 
-    public ClassItem determineType(ClassifyStats stats, NeuralData output)
+    public ClassItem determineType(ClassifyTarget stats, NeuralData output)
     {
         ClassItem item = stats.determineClass(output.getData());
         return item;
@@ -100,6 +101,7 @@ public class Evaluate {
         norm.readStatsFile(Constant.NORMALIZED_STATS_FILE);
         ClassifyStats stats = new ClassifyStats();
         stats.readStatsFile(Constant.CLASSIFY_STATS_FILE);
+        ClassifyTarget target = stats.findTarget(54);
 
         int correct = 0;
         int total = 0;
@@ -113,9 +115,9 @@ public class Evaluate {
 
             NeuralData inputData = buildForNetworkInput(norm.getStats(), input);
             NeuralData output = network.compute(inputData);
-            ClassItem coverTypeActual = determineType(stats, output);
+            ClassItem coverTypeActual = determineType(target, output);
             String coverTypeIdealStr = csv.get(54);
-            int coverTypeIdeal = stats.lookup(coverTypeIdealStr);
+            int coverTypeIdeal = target.lookup(coverTypeIdealStr);
 
             keepScore(coverTypeActual.getIndex(), coverTypeIdeal);
 
