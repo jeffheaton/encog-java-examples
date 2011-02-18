@@ -23,8 +23,8 @@
  */
 package org.encog.examples.neural.lunar;
 
-import org.encog.app.quant.normalize.NormalizationDesired;
-import org.encog.app.quant.normalize.NormalizedFieldStats;
+import org.encog.app.quant.normalize.NormalizationAction;
+import org.encog.app.quant.normalize.NormalizedField;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
@@ -33,15 +33,15 @@ public class NeuralPilot {
 	
 	private BasicNetwork network;
 	private boolean track;
-    private NormalizedFieldStats fuelStats;
-    private NormalizedFieldStats altitudeStats;
-    private NormalizedFieldStats velocityStats;
+    private NormalizedField fuelStats;
+    private NormalizedField altitudeStats;
+    private NormalizedField velocityStats;
 	
 	public NeuralPilot(BasicNetwork network, boolean track)
 	{
-        fuelStats = new NormalizedFieldStats(NormalizationDesired.Normalize, "fuel", 200, 0, -0.9, 0.9);
-        altitudeStats = new NormalizedFieldStats(NormalizationDesired.Normalize, "altitude", 10000, 0, -0.9, 0.9);
-        velocityStats = new NormalizedFieldStats(NormalizationDesired.Normalize, "velocity", LanderSimulator.TERMINAL_VELOCITY, -LanderSimulator.TERMINAL_VELOCITY, -0.9, 0.9);
+        fuelStats = new NormalizedField(NormalizationAction.Normalize, "fuel", 200, 0, -0.9, 0.9);
+        altitudeStats = new NormalizedField(NormalizationAction.Normalize, "altitude", 10000, 0, -0.9, 0.9);
+        velocityStats = new NormalizedField(NormalizationAction.Normalize, "velocity", LanderSimulator.TERMINAL_VELOCITY, -LanderSimulator.TERMINAL_VELOCITY, -0.9, 0.9);
 
 		this.track = track;
 		this.network = network;

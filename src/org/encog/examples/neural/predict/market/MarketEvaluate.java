@@ -31,7 +31,7 @@ import java.util.GregorianCalendar;
 
 import org.encog.app.quant.loader.MarketLoader;
 import org.encog.app.quant.normalize.NormalizeCSV;
-import org.encog.app.quant.normalize.NormalizedFieldStats;
+import org.encog.app.quant.normalize.NormalizedField;
 import org.encog.engine.util.Format;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
@@ -78,7 +78,7 @@ public class MarketEvaluate {
         NormalizeCSV norm = new NormalizeCSV();
         norm.readStatsFile(Config.STEP4STATS);
 
-        NormalizedFieldStats n = norm.getStats().getStats()[1];
+        NormalizedField n = norm.getStats().getStats()[1];
 
         BasicNeuralData input = new BasicNeuralData(Config.INPUT_WINDOW);
 

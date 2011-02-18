@@ -23,7 +23,6 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
-import java.io.File;
 
 public class Constant {
 	
@@ -49,16 +48,6 @@ public class Constant {
      * The source file in random order.
      */
     public final static String RANDOM_FILE = BASE_DIRECTORY + "random.csv";
-
-    /**
-     * The classified file.
-     */
-    public final static String CLASSIFY_FILE = BASE_DIRECTORY + "classify.csv";
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public final static String CLASSIFY_STATS_FILE = BASE_DIRECTORY + "classify-stats.csv";
 
     /// <summary>
     /// 75% of the data will be moved into this file to be used as training data.  The 

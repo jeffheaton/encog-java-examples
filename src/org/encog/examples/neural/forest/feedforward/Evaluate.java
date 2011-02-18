@@ -25,11 +25,10 @@ package org.encog.examples.neural.forest.feedforward;
 
 import java.io.File;
 
-import org.encog.app.quant.classify.ClassItem;
-import org.encog.app.quant.classify.ClassifyStats;
-import org.encog.app.quant.classify.ClassifyTarget;
+import org.encog.app.quant.normalize.ClassItem;
 import org.encog.app.quant.normalize.NormalizationStats;
 import org.encog.app.quant.normalize.NormalizeCSV;
+import org.encog.app.quant.normalize.NormalizedField;
 import org.encog.engine.util.Format;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
@@ -83,7 +82,7 @@ public class Evaluate {
         return neuralInput;
     }
 
-    public ClassItem determineType(ClassifyTarget stats, NeuralData output)
+    public ClassItem determineType(NormalizedField stats, NeuralData output)
     {
         ClassItem item = stats.determineClass(output.getData());
         return item;
@@ -99,9 +98,8 @@ public class Evaluate {
 
         NormalizeCSV norm = new NormalizeCSV();
         norm.readStatsFile(Constant.NORMALIZED_STATS_FILE);
-        ClassifyStats stats = new ClassifyStats();
-        stats.readStatsFile(Constant.CLASSIFY_STATS_FILE);
-        ClassifyTarget target = stats.findTarget(54);
+        NormalizationStats stats = new NormalizationStats();
+        NormalizedField normField = stats.getStats()[54];
 
         int correct = 0;
         int total = 0;
@@ -115,9 +113,9 @@ public class Evaluate {
 
             NeuralData inputData = buildForNetworkInput(norm.getStats(), input);
             NeuralData output = network.compute(inputData);
-            ClassItem coverTypeActual = determineType(target, output);
+            ClassItem coverTypeActual = determineType(normField, output);
             String coverTypeIdealStr = csv.get(54);
-            int coverTypeIdeal = target.lookup(coverTypeIdealStr);
+            int coverTypeIdeal = normField.lookup(coverTypeIdealStr);
 
             keepScore(coverTypeActual.getIndex(), coverTypeIdeal);
 

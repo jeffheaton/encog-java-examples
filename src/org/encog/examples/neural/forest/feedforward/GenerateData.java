@@ -23,19 +23,13 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
-import java.io.File;
-
 import org.encog.app.quant.balance.BalanceCSV;
-import org.encog.app.quant.classify.ClassifyCSV;
-import org.encog.app.quant.classify.ClassifyMethod;
-import org.encog.app.quant.classify.ClassifyTarget;
 import org.encog.app.quant.filter.FilterCSV;
-import org.encog.app.quant.normalize.NormalizationDesired;
+import org.encog.app.quant.normalize.NormalizationAction;
 import org.encog.app.quant.normalize.NormalizeCSV;
 import org.encog.app.quant.segregate.SegregateCSV;
 import org.encog.app.quant.segregate.SegregateTargetPercent;
 import org.encog.app.quant.shuffle.ShuffleCSV;
-import org.encog.engine.StatusReportable;
 import org.encog.engine.util.Format;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.simple.EncogUtility;
@@ -83,23 +77,11 @@ public class GenerateData  {
         System.out.println(balance.DumpCounts());
     }
 
-    public int step5(ClassifyMethod method)
+    public int step5(NormalizationAction normType)
     {
-    	System.out.println("Step 5: Classify training data");
-        ClassifyCSV cls = new ClassifyCSV();
-        cls.analyze(Constant.BALANCE_FILE, false, CSVFormat.ENGLISH);
-        cls.addTarget(54, method, -1, null);
-        cls.process(Constant.CLASSIFY_FILE);
-        cls.getStats().writeStatsFile(Constant.CLASSIFY_STATS_FILE);
-        ClassifyTarget target = cls.getStats().findTarget(54); 
-        return target.getColumnsNeeded();
-    }
-
-    public void step6(int outputColumns)
-    {
-    	System.out.println("Step 6: Normalize training data");
+    	System.out.println("Step 5: Normalize and classify training data");
         NormalizeCSV norm = new NormalizeCSV();
-        norm.analyze(Constant.CLASSIFY_FILE, false, CSVFormat.ENGLISH);
+        norm.analyze(Constant.BALANCE_FILE, false, CSVFormat.ENGLISH);
 
         int index = 0;
         norm.getStats().getStats()[index++].setName("elevation");
@@ -114,13 +96,13 @@ public class GenerateData  {
         norm.getStats().getStats()[index++].setName("fire");
 
         norm.getStats().getStats()[index].setName("area1");
-        norm.getStats().getStats()[index++].setAction( NormalizationDesired.Ignore);
+        norm.getStats().getStats()[index++].setAction( NormalizationAction.Ignore);
         norm.getStats().getStats()[index].setName("area2");
-        norm.getStats().getStats()[index++].setAction( NormalizationDesired.Ignore);
+        norm.getStats().getStats()[index++].setAction( NormalizationAction.Ignore);
         norm.getStats().getStats()[index].setName("area3");
-        norm.getStats().getStats()[index++].setAction( NormalizationDesired.Ignore);
+        norm.getStats().getStats()[index++].setAction( NormalizationAction.Ignore);
         norm.getStats().getStats()[index].setName("area4");
-        norm.getStats().getStats()[index++].setAction( NormalizationDesired.Ignore);
+        norm.getStats().getStats()[index++].setAction( NormalizationAction.Ignore);
 
         for (int i = 0; i < 40; i++)
         {
@@ -128,18 +110,15 @@ public class GenerateData  {
             norm.getStats().getStats()[index].setActualHigh(1);
             norm.getStats().getStats()[index++].setActualLow(0);
         }
-
-        for (int i = 0; i < outputColumns; i++)
-        {
-        	norm.getStats().getStats()[index++].setName("covertype" + (i - 54));
-            norm.getStats().getStats()[index++].makePassThrough();
-        }
+        
+        norm.getStats().getStats()[index].makeClass(normType, 1, 7, 1, -1);
 
         norm.normalize(Constant.NORMALIZED_FILE);
         norm.writeStatsFile(Constant.NORMALIZED_STATS_FILE);
+        return norm.getStats().getStats()[index].getColumnsNeeded();
     }
 
-    public void step7(int outputCount)
+    public void step6(int outputCount)
     {
     	System.out.println("Step 7: Converting training file to binary");
         int inputCount = Constant.INPUT_COUNT;

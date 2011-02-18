@@ -31,7 +31,7 @@ import org.encog.app.quant.indicators.MovingAverage;
 import org.encog.app.quant.indicators.ProcessIndicators;
 import org.encog.app.quant.loader.MarketLoader;
 import org.encog.app.quant.loader.yahoo.YahooDownload;
-import org.encog.app.quant.normalize.NormalizationDesired;
+import org.encog.app.quant.normalize.NormalizationAction;
 import org.encog.app.quant.normalize.NormalizeCSV;
 import org.encog.app.quant.sort.SortCSV;
 import org.encog.app.quant.sort.SortType;
@@ -102,7 +102,7 @@ public class MarketBuildTraining {
         {
             NormalizeCSV normalize = new NormalizeCSV();
             normalize.analyze(Config.STEP3, true, CSVFormat.ENGLISH);
-            normalize.getStats().getStats()[0].setAction( NormalizationDesired.PassThrough );
+            normalize.getStats().getStats()[0].setAction( NormalizationAction.PassThrough );
             normalize.normalize(Config.STEP4);
             normalize.writeStatsFile(Config.STEP4STATS);
         }

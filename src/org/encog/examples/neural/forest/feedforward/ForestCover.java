@@ -23,7 +23,7 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
-import org.encog.app.quant.classify.ClassifyMethod;
+import org.encog.app.quant.normalize.NormalizationAction;
 import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 
@@ -112,18 +112,18 @@ import org.encog.util.logging.Logging;
 public class ForestCover {
 
 	public static void generate(boolean useOneOf) {
-		ClassifyMethod method;
+		NormalizationAction method;
         int inputCount = Constant.INPUT_COUNT;
         int outputCount;
 
         if (useOneOf)
         {
-            method = ClassifyMethod.OneOf;
+            method = NormalizationAction.OneOf;
             outputCount = 7;
         }
         else
         {
-            method = ClassifyMethod.Equilateral;
+            method = NormalizationAction.Equilateral;
             outputCount = 6;
         }
 
@@ -134,7 +134,6 @@ public class ForestCover {
         generate.step4();            
         int outputColumns = generate.step5(method);
         generate.step6(outputColumns);
-        generate.step7(outputColumns);
 
 	}
 
