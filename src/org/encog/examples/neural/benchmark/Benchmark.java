@@ -60,4 +60,10 @@ public class Benchmark implements StatusReportable {
 		return result;
 	}
 
+	@Override
+	public void reportPhase(int total, int current, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
