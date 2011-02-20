@@ -52,7 +52,7 @@ public class SimpleBenchmark {
     public static void BenchmarkEncogFlat(double[][] input, double[][] output)
     {
         FlatNetwork network = new FlatNetwork(input[0].length, HIDDEN_COUNT, 0, output[0].length, false);
-
+        network.randomize();
         BasicNeuralDataSet trainingSet = new BasicNeuralDataSet(input, output);
 
         TrainFlatNetworkBackPropagation train = new TrainFlatNetworkBackPropagation(network, trainingSet, 0.7, 0.7);
