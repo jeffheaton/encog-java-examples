@@ -58,7 +58,7 @@ public class AnalystExample {
 		encog.normalize();
 		encog.generate();
 		encog.create();
-		//encog.train();
+		encog.train();
 		encog.evaluate();
 		
 		encog.save(analystFile);
