@@ -3,7 +3,6 @@ package org.encog.examples.neural.benchmark;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.network.flat.FlatNetwork;
 import org.encog.engine.network.train.prop.TrainFlatNetworkBackPropagation;
-import org.encog.engine.util.EngineArray;
 import org.encog.engine.util.Format;
 import org.encog.engine.util.Stopwatch;
 import org.encog.neural.data.NeuralDataSet;
@@ -28,7 +27,7 @@ public class SimpleBenchmark {
         BasicNetwork network = new BasicNetwork();
         network.addLayer(new BasicLayer(new ActivationSigmoid(), true, input[0].length));
         network.addLayer(new BasicLayer(new ActivationSigmoid(), true, HIDDEN_COUNT));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), true, output[0].length));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, output[0].length));
         network.getStructure().finalizeStructure();
         network.reset();
 
@@ -36,7 +35,7 @@ public class SimpleBenchmark {
 
         // train the neural network
         Train train = new Backpropagation(network, trainingSet,
-               0.7, 0.9);
+               0.7, 0.7);
 
         Stopwatch sw = new Stopwatch();
         sw.start();
@@ -66,7 +65,6 @@ public class SimpleBenchmark {
         // run epoch of learning procedure
         for (int i = 0; i < ITERATIONS; i++)
         {
-            //network.Compute(a,b);
             train.iteration();
         }
         sw.stop();
