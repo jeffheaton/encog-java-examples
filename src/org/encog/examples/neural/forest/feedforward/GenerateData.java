@@ -111,7 +111,7 @@ public class GenerateData  {
             norm.getStats().getStats()[index++].setActualLow(0);
         }
         
-        norm.getStats().getStats()[index].makeClass(normType, 1, 7, 1, -1);
+        //norm.getStats().getStats()[index].makeClass(normType, 1, 7, 1, -1);
 
         norm.normalize(Constant.NORMALIZED_FILE);
         norm.writeStatsFile(Constant.NORMALIZED_STATS_FILE);
