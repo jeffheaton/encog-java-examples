@@ -1,6 +1,6 @@
 package org.encog.examples.neural.analyst;
 
-/*import java.io.File;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -10,11 +10,12 @@ import org.encog.app.analyst.report.AnalystReport;
 import org.encog.app.analyst.wizard.AnalystWizard;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.logging.Logging;
-*/
+
 
 public class AnalystExample {
-/*
+
 	public static final String IRIS_SOURCE = "http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data";
+	public static final String FOREST_SOURCE = "http://archive.ics.uci.edu/ml/machine-learning-databases/covtype/covtype.data.gz";
 
 	public void irisExample(File dir) throws MalformedURLException {
 		System.out.println("Starting Iris dataset example.");
@@ -44,7 +45,7 @@ public class AnalystExample {
 
 	public void forestExample(File dir) throws MalformedURLException {
 		System.out.println("Starting forest cover dataset example.");
-		URL url = new URL(IRIS_SOURCE);
+		URL url = new URL(FOREST_SOURCE);
 		File analystFile = new File(dir,"forest.ega");
 		File rawFile = new File(dir,"forest_raw.csv");
 		
@@ -95,5 +96,5 @@ public class AnalystExample {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}*/
+	}
 }
