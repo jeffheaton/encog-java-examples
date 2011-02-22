@@ -6,6 +6,7 @@
 	<classpathentry kind="lib" path="jar/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="jar/slf4j-jdk14-1.6.1.jar"/>
 	<classpathentry kind="lib" path="jar/jocl-0.1.4c.jar"/>
-	<classpathentry kind="lib" path="jar/encog-core-3.0.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/encog-core"/>
+	<classpathentry kind="lib" path="jar/encog-core-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
