@@ -28,14 +28,8 @@ public class AnalystExample {
 		AnalystWizard wiz = new AnalystWizard(encog);
 		
 		wiz.wizard(url, analystFile, rawFile, false, CSVFormat.ENGLISH);
-		
-		encog.randomize();
-		encog.segregate();
-		encog.normalize();
-		encog.generate();
-		encog.create();
-		encog.train();
-		encog.evaluate();
+
+		encog.executeTask("task-full");
 		
 		encog.save(analystFile);
 		
@@ -55,13 +49,7 @@ public class AnalystExample {
 		
 		wiz.wizard(url, analystFile, rawFile, false, CSVFormat.ENGLISH);
 		
-		encog.randomize();
-		encog.segregate();
-		encog.normalize();
-		encog.generate();
-		encog.create();
-		encog.train();
-		encog.evaluate();
+		encog.executeTask("task-full");
 		
 		encog.save(analystFile);
 		
