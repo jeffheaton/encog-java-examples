@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.benchmark;
 
+import org.encog.ConsoleStatusReportable;
 import org.encog.Encog;
 import org.encog.engine.StatusReportable;
 import org.encog.util.benchmark.EncogBenchmark;
@@ -35,7 +36,7 @@ import org.encog.util.logging.Logging;
  * @author jeff
  *
  */
-public class Benchmark implements StatusReportable {
+public class Benchmark  {
 
 	public static void main(final String args[]) {
 		Logging.stopConsoleLogging();
@@ -45,13 +46,8 @@ public class Benchmark implements StatusReportable {
 		Encog.getInstance().shutdown();
 	}
 
-	public void report(final int total, final int current, final String message) {
-		System.out.println(current + " of " + total + ":" + message);
-
-	}
-
 	public String run() {
-		final EncogBenchmark mark = new EncogBenchmark(this);
+		final EncogBenchmark mark = new EncogBenchmark(new ConsoleStatusReportable());
 		String result = mark.process();
 		if( mark.getDevice()!=null )
 		{
@@ -59,11 +55,4 @@ public class Benchmark implements StatusReportable {
 		}
 		return result;
 	}
-
-	@Override
-	public void reportPhase(int total, int current, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

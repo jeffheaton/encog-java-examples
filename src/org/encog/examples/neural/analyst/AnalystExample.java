@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.encog.ConsoleStatusReportable;
+import org.encog.app.analyst.ConsoleAnalystListener;
 import org.encog.app.analyst.EncogAnalyst;
 import org.encog.app.analyst.report.AnalystReport;
 import org.encog.app.analyst.wizard.AnalystWizard;
@@ -24,7 +25,7 @@ public class AnalystExample {
 		File rawFile = new File(dir,"iris_raw.csv");
 		
 		EncogAnalyst encog = new EncogAnalyst();
-		encog.setReport(new ConsoleStatusReportable());
+		encog.addAnalystListener(new ConsoleAnalystListener());
 		AnalystWizard wiz = new AnalystWizard(encog);
 		
 		wiz.wizard(url, analystFile, rawFile, false, CSVFormat.ENGLISH);
@@ -44,7 +45,7 @@ public class AnalystExample {
 		File rawFile = new File(dir,"forest_raw.csv");
 		
 		EncogAnalyst encog = new EncogAnalyst();
-		encog.setReport(new ConsoleStatusReportable());
+		encog.addAnalystListener(new ConsoleAnalystListener());
 		AnalystWizard wiz = new AnalystWizard(encog);
 		
 		wiz.wizard(url, analystFile, rawFile, false, CSVFormat.ENGLISH);
