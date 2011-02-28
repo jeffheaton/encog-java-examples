@@ -153,7 +153,7 @@ public class PredictSunspotSVM {
 	
 	public SVM createNetwork()
 	{
-		SVM network = new SVM(WINDOW_SIZE,1,true);
+		SVM network = new SVM(WINDOW_SIZE,true);
 		return network;
 	}
 	
