@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.encog.ConsoleStatusReportable;
+import org.encog.app.analyst.AnalystFileFormat;
 import org.encog.app.analyst.ConsoleAnalystListener;
 import org.encog.app.analyst.EncogAnalyst;
 import org.encog.app.analyst.report.AnalystReport;
@@ -28,7 +29,7 @@ public class AnalystExample {
 		encog.addAnalystListener(new ConsoleAnalystListener());
 		AnalystWizard wiz = new AnalystWizard(encog);
 		
-		wiz.wizard(url, analystFile, rawFile, false, CSVFormat.ENGLISH);
+		wiz.wizard(url, analystFile, rawFile, false, AnalystFileFormat.DECPNT_COMMA);
 
 		encog.executeTask("task-full");
 		
@@ -48,7 +49,7 @@ public class AnalystExample {
 		encog.addAnalystListener(new ConsoleAnalystListener());
 		AnalystWizard wiz = new AnalystWizard(encog);
 		
-		wiz.wizard(url, analystFile, rawFile, false, CSVFormat.ENGLISH);
+		wiz.wizard(url, analystFile, rawFile, false, AnalystFileFormat.DECPNT_COMMA);
 		
 		encog.executeTask("task-full");
 		

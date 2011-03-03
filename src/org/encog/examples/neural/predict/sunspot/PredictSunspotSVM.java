@@ -160,7 +160,7 @@ public class PredictSunspotSVM {
 	public void train(SVM network,NeuralDataSet training)
 	{
 		final SVMTrain train = new SVMTrain(network, training);
-		train.train();
+		train.iteration();
 	}
 	
 	public void predict(SVM network)
