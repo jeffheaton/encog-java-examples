@@ -54,17 +54,15 @@ public class XorNEAT {
 		Logging.stopConsoleLogging();
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
-		
+		NEATPopulation pop = new NEATPopulation(2,1,1000);
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
 		ActivationStep step = new ActivationStep();
 		step.setCenter(0.5);
+		pop.setOutputActivationFunction(step);
 		
-		final NEATTraining train = new NEATTraining(
-				score, 2, 1, 1000);
+		final NEATTraining train = new NEATTraining(score,pop);
 		
-		((NEATPopulation)train.getPopulation()).setOutputActivationFunction(step);
-
 		int epoch = 1;
 
 		do {
