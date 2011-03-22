@@ -41,7 +41,6 @@ public class TSPGenome extends BasicGenome {
 	private Chromosome pathChromosome;
 
 	public TSPGenome(final GeneticAlgorithm owner, final City cities[]) {
-		super(owner);
 
 		final int organism[] = new int[cities.length];
 		final boolean taken[] = new boolean[cities.length];

@@ -29,6 +29,7 @@ import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.neat.NEATNetwork;
+import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
@@ -61,7 +62,8 @@ public class XorNEAT {
 		
 		final NEATTraining train = new NEATTraining(
 				score, 2, 1, 1000);
-		train.setOutputActivationFunction(step);
+		
+		((NEATPopulation)train.getPopulation()).setOutputActivationFunction(step);
 
 		int epoch = 1;
 

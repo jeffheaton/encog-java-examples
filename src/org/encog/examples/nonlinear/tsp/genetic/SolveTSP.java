@@ -81,6 +81,7 @@ public class SolveTSP {
 			ga.getPopulation().add(genome);
 			ga.calculateScore(genome);
 		}
+		population.claim(ga);
 		population.sort();
 	}
 

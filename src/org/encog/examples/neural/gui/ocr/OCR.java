@@ -44,18 +44,13 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 
-import org.encog.engine.network.activation.ActivationLinear;
-import org.encog.mathutil.rbf.GaussianFunction;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataPair;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.som.SOM;
-import org.encog.neural.som.training.basic.BasicTrainSOM;
-import org.encog.neural.som.training.basic.neighborhood.NeighborhoodSingleRBF;
+import org.encog.neural.som.training.clustercopy.SOMClusterCopyTraining;
 import org.encog.util.logging.Logging;
 
 /**
@@ -581,11 +576,8 @@ public class OCR extends JFrame implements Runnable {
 			this.net = new SOM(inputNeuron,outputNeuron);
 			this.net.reset();
 
-			final BasicTrainSOM train = new BasicTrainSOM(this.net,
-					0.25, trainingSet, new NeighborhoodSingleRBF(
-							new GaussianFunction(0, 1, 2)));
-			train.setForceWinner(true);
-			
+			SOMClusterCopyTraining train = new SOMClusterCopyTraining(this.net,trainingSet);
+						
 			int tries = 1;
 			while (!this.halt) {
 				train.iteration();

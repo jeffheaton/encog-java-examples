@@ -35,8 +35,7 @@ public class PlayerGenome extends BasicGenome {
 	private Chromosome chromosome;
 	private int length;
 	
-	public PlayerGenome(GeneticAlgorithm geneticAlgorithm, Player player) {
-		super(geneticAlgorithm);
+	public PlayerGenome(GeneticAlgorithm geneticAlgorithm, Player player) {		
 		this.player = player;
 		this.chromosome = new Chromosome();
 		setOrganism(this.player);
