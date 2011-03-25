@@ -30,9 +30,6 @@ import org.encog.engine.util.ErrorCalculation;
 import org.encog.engine.util.ErrorCalculationMode;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -53,7 +50,7 @@ public class MarketTrain {
 			return;
 		}
 
-		final EncogPersistedCollection encog = new EncogPersistedCollection(
+		/*final EncogPersistedCollection encog = new EncogPersistedCollection(
 				file);
 		final NeuralDataSet trainingSet = (NeuralDataSet) encog
 				.find(Config.MARKET_TRAIN);
@@ -70,7 +67,7 @@ public class MarketTrain {
 		encog.add(Config.MARKET_NETWORK, network);
 		System.out.println("Network saved.");
 		
-		Encog.getInstance().shutdown();
+		Encog.getInstance().shutdown();*/
 
 	}
 }

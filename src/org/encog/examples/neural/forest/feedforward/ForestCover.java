@@ -24,7 +24,6 @@
 package org.encog.examples.neural.forest.feedforward;
 
 import org.encog.app.quant.normalize.NormalizationAction;
-import org.encog.persist.EncogPersistedCollection;
 import org.encog.util.logging.Logging;
 
 /**

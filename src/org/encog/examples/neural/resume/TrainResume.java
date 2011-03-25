@@ -61,7 +61,7 @@ public class TrainResume {
 		
 		try
 		{
-		SerializeObject.save("resume.ser", cont);
+		//SerializeObject.save("resume.ser", cont);
 		cont = (TrainingContinuation)SerializeObject.load("resume.ser");
 		}
 		catch(Exception ex)

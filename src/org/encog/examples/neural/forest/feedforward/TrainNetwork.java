@@ -30,8 +30,7 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.persist.EncogMemoryCollection;
-import org.encog.persist.EncogPersistedCollection;
+import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.simple.EncogUtility;
 
 public class TrainNetwork {
@@ -65,12 +64,8 @@ public class TrainNetwork {
         {
             EncogUtility.trainConsole(network, trainingSet, Constant.TRAINING_MINUTES);
         }
-
-        EncogMemoryCollection encog = new EncogMemoryCollection();
-        if (new File(Constant.TRAINED_NETWORK_FILE).exists())
-            encog.load(Constant.TRAINED_NETWORK_FILE);
-        encog.add(Constant.TRAINED_NETWORK_NAME, network);
-        encog.save(Constant.TRAINED_NETWORK_FILE);
+        
+        EncogDirectoryPersistence.saveObject(new File(Constant.TRAINED_NETWORK_FILE), network);
 
         System.out.println("Training complete, saving network...");
 	}

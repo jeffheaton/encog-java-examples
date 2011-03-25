@@ -23,13 +23,15 @@
  */
 package org.encog.examples.neural.persist;
 
+import java.io.File;
+
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.persist.EncogPersistedCollection;
+import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.logging.Logging;
 
 public class EncogPersistence {
@@ -63,18 +65,13 @@ public class EncogPersistence {
 		System.out.println("Network traiined to error: " + e);
 
 		System.out.println("Saving network");
-		final EncogPersistedCollection encog = new EncogPersistedCollection(
-				FILENAME);
-		encog.create();
-		encog.add("network", network);
+		EncogDirectoryPersistence.saveObject(new File(FILENAME), network);
 	}
 
 	public void loadAndEvaluate() {
 		System.out.println("Loading network");
 
-		final EncogPersistedCollection encog = new EncogPersistedCollection(
-				FILENAME);
-		BasicNetwork network = (BasicNetwork) encog.find("network");
+		BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(FILENAME));
 
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		double e = network.calculateError(trainingSet);

@@ -49,8 +49,6 @@ public class MarketPredict {
 			} 
 			else if( args[0].equalsIgnoreCase("evaluate") ) {
 				MarketEvaluate.run();
-			} else if( args[0].equalsIgnoreCase("prune") ) {
-				MarketPrune.incremental();
 			} 
 		}
 	}

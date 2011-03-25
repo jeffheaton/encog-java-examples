@@ -23,13 +23,13 @@
  */
 package org.encog.examples.neural.predict.market;
 
+import java.io.File;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.encog.app.quant.basic.FileData;
 import org.encog.app.quant.indicators.MovingAverage;
 import org.encog.app.quant.indicators.ProcessIndicators;
-import org.encog.app.quant.loader.MarketLoader;
 import org.encog.app.quant.loader.yahoo.YahooDownload;
 import org.encog.app.quant.normalize.NormalizationAction;
 import org.encog.app.quant.normalize.NormalizeCSV;
@@ -44,9 +44,7 @@ import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.persist.EncogMemoryCollection;
-import org.encog.persist.EncogPersistedCollection;
-import org.encog.persist.EncogPersistedObject;
+import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
@@ -160,12 +158,9 @@ public class MarketBuildTraining {
         network.addLayer(new BasicLayer(new ActivationLinear(), true, Config.PREDICT_WINDOW));
         network.getStructure().finalizeStructure();
         network.reset();
-
-        EncogMemoryCollection encog = new EncogMemoryCollection();
-        encog.add(Config.MARKET_NETWORK, network);
         
-        encog.add(Config.MARKET_TRAIN, (EncogPersistedObject)training);
-        encog.save(Config.FILENAME);
+        EncogDirectoryPersistence.saveObject(new File(Config.FILENAME), network);
+
     }
 
 }

@@ -27,7 +27,6 @@ import org.encog.ml.genetic.GeneticAlgorithm;
 import org.encog.ml.genetic.genes.CharGene;
 import org.encog.ml.genetic.genome.BasicGenome;
 import org.encog.ml.genetic.genome.Chromosome;
-import org.encog.persist.Persistor;
 
 public class PlayerGenome extends BasicGenome {
 
@@ -64,10 +63,5 @@ public class PlayerGenome extends BasicGenome {
 		}
 	}
 
-	@Override
-	public Persistor createPersistor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

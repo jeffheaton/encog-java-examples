@@ -33,7 +33,7 @@ import org.encog.engine.util.Format;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.persist.EncogPersistedCollection;
+import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.csv.ReadCSV;
 
 public class Evaluate {
@@ -59,8 +59,7 @@ public class Evaluate {
             return null;
         }
 
-        EncogPersistedCollection encog = new EncogPersistedCollection(file);
-        BasicNetwork network = (BasicNetwork)encog.find(Constant.TRAINED_NETWORK_NAME);
+        BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(file));
 
         if (network == null)
         {
