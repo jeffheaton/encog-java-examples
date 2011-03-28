@@ -49,10 +49,7 @@ public class Benchmark  {
 	public String run() {
 		final EncogBenchmark mark = new EncogBenchmark(new ConsoleStatusReportable());
 		String result = mark.process();
-		if( mark.getDevice()!=null )
-		{
-			System.out.println("OpenCL Device Used: " + mark.getDevice().toString() );
-		}
+
 		return result;
 	}
 }
