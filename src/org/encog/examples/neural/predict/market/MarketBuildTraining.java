@@ -149,7 +149,7 @@ public class MarketBuildTraining {
 
         generate(begin, end, true);
 
-        NeuralDataSet training = (BasicNeuralDataSet)EncogUtility.loadCSV2Memory(Config.STEP5, Config.INPUT_WINDOW, Config.PREDICT_WINDOW, true, CSVFormat.ENGLISH);
+        NeuralDataSet training = (BasicNeuralDataSet)EncogUtility.loadCSV2Memory(Config.STEP5.toString(), Config.INPUT_WINDOW, Config.PREDICT_WINDOW, true, CSVFormat.ENGLISH);
 
         // build a neural network
         BasicNetwork network = new BasicNetwork();
@@ -159,7 +159,7 @@ public class MarketBuildTraining {
         network.getStructure().finalizeStructure();
         network.reset();
         
-        EncogDirectoryPersistence.saveObject(new File(Config.FILENAME), network);
+        EncogDirectoryPersistence.saveObject(Config.FILENAME, network);
 
     }
 

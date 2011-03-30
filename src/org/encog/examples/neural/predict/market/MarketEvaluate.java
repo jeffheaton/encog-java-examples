@@ -67,7 +67,7 @@ public class MarketEvaluate {
 
         MarketBuildTraining.generate(begin, end, false);
 
-        BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(Config.FILENAME));
+        BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(Config.FILENAME);
         
         NormalizeCSV norm = new NormalizeCSV();
         norm.readStatsFile(Config.STEP4STATS);
@@ -76,7 +76,7 @@ public class MarketEvaluate {
 
         BasicNeuralData input = new BasicNeuralData(Config.INPUT_WINDOW);
 
-        ReadCSV csv = new ReadCSV(Config.FILENAME_PREDICT, true, CSVFormat.ENGLISH);
+        ReadCSV csv = new ReadCSV(Config.FILENAME_PREDICT.toString(), true, CSVFormat.ENGLISH);
         while (csv.next())
         {
             StringBuilder line = new StringBuilder();

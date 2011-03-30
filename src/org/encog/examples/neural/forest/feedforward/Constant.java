@@ -23,13 +23,15 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
+import java.io.File;
+
 
 public class Constant {
 	
     /**
      * The base directory that all of the data for this example is stored in.
      */
-    public final static String BASE_DIRECTORY = "c:\\data\\";
+    public final static File BASE_DIRECTORY = new File("c:\\data\\");
 
     /**
      * The source data file from which all others are built.  This file can
@@ -37,57 +39,57 @@ public class Constant {
      * 
      * http://kdd.ics.uci.edu/databases/covertype/covertype.html
      */
-    public final static String COVER_TYPE_FILE = BASE_DIRECTORY + "covtype.data";
+    public final static File COVER_TYPE_FILE = new File( BASE_DIRECTORY , "covtype.data");
 
     /**
      * The source file in random order.
      */
-    public final static String FILTERED_FILE = BASE_DIRECTORY + "filtered.csv";
+    public final static File FILTERED_FILE = new File( BASE_DIRECTORY , "filtered.csv");
 
     /**
      * The source file in random order.
      */
-    public final static String RANDOM_FILE = BASE_DIRECTORY + "random.csv";
+    public final static File RANDOM_FILE = new File( BASE_DIRECTORY , "random.csv");
 
     /// <summary>
     /// 75% of the data will be moved into this file to be used as training data.  The 
     /// data is still in "raw form" in this file.
     /// </summary>
-    public final static String TRAINING_FILE = BASE_DIRECTORY + "training.csv";
+    public final static File TRAINING_FILE = new File( BASE_DIRECTORY , "training.csv");
 
     /// <summary>
     /// 25% of the data will be moved into this file to be used as evaluation data.  The 
     /// data is still in "raw form" in this file.
     /// </summary>
-    public final static String EVALUATE_FILE = BASE_DIRECTORY + "evaluate.csv";
+    public final static File EVALUATE_FILE = new File( BASE_DIRECTORY , "evaluate.csv" );
 
     /// <summary>
     /// We will limit the number of samples per "tree type" to 3000, this causes the data
     /// to be more balanced and will not allow one tree type to over-fit the network.
     /// The training file is narrowed and placed into this file in "raw form".
     /// </summary>
-    public final static String BALANCE_FILE = BASE_DIRECTORY + "balance.csv";
+    public final static File BALANCE_FILE = new File( BASE_DIRECTORY , "balance.csv" );
 
     /**
      * The training file is normalized and placed into this file.
      */
-    public final static String NORMALIZED_FILE = BASE_DIRECTORY + "normalized.csv";
+    public final static File NORMALIZED_FILE = new File( BASE_DIRECTORY , "normalized.csv" );
 
     /**
      * The training file is normalized and placed into this file.
      */
-    public final static String NORMALIZED_STATS_FILE = BASE_DIRECTORY + "normalized-stats.csv";
+    public final static File NORMALIZED_STATS_FILE = new File( BASE_DIRECTORY , "normalized-stats.csv");
 
     /**
      * CSV files are slow to parse with because the text must be converted into numbers.
      * The balanced file will be converted to a binary file to be used for training.
      */
-    public final static String BINARY_FILE = BASE_DIRECTORY + "normalized.egb";
+    public final static File BINARY_FILE = new File( BASE_DIRECTORY + "normalized.egb");
 
     /**
      * The trained network and normalizer will be saved into an Encog EG file.
      */
-    public final static String TRAINED_NETWORK_FILE = BASE_DIRECTORY + "forest.eg";
+    public final static File TRAINED_NETWORK_FILE = new File( BASE_DIRECTORY , "forest.eg");
 
     /**
      * The name of the network inside of the EG file.

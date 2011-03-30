@@ -49,7 +49,7 @@ public class TrainNetwork {
 	}
 
 	public void train(boolean useGUI) {
-		BufferedNeuralDataSet dataFile = new BufferedNeuralDataSet(new File(Constant.BINARY_FILE));
+		BufferedNeuralDataSet dataFile = new BufferedNeuralDataSet(Constant.BINARY_FILE);
         NeuralDataSet trainingSet = dataFile.loadToMemory();
         int inputSize = trainingSet.getInputSize();
         int idealSize = trainingSet.getIdealSize();
@@ -65,7 +65,7 @@ public class TrainNetwork {
             EncogUtility.trainConsole(network, trainingSet, Constant.TRAINING_MINUTES);
         }
         
-        EncogDirectoryPersistence.saveObject(new File(Constant.TRAINED_NETWORK_FILE), network);
+        EncogDirectoryPersistence.saveObject(Constant.TRAINED_NETWORK_FILE, network);
 
         System.out.println("Training complete, saving network...");
 	}

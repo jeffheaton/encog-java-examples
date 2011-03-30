@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.predict.market;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -34,15 +35,15 @@ import java.util.GregorianCalendar;
  */
 public class Config {
 	
-	public static final String DIRECTORY = "d:\\data\\";
-    public static final String STEP1 = Config.DIRECTORY + "step1_yahoo.csv";
-    public static final String STEP2 = Config.DIRECTORY + "step2_sort.csv";
-    public static final String STEP3 = Config.DIRECTORY + "step3_ind.csv";
-    public static final String STEP4 = Config.DIRECTORY + "step4_norm.csv";
-    public static final String STEP4STATS = Config.DIRECTORY + "step4_stats.csv";
-    public static final String STEP5 = Config.DIRECTORY + "step5_training.csv";
-    public static final String FILENAME_PREDICT = Config.DIRECTORY + "step5_predict.csv";
-    public static final String FILENAME = Config.DIRECTORY + "marketdata.eg";
+	public static final File DIRECTORY = new File("d:\\data\\");
+    public static final File STEP1 = new File( Config.DIRECTORY, "step1_yahoo.csv");
+    public static final File STEP2 = new File( Config.DIRECTORY , "step2_sort.csv");
+    public static final File STEP3 = new File( Config.DIRECTORY , "step3_ind.csv");
+    public static final File STEP4 = new File(Config.DIRECTORY , "step4_norm.csv");
+    public static final File STEP4STATS = new File( Config.DIRECTORY , "step4_stats.csv" );
+    public static final File STEP5 = new File( Config.DIRECTORY , "step5_training.csv" );
+    public static final File FILENAME_PREDICT = new File( Config.DIRECTORY , "step5_predict.csv" );
+    public static final File FILENAME = new File( Config.DIRECTORY , "marketdata.eg" );
     public static final String MARKET_NETWORK = "market-network";
     public static final String MARKET_TRAIN = "market-train";
 

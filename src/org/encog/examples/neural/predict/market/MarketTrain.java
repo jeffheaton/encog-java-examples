@@ -43,7 +43,7 @@ public class MarketTrain {
 
 	public static void train() {
 
-		final File file = new File(Config.FILENAME);
+		final File file = Config.FILENAME;
 
 		if (!file.exists()) {
 			System.out.println("Can't read file: " + file.getAbsolutePath());

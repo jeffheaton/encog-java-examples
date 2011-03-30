@@ -51,15 +51,13 @@ public class Evaluate {
     
     public BasicNetwork loadNetwork()
     {
-        String file = Constant.TRAINED_NETWORK_FILE;
-
-        if (!(new File(file)).exists() )
+        if (!Constant.TRAINED_NETWORK_FILE.exists() )
         {
-            System.out.println("Can't read file: " + file);
+            System.out.println("Can't read file: " + Constant.TRAINED_NETWORK_FILE);
             return null;
         }
 
-        BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(file));
+        BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(Constant.TRAINED_NETWORK_FILE);
 
         if (network == null)
         {
