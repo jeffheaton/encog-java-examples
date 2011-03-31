@@ -254,7 +254,7 @@ public class RocketCPN {
 		
 		this.input1 = new double[PATTERN1.length][this.inputNeurons];
 		this.input2 = new double[PATTERN2.length][this.inputNeurons];
-		this.ideal1 = new double[PATTERN1.length][this.instarNeurons];
+		this.ideal1 = new double[PATTERN1.length][this.outstarNeurons];
 
 		  for (n=0; n<PATTERN1.length; n++) {
 		    for (i=0; i<HEIGHT; i++) {
@@ -311,12 +311,12 @@ public class RocketCPN {
 		int epoch = 1;
 
 		Train train = new TrainInstar(network,training,0.1,true);
-		for(int i=0;i<20;i++) {
+		do {
 			train.iteration();
 			System.out
 					.println("Training instar, Epoch #" + epoch + ", Error: " + train.getError() );
 			epoch++;
-		} 
+		} while(train.getError()>0.01);
 	}
 	
 	public void trainOutstar(CPN network,NeuralDataSet training)
@@ -324,12 +324,12 @@ public class RocketCPN {
 		int epoch = 1;
 
 		Train train = new TrainOutstar(network,training,0.1);
-		for(int i=0;i<20;i++) {
+		do {
 			train.iteration();
 			System.out
 					.println("Training outstar, Epoch #" + epoch + ", error=" + train.getError() );
 			epoch++;
-		} 
+		} while(train.getError()>0.01); 
 	}
 	
 	public NeuralDataSet generateTraining(double[][] input,double[][] ideal)
