@@ -310,7 +310,7 @@ public class RocketCPN {
 	{
 		int epoch = 1;
 
-		Train train = new TrainInstar(network,training,0.1);
+		Train train = new TrainInstar(network,training,0.1,true);
 		for(int i=0;i<20;i++) {
 			train.iteration();
 			System.out
