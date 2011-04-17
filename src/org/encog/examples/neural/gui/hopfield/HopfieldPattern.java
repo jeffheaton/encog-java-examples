@@ -1,25 +1,13 @@
 package org.encog.examples.neural.gui.hopfield;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import org.encog.engine.util.EngineArray;
-import org.encog.examples.neural.gui.predict.GraphPanel;
-import org.encog.examples.neural.gui.predict.PredictSIN;
-import org.encog.neural.data.bipolar.BiPolarNeuralData;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.neural.thermal.HopfieldNetwork;
-import org.encog.util.simple.EncogUtility;
 
 public class HopfieldPattern extends JFrame  implements ActionListener {
 

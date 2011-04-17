@@ -23,13 +23,12 @@
  */
 package org.encog.examples.neural.resume;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.Arrays;
 
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.TrainingContinuation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
@@ -61,8 +60,7 @@ public class TrainResume {
 		
 		try
 		{
-		//SerializeObject.save("resume.ser", cont);
-		cont = (TrainingContinuation)SerializeObject.load("resume.ser");
+		cont = (TrainingContinuation)SerializeObject.load(new File("resume.ser"));
 		}
 		catch(Exception ex)
 		{

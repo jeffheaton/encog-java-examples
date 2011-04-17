@@ -23,14 +23,14 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
-import org.encog.app.quant.balance.BalanceCSV;
-import org.encog.app.quant.filter.FilterCSV;
-import org.encog.app.quant.normalize.NormalizationAction;
-import org.encog.app.quant.normalize.NormalizeCSV;
-import org.encog.app.quant.segregate.SegregateCSV;
-import org.encog.app.quant.segregate.SegregateTargetPercent;
-import org.encog.app.quant.shuffle.ShuffleCSV;
-import org.encog.engine.util.Format;
+import org.encog.app.csv.balance.BalanceCSV;
+import org.encog.app.csv.filter.FilterCSV;
+import org.encog.app.csv.normalize.NormalizationAction;
+import org.encog.app.csv.normalize.NormalizeCSV;
+import org.encog.app.csv.segregate.SegregateCSV;
+import org.encog.app.csv.segregate.SegregateTargetPercent;
+import org.encog.app.csv.shuffle.ShuffleCSV;
+import org.encog.util.Format;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.simple.EncogUtility;
 
@@ -71,10 +71,10 @@ public class GenerateData  {
     {
     	System.out.println("Step 4: Balance training to have the same number of each tree");
         BalanceCSV balance = new BalanceCSV();
-        balance.Analyze(Constant.TRAINING_FILE, false, CSVFormat.ENGLISH);
-        balance.Process(Constant.BALANCE_FILE, 54, 500);
+        balance.analyze(Constant.TRAINING_FILE, false, CSVFormat.ENGLISH);
+        balance.process(Constant.BALANCE_FILE, 54, 500);
         System.out.println("Count per Tree:");
-        System.out.println(balance.DumpCounts());
+        System.out.println(balance.dumpCounts());
     }
 
     public int step5(NormalizationAction normType)

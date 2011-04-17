@@ -1,16 +1,16 @@
 package org.encog.examples.neural.benchmark;
 
-import org.encog.engine.network.activation.ActivationSigmoid;
-import org.encog.engine.network.flat.FlatNetwork;
-import org.encog.engine.network.train.prop.TrainFlatNetworkBackPropagation;
-import org.encog.engine.util.Format;
-import org.encog.engine.util.Stopwatch;
+import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.flat.FlatNetwork;
+import org.encog.neural.flat.train.prop.TrainFlatNetworkBackPropagation;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.util.Format;
+import org.encog.util.Stopwatch;
 import org.encog.util.logging.Logging;
 
 public class SimpleBenchmark {

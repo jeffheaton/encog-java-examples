@@ -25,12 +25,11 @@ package org.encog.examples.neural.benchmark;
 
 import java.io.File;
 
-import org.encog.engine.util.Format;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.basic.BasicNeuralDataPair;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.data.buffer.BufferedNeuralDataSet;
-import org.encog.util.benchmark.EncogBenchmark;
+import org.encog.util.Format;
 import org.encog.util.benchmark.Evaluate;
 import org.encog.util.benchmark.RandomTrainingFactory;
 

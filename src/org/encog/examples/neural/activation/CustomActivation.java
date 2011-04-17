@@ -23,7 +23,6 @@
  */
 package org.encog.examples.neural.activation;
 
-import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;

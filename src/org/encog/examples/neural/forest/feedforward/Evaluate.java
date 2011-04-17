@@ -23,17 +23,15 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
-import java.io.File;
-
-import org.encog.app.quant.normalize.ClassItem;
-import org.encog.app.quant.normalize.NormalizationStats;
-import org.encog.app.quant.normalize.NormalizeCSV;
-import org.encog.app.quant.normalize.NormalizedField;
-import org.encog.engine.util.Format;
+import org.encog.app.csv.normalize.ClassItem;
+import org.encog.app.csv.normalize.NormalizationStats;
+import org.encog.app.csv.normalize.NormalizeCSV;
+import org.encog.app.csv.normalize.NormalizedField;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.persist.EncogDirectoryPersistence;
+import org.encog.util.Format;
 import org.encog.util.csv.ReadCSV;
 
 public class Evaluate {

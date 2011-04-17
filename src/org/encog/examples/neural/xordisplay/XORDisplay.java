@@ -27,14 +27,13 @@ package org.encog.examples.neural.xordisplay;
 
 import java.util.Arrays;
 
-import org.encog.engine.network.flat.FlatNetwork;
-import org.encog.engine.network.train.prop.TrainFlatNetworkResilient;
 import org.encog.mathutil.randomize.ConsistentRandomizer;
 import org.encog.mathutil.randomize.Randomizer;
-import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.flat.FlatNetwork;
+import org.encog.neural.flat.train.prop.TrainFlatNetworkResilient;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;

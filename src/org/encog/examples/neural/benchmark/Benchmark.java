@@ -25,7 +25,6 @@ package org.encog.examples.neural.benchmark;
 
 import org.encog.ConsoleStatusReportable;
 import org.encog.Encog;
-import org.encog.engine.StatusReportable;
 import org.encog.util.benchmark.EncogBenchmark;
 import org.encog.util.logging.Logging;
 

@@ -23,7 +23,7 @@
  */
 package org.encog.examples.neural.xorneat;
 
-import org.encog.engine.network.activation.ActivationStep;
+import org.encog.neural.activation.ActivationStep;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
@@ -31,7 +31,6 @@ import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
-import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.util.logging.Logging;

@@ -23,13 +23,13 @@
  */
 package org.encog.examples.neural.recurrent;
 
-import org.encog.engine.network.activation.ActivationSigmoid;
-import org.encog.engine.util.Format;
+import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.neural.pattern.JordanPattern;
+import org.encog.util.Format;
 import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 

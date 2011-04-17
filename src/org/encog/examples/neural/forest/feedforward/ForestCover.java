@@ -23,7 +23,7 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
-import org.encog.app.quant.normalize.NormalizationAction;
+import org.encog.app.csv.normalize.NormalizationAction;
 import org.encog.util.logging.Logging;
 
 /**

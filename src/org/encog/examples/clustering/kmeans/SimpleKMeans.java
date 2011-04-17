@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.encog.engine.data.BasicEngineData;
 import org.encog.engine.data.EngineData;
 import org.encog.engine.data.EngineDataSet;
-import org.encog.ml.kmeans.KMeansCluster;
+import org.encog.ml.MLCluster;
 import org.encog.ml.kmeans.KMeansClustering;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
@@ -33,7 +33,7 @@ public class SimpleKMeans {
         System.out.println("Final WCSS: " + kmeans.getWCSS());
                
         int i = 1;
-        for(KMeansCluster cluster: kmeans.getClusters())
+        for(MLCluster cluster: kmeans.getClusters())
         {
         	System.out.println("*** Cluster " + (i++) + " ***");
         	EngineDataSet ds = cluster.createDataSet();

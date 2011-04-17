@@ -23,23 +23,22 @@
  */
 package org.encog.examples.neural.predict.market;
 
-import java.io.File;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.encog.app.quant.basic.FileData;
+import org.encog.app.csv.basic.FileData;
+import org.encog.app.csv.normalize.NormalizationAction;
+import org.encog.app.csv.normalize.NormalizeCSV;
+import org.encog.app.csv.sort.SortCSV;
+import org.encog.app.csv.sort.SortType;
+import org.encog.app.csv.sort.SortedField;
+import org.encog.app.csv.temporal.TemporalType;
+import org.encog.app.csv.temporal.TemporalWindowCSV;
 import org.encog.app.quant.indicators.MovingAverage;
 import org.encog.app.quant.indicators.ProcessIndicators;
 import org.encog.app.quant.loader.yahoo.YahooDownload;
-import org.encog.app.quant.normalize.NormalizationAction;
-import org.encog.app.quant.normalize.NormalizeCSV;
-import org.encog.app.quant.sort.SortCSV;
-import org.encog.app.quant.sort.SortType;
-import org.encog.app.quant.sort.SortedField;
-import org.encog.app.quant.temporal.TemporalType;
-import org.encog.app.quant.temporal.TemporalWindowCSV;
-import org.encog.engine.network.activation.ActivationLinear;
-import org.encog.engine.network.activation.ActivationTANH;
+import org.encog.neural.activation.ActivationLinear;
+import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;

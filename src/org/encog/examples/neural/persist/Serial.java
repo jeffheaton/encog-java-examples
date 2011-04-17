@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.persist;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.encog.neural.data.NeuralDataSet;
@@ -65,12 +66,12 @@ public class Serial {
 		System.out.println("Network traiined to error: " + e);
 
 		System.out.println("Saving network");
-		SerializeObject.save(FILENAME, network);
+		SerializeObject.save(new File(FILENAME), network);
 	}
 
 	public void loadAndEvaluate() throws IOException, ClassNotFoundException {
 		System.out.println("Loading network");
-		BasicNetwork network = (BasicNetwork) SerializeObject.load(FILENAME);
+		BasicNetwork network = (BasicNetwork) SerializeObject.load(new File(FILENAME));
 		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
 		double e = network.calculateError(trainingSet);
 		System.out

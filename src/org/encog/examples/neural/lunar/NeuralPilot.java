@@ -23,8 +23,8 @@
  */
 package org.encog.examples.neural.lunar;
 
-import org.encog.app.quant.normalize.NormalizationAction;
-import org.encog.app.quant.normalize.NormalizedField;
+import org.encog.app.csv.normalize.NormalizationAction;
+import org.encog.app.csv.normalize.NormalizedField;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;

@@ -31,7 +31,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.encog.app.quant.temporal.TemporalWindowArray;
+import org.encog.app.csv.temporal.TemporalWindowArray;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;

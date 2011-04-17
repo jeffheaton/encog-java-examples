@@ -23,12 +23,11 @@
  */
 package org.encog.examples.neural.xorflat;
 
-import org.encog.Encog;
-import org.encog.engine.network.flat.FlatNetwork;
-import org.encog.engine.network.train.prop.TrainFlatNetworkResilient;
 import org.encog.neural.data.NeuralDataPair;
 import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.flat.FlatNetwork;
+import org.encog.neural.flat.train.prop.TrainFlatNetworkResilient;
 import org.encog.util.logging.Logging;
 
 /**

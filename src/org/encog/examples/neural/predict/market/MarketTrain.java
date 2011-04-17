@@ -25,13 +25,6 @@ package org.encog.examples.neural.predict.market;
 
 import java.io.File;
 
-import org.encog.Encog;
-import org.encog.engine.util.ErrorCalculation;
-import org.encog.engine.util.ErrorCalculationMode;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.util.simple.EncogUtility;
-
 /**
  * Load the training data from an Encog file, produced during the
  * "build training step", and attempt to train.
