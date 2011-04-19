@@ -80,7 +80,7 @@ public class Play21 {
 	}
 
 	public static void main(String[] args) {
-		GeneticAlgorithm genetic = new GeneticAlgorithm();
+		GeneticAlgorithm genetic = new BasicGeneticAlgorithm();
 		initPopulation(genetic);
 		genetic.setMutationPercent(MUTATION_PERCENT);
 		genetic.setPercentToMate(PERCENT_TO_MATE);

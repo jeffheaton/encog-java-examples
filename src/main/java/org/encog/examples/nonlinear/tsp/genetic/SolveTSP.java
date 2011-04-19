@@ -112,7 +112,7 @@ public class SolveTSP {
 
 		initCities();
 
-		genetic = new GeneticAlgorithm();
+		genetic = new BasicGeneticAlgorithm();
 		
 		initPopulation(genetic);
 		genetic.setMutationPercent(MUTATION_PERCENT);
