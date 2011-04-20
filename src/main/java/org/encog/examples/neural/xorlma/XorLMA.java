@@ -60,7 +60,7 @@ public class XorLMA {
 		// reset if improve is less than 1% over 5 cycles
 		train.addStrategy(new RequiredImprovementStrategy(5));
 
-		EncogUtility.trainToError(train, network, trainingSet, 0.01);
+		EncogUtility.trainToError(train, 0.01);
 		
 		System.out.println("Neural Network Results:");
 		EncogUtility.evaluate(network, trainingSet);

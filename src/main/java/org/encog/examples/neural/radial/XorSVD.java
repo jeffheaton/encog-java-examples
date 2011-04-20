@@ -60,7 +60,7 @@ public class XorSVD {
 		SVDTraining train = new SVDTraining(network,trainingSet);
 		
 		// train the neural network
-		EncogUtility.trainToError(train, network, trainingSet, 0.01);
+		EncogUtility.trainToError(train, 0.01);
 
 		// test the neural network
 		System.out.println("Neural Network Results:");

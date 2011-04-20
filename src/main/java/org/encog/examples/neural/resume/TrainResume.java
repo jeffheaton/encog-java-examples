@@ -53,7 +53,7 @@ public class TrainResume {
 		train.addStrategy(new RequiredImprovementStrategy(5));
 		
 		System.out.println("Perform initial train.");
-		EncogUtility.trainToError(train,network, trainingSet, 0.01);
+		EncogUtility.trainToError(train,0.01);
 		TrainingContinuation cont = train.pause();
 		System.out.println(Arrays.toString((double[])cont.getContents().get(ResilientPropagation.LAST_GRADIENTS)));
 		System.out.println(Arrays.toString((double[])cont.getContents().get(ResilientPropagation.UPDATE_VALUES)));
@@ -70,6 +70,6 @@ public class TrainResume {
 		System.out.println("Now trying a second train, with continue from the first.  Should stop after one iteration");
 		ResilientPropagation train2 = new ResilientPropagation(network, trainingSet);
 		train2.resume(cont);
-		EncogUtility.trainToError(train2,network, trainingSet, 0.01);	
+		EncogUtility.trainToError(train2,0.01);	
 	}
 }
