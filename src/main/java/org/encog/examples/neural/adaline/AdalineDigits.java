@@ -27,8 +27,8 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.simple.TrainAdaline;
 import org.encog.neural.pattern.ADALINEPattern;
 
@@ -172,7 +172,7 @@ public class AdalineDigits {
 		
 		// train it
 		MLDataSet training = generateTraining();
-		Train train = new TrainAdaline(network,training,0.01);
+		MLTrain train = new TrainAdaline(network,training,0.01);
 		
 		int epoch = 1;
 		do {

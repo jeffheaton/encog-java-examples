@@ -27,9 +27,9 @@ import java.io.File;
 
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.logging.Logging;
@@ -55,7 +55,7 @@ public class EncogPersistence {
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 
 		// train the neural network
-		final Train train = new ResilientPropagation(network, trainingSet);
+		final MLTrain train = new ResilientPropagation(network, trainingSet);
 
 		do {
 			train.iteration();

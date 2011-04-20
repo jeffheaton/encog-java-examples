@@ -71,7 +71,7 @@ public class XorNEAT {
 			epoch++;
 		} while ((train.getError() > 0.001));
 
-		NEATNetwork network = train.getNetwork();
+		NEATNetwork network = (NEATNetwork)train.getMethod();
 		network.clearContext();
 		// test the neural network
 		System.out.println("Neural Network Results:");

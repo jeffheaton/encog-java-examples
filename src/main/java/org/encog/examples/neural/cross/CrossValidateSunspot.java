@@ -31,9 +31,9 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.folded.FoldedDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.cross.CrossValidationKFold;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.EngineArray;
@@ -124,7 +124,7 @@ public class CrossValidateSunspot {
 
 	public void train(BasicNetwork network, MLDataSet training) {
 		final FoldedDataSet folded = new FoldedDataSet(training); 
-		final Train train = new ResilientPropagation(network, folded);
+		final MLTrain train = new ResilientPropagation(network, folded);
 		final CrossValidationKFold trainFolded = new CrossValidationKFold(train,4);
 
 		int epoch = 1;

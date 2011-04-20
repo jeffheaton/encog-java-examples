@@ -2,12 +2,12 @@ package org.encog.examples.neural.benchmark;
 
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.flat.FlatNetwork;
 import org.encog.neural.flat.train.prop.TrainFlatNetworkBackPropagation;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.util.Format;
 import org.encog.util.Stopwatch;
@@ -34,7 +34,7 @@ public class SimpleBenchmark {
         MLDataSet trainingSet = new BasicMLDataSet(input, output);
 
         // train the neural network
-        Train train = new Backpropagation(network, trainingSet,
+        MLTrain train = new Backpropagation(network, trainingSet,
                0.7, 0.7);
 
         Stopwatch sw = new Stopwatch();

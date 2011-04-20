@@ -29,10 +29,10 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.CalculateScore;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.util.logging.Logging;
@@ -66,7 +66,7 @@ public class XorGenetic {
 		
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
-		final Train train = new NeuralGeneticAlgorithm(
+		final MLTrain train = new NeuralGeneticAlgorithm(
 				network, new RangeRandomizer(-1,1), score, 5000, 0.1, 0.25);
 
 		int epoch = 1;
@@ -78,7 +78,7 @@ public class XorGenetic {
 			epoch++;
 		} while ((epoch < 5000) && (train.getError() > 0.01));
 
-		network = (BasicNetwork)train.getNetwork();
+		network = (BasicNetwork)train.getMethod();
 
 		// test the neural network
 		System.out.println("Neural Network Results:");

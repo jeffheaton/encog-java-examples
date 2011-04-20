@@ -1,22 +1,10 @@
 package org.encog.examples.neural.xor;
 
 import org.encog.ml.MLMethod;
-import org.encog.ml.MLRegression;
-import org.encog.ml.MLTrain;
-import org.encog.ml.data.MLData;
-import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
-import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.factory.MLMethodFactory;
 import org.encog.ml.factory.MLTrainFactory;
-import org.encog.neural.activation.ActivationSigmoid;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
-import org.encog.util.logging.Logging;
-import org.encog.util.simple.EncogUtility;
+import org.encog.ml.train.MLTrain;
 
 /**
  * This example shows how to use the Encog machine learning factory to 

@@ -30,9 +30,9 @@ import org.encog.app.csv.temporal.TemporalWindowArray;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.EngineArray;
 import org.encog.util.logging.Logging;
@@ -137,7 +137,7 @@ public class PredictSunspot {
 	
 	public void train(BasicNetwork network,MLDataSet training)
 	{
-		final Train train = new ResilientPropagation(network, training);
+		final MLTrain train = new ResilientPropagation(network, training);
 
 		int epoch = 1;
 

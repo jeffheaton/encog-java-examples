@@ -27,11 +27,11 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.specific.SQLNeuralDataSet;
+import org.encog.ml.train.MLTrain;
+import org.encog.ml.train.strategy.RequiredImprovementStrategy;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
 import org.encog.util.logging.Logging;
 
 /**
@@ -88,7 +88,7 @@ public class XORSQL {
 				XORSQL.SQL_PWD);
 		
 		// train the neural network
-		final Train train = new ResilientPropagation(network, trainingSet);
+		final MLTrain train = new ResilientPropagation(network, trainingSet);
 		// reset if improve is less than 1% over 5 cycles
 		train.addStrategy(new RequiredImprovementStrategy(5));
 		

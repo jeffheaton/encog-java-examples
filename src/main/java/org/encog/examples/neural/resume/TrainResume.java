@@ -28,10 +28,10 @@ import java.util.Arrays;
 
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.strategy.RequiredImprovementStrategy;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.TrainingContinuation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
 import org.encog.util.logging.Logging;
 import org.encog.util.obj.SerializeObject;
 import org.encog.util.simple.EncogUtility;

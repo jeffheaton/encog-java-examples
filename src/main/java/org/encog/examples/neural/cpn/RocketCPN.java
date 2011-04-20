@@ -27,10 +27,10 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.cpn.CPN;
 import org.encog.neural.cpn.training.TrainInstar;
 import org.encog.neural.cpn.training.TrainOutstar;
-import org.encog.neural.networks.training.Train;
 
 public class RocketCPN {
 	
@@ -308,7 +308,7 @@ public class RocketCPN {
 	{
 		int epoch = 1;
 
-		Train train = new TrainInstar(network,training,0.1,true);
+		MLTrain train = new TrainInstar(network,training,0.1,true);
 		do {
 			train.iteration();
 			System.out
@@ -321,7 +321,7 @@ public class RocketCPN {
 	{
 		int epoch = 1;
 
-		Train train = new TrainOutstar(network,training,0.1);
+		MLTrain train = new TrainOutstar(network,training,0.1);
 		do {
 			train.iteration();
 			System.out

@@ -27,9 +27,9 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
 import org.encog.util.logging.Logging;
 
@@ -64,7 +64,7 @@ public class XORManhattan {
 				XORManhattan.XOR_INPUT, XORManhattan.XOR_IDEAL);
 
 		// train the neural network
-		final Train train = new ManhattanPropagation(network, trainingSet,
+		final MLTrain train = new ManhattanPropagation(network, trainingSet,
 				0.0001);
 
 		int epoch = 1;

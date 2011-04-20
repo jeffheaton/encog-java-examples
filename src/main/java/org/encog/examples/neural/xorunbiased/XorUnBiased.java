@@ -27,10 +27,10 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.util.logging.Logging;
 
@@ -64,7 +64,7 @@ public class XorUnBiased {
 				XorUnBiased.XOR_INPUT, XorUnBiased.XOR_IDEAL);
 
 		// train the neural network
-		final Train train = new Backpropagation(network, trainingSet, 0.1, 0.0);
+		final MLTrain train = new Backpropagation(network, trainingSet, 0.1, 0.0);
 
 		int epoch = 1;
 

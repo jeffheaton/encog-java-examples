@@ -25,9 +25,9 @@ package org.encog.examples.neural.lunar;
 
 import org.encog.Encog;
 import org.encog.mathutil.randomize.FanInRandomizer;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.neural.pattern.FeedForwardPattern;
@@ -52,7 +52,7 @@ public class LunarLander {
 		Logging.stopConsoleLogging();
 		BasicNetwork network = createNetwork();
 		
-		Train train;
+		MLTrain train;
 		
 		if( args.length>0 && args[0].equalsIgnoreCase("anneal"))
 		{
@@ -76,7 +76,7 @@ public class LunarLander {
 		} 
 
 		System.out.println("\nHow the winning network landed:");
-		network = (BasicNetwork)train.getNetwork();
+		network = (BasicNetwork)train.getMethod();
 		NeuralPilot pilot = new NeuralPilot(network,true);
 		System.out.println(pilot.scorePilot());
 		Encog.getInstance().shutdown();

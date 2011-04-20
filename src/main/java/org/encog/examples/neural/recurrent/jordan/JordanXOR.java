@@ -27,17 +27,17 @@ import org.encog.examples.neural.util.TemporalXOR;
 import org.encog.mathutil.error.ErrorCalculation;
 import org.encog.mathutil.error.ErrorCalculationMode;
 import org.encog.ml.data.MLDataSet;
+import org.encog.ml.train.MLTrain;
+import org.encog.ml.train.strategy.Greedy;
+import org.encog.ml.train.strategy.HybridStrategy;
+import org.encog.ml.train.strategy.StopTrainingStrategy;
 import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
-import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.Propagation;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
-import org.encog.neural.networks.training.strategy.Greedy;
-import org.encog.neural.networks.training.strategy.HybridStrategy;
-import org.encog.neural.networks.training.strategy.StopTrainingStrategy;
 import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.neural.pattern.JordanPattern;
 import org.encog.util.logging.Logging;
@@ -103,10 +103,10 @@ public class JordanXOR {
 			final BasicNetwork network, final MLDataSet trainingSet) {
 		// train the neural network
 		CalculateScore score = new TrainingSetScore(trainingSet);
-		final Train trainAlt = new NeuralSimulatedAnnealing(
+		final MLTrain trainAlt = new NeuralSimulatedAnnealing(
 				network, score, 10, 2, 100);
 
-		final Train trainMain = new Backpropagation(network, trainingSet,0.000001, 0.0);
+		final MLTrain trainMain = new Backpropagation(network, trainingSet,0.000001, 0.0);
 
 		((Propagation)trainMain).setNumThreads(1);
 		final StopTrainingStrategy stop = new StopTrainingStrategy();

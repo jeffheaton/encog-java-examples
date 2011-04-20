@@ -33,7 +33,7 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
-import org.encog.neural.networks.training.Train;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.pattern.RadialBasisPattern;
 import org.encog.neural.rbf.RBFNetwork;
 import org.encog.neural.rbf.training.SVDTraining;
@@ -90,7 +90,7 @@ public class MultiRadial {
 
         //Create the training set and train.
         MLDataSet trainingSet = new BasicMLDataSet(INPUT, IDEAL);
-        Train train = new SVDTraining(network, trainingSet);
+        MLTrain train = new SVDTraining(network, trainingSet);
 
         //SVD is a single step solve
         int epoch = 1;
