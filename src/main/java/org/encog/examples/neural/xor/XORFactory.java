@@ -2,6 +2,7 @@ package org.encog.examples.neural.xor;
 
 import org.encog.ml.MLMethod;
 import org.encog.ml.MLRegression;
+import org.encog.ml.MLResettable;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.factory.MLMethodFactory;
@@ -30,69 +31,92 @@ public class XORFactory {
 	
 	public static final String METHOD_FEEDFORWARD_A = "?:B->SIGMOID->4:B->SIGMOID->?";
 	public static final String METHOD_BIASLESS_A = "?->SIGMOID->4->SIGMOID->?";
-	
-	/**
-	 * Common means of creating a machine learning method.
-	 * @param methodType The type of method to create.
-	 * @param architecture The architecture string to use.
-	 * @return The newly created machine learning method.
-	 */
-	public MLMethod createMethod(String methodType, String architecture) {
-		MLMethodFactory factory = new MLMethodFactory();
-		System.out.println("Creating machine learning method: " + methodType);
-		System.out.println("with architecture: " + architecture);
-		return factory.create(methodType, architecture, 2, 1);
-	}
-	
-	/**
-	 * Create a trainer to use with the machine learning method.
-	 * @param method The method that is being used.
-	 * @param dataSet The data set that is being used for training.
-	 * @param trainType The training type.
-	 * @param args Any training arguments to be used.
-	 * @return The newly created trainer.
-	 */
-	public MLTrain createTrainer(MLMethod method,MLDataSet dataSet,String trainType,String args) {
-		MLTrainFactory factory = new MLTrainFactory();
-		MLTrain train = factory.create(method, dataSet, trainType, args);
-		// reset if improve is less than 1% over 5 cycles
-		train.addStrategy(new RequiredImprovementStrategy(5));	
-		System.out.println("Creating trainer method: " + trainType);
-		System.out.println("with args: " + args);
-		return train;
-	}
+	public static final String METHOD_SVMC_A = "?->C->?";
+	public static final String METHOD_SVMR_A = "?->R->?";
 	
 	/**
 	 * Demonstrate a feedforward network with RPROP.
 	 */
 	public void xorRPROP() {
-		MLMethod method = createMethod(MLMethodFactory.TYPE_FEEDFORWARD,METHOD_FEEDFORWARD_A);
-		MLDataSet dataSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
-		MLTrain train = createTrainer(method,dataSet,MLTrainFactory.TYPE_RPROP,"");
-		EncogUtility.trainToError(train, 0.01);
-		EncogUtility.evaluate((MLRegression)method, dataSet);
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_RPROP,
+				"");		
 	}
 	
 	/**
 	 * Demonstrate a feedforward biasless network with RPROP.
 	 */
 	public void xorBiasless() {
-		MLMethod method = createMethod(MLMethodFactory.TYPE_FEEDFORWARD,METHOD_BIASLESS_A);
-		MLDataSet dataSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
-		MLTrain train = createTrainer(method,dataSet,MLTrainFactory.TYPE_RPROP,"");
-		EncogUtility.trainToError(train, 0.01);
-		EncogUtility.evaluate((MLRegression)method, dataSet);
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_BIASLESS_A,
+				MLTrainFactory.TYPE_RPROP,
+				"");		
 	}
 	
 	/**
 	 * Demonstrate a feedforward network with backpropagation.
 	 */
 	public void xorBackProp() {
-		MLMethod method = createMethod(MLMethodFactory.TYPE_FEEDFORWARD,METHOD_FEEDFORWARD_A);
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_BACKPROP,
+				"");		
+	}
+	
+	/**
+	 * Demonstrate a SVM-classify.
+	 */
+	public void xorSVMClassify() {
+		process( 
+				MLMethodFactory.TYPE_SVM,
+				XORFactory.METHOD_SVMC_A,
+				MLTrainFactory.TYPE_SVM,
+				"");		
+	}
+	
+	/**
+	 * Demonstrate a SVM-regression.
+	 */
+	public void xorSVMRegression() {
+		process( 
+				MLMethodFactory.TYPE_SVM,
+				XORFactory.METHOD_SVMR_A,
+				MLTrainFactory.TYPE_SVM,
+				"");		
+	}
+	
+	public void process(String methodName, String methodArchitecture,String trainerName, String trainerArgs) {
+		
+		// first, create the machine learning method
+		MLMethodFactory methodFactory = new MLMethodFactory();		
+		MLMethod method = methodFactory.create(methodName, methodArchitecture, 2, 1);
+		
+		// second, create the data set		
 		MLDataSet dataSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
-		MLTrain train = createTrainer(method,dataSet,MLTrainFactory.TYPE_BACKPROP,"");
+		
+		// third, create the trainer
+		MLTrainFactory trainFactory = new MLTrainFactory();	
+		MLTrain train = trainFactory.create(method,dataSet,trainerName,trainerArgs);				
+		// reset if improve is less than 1% over 5 cycles
+		if( method instanceof MLResettable ) {
+			train.addStrategy(new RequiredImprovementStrategy(5));
+		}
+
+		// fourth, train and evaluate.
 		EncogUtility.trainToError(train, 0.01);
 		EncogUtility.evaluate((MLRegression)method, dataSet);
+		
+		// finally, write out what we did
+		System.out.println("Machine Learning Type: " + methodName);
+		System.out.println("Machine Learning Architecture: " + methodArchitecture);
+
+		System.out.println("Training Method: " + trainerName);
+		System.out.println("Training Args: " + trainerArgs);
+		
 	}
 	
 	/**
@@ -112,10 +136,14 @@ public class XORFactory {
 	public void run(String mode) {
 		if( mode.equalsIgnoreCase("backprop") ) {
 			xorBackProp();
-		} if( mode.equalsIgnoreCase("rprop") ) {
+		} else if( mode.equalsIgnoreCase("rprop") ) {
 			xorRPROP();
-		}if( mode.equalsIgnoreCase("biasless") ) {
+		} else if( mode.equalsIgnoreCase("biasless") ) {
 			xorBiasless();
+		} else if( mode.equalsIgnoreCase("svm-c") ) {
+			xorSVMClassify();
+		} else if( mode.equalsIgnoreCase("svm-r") ) {
+			xorSVMRegression();
 		} else {
 			usage();
 		}
