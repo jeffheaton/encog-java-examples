@@ -23,8 +23,8 @@
  */
 package org.encog.examples.neural.art.art1;
 
+import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.art.ART1;
-import org.encog.neural.data.bipolar.BiPolarNeuralData;
 
 public class NeuralART1 {
 	

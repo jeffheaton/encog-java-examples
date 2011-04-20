@@ -25,8 +25,8 @@ package org.encog.examples.neural.lunar;
 
 import org.encog.app.csv.normalize.NormalizationAction;
 import org.encog.app.csv.normalize.NormalizedField;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.basic.BasicNeuralData;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
 
 public class NeuralPilot {
@@ -52,11 +52,11 @@ public class NeuralPilot {
 		LanderSimulator sim = new LanderSimulator();
 		while(sim.flying())
 		{
-			NeuralData input = new BasicNeuralData(3);
+			MLData input = new BasicMLData(3);
             input.setData(0, this.fuelStats.normalize(sim.getFuel()));
             input.setData(1, this.fuelStats.normalize(sim.getAltitude()));
             input.setData(2, this.fuelStats.normalize(sim.getVelocity()));
-            NeuralData output = this.network.compute(input);
+            MLData output = this.network.compute(input);
             double value = output.getData(0);
 
             boolean thrust;

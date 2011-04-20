@@ -44,11 +44,11 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.data.basic.BasicNeuralDataPair;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataPair;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.som.SOM;
 import org.encog.neural.som.training.clustercopy.SOMClusterCopyTraining;
 import org.encog.util.logging.Logging;
@@ -493,7 +493,7 @@ public class OCR extends JFrame implements Runnable {
 			map[i] = '?';
 		}
 		for (int i = 0; i < this.letterListModel.size(); i++) {
-			final NeuralData input = new BasicNeuralData(5 * 7);
+			final MLData input = new BasicMLData(5 * 7);
 			int idx = 0;
 			final SampleData ds = (SampleData) this.letterListModel
 					.getElementAt(i);
@@ -530,7 +530,7 @@ public class OCR extends JFrame implements Runnable {
 		}
 		this.entry.downSample();
 
-		final NeuralData input = new BasicNeuralData(5 * 7);
+		final MLData input = new BasicMLData(5 * 7);
 		int idx = 0;
 		final SampleData ds = this.sample.getData();
 		for (int y = 0; y < ds.getHeight(); y++) {
@@ -558,9 +558,9 @@ public class OCR extends JFrame implements Runnable {
 					* OCR.DOWNSAMPLE_WIDTH;
 			final int outputNeuron = this.letterListModel.size();
 
-			final NeuralDataSet trainingSet = new BasicNeuralDataSet();
+			final MLDataSet trainingSet = new BasicMLDataSet();
 			for (int t = 0; t < this.letterListModel.size(); t++) {
-				final NeuralData item = new BasicNeuralData(inputNeuron);
+				final MLData item = new BasicMLData(inputNeuron);
 				int idx = 0;
 				final SampleData ds = (SampleData) this.letterListModel
 						.getElementAt(t);
@@ -570,7 +570,7 @@ public class OCR extends JFrame implements Runnable {
 					}
 				}
 
-				trainingSet.add(new BasicNeuralDataPair(item, null));
+				trainingSet.add(new BasicMLDataPair(item, null));
 			}
 
 			this.net = new SOM(inputNeuron,outputNeuron);

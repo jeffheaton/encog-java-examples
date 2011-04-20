@@ -24,8 +24,8 @@
 package org.encog.examples.neural.xorlma;
 
 import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.lma.LevenbergMarquardtTraining;
@@ -52,7 +52,7 @@ public class XorLMA {
 		
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 2, 0, 1, false);
 		(new NguyenWidrowRandomizer(-1,1)).randomize(network);
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
 		final Train train = new LevenbergMarquardtTraining(network, trainingSet);

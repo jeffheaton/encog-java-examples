@@ -26,8 +26,8 @@ package org.encog.examples.neural.recurrent.elman;
 import org.encog.examples.neural.util.TemporalXOR;
 import org.encog.mathutil.error.ErrorCalculation;
 import org.encog.mathutil.error.ErrorCalculationMode;
+import org.encog.ml.data.MLDataSet;
 import org.encog.neural.activation.ActivationTANH;
-import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.Train;
@@ -81,7 +81,7 @@ public class ElmanXOR {
 		ErrorCalculation.setMode(ErrorCalculationMode.RMS);
 		
 		final TemporalXOR temp = new TemporalXOR();
-		final NeuralDataSet trainingSet = temp.generate(120);
+		final MLDataSet trainingSet = temp.generate(120);
 
 		final BasicNetwork elmanNetwork = ElmanXOR.createElmanNetwork();
 		final BasicNetwork feedforwardNetwork = ElmanXOR
@@ -102,7 +102,7 @@ public class ElmanXOR {
 	}
 
 	public static double trainNetwork(final String what,
-			final BasicNetwork network, final NeuralDataSet trainingSet) {
+			final BasicNetwork network, final MLDataSet trainingSet) {
 		// train the neural network
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		final Train trainAlt = new NeuralSimulatedAnnealing(

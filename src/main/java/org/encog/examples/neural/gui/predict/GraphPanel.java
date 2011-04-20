@@ -31,8 +31,8 @@ import java.awt.event.ComponentListener;
 import javax.swing.JPanel;
 
 import org.encog.mathutil.EncogMath;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.basic.BasicNeuralData;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.util.Format;
 
@@ -58,7 +58,7 @@ public class GraphPanel extends JPanel implements ComponentListener {
 	
 	public double obtainPrediction(int angle)
 	{
-		NeuralData input = new BasicNeuralData(PredictSIN.INPUT_WINDOW);
+		MLData input = new BasicMLData(PredictSIN.INPUT_WINDOW);
 		if( angle< PredictSIN.INPUT_WINDOW )
 			return this.predict[angle];
 		
@@ -68,7 +68,7 @@ public class GraphPanel extends JPanel implements ComponentListener {
 			input.setData(i,this.actual[index++]);
 		}
 		
-		NeuralData output = this.network.compute(input);
+		MLData output = this.network.compute(input);
 		return output.getData(0);
 		
 		

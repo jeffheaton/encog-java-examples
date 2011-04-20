@@ -23,7 +23,7 @@
  */
 package org.encog.examples.neural.csv;
 
-import org.encog.neural.data.NeuralDataSet;
+import org.encog.ml.data.MLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.logging.Logging;
@@ -55,7 +55,7 @@ public class XORCSV {
 	public static void main(final String args[]) {
 		
 		Logging.stopConsoleLogging();
-		NeuralDataSet trainingSet = TrainingSetUtil.loadCSVTOMemory(CSVFormat.ENGLISH, "c:\\temp\\xor.csv", false, 2, 1);
+		MLDataSet trainingSet = TrainingSetUtil.loadCSVTOMemory(CSVFormat.ENGLISH, "c:\\temp\\xor.csv", false, 2, 1);
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1, true);
 		
 		System.out.println();

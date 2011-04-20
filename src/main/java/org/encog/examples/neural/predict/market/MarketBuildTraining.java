@@ -37,10 +37,10 @@ import org.encog.app.csv.temporal.TemporalWindowCSV;
 import org.encog.app.quant.indicators.MovingAverage;
 import org.encog.app.quant.indicators.ProcessIndicators;
 import org.encog.app.quant.loader.yahoo.YahooDownload;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.activation.ActivationLinear;
 import org.encog.neural.activation.ActivationTANH;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.persist.EncogDirectoryPersistence;
@@ -148,7 +148,7 @@ public class MarketBuildTraining {
 
         generate(begin, end, true);
 
-        NeuralDataSet training = (BasicNeuralDataSet)EncogUtility.loadCSV2Memory(Config.STEP5.toString(), Config.INPUT_WINDOW, Config.PREDICT_WINDOW, true, CSVFormat.ENGLISH);
+        MLDataSet training = (BasicMLDataSet)EncogUtility.loadCSV2Memory(Config.STEP5.toString(), Config.INPUT_WINDOW, Config.PREDICT_WINDOW, true, CSVFormat.ENGLISH);
 
         // build a neural network
         BasicNetwork network = new BasicNetwork();

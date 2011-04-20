@@ -23,10 +23,10 @@
  */
 package org.encog.examples.neural.activation;
 
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
@@ -53,7 +53,7 @@ public class CustomActivation {
 		network.getStructure().finalizeStructure();
 		network.reset();
 
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// train the neural network
 		final Train train = new ResilientPropagation(network, trainingSet);
@@ -71,8 +71,8 @@ public class CustomActivation {
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
-		for(NeuralDataPair pair: trainingSet ) {
-			final NeuralData output = network.compute(pair.getInput());
+		for(MLDataPair pair: trainingSet ) {
+			final MLData output = network.compute(pair.getInput());
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}

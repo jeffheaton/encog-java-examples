@@ -29,8 +29,8 @@ import java.util.GregorianCalendar;
 
 import org.encog.app.csv.normalize.NormalizeCSV;
 import org.encog.app.csv.normalize.NormalizedField;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.basic.BasicNeuralData;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.Format;
@@ -73,7 +73,7 @@ public class MarketEvaluate {
 
         NormalizedField n = norm.getStats().getStats()[1];
 
-        BasicNeuralData input = new BasicNeuralData(Config.INPUT_WINDOW);
+        BasicMLData input = new BasicMLData(Config.INPUT_WINDOW);
 
         ReadCSV csv = new ReadCSV(Config.FILENAME_PREDICT.toString(), true, CSVFormat.ENGLISH);
         while (csv.next())
@@ -91,7 +91,7 @@ public class MarketEvaluate {
             }
 
             // query neural network
-            NeuralData actualData = network.compute(input);
+            MLData actualData = network.compute(input);
             double prediction = actualData.getData(0);
             double ideal = csv.getDouble(index++);
 

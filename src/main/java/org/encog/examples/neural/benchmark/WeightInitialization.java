@@ -28,8 +28,8 @@ import org.encog.mathutil.randomize.GaussianRandomizer;
 import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
 import org.encog.mathutil.randomize.Randomizer;
 import org.encog.mathutil.randomize.RangeRandomizer;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.logging.Logging;
@@ -52,7 +52,7 @@ public class WeightInitialization {
 
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
-	public static double evaluate(BasicNetwork network, NeuralDataSet training) {
+	public static double evaluate(BasicNetwork network, MLDataSet training) {
 		ResilientPropagation rprop = new ResilientPropagation(network, training);
 		double startingError = network.calculateError(training);
 		for (int i = 0; i < ITERATIONS; i++) {
@@ -63,7 +63,7 @@ public class WeightInitialization {
 	}
 
 	public static double evaluateRandomizer(Randomizer randomizer,
-			BasicNetwork network, NeuralDataSet training) {
+			BasicNetwork network, MLDataSet training) {
 		double total = 0;
 		for (int i = 0; i < SAMPLE_SIZE; i++) {
 			randomizer.randomize(network);
@@ -80,7 +80,7 @@ public class WeightInitialization {
 		FanInRandomizer fanRandom = new FanInRandomizer();
 		GaussianRandomizer gaussianRandom = new GaussianRandomizer(0, 1);
 
-		BasicNeuralDataSet training = new BasicNeuralDataSet(XOR_INPUT,
+		BasicMLDataSet training = new BasicMLDataSet(XOR_INPUT,
 				XOR_IDEAL);
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 10, 0, 1, true);
 

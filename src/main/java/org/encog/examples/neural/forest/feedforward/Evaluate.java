@@ -27,8 +27,8 @@ import org.encog.app.csv.normalize.ClassItem;
 import org.encog.app.csv.normalize.NormalizationStats;
 import org.encog.app.csv.normalize.NormalizeCSV;
 import org.encog.app.csv.normalize.NormalizedField;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.basic.BasicNeuralData;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.Format;
@@ -66,9 +66,9 @@ public class Evaluate {
         return network;
     }
 
-    public NeuralData buildForNetworkInput(NormalizationStats stats, double[] input)
+    public MLData buildForNetworkInput(NormalizationStats stats, double[] input)
     {
-        NeuralData neuralInput = new BasicNeuralData(input.length);
+        MLData neuralInput = new BasicMLData(input.length);
         for (int i = 0; i < input.length; i++)
         {
             neuralInput.setData(i, stats.getStats()[i].normalize(input[i]));
@@ -77,7 +77,7 @@ public class Evaluate {
         return neuralInput;
     }
 
-    public ClassItem determineType(NormalizedField stats, NeuralData output)
+    public ClassItem determineType(NormalizedField stats, MLData output)
     {
         ClassItem item = stats.determineClass(output.getData());
         return item;
@@ -106,8 +106,8 @@ public class Evaluate {
                 input[i] = csv.getDouble(i);
             }
 
-            NeuralData inputData = buildForNetworkInput(norm.getStats(), input);
-            NeuralData output = network.compute(inputData);
+            MLData inputData = buildForNetworkInput(norm.getStats(), input);
+            MLData output = network.compute(inputData);
             ClassItem coverTypeActual = determineType(normField, output);
             String coverTypeIdealStr = csv.get(54);
             int coverTypeIdeal = normField.lookup(coverTypeIdealStr);

@@ -27,10 +27,10 @@ import java.text.NumberFormat;
 
 import org.encog.app.csv.normalize.NormalizeArray;
 import org.encog.app.csv.temporal.TemporalWindowArray;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.data.folded.FoldedDataSet;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.folded.FoldedDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
@@ -105,7 +105,7 @@ public class CrossValidateSunspot {
 
 	}
 
-	public NeuralDataSet generateTraining() {
+	public MLDataSet generateTraining() {
 		
 		TemporalWindowArray temp = new TemporalWindowArray(WINDOW_SIZE, 1);
 		temp.analyze(this.normalizedSunspots);
@@ -122,7 +122,7 @@ public class CrossValidateSunspot {
 		return network;
 	}
 
-	public void train(BasicNetwork network, NeuralDataSet training) {
+	public void train(BasicNetwork network, MLDataSet training) {
 		final FoldedDataSet folded = new FoldedDataSet(training); 
 		final Train train = new ResilientPropagation(network, folded);
 		final CrossValidationKFold trainFolded = new CrossValidationKFold(train,4);
@@ -146,12 +146,12 @@ public class CrossValidateSunspot {
 
 		for (int year = EVALUATE_START; year < EVALUATE_END; year++) {
 			// calculate based on actual data
-			NeuralData input = new BasicNeuralData(WINDOW_SIZE);
+			MLData input = new BasicMLData(WINDOW_SIZE);
 			for (int i = 0; i < input.size(); i++) {
 				input.setData(i, this.normalizedSunspots[(year - WINDOW_SIZE)
 						+ i]);
 			}
-			NeuralData output = network.compute(input);
+			MLData output = network.compute(input);
 			double prediction = output.getData(0);
 			this.closedLoopSunspots[year] = prediction;
 
@@ -175,7 +175,7 @@ public class CrossValidateSunspot {
 	public void run() {
 		normalizeSunspots(0.1, 0.9);
 		BasicNetwork network = createNetwork();
-		NeuralDataSet training = generateTraining();
+		MLDataSet training = generateTraining();
 		train(network, training);
 		predict(network);
 

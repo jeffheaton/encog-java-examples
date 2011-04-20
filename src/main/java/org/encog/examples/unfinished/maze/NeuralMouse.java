@@ -23,10 +23,9 @@
  */
 package org.encog.examples.unfinished.maze;
 
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.basic.BasicNeuralData;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
 
 public class NeuralMouse {
 
@@ -34,14 +33,14 @@ public class NeuralMouse {
 	private Maze environment;
 	private int x;
 	private int y;
-	NeuralData vision;
+	MLData vision;
 
 	public NeuralMouse(BasicNetwork brain, Maze environment) {
 		this.brain = brain;
 		this.environment = environment;
 		this.x = 0;
 		this.y = 0;
-		this.vision = new BasicNeuralData(Constants.VISION_POINTS);
+		this.vision = new BasicMLData(Constants.VISION_POINTS);
 	}
 
 	public void updateVision() {
@@ -149,7 +148,7 @@ public class NeuralMouse {
 	public int autonomousMoveDirection()
 	{
 		updateVision();
-		NeuralData result = this.brain.compute(this.vision);
+		MLData result = this.brain.compute(this.vision);
 		
 		double winningOutput = Double.NEGATIVE_INFINITY;
 		int winningDirection = 0;

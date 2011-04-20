@@ -23,16 +23,15 @@
  */
 package org.encog.examples.neural.xorsql;
 
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.sql.SQLNeuralDataSet;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.specific.SQLNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.RequiredImprovementStrategy;
-import org.encog.neural.networks.training.strategy.ResetStrategy;
 import org.encog.util.logging.Logging;
 
 /**
@@ -79,7 +78,7 @@ public class XORSQL {
 		network.getStructure().finalizeStructure();
 		network.reset();
 
-		NeuralDataSet trainingSet = new SQLNeuralDataSet(
+		MLDataSet trainingSet = new SQLNeuralDataSet(
 				XORSQL.SQL,
 				XORSQL.INPUT_SIZE,
 				XORSQL.IDEAL_SIZE,
@@ -104,8 +103,8 @@ public class XORSQL {
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
-		for(NeuralDataPair pair: trainingSet ) {
-			final NeuralData output = network.compute(pair.getInput());
+		for(MLDataPair pair: trainingSet ) {
+			final MLData output = network.compute(pair.getInput());
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}

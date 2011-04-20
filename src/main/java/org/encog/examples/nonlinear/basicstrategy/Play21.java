@@ -25,6 +25,7 @@ package org.encog.examples.nonlinear.basicstrategy;
 
 import org.encog.examples.nonlinear.basicstrategy.blackjack.Dealer;
 import org.encog.examples.nonlinear.basicstrategy.blackjack.Table;
+import org.encog.ml.genetic.BasicGeneticAlgorithm;
 import org.encog.ml.genetic.GeneticAlgorithm;
 import org.encog.ml.genetic.crossover.Splice;
 import org.encog.ml.genetic.mutate.MutateShuffle;

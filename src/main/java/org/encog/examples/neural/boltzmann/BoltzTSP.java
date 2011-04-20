@@ -23,7 +23,7 @@
  */
 package org.encog.examples.neural.boltzmann;
 
-import org.encog.neural.data.bipolar.BiPolarNeuralData;
+import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.thermal.BoltzmannMachine;
 
 public class BoltzTSP {

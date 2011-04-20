@@ -23,7 +23,7 @@
  */
 package org.encog.examples.neural.benchmark;
 
-import org.encog.neural.data.NeuralDataSet;
+import org.encog.ml.data.MLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
@@ -46,7 +46,7 @@ public class ThreadCount {
 		network.getStructure().finalizeStructure();
 		network.reset();
 		
-		final NeuralDataSet training = RandomTrainingFactory.generate(1000,50000,
+		final MLDataSet training = RandomTrainingFactory.generate(1000,50000,
 				INPUT_COUNT, OUTPUT_COUNT, -1, 1);
 		
 		ResilientPropagation rprop = new ResilientPropagation(network,training);

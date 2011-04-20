@@ -24,6 +24,7 @@
 package org.encog.examples.nonlinear.tsp.genetic;
 
 import org.encog.examples.nonlinear.tsp.City;
+import org.encog.ml.genetic.BasicGeneticAlgorithm;
 import org.encog.ml.genetic.GeneticAlgorithm;
 import org.encog.ml.genetic.crossover.SpliceNoRepeat;
 import org.encog.ml.genetic.genes.Gene;

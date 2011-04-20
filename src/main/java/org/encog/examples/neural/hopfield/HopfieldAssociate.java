@@ -23,7 +23,7 @@
  */
 package org.encog.examples.neural.hopfield;
 
-import org.encog.neural.data.bipolar.BiPolarNeuralData;
+import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.thermal.HopfieldNetwork;
 import org.encog.util.logging.Logging;
 

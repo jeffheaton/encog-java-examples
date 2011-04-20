@@ -2,13 +2,13 @@ package org.encog.examples.clustering.kmeans;
 
 import java.util.Arrays;
 
-import org.encog.engine.data.BasicEngineData;
-import org.encog.engine.data.EngineData;
-import org.encog.engine.data.EngineDataSet;
 import org.encog.ml.MLCluster;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataPair;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.kmeans.KMeansClustering;
-import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
 
 public class SimpleKMeans {
 	public static final double[][] DATA = {
@@ -20,11 +20,11 @@ public class SimpleKMeans {
 	
     public static void main (String args[]){
                 
-        BasicNeuralDataSet set = new BasicNeuralDataSet();
+        BasicMLDataSet set = new BasicMLDataSet();
         
         for(int i=0;i<DATA.length;i++)
         {
-        	set.add(new BasicNeuralData(DATA[i]));
+        	set.add(new BasicMLData(DATA[i]));
         }
 
         KMeansClustering kmeans = new KMeansClustering(2,set);
@@ -36,8 +36,8 @@ public class SimpleKMeans {
         for(MLCluster cluster: kmeans.getClusters())
         {
         	System.out.println("*** Cluster " + (i++) + " ***");
-        	EngineDataSet ds = cluster.createDataSet();
-            EngineData pair = BasicEngineData.createPair(ds.getInputSize(), ds.getIdealSize());
+        	MLDataSet ds = cluster.createDataSet();
+            MLDataPair pair = BasicMLDataPair.createPair(ds.getInputSize(), ds.getIdealSize());
             for(int j=0;j<ds.getRecordCount();j++)
             {
             	ds.getRecord(j, pair);

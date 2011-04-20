@@ -25,10 +25,10 @@ package org.encog.examples.neural.benchmark;
 
 import java.io.File;
 
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.basic.BasicNeuralDataPair;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.data.buffer.BufferedNeuralDataSet;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.basic.BasicMLDataPair;
+import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.data.buffer.BufferedNeuralDataSet;
 import org.encog.util.Format;
 import org.encog.util.benchmark.Evaluate;
 import org.encog.util.benchmark.RandomTrainingFactory;
@@ -36,14 +36,14 @@ import org.encog.util.benchmark.RandomTrainingFactory;
 public class BinaryVsMemory {
 	private static int evalMemory()
 	{
-		final BasicNeuralDataSet training = RandomTrainingFactory.generate(1000,
+		final BasicMLDataSet training = RandomTrainingFactory.generate(1000,
 				10000, 10, 10, -1, 1);
 		
 		final long start = System.currentTimeMillis();
 		final long stop = start + (10*Evaluate.MILIS);
 		int record = 0;
 		
-		NeuralDataPair pair = BasicNeuralDataPair.createPair(10, 10);
+		MLDataPair pair = BasicMLDataPair.createPair(10, 10);
 		
 		int iterations = 0;
 		while( System.currentTimeMillis()<stop ) {
@@ -63,7 +63,7 @@ public class BinaryVsMemory {
 	{
 		File file = new File("temp.egb");
 		
-		final BasicNeuralDataSet training = RandomTrainingFactory.generate(1000,
+		final BasicMLDataSet training = RandomTrainingFactory.generate(1000,
 				10000, 10, 10, -1, 1);
 		
 		// create the binary file
@@ -76,7 +76,7 @@ public class BinaryVsMemory {
 		final long stop = start + (10*Evaluate.MILIS);
 		int record = 0;
 		
-		NeuralDataPair pair = BasicNeuralDataPair.createPair(10, 10);
+		MLDataPair pair = BasicMLDataPair.createPair(10, 10);
 		
 		int iterations = 0;
 		while( System.currentTimeMillis()<stop ) {

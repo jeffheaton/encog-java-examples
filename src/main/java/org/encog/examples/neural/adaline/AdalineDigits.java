@@ -23,10 +23,10 @@
  */
 package org.encog.examples.neural.adaline;
 
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.simple.TrainAdaline;
@@ -118,15 +118,15 @@ public class AdalineDigits {
         "O   O",
         " OOO "  } };
 	
-	public static NeuralDataSet generateTraining()
+	public static MLDataSet generateTraining()
 	{
-		NeuralDataSet result = new BasicNeuralDataSet();
+		MLDataSet result = new BasicMLDataSet();
 		for(int i=0;i<DIGITS.length;i++)
 		{			
-			BasicNeuralData ideal = new BasicNeuralData(DIGITS.length);
+			BasicMLData ideal = new BasicMLData(DIGITS.length);
 			
 			// setup input
-			NeuralData input = image2data(DIGITS[i]);
+			MLData input = image2data(DIGITS[i]);
 			
 			// setup ideal
 			for(int j=0;j<DIGITS.length;j++)
@@ -143,9 +143,9 @@ public class AdalineDigits {
 		return result;
 	}
 	
-	public static NeuralData image2data(String[] image)
+	public static MLData image2data(String[] image)
 	{
-		NeuralData result = new BasicNeuralData(CHAR_WIDTH*CHAR_HEIGHT);
+		MLData result = new BasicMLData(CHAR_WIDTH*CHAR_HEIGHT);
 		
 		for(int row = 0; row<CHAR_HEIGHT; row++)
 		{
@@ -171,7 +171,7 @@ public class AdalineDigits {
 		BasicNetwork network = (BasicNetwork)pattern.generate();
 		
 		// train it
-		NeuralDataSet training = generateTraining();
+		MLDataSet training = generateTraining();
 		Train train = new TrainAdaline(network,training,0.01);
 		
 		int epoch = 1;

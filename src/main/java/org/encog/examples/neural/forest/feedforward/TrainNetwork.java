@@ -23,9 +23,9 @@
  */
 package org.encog.examples.neural.forest.feedforward;
 
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.activation.ActivationSigmoid;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.buffer.BufferedNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.persist.EncogDirectoryPersistence;
@@ -33,7 +33,7 @@ import org.encog.util.simple.EncogUtility;
 
 public class TrainNetwork {
 
-	public static BasicNetwork generateNetwork(NeuralDataSet trainingSet) {
+	public static BasicNetwork generateNetwork(MLDataSet trainingSet) {
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,
 				trainingSet.getInputSize()));
@@ -48,7 +48,7 @@ public class TrainNetwork {
 
 	public void train(boolean useGUI) {
 		BufferedNeuralDataSet dataFile = new BufferedNeuralDataSet(Constant.BINARY_FILE);
-        NeuralDataSet trainingSet = dataFile.loadToMemory();
+        MLDataSet trainingSet = dataFile.loadToMemory();
         int inputSize = trainingSet.getInputSize();
         int idealSize = trainingSet.getIdealSize();
 

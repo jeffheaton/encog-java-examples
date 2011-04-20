@@ -29,11 +29,10 @@ import java.io.PrintWriter;
 import java.util.Random;
 
 import org.encog.mathutil.rbf.RBFEnum;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.pattern.RadialBasisPattern;
 import org.encog.neural.rbf.RBFNetwork;
@@ -90,7 +89,7 @@ public class MultiRadial {
         create2DSmoothTainingDataGit();
 
         //Create the training set and train.
-        NeuralDataSet trainingSet = new BasicNeuralDataSet(INPUT, IDEAL);
+        MLDataSet trainingSet = new BasicMLDataSet(INPUT, IDEAL);
         Train train = new SVDTraining(network, trainingSet);
 
         //SVD is a single step solve
@@ -107,15 +106,15 @@ public class MultiRadial {
 
         //Create a testing array which may be to a higher resoltion than the original training data
         set2DTestingArrays(100);
-        trainingSet = new BasicNeuralDataSet(INPUT, IDEAL);
+        trainingSet = new BasicMLDataSet(INPUT, IDEAL);
 
         FileWriter outFile = new FileWriter("results.csv");
         PrintWriter out = new PrintWriter(outFile);
         
         
-            for (NeuralDataPair pair : trainingSet)
+            for (MLDataPair pair : trainingSet)
             {
-                NeuralData output = network.compute(pair.getInput());
+                MLData output = network.compute(pair.getInput());
                 //1D//sw.WriteLine(InverseScale(pair.Input[0]) + ", " + Chop(InverseScale(output[0])));// + ", " + pair.Ideal[0]);
                 out.println(inverseScale(pair.getInputArray()[0]) + ", " + inverseScale(pair.getInputArray()[1]) + ", " + chop(inverseScale(output.getData(0))));// + ", " + pair.Ideal[0]);// + ",ideal=" + pair.Ideal[0]);
                 //3D//sw.WriteLine(InverseScale(pair.Input[0]) + ", " + InverseScale(pair.Input[1]) + ", " + InverseScale(pair.Input[2]) + ", " + Chop(InverseScale(output[0])));// + ", " + pair.Ideal[0]);// + ",ideal=" + pair.Ideal[0]);

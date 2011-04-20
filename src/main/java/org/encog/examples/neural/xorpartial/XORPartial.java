@@ -23,12 +23,6 @@
  */
 package org.encog.examples.neural.xorpartial;
 
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.Layer;
-import org.encog.util.logging.Logging;
-import org.encog.util.simple.EncogUtility;
 
 /**
  * Partial neural networks. Encog allows you to remove any neuron connection in

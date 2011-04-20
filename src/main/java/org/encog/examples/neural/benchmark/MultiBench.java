@@ -23,7 +23,7 @@
  */
 package org.encog.examples.neural.benchmark;
 
-import org.encog.neural.data.NeuralDataSet;
+import org.encog.ml.data.MLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
@@ -47,14 +47,14 @@ public class MultiBench {
 		return network;
 	}
 	
-	public static NeuralDataSet generateTraining()
+	public static MLDataSet generateTraining()
 	{
-		final NeuralDataSet training = RandomTrainingFactory.generate(1000,50000,
+		final MLDataSet training = RandomTrainingFactory.generate(1000,50000,
 				INPUT_COUNT, OUTPUT_COUNT, -1, 1);
 		return training;
 	}
 	
-	public static double evaluateRPROP(BasicNetwork network,NeuralDataSet data)
+	public static double evaluateRPROP(BasicNetwork network,MLDataSet data)
 	{
 
 		ResilientPropagation train = new ResilientPropagation(network,data);
@@ -74,7 +74,7 @@ public class MultiBench {
 		return diff;
 	}
 	
-	public static double evaluateMPROP(BasicNetwork network,NeuralDataSet data)
+	public static double evaluateMPROP(BasicNetwork network,MLDataSet data)
 	{
 
 		ResilientPropagation train = new ResilientPropagation(network,data);
@@ -98,7 +98,7 @@ public class MultiBench {
 	{
 		Logging.stopConsoleLogging();
 		BasicNetwork network = generateNetwork();
-		NeuralDataSet data = generateTraining();
+		MLDataSet data = generateTraining();
 		
 		double rprop = evaluateRPROP(network,data);
 		double mprop = evaluateMPROP(network,data);

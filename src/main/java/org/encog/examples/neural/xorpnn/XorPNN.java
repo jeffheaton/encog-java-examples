@@ -2,9 +2,9 @@ package org.encog.examples.neural.xorpnn;
 
 import java.util.Arrays;
 
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.training.pnn.TrainBasicPNN;
 import org.encog.neural.pnn.BasicPNN;
 import org.encog.neural.pnn.PNNKernelType;
@@ -19,10 +19,10 @@ public class XorPNN {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 	
-	public static void evaluate( BasicPNN network, BasicNeuralDataSet trainingSet)
+	public static void evaluate( BasicPNN network, BasicMLDataSet trainingSet)
 	{
-		for (final NeuralDataPair pair : trainingSet) {
-			final NeuralData output = network.compute(pair.getInput());
+		for (final MLDataPair pair : trainingSet) {
+			final MLData output = network.compute(pair.getInput());
 			
 			Arrays.toString(output.getData());
 			System.out.print("Input: ");
@@ -47,7 +47,7 @@ public class XorPNN {
 
 		BasicPNN network = new BasicPNN(PNNKernelType.Gaussian, mode, 2, 1);
 
-		BasicNeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT,
+		BasicMLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT,
 				XOR_IDEAL);
 
 		System.out.println("Learning...");
@@ -66,7 +66,7 @@ public class XorPNN {
 
 		BasicPNN network = new BasicPNN(PNNKernelType.Gaussian, mode, 2, 2);
 
-		BasicNeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT,
+		BasicMLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT,
 				XOR_IDEAL);
 
 		System.out.println("Learning...");

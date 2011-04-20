@@ -26,8 +26,8 @@ package org.encog.examples.neural.persist;
 import java.io.File;
 import java.io.IOException;
 
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
@@ -53,7 +53,7 @@ public class Serial {
 		network.getStructure().finalizeStructure();
 		network.reset();
 
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 
 		// train the neural network
 		final Train train = new ResilientPropagation(network, trainingSet);
@@ -72,7 +72,7 @@ public class Serial {
 	public void loadAndEvaluate() throws IOException, ClassNotFoundException {
 		System.out.println("Loading network");
 		BasicNetwork network = (BasicNetwork) SerializeObject.load(new File(FILENAME));
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		double e = network.calculateError(trainingSet);
 		System.out
 				.println("Loaded network's error is(should be same as above): "

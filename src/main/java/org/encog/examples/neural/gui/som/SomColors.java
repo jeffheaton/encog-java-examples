@@ -30,10 +30,8 @@ import javax.swing.JFrame;
 
 import org.encog.mathutil.randomize.RangeRandomizer;
 import org.encog.mathutil.rbf.RBFEnum;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.pattern.SOMPattern;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.som.SOM;
 import org.encog.neural.som.training.basic.BasicTrainSOM;
 import org.encog.neural.som.training.basic.neighborhood.NeighborhoodRBF;
@@ -80,9 +78,9 @@ public class SomColors extends JFrame implements Runnable {
 
 	public void run() {
 
-		List<NeuralData> samples = new ArrayList<NeuralData>();
+		List<MLData> samples = new ArrayList<MLData>();
 		for (int i = 0; i < 15; i++) {
-			NeuralData data = new BasicNeuralData(3);
+			MLData data = new BasicMLData(3);
 			data.setData(0, RangeRandomizer.randomize(-1, 1));
 			data.setData(1, RangeRandomizer.randomize(-1, 1));
 			data.setData(2, RangeRandomizer.randomize(-1, 1));
@@ -93,7 +91,7 @@ public class SomColors extends JFrame implements Runnable {
 
 		for (int i = 0; i < 1000; i++) {
 			int idx = (int) (Math.random() * samples.size());
-			NeuralData c = samples.get(idx);
+			MLData c = samples.get(idx);
 
 			this.train.trainPattern(c);
 			this.train.autoDecay();

@@ -39,10 +39,10 @@ import java.util.StringTokenizer;
 import javax.imageio.ImageIO;
 
 import org.encog.EncogError;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.data.image.ImageNeuralData;
-import org.encog.neural.data.image.ImageNeuralDataSet;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.image.ImageNeuralData;
+import org.encog.ml.data.image.ImageNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.strategy.ResetStrategy;
@@ -226,7 +226,7 @@ public class ImageNeuralNetwork {
 		System.out.println("Downsampling images...");
 
 		for (final ImagePair pair : this.imageList) {
-			final NeuralData ideal = new BasicNeuralData(this.outputCount);
+			final MLData ideal = new BasicMLData(this.outputCount);
 			final int idx = pair.getIdentity();
 			for (int i = 0; i < this.outputCount; i++) {
 				if (i == idx) {

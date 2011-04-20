@@ -1,8 +1,8 @@
 package org.encog.examples.neural.benchmark;
 
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.activation.ActivationSigmoid;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.flat.FlatNetwork;
 import org.encog.neural.flat.train.prop.TrainFlatNetworkBackPropagation;
 import org.encog.neural.networks.BasicNetwork;
@@ -31,7 +31,7 @@ public class SimpleBenchmark {
         network.getStructure().finalizeStructure();
         network.reset();
 
-        NeuralDataSet trainingSet = new BasicNeuralDataSet(input, output);
+        MLDataSet trainingSet = new BasicMLDataSet(input, output);
 
         // train the neural network
         Train train = new Backpropagation(network, trainingSet,
@@ -53,7 +53,7 @@ public class SimpleBenchmark {
     {
         FlatNetwork network = new FlatNetwork(input[0].length, HIDDEN_COUNT, 0, output[0].length, false);
         network.randomize();
-        BasicNeuralDataSet trainingSet = new BasicNeuralDataSet(input, output);
+        BasicMLDataSet trainingSet = new BasicMLDataSet(input, output);
 
         TrainFlatNetworkBackPropagation train = new TrainFlatNetworkBackPropagation(network, trainingSet, 0.7, 0.7);
 

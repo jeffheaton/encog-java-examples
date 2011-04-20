@@ -57,11 +57,11 @@ import java.text.NumberFormat;
 
 import org.encog.app.csv.normalize.NormalizeArray;
 import org.encog.app.csv.temporal.TemporalWindowArray;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.svm.SVM;
 import org.encog.ml.svm.training.SVMTrain;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.util.EngineArray;
 import org.encog.util.logging.Logging;
 
@@ -145,7 +145,7 @@ public class PredictSunspotSVM {
 
 	}
 	
-	public NeuralDataSet generateTraining() {		
+	public MLDataSet generateTraining() {		
 		TemporalWindowArray temp = new TemporalWindowArray(WINDOW_SIZE, 1);
 		temp.analyze(this.normalizedSunspots);
 		return temp.process(this.normalizedSunspots);
@@ -157,7 +157,7 @@ public class PredictSunspotSVM {
 		return network;
 	}
 	
-	public void train(SVM network,NeuralDataSet training)
+	public void train(SVM network,MLDataSet training)
 	{
 		final SVMTrain train = new SVMTrain(network, training);
 		train.iteration();
@@ -174,12 +174,12 @@ public class PredictSunspotSVM {
 		for(int year=EVALUATE_START;year<EVALUATE_END;year++)
 		{
 			// calculate based on actual data
-			NeuralData input = new BasicNeuralData(WINDOW_SIZE);
+			MLData input = new BasicMLData(WINDOW_SIZE);
 			for(int i=0;i<input.size();i++)
 			{
 				input.setData(i,this.normalizedSunspots[(year-WINDOW_SIZE)+i]);
 			}
-			NeuralData output = network.compute(input);
+			MLData output = network.compute(input);
 			double prediction = output.getData(0);
 			this.closedLoopSunspots[year] = prediction;
 			
@@ -205,7 +205,7 @@ public class PredictSunspotSVM {
 	{
 		normalizeSunspots(0.1,0.9);
 		SVM network = createNetwork();
-		NeuralDataSet training = generateTraining();
+		MLDataSet training = generateTraining();
 		train(network,training);
 		predict(network);
 		

@@ -23,9 +23,9 @@
  */
 package org.encog.examples.neural.xorflat;
 
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.flat.FlatNetwork;
 import org.encog.neural.flat.train.prop.TrainFlatNetworkResilient;
 import org.encog.util.logging.Logging;
@@ -50,7 +50,7 @@ public class XORFlat {
 		FlatNetwork network = new FlatNetwork(2,4,0,1,false);
 		network.randomize();
 		
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		
 		TrainFlatNetworkResilient train = new TrainFlatNetworkResilient(network,trainingSet);
@@ -70,7 +70,7 @@ public class XORFlat {
 		double[] output = new double[1];
 		// test the neural network
 		System.out.println("Neural Network Results:");
-		for(NeuralDataPair pair: trainingSet ) {
+		for(MLDataPair pair: trainingSet ) {
 			double[] input = pair.getInput().getData();
 			network.compute(input, output);
 			System.out.println(input[0] + "," + input[1] + ":" + output[0]);

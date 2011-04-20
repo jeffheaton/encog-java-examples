@@ -23,16 +23,14 @@
  */
 package org.encog.examples.neural.cpn;
 
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.cpn.CPN;
 import org.encog.neural.cpn.training.TrainInstar;
 import org.encog.neural.cpn.training.TrainOutstar;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
-import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
-import org.encog.neural.pattern.CPNPattern;
 
 public class RocketCPN {
 	
@@ -306,7 +304,7 @@ public class RocketCPN {
         return result;
 	}
 	
-	public void trainInstar(CPN network,NeuralDataSet training)
+	public void trainInstar(CPN network,MLDataSet training)
 	{
 		int epoch = 1;
 
@@ -319,7 +317,7 @@ public class RocketCPN {
 		} while(train.getError()>0.01);
 	}
 	
-	public void trainOutstar(CPN network,NeuralDataSet training)
+	public void trainOutstar(CPN network,MLDataSet training)
 	{
 		int epoch = 1;
 
@@ -332,13 +330,13 @@ public class RocketCPN {
 		} while(train.getError()>0.01); 
 	}
 	
-	public NeuralDataSet generateTraining(double[][] input,double[][] ideal)
+	public MLDataSet generateTraining(double[][] input,double[][] ideal)
 	{
-		NeuralDataSet result = new BasicNeuralDataSet(input,ideal);
+		MLDataSet result = new BasicMLDataSet(input,ideal);
 		return result;
 	}
 	
-	public double determineAngle(NeuralData angle)
+	public double determineAngle(MLData angle)
 	{
 		double result;
 
@@ -353,8 +351,8 @@ public class RocketCPN {
 	{
 		for(int i=0;i<pattern.length;i++)
 		{
-			NeuralData inputData = new BasicNeuralData(input[i]);
-			NeuralData outputData = network.compute(inputData);
+			MLData inputData = new BasicMLData(input[i]);
+			MLData outputData = network.compute(inputData);
 			double angle = determineAngle(outputData);
 			
 			// display image
@@ -375,7 +373,7 @@ public class RocketCPN {
 		prepareInput();
 		normalizeInput();
 		CPN network = createNetwork();
-		NeuralDataSet training = generateTraining(this.input1,this.ideal1);
+		MLDataSet training = generateTraining(this.input1,this.ideal1);
 		trainInstar(network,training);
 		trainOutstar(network,training);
 		test(network,PATTERN1,this.input1);

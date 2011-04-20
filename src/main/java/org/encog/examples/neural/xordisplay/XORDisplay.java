@@ -29,9 +29,9 @@ import java.util.Arrays;
 
 import org.encog.mathutil.randomize.ConsistentRandomizer;
 import org.encog.mathutil.randomize.Randomizer;
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.flat.FlatNetwork;
 import org.encog.neural.flat.train.prop.TrainFlatNetworkResilient;
 import org.encog.neural.networks.BasicNetwork;
@@ -52,10 +52,10 @@ public class XORDisplay {
 				+ Arrays.toString(network.getWeights()));
 	}
 	
-	public static void evaluate(FlatNetwork network, NeuralDataSet trainingSet )
+	public static void evaluate(FlatNetwork network, MLDataSet trainingSet )
 	{
 		double[] output = new double[1];
-		for(NeuralDataPair pair: trainingSet ) {
+		for(MLDataPair pair: trainingSet ) {
 			network.compute(pair.getInput().getData(), output);
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output[0] + ",ideal=" + pair.getIdeal().getData(0));
@@ -74,7 +74,7 @@ public class XORDisplay {
 	public static void main(String[] args) {
 		Logging.stopConsoleLogging();
 		
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 
 		FlatNetwork network = createNetwork();
 

@@ -23,11 +23,11 @@
  */
 package org.encog.examples.neural.xorneat;
 
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataPair;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.activation.ActivationStep;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataPair;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
@@ -52,7 +52,7 @@ public class XorNEAT {
 		
 		Logging.stopConsoleLogging();
 
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		NEATPopulation pop = new NEATPopulation(2,1,1000);
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
@@ -75,8 +75,8 @@ public class XorNEAT {
 		network.clearContext();
 		// test the neural network
 		System.out.println("Neural Network Results:");
-		for(NeuralDataPair pair: trainingSet ) {
-			final NeuralData output = network.compute(pair.getInput());
+		for(MLDataPair pair: trainingSet ) {
+			final MLData output = network.compute(pair.getInput());
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}

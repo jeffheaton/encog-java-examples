@@ -23,9 +23,9 @@
  */
 package org.encog.examples.neural.recurrent;
 
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.activation.ActivationSigmoid;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.neural.pattern.JordanPattern;
@@ -144,7 +144,7 @@ public class TemporalString {
 		BasicNetwork ffNetwork = createFeedForward();	
 		BasicNetwork jordanNetwork = createJordan();
 		
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(this.input, this.ideal);
+		MLDataSet trainingSet = new BasicMLDataSet(this.input, this.ideal);
 		
 		// train the neural network
 		EncogUtility.trainConsole( jordanNetwork, trainingSet, 1);

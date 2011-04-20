@@ -23,8 +23,8 @@
  */
 package org.encog.examples.neural.util;
 
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 
 /**
  * Utility class that presents the XOR operator as a serial stream of values.
@@ -45,7 +45,7 @@ public class TemporalXOR {
 	private double[][] input;
 	private double[][] ideal;
 
-	public NeuralDataSet generate(final int count) {
+	public MLDataSet generate(final int count) {
 		this.input = new double[count][1];
 		this.ideal = new double[count][1];
 
@@ -56,6 +56,6 @@ public class TemporalXOR {
 					% TemporalXOR.SEQUENCE.length];
 		}
 
-		return new BasicNeuralDataSet(this.input, this.ideal);
+		return new BasicMLDataSet(this.input, this.ideal);
 	}
 }

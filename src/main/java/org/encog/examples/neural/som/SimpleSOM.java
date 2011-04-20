@@ -23,10 +23,10 @@
  */
 package org.encog.examples.neural.som;
 
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralData;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.som.SOM;
 import org.encog.neural.som.training.basic.BasicTrainSOM;
 import org.encog.neural.som.training.basic.neighborhood.NeighborhoodSingle;
@@ -48,7 +48,7 @@ public class SimpleSOM {
 		Logging.stopConsoleLogging();
 		
 		// create the training set
-		NeuralDataSet training = new BasicNeuralDataSet(SOM_INPUT,null);
+		MLDataSet training = new BasicMLDataSet(SOM_INPUT,null);
 		
 		// Create the neural network.
 		SOM network = new SOM(4,2);
@@ -68,8 +68,8 @@ public class SimpleSOM {
 			System.out.println("Iteration: " + iteration + ", Error:" + train.getError());
 		}
 		
-		NeuralData data1 = new BasicNeuralData(SOM_INPUT[0]);
-		NeuralData data2 = new BasicNeuralData(SOM_INPUT[1]);
+		MLData data1 = new BasicMLData(SOM_INPUT[0]);
+		MLData data2 = new BasicMLData(SOM_INPUT[1]);
 		System.out.println("Pattern 1 winner: " + network.winner(data1));
 		System.out.println("Pattern 2 winner: " + network.winner(data2));
 	}

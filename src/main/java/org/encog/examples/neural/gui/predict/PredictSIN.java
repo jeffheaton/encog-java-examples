@@ -32,7 +32,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.encog.app.csv.temporal.TemporalWindowArray;
-import org.encog.neural.data.NeuralDataSet;
+import org.encog.ml.data.MLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
@@ -44,7 +44,7 @@ public class PredictSIN extends JFrame implements ActionListener {
 	public final static int PREDICT_WINDOW = 1;
 	private BasicNetwork network;
 	private GraphPanel graph;
-	private NeuralDataSet trainingData;
+	private MLDataSet trainingData;
 	private Train train;
 	private JButton btnTrain;
 	
@@ -77,7 +77,7 @@ public class PredictSIN extends JFrame implements ActionListener {
 			
 	}
 	
-	public NeuralDataSet generateTraining()
+	public MLDataSet generateTraining()
 	{
 		TemporalWindowArray temp = new TemporalWindowArray(INPUT_WINDOW,PREDICT_WINDOW);
 		

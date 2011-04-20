@@ -26,8 +26,8 @@ package org.encog.examples.neural.resume;
 import java.io.File;
 import java.util.Arrays;
 
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.TrainingContinuation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
@@ -47,7 +47,7 @@ public class TrainResume {
 	public static void main(String[] args)
 	{
 		Logging.stopConsoleLogging();
-		NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
+		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1, false);
 		ResilientPropagation train = new ResilientPropagation(network, trainingSet);
 		train.addStrategy(new RequiredImprovementStrategy(5));

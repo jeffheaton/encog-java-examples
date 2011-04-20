@@ -25,8 +25,8 @@ package org.encog.examples.neural.radial;
 
 import org.encog.examples.neural.xorradial.XorRadial;
 import org.encog.mathutil.rbf.RBFEnum;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.rbf.RBFNetwork;
 import org.encog.neural.rbf.training.SVDTraining;
 import org.encog.util.logging.Logging;
@@ -52,7 +52,7 @@ public class XorSVD {
 
 		Logging.stopConsoleLogging();
 
-		final NeuralDataSet trainingSet = new BasicNeuralDataSet(
+		final MLDataSet trainingSet = new BasicMLDataSet(
 				XorRadial.XOR_INPUT, XorRadial.XOR_IDEAL);
 
 		RBFNetwork network = new RBFNetwork(2,4,1, RBFEnum.Gaussian);
