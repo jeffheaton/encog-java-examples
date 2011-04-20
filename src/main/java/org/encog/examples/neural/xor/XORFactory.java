@@ -9,6 +9,7 @@ import org.encog.ml.factory.MLMethodFactory;
 import org.encog.ml.factory.MLTrainFactory;
 import org.encog.ml.train.MLTrain;
 import org.encog.ml.train.strategy.RequiredImprovementStrategy;
+import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -111,6 +112,28 @@ public class XORFactory {
 				"");		
 	}
 	
+	/**
+	 * Demonstrate a XOR LMA.
+	 */
+	public void xorLMA() {
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_LMA,
+				"");		
+	}
+	
+	/**
+	 * Demonstrate a XOR LMA.
+	 */
+	public void xorManhattan() {
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_MANHATTAN,
+				"lr=0.0001");		
+	}
+	
 	public void process(String methodName, String methodArchitecture,String trainerName, String trainerArgs) {
 		
 		// first, create the machine learning method
@@ -124,7 +147,7 @@ public class XORFactory {
 		MLTrainFactory trainFactory = new MLTrainFactory();	
 		MLTrain train = trainFactory.create(method,dataSet,trainerName,trainerArgs);				
 		// reset if improve is less than 1% over 5 cycles
-		if( method instanceof MLResettable ) {
+		if( method instanceof MLResettable && !(train instanceof ManhattanPropagation) ) {
 			train.addStrategy(new RequiredImprovementStrategy(5));
 		}
 
@@ -170,6 +193,10 @@ public class XORFactory {
 			xorAnneal();
 		} else if( mode.equalsIgnoreCase("genetic") ) {
 			xorGenetic();
+		} else if( mode.equalsIgnoreCase("lma") ) {
+			xorLMA();
+		} else if( mode.equalsIgnoreCase("manhattan") ) {
+			xorManhattan();
 		} else {
 			usage();
 		}
