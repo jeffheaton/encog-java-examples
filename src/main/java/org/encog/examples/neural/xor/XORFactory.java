@@ -89,6 +89,28 @@ public class XORFactory {
 				"");		
 	}
 	
+	/**
+	 * Demonstrate a XOR annealing.
+	 */
+	public void xorAnneal() {
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_ANNEAL,
+				"");		
+	}
+	
+	/**
+	 * Demonstrate a XOR genetic.
+	 */
+	public void xorGenetic() {
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_GENETIC,
+				"");		
+	}
+	
 	public void process(String methodName, String methodArchitecture,String trainerName, String trainerArgs) {
 		
 		// first, create the machine learning method
@@ -144,6 +166,10 @@ public class XORFactory {
 			xorSVMClassify();
 		} else if( mode.equalsIgnoreCase("svm-r") ) {
 			xorSVMRegression();
+		} else if( mode.equalsIgnoreCase("anneal") ) {
+			xorAnneal();
+		} else if( mode.equalsIgnoreCase("genetic") ) {
+			xorGenetic();
 		} else {
 			usage();
 		}
