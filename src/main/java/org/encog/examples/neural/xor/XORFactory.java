@@ -29,6 +29,7 @@ public class XORFactory {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 	
 	public static final String METHOD_FEEDFORWARD_A = "?:B->SIGMOID->4:B->SIGMOID->?";
+	public static final String METHOD_BIASLESS_A = "?->SIGMOID->4->SIGMOID->?";
 	
 	/**
 	 * Common means of creating a machine learning method.
@@ -73,6 +74,17 @@ public class XORFactory {
 	}
 	
 	/**
+	 * Demonstrate a feedforward biasless network with RPROP.
+	 */
+	public void xorBiasless() {
+		MLMethod method = createMethod(MLMethodFactory.TYPE_FEEDFORWARD,METHOD_BIASLESS_A);
+		MLDataSet dataSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
+		MLTrain train = createTrainer(method,dataSet,MLTrainFactory.TYPE_RPROP,"");
+		EncogUtility.trainToError(train, 0.01);
+		EncogUtility.evaluate((MLRegression)method, dataSet);
+	}
+	
+	/**
 	 * Demonstrate a feedforward network with backpropagation.
 	 */
 	public void xorBackProp() {
@@ -88,8 +100,9 @@ public class XORFactory {
 	 */
 	public void usage() {
 		System.out.println("Usage:\nXORFactory [mode]\n\nWhere mode is one of:\n");
-		System.out.println("backprop - Feedforward with backpropagation");
-		System.out.println("rprop - Feedforward with resilient propagation");
+		System.out.println("backprop - Feedforward biased with backpropagation");
+		System.out.println("biasless - Feedforward biasless with resilient");
+		System.out.println("rprop - Feedforward biased with resilient propagation");
 	}
 	
 	/**
@@ -101,6 +114,8 @@ public class XORFactory {
 			xorBackProp();
 		} if( mode.equalsIgnoreCase("rprop") ) {
 			xorRPROP();
+		}if( mode.equalsIgnoreCase("biasless") ) {
+			xorBiasless();
 		} else {
 			usage();
 		}

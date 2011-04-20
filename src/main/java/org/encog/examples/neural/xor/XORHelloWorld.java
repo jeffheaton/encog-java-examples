@@ -40,16 +40,29 @@ import org.encog.util.logging.Logging;
  * network to predict the output from the XOR operator.  This example
  * uses backpropagation to train the neural network.
  * 
- * @author $Author$
- * @version $Revision$
+ * This example attempts to use a minimum of Encog features to create and
+ * train the neural network.  This allows you to see exactly what is going
+ * on.  For a more advanced example, that uses Encog factories, refer to
+ * the XORFactory example.
+ * 
  */
 public class XORHelloWorld {
 
+	/**
+	 * The input necessary for XOR.
+	 */
 	public static double XOR_INPUT[][] = { { 0.0, 0.0 }, { 1.0, 0.0 },
 			{ 0.0, 1.0 }, { 1.0, 1.0 } };
 
+	/**
+	 * The ideal data necessary for XOR.
+	 */
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
-
+	
+	/**
+	 * The main method.
+	 * @param args No arguments are used.
+	 */
 	public static void main(final String args[]) {
 		
 		// stop console logging
