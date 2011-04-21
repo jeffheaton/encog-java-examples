@@ -34,6 +34,9 @@ public class XORFactory {
 	public static final String METHOD_BIASLESS_A = "?->SIGMOID->4->SIGMOID->?";
 	public static final String METHOD_SVMC_A = "?->C->?";
 	public static final String METHOD_SVMR_A = "?->R->?";
+	public static final String METHOD_RBF_A = "?->gaussian(c=4)->?";
+	public static final String METHOD_PNNC_A = "?->C(kernel=gaussian)->?";
+	public static final String METHOD_PNNR_A = "?->R(kernel=gaussian)->?";
 	
 	/**
 	 * Demonstrate a feedforward network with RPROP.
@@ -43,7 +46,7 @@ public class XORFactory {
 				MLMethodFactory.TYPE_FEEDFORWARD,
 				XORFactory.METHOD_FEEDFORWARD_A,
 				MLTrainFactory.TYPE_RPROP,
-				"");		
+				"",1);		
 	}
 	
 	/**
@@ -54,7 +57,7 @@ public class XORFactory {
 				MLMethodFactory.TYPE_FEEDFORWARD,
 				XORFactory.METHOD_BIASLESS_A,
 				MLTrainFactory.TYPE_RPROP,
-				"");		
+				"",1);		
 	}
 	
 	/**
@@ -65,7 +68,7 @@ public class XORFactory {
 				MLMethodFactory.TYPE_FEEDFORWARD,
 				XORFactory.METHOD_FEEDFORWARD_A,
 				MLTrainFactory.TYPE_BACKPROP,
-				"");		
+				"",1);		
 	}
 	
 	/**
@@ -76,7 +79,7 @@ public class XORFactory {
 				MLMethodFactory.TYPE_SVM,
 				XORFactory.METHOD_SVMC_A,
 				MLTrainFactory.TYPE_SVM,
-				"");		
+				"",1);		
 	}
 	
 	/**
@@ -87,7 +90,7 @@ public class XORFactory {
 				MLMethodFactory.TYPE_SVM,
 				XORFactory.METHOD_SVMR_A,
 				MLTrainFactory.TYPE_SVM,
-				"");		
+				"",1);		
 	}
 	
 	/**
@@ -98,7 +101,7 @@ public class XORFactory {
 				MLMethodFactory.TYPE_FEEDFORWARD,
 				XORFactory.METHOD_FEEDFORWARD_A,
 				MLTrainFactory.TYPE_ANNEAL,
-				"");		
+				"",1);		
 	}
 	
 	/**
@@ -109,7 +112,7 @@ public class XORFactory {
 				MLMethodFactory.TYPE_FEEDFORWARD,
 				XORFactory.METHOD_FEEDFORWARD_A,
 				MLTrainFactory.TYPE_GENETIC,
-				"");		
+				"",1);		
 	}
 	
 	/**
@@ -120,7 +123,7 @@ public class XORFactory {
 				MLMethodFactory.TYPE_FEEDFORWARD,
 				XORFactory.METHOD_FEEDFORWARD_A,
 				MLTrainFactory.TYPE_LMA,
-				"");		
+				"",1);		
 	}
 	
 	/**
@@ -131,14 +134,69 @@ public class XORFactory {
 				MLMethodFactory.TYPE_FEEDFORWARD,
 				XORFactory.METHOD_FEEDFORWARD_A,
 				MLTrainFactory.TYPE_MANHATTAN,
-				"lr=0.0001");		
+				"lr=0.0001",1);		
 	}
 	
-	public void process(String methodName, String methodArchitecture,String trainerName, String trainerArgs) {
+	/**
+	 * Demonstrate a XOR SCG.
+	 */
+	public void xorSCG() {
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_SCG,
+				"",1);		
+	}
+	
+	/**
+	 * Demonstrate a XOR RBF.
+	 */
+	public void xorRBF() {
+		process( 
+				MLMethodFactory.TYPE_RBFNETWORK,
+				XORFactory.METHOD_RBF_A,
+				MLTrainFactory.TYPE_RPROP,
+				"",1);		
+	}
+	
+	/**
+	 * Demonstrate a XOR RBF.
+	 */
+	public void xorSVD() {
+		process( 
+				MLMethodFactory.TYPE_RBFNETWORK,
+				XORFactory.METHOD_RBF_A,
+				MLTrainFactory.TYPE_SVD,
+				"",1);		
+	}
+	
+	/**
+	 * Demonstrate a XOR RBF.
+	 */
+	public void xorPNNC() {
+		process( 
+				MLMethodFactory.TYPE_PNN,
+				XORFactory.METHOD_PNNC_A,
+				MLTrainFactory.TYPE_PNN,
+				"",2);		
+	}
+	
+	/**
+	 * Demonstrate a XOR RBF.
+	 */
+	public void xorPNNR() {
+		process( 
+				MLMethodFactory.TYPE_PNN,
+				XORFactory.METHOD_PNNR_A,
+				MLTrainFactory.TYPE_PNN,
+				"",1);		
+	}
+	
+	public void process(String methodName, String methodArchitecture,String trainerName, String trainerArgs,int outputNeurons) {
 		
 		// first, create the machine learning method
 		MLMethodFactory methodFactory = new MLMethodFactory();		
-		MLMethod method = methodFactory.create(methodName, methodArchitecture, 2, 1);
+		MLMethod method = methodFactory.create(methodName, methodArchitecture, 2, outputNeurons);
 		
 		// second, create the data set		
 		MLDataSet dataSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
@@ -197,6 +255,16 @@ public class XORFactory {
 			xorLMA();
 		} else if( mode.equalsIgnoreCase("manhattan") ) {
 			xorManhattan();
+		} else if( mode.equalsIgnoreCase("scg") ) {
+			xorSCG();
+		} else if( mode.equalsIgnoreCase("rbf") ) {
+			xorRBF();
+		} else if( mode.equalsIgnoreCase("svd") ) {
+			xorSVD();
+		} else if( mode.equalsIgnoreCase("pnn-c") ) {
+			xorPNNC();
+		} else if( mode.equalsIgnoreCase("pnn-r") ) {
+			xorPNNR();
 		} else {
 			usage();
 		}

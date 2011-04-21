@@ -53,7 +53,7 @@ public class XorPNN {
 		System.out.println("Learning...");
 
 		TrainBasicPNN train = new TrainBasicPNN(network, trainingSet);
-		train.learn();
+		train.iteration();
 		evaluate(network,trainingSet);
 	}
 	
@@ -72,7 +72,7 @@ public class XorPNN {
 		System.out.println("Learning...");
 
 		TrainBasicPNN train = new TrainBasicPNN(network, trainingSet);
-		train.learn();
+		train.iteration();
 		evaluate(network,trainingSet);
 	}
 	
