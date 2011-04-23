@@ -197,8 +197,8 @@ public class ImageNeuralNetwork {
 		final String strHeight = getArg("height");
 		final String strType = getArg("type");
 
-		this.downsampleHeight = Integer.parseInt(strWidth);
-		this.downsampleWidth = Integer.parseInt(strHeight);
+		this.downsampleHeight = Integer.parseInt(strHeight);
+		this.downsampleWidth = Integer.parseInt(strWidth);
 
 		if (strType.equals("RGB")) {
 			this.downsample = new RGBDownsample();
