@@ -1,6 +1,6 @@
 <!-- 
  Encog Artificial Intelligence Framework v3.0
- Java Version
+ Java Examples
  http://www.heatonresearch.com/encog/
  http://code.google.com/p/encog-java/
   
@@ -55,15 +55,8 @@ Authors of this POM file: iirekm, jheaton
 			<id>jeffheatondotcom</id>
 			<name>Jeff Heaton</name>
 			<email>support@heatonresearch.com</email>
-    		</developer>
+    	</developer>
 	</developers>
-
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>5</version>
-	</parent>
-
 
 	<build>
 
@@ -111,31 +104,6 @@ Authors of this POM file: iirekm, jheaton
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-			</plugin>
-
-			
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2.1</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>org.encog.workbench.EncogWorkBench</mainClass>
-						</manifest>
-					</archive>					
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id> <!-- this is used for inheritance merges -->
-						<phase>package</phase> <!-- bind to the packaging phase -->
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			
 			<plugin>
