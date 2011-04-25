@@ -31,11 +31,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.encog.app.csv.temporal.TemporalWindowArray;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.util.arrayutil.TemporalWindowArray;
 import org.encog.util.simple.EncogUtility;
 
 public class PredictSIN extends JFrame implements ActionListener {
