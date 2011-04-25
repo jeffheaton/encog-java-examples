@@ -1,7 +1,9 @@
 <projectDescription>
-  <name>encog-release</name>
-  <comment>Examples and general release for Encog. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects/>
+  <name>encog-examples</name>
+  <comment>Examples for the Encog Machine Learning Framework. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects>
+    <project>encog-core</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
