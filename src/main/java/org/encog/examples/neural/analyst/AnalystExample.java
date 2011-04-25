@@ -55,8 +55,8 @@ public class AnalystExample {
 		
 		encog.save(analystFile);
 		
-		//AnalystReport report = new AnalystReport(encog);
-		//report.produceReport(new File(dir,"report.html"));
+		AnalystReport report = new AnalystReport(encog);
+		report.produceReport(new File(dir,"report.html"));
 	}
 
 	public static void main(String[] args) {

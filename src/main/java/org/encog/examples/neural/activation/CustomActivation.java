@@ -34,7 +34,9 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.logging.Logging;
 
-
+/**
+ * This example shows how to use a custom activation function.
+ */
 public class CustomActivation {
 
 	public static double XOR_INPUT[][] = { { 0.0, 0.0 }, { 1.0, 0.0 },
@@ -43,23 +45,24 @@ public class CustomActivation {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 	public static void main(final String args[]) {
-		
+
 		Logging.stopConsoleLogging();
-		
-		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(null, true,2));
-		network.addLayer(new BasicLayer(new ActivationSigmoidPosNeg(), true,4));
-		network.addLayer(new BasicLayer(new ActivationSigmoidPosNeg(), true,1));
+
+		final BasicNetwork network = new BasicNetwork();
+		network.addLayer(new BasicLayer(null, true, 2));
+		network.addLayer(new BasicLayer(new ActivationSigmoidPosNeg(), true, 4));
+		network.addLayer(new BasicLayer(new ActivationSigmoidPosNeg(), true, 1));
 		network.getStructure().finalizeStructure();
 		network.reset();
 
-		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
-		
+		final MLDataSet trainingSet = new BasicMLDataSet(
+				CustomActivation.XOR_INPUT, CustomActivation.XOR_IDEAL);
+
 		// train the neural network
 		final MLTrain train = new ResilientPropagation(network, trainingSet);
 		// reset if improve is less than 1% over 5 cycles
 		train.addStrategy(new RequiredImprovementStrategy(5));
-		
+
 		int epoch = 1;
 
 		do {
@@ -67,14 +70,16 @@ public class CustomActivation {
 			System.out
 					.println("Epoch #" + epoch + " Error:" + train.getError());
 			epoch++;
-		} while(train.getError() > 0.01);
+		} while (train.getError() > 0.01);
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
-		for(MLDataPair pair: trainingSet ) {
+		for (final MLDataPair pair : trainingSet) {
 			final MLData output = network.compute(pair.getInput());
-			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
-					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
+			System.out.println(pair.getInput().getData(0) + ","
+					+ pair.getInput().getData(1) + ", actual="
+					+ output.getData(0) + ",ideal="
+					+ pair.getIdeal().getData(0));
 		}
 	}
 }

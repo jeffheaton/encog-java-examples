@@ -27,33 +27,29 @@ import org.encog.mathutil.matrices.Matrix;
 import org.encog.mathutil.matrices.MatrixMath;
 
 public class MatrixBenchmark {
-	
-	public static Matrix generateRandomMatrix(int size)
-	{
-		Matrix result = new Matrix(size,size);
-		for(int row=0;row<size;row++)
-		{
-			for(int col=0;col<size;col++)
-			{
-				result.set(row, col, Math.random()*100);
+
+	public static Matrix generateRandomMatrix(final int size) {
+		final Matrix result = new Matrix(size, size);
+		for (int row = 0; row < size; row++) {
+			for (int col = 0; col < size; col++) {
+				result.set(row, col, Math.random() * 100);
 			}
 		}
 		return result;
 	}
-	
-	public static void main(String args[])
-	{
-		long start,stop;
-		
+
+	public static void main(final String args[]) {
+		long start, stop;
+
 		start = System.currentTimeMillis();
-		Matrix a = generateRandomMatrix(500);
-		Matrix b = generateRandomMatrix(500);
+		final Matrix a = MatrixBenchmark.generateRandomMatrix(500);
+		final Matrix b = MatrixBenchmark.generateRandomMatrix(500);
 		stop = System.currentTimeMillis();
-		System.out.println("Setup matrix: " + ((double)(stop-start))/1000.0 );
-		
+		System.out.println("Setup matrix: " + ((stop - start)) / 1000.0);
+
 		start = System.currentTimeMillis();
 		MatrixMath.multiply(a, b);
 		stop = System.currentTimeMillis();
-		System.out.println("Multiply matrix: " + ((double)(stop-start))/1000.0 );
+		System.out.println("Multiply matrix: " + ((stop - start)) / 1000.0);
 	}
 }
