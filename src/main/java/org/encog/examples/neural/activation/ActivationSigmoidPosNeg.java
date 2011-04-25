@@ -123,16 +123,4 @@ public class ActivationSigmoidPosNeg implements ActivationFunction {
 	public void setParam(final int index, final double value) {
 		this.params[index] = value;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getOpenCLExpression(final boolean derivative) {
-		if (derivative) {
-			return "(1.0f / (1.0f + exp(-slope * x)))";
-		} else {
-			return "(slope * x * (1.0f - x))";
-		}
-	}
 }
