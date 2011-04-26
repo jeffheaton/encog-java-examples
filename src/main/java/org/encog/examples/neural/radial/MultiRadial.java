@@ -80,7 +80,7 @@ public class MultiRadial {
         RBFNetwork network = (RBFNetwork)pattern.generate();
 
         //Position the multidimensional RBF neurons, with equal spacing, within the provided sample space from 0 to 1.
-        network.setRBFCentersAndWidthsEqualSpacing(0, 1, RBFEnum.Gaussian, dimensions, volumeNeuronWidth, includeEdgeRBFs);
+        network.setRBFCentersAndWidthsEqualSpacing(0, 1, RBFEnum.Gaussian, volumeNeuronWidth, includeEdgeRBFs);
 
         //Create some training data that can not easily be represented by gaussians
         //There are other training examples for both 1D and 2D
