@@ -55,13 +55,13 @@ package org.encog.examples.neural.predict.sunspot;
 
 import java.text.NumberFormat;
 
-import org.encog.app.csv.normalize.NormalizeArray;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.svm.SVM;
 import org.encog.ml.svm.training.SVMTrain;
 import org.encog.util.EngineArray;
+import org.encog.util.arrayutil.NormalizeArray;
 import org.encog.util.arrayutil.TemporalWindowArray;
 import org.encog.util.logging.Logging;
 

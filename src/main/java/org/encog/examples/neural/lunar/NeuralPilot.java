@@ -24,10 +24,10 @@
 package org.encog.examples.neural.lunar;
 
 import org.encog.app.csv.normalize.NormalizationAction;
-import org.encog.app.csv.normalize.NormalizedField;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
+import org.encog.util.arrayutil.NormalizedField;
 
 public class NeuralPilot {
 	
