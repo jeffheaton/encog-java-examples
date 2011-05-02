@@ -94,6 +94,17 @@ public class XORFactory {
 	}
 	
 	/**
+	 * Demonstrate a SVM-regression search.
+	 */
+	public void xorSVMSearchRegression() {
+		process( 
+				MLMethodFactory.TYPE_SVM,
+				XORFactory.METHOD_SVMR_A,
+				MLTrainFactory.TYPE_SVM_SEARCH,
+				"",1);		
+	}
+	
+	/**
 	 * Demonstrate a XOR annealing.
 	 */
 	public void xorAnneal() {
@@ -247,6 +258,8 @@ public class XORFactory {
 			xorSVMClassify();
 		} else if( mode.equalsIgnoreCase("svm-r") ) {
 			xorSVMRegression();
+		}  else if( mode.equalsIgnoreCase("svm-search-r") ) {
+			xorSVMSearchRegression();
 		} else if( mode.equalsIgnoreCase("anneal") ) {
 			xorAnneal();
 		} else if( mode.equalsIgnoreCase("genetic") ) {
