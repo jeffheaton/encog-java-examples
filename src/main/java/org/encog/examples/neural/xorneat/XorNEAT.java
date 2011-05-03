@@ -23,11 +23,11 @@
  */
 package org.encog.examples.neural.xorneat;
 
+import org.encog.engine.network.activation.ActivationStep;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
-import org.encog.neural.activation.ActivationStep;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;

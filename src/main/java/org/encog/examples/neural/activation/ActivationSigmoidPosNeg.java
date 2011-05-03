@@ -23,8 +23,8 @@
  */
 package org.encog.examples.neural.activation;
 
+import org.encog.engine.network.activation.ActivationFunction;
 import org.encog.mathutil.BoundMath;
-import org.encog.neural.activation.ActivationFunction;
 
 /**
  * The sigmoid activation function takes on a sigmoidal shape. Only positive

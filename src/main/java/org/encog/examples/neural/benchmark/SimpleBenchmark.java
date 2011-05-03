@@ -1,9 +1,9 @@
 package org.encog.examples.neural.benchmark;
 
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
-import org.encog.neural.activation.ActivationSigmoid;
 import org.encog.neural.flat.FlatNetwork;
 import org.encog.neural.flat.train.prop.TrainFlatNetworkBackPropagation;
 import org.encog.neural.networks.BasicNetwork;

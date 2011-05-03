@@ -24,9 +24,9 @@
 package org.encog.examples.neural.lunar;
 
 import org.encog.Encog;
+import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.mathutil.randomize.FanInRandomizer;
 import org.encog.ml.train.MLTrain;
-import org.encog.neural.activation.ActivationTANH;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
