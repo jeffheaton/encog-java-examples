@@ -23,8 +23,6 @@
  */
 package org.encog.examples.neural.activation;
 
-import org.encog.ml.data.MLData;
-import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
@@ -33,6 +31,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.logging.Logging;
+import org.encog.util.simple.EncogUtility;
 
 /**
  * This example shows how to use a custom activation function.
@@ -58,28 +57,15 @@ public class CustomActivation {
 		final MLDataSet trainingSet = new BasicMLDataSet(
 				CustomActivation.XOR_INPUT, CustomActivation.XOR_IDEAL);
 
+		
 		// train the neural network
 		final MLTrain train = new ResilientPropagation(network, trainingSet);
 		// reset if improve is less than 1% over 5 cycles
 		train.addStrategy(new RequiredImprovementStrategy(5));
 
-		int epoch = 1;
+		EncogUtility.trainToError(train, 0.01);
+		
+		EncogUtility.evaluate(network, trainingSet);
 
-		do {
-			train.iteration();
-			System.out
-					.println("Epoch #" + epoch + " Error:" + train.getError());
-			epoch++;
-		} while (train.getError() > 0.01);
-
-		// test the neural network
-		System.out.println("Neural Network Results:");
-		for (final MLDataPair pair : trainingSet) {
-			final MLData output = network.compute(pair.getInput());
-			System.out.println(pair.getInput().getData(0) + ","
-					+ pair.getInput().getData(1) + ", actual="
-					+ output.getData(0) + ",ideal="
-					+ pair.getIdeal().getData(0));
-		}
 	}
 }
