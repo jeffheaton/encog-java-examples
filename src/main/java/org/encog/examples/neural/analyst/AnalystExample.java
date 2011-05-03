@@ -48,6 +48,7 @@ public class AnalystExample {
 		EncogAnalyst encog = new EncogAnalyst();
 		encog.addAnalystListener(new ConsoleAnalystListener());
 		AnalystWizard wiz = new AnalystWizard(encog);
+		wiz.setTaskBalance(true);
 		
 		wiz.wizard(url, analystFile, rawFile, false, AnalystFileFormat.DECPNT_COMMA);
 		
