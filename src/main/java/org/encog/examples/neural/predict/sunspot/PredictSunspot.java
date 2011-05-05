@@ -35,7 +35,6 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 import org.encog.util.EngineArray;
 import org.encog.util.arrayutil.NormalizeArray;
 import org.encog.util.arrayutil.TemporalWindowArray;
-import org.encog.util.logging.Logging;
 
 public class PredictSunspot {
 
@@ -199,7 +198,6 @@ public class PredictSunspot {
 	
 	public static void main(String args[])
 	{
-		Logging.stopConsoleLogging();
 		PredictSunspot sunspot = new PredictSunspot();
 		sunspot.run();
 	}

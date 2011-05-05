@@ -28,7 +28,6 @@ import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.flat.FlatNetwork;
 import org.encog.neural.flat.train.prop.TrainFlatNetworkResilient;
-import org.encog.util.logging.Logging;
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network
@@ -44,8 +43,6 @@ public class XORFlat {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 	public static void main(final String args[]) {
-		
-		Logging.stopConsoleLogging();
 		
 		FlatNetwork network = new FlatNetwork(2,4,0,1,false);
 		network.randomize();

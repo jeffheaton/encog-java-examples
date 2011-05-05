@@ -32,7 +32,6 @@ import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -74,7 +73,6 @@ public class WeightInitialization {
 
 	public static void main(final String args[]) {
 
-		Logging.stopConsoleLogging();
 		RangeRandomizer rangeRandom = new RangeRandomizer(-1, 1);
 		NguyenWidrowRandomizer nwrRandom = new NguyenWidrowRandomizer(-1, 1);
 		FanInRandomizer fanRandom = new FanInRandomizer();

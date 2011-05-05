@@ -51,7 +51,6 @@ import org.encog.ml.data.basic.BasicMLDataPair;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.som.SOM;
 import org.encog.neural.som.training.clustercopy.SOMClusterCopyTraining;
-import org.encog.util.logging.Logging;
 
 /**
  * OCR: Main form that allows the user to interact with the OCR application.
@@ -124,7 +123,6 @@ public class OCR extends JFrame implements Runnable {
 	 *            Args not really used.
 	 */
 	public static void main(final String args[]) {
-		Logging.stopConsoleLogging();
 		(new OCR()).setVisible(true);
 	}
 

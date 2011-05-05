@@ -25,7 +25,6 @@ package org.encog.examples.neural.hopfield;
 
 import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.thermal.HopfieldNetwork;
-import org.encog.util.logging.Logging;
 
 /**
  * Simple class to recognize some patterns with a Hopfield Neural Network.
@@ -245,7 +244,6 @@ public class HopfieldAssociate {
 	
 	public static void main(String[] args)
 	{
-		Logging.stopConsoleLogging();
 		HopfieldAssociate program = new HopfieldAssociate();
 		program.run();
 	}

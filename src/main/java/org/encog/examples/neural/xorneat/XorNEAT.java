@@ -33,7 +33,6 @@ import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
 import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.TrainingSetScore;
-import org.encog.util.logging.Logging;
 
 /**
  * XOR-NEAT: This example solves the classic XOR operator neural
@@ -49,8 +48,6 @@ public class XorNEAT {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 	public static void main(final String args[]) {
-		
-		Logging.stopConsoleLogging();
 
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		NEATPopulation pop = new NEATPopulation(2,1,1000);

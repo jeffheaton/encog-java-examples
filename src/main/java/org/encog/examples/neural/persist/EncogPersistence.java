@@ -32,7 +32,6 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.persist.EncogDirectoryPersistence;
-import org.encog.util.logging.Logging;
 
 public class EncogPersistence {
 
@@ -81,8 +80,6 @@ public class EncogPersistence {
 	}
 
 	public static void main(String[] args) {
-		Logging.stopConsoleLogging();
-
 		try {
 			EncogPersistence program = new EncogPersistence();
 			program.trainAndSave();

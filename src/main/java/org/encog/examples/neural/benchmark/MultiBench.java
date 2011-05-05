@@ -28,7 +28,6 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.benchmark.RandomTrainingFactory;
-import org.encog.util.logging.Logging;
 
 public class MultiBench {
 	
@@ -96,7 +95,6 @@ public class MultiBench {
 	
 	public static void main(String args[])
 	{
-		Logging.stopConsoleLogging();
 		BasicNetwork network = generateNetwork();
 		MLDataSet data = generateTraining();
 		

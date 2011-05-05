@@ -63,7 +63,6 @@ import org.encog.ml.svm.training.SVMTrain;
 import org.encog.util.EngineArray;
 import org.encog.util.arrayutil.NormalizeArray;
 import org.encog.util.arrayutil.TemporalWindowArray;
-import org.encog.util.logging.Logging;
 
 public class PredictSunspotSVM {
 
@@ -213,7 +212,6 @@ public class PredictSunspotSVM {
 	
 	public static void main(String args[])
 	{
-		Logging.stopConsoleLogging();
 		PredictSunspotSVM sunspot = new PredictSunspotSVM();
 		sunspot.run();
 	}

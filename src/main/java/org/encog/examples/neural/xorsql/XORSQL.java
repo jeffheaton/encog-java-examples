@@ -32,7 +32,6 @@ import org.encog.ml.train.strategy.RequiredImprovementStrategy;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.util.logging.Logging;
 
 /**
  * XOR SQL: This program uses a SQL data source to train a neural network.  
@@ -68,8 +67,6 @@ public class XORSQL {
 	public final static String SQL_PWD = "xorpassword";
 	
 	public static void main(final String args[]) {
-		
-		Logging.stopConsoleLogging();
 		
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(2));

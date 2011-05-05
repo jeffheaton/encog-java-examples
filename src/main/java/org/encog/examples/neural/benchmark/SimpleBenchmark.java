@@ -34,7 +34,6 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.util.Format;
 import org.encog.util.Stopwatch;
-import org.encog.util.logging.Logging;
 
 public class SimpleBenchmark {
 
@@ -107,7 +106,7 @@ public class SimpleBenchmark {
 	}
 
 	public static void main(String[] args) {
-		Logging.stopConsoleLogging();
+
 		// initialize input and output values
 		double[][] input = Generate(ROW_COUNT, INPUT_COUNT);
 		double[][] output = Generate(ROW_COUNT, OUTPUT_COUNT);

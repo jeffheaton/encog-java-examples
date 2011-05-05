@@ -49,7 +49,6 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 import org.encog.util.downsample.Downsample;
 import org.encog.util.downsample.RGBDownsample;
 import org.encog.util.downsample.SimpleIntensityDownsample;
-import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -91,7 +90,6 @@ public class ImageNeuralNetwork {
 	}
 
 	public static void main(final String[] args) {
-		Logging.stopConsoleLogging();
 		if (args.length < 1) {
 			System.out
 					.println("Must specify command file.  See source for format.");

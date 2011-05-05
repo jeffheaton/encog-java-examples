@@ -37,7 +37,6 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 import org.encog.util.EngineArray;
 import org.encog.util.arrayutil.NormalizeArray;
 import org.encog.util.arrayutil.TemporalWindowArray;
-import org.encog.util.logging.Logging;
 
 public class CrossValidateSunspot {
 	public final static double[] SUNSPOTS = { 0.0262, 0.0575, 0.0837, 0.1203,
@@ -182,7 +181,6 @@ public class CrossValidateSunspot {
 	}
 
 	public static void main(String args[]) {
-		Logging.stopConsoleLogging();
 		CrossValidateSunspot sunspot = new CrossValidateSunspot();
 		sunspot.run();
 	}

@@ -28,9 +28,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
-import org.encog.util.logging.Logging;
-
 public class EvaluateMouse {
 	
 	private List<Maze> mazes = new ArrayList<Maze>();
@@ -71,7 +68,6 @@ public class EvaluateMouse {
 	
 	public static void main(String args[])
 	{
-		Logging.stopConsoleLogging();
 		List<NeuralMouse> population = new ArrayList<NeuralMouse>();
 		
 		EvaluateMouse eval = new EvaluateMouse(10);

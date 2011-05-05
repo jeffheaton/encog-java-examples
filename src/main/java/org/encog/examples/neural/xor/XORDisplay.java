@@ -35,7 +35,6 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.flat.FlatNetwork;
 import org.encog.neural.flat.train.prop.TrainFlatNetworkResilient;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
 public class XORDisplay {
@@ -72,7 +71,6 @@ public class XORDisplay {
 	}
 
 	public static void main(String[] args) {
-		Logging.stopConsoleLogging();
 		
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 

@@ -30,7 +30,6 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.neural.pattern.JordanPattern;
 import org.encog.util.Format;
-import org.encog.util.logging.Logging;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -137,8 +136,7 @@ public class TemporalString {
 	
 	public void run()
 	{
-		Logging.stopConsoleLogging();
-		
+
 		generateTraining();
 		
 		BasicNetwork ffNetwork = createFeedForward();	

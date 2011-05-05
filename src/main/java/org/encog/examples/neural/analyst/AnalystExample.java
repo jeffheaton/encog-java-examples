@@ -27,14 +27,11 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.encog.ConsoleStatusReportable;
 import org.encog.app.analyst.AnalystFileFormat;
 import org.encog.app.analyst.ConsoleAnalystListener;
 import org.encog.app.analyst.EncogAnalyst;
 import org.encog.app.analyst.report.AnalystReport;
 import org.encog.app.analyst.wizard.AnalystWizard;
-import org.encog.util.csv.CSVFormat;
-import org.encog.util.logging.Logging;
 
 
 public class AnalystExample {
@@ -91,9 +88,6 @@ public class AnalystExample {
 					.println("Data directory can be any empty directory.  Raw files will be downloaded to here.");
 			System.exit(1);
 		}
-		
-		Logging.stopConsoleLogging();
-
 		String command = args[0].trim().toLowerCase();
 		File dir = new File(args[1].trim());
 

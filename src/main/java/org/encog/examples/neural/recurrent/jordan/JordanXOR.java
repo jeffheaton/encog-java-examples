@@ -40,7 +40,6 @@ import org.encog.neural.networks.training.propagation.Propagation;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.neural.pattern.JordanPattern;
-import org.encog.util.logging.Logging;
 
 /**
  * Implement an Jordan style neural network with Encog. This network attempts to
@@ -74,7 +73,6 @@ public class JordanXOR {
 	}
 
 	public static void main(final String args[]) {
-		Logging.stopConsoleLogging();
 		
 		ErrorCalculation.setMode(ErrorCalculationMode.RMS);
 		

@@ -31,7 +31,6 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.neural.pattern.FeedForwardPattern;
-import org.encog.util.logging.Logging;
 
 public class LunarLander {
 	
@@ -49,7 +48,6 @@ public class LunarLander {
 	
 	public static void main(String args[])
 	{
-		Logging.stopConsoleLogging();
 		BasicNetwork network = createNetwork();
 		
 		MLTrain train;

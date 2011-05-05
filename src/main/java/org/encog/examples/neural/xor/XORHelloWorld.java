@@ -32,7 +32,6 @@ import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
-import org.encog.util.logging.Logging;
 
 /**
  * XOR: This example is essentially the "Hello World" of neural network
@@ -64,9 +63,6 @@ public class XORHelloWorld {
 	 * @param args No arguments are used.
 	 */
 	public static void main(final String args[]) {
-		
-		// stop console logging
-		Logging.stopConsoleLogging();
 		
 		// create a neural network, without using a factory
 		BasicNetwork network = new BasicNetwork();

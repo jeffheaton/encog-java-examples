@@ -26,7 +26,6 @@ package org.encog.examples.neural.benchmark;
 import org.encog.ConsoleStatusReportable;
 import org.encog.Encog;
 import org.encog.util.benchmark.EncogBenchmark;
-import org.encog.util.logging.Logging;
 
 /**
  * Simple console app that uses the Encog benchmarking class.
@@ -38,7 +37,7 @@ import org.encog.util.logging.Logging;
 public class Benchmark  {
 
 	public static void main(final String args[]) {
-		Logging.stopConsoleLogging();
+
 		final Benchmark b = new Benchmark();
 		System.out.println("Benchmark result: " + b.run());
 		

@@ -30,7 +30,6 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.som.SOM;
 import org.encog.neural.som.training.basic.BasicTrainSOM;
 import org.encog.neural.som.training.basic.neighborhood.NeighborhoodSingle;
-import org.encog.util.logging.Logging;
 
 /**
  * Implement a simple SOM using Encog.  It learns to recognize two patterns.
@@ -44,9 +43,7 @@ public class SimpleSOM {
 		{ 1.0, 1.0, -1.0, -1.0 } };
 	
 	public static void main(String args[])
-	{
-		Logging.stopConsoleLogging();
-		
+	{	
 		// create the training set
 		MLDataSet training = new BasicMLDataSet(SOM_INPUT,null);
 		

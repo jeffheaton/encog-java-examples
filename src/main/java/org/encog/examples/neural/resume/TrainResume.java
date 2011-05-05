@@ -32,7 +32,6 @@ import org.encog.ml.train.strategy.RequiredImprovementStrategy;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.TrainingContinuation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.util.logging.Logging;
 import org.encog.util.obj.SerializeObject;
 import org.encog.util.simple.EncogUtility;
 
@@ -46,7 +45,6 @@ public class TrainResume {
 	
 	public static void main(String[] args)
 	{
-		Logging.stopConsoleLogging();
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1, false);
 		ResilientPropagation train = new ResilientPropagation(network, trainingSet);
