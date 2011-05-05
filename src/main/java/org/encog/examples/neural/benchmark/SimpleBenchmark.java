@@ -37,90 +37,91 @@ import org.encog.util.Stopwatch;
 import org.encog.util.logging.Logging;
 
 public class SimpleBenchmark {
-	
-	
-    public static final int ROW_COUNT = 100000;
-    public static final int INPUT_COUNT = 10;
-    public static final int OUTPUT_COUNT = 1;
-    public static final int HIDDEN_COUNT = 20;
-    public static final int ITERATIONS = 10;
 
-    public static void BenchmarkEncog(double[][] input, double[][] output)
-    {
-        BasicNetwork network = new BasicNetwork();
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), true, input[0].length));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), true, HIDDEN_COUNT));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, output[0].length));
-        network.getStructure().finalizeStructure();
-        network.reset();
+	public static final int ROW_COUNT = 100000;
+	public static final int INPUT_COUNT = 10;
+	public static final int OUTPUT_COUNT = 1;
+	public static final int HIDDEN_COUNT = 20;
+	public static final int ITERATIONS = 10;
 
-        MLDataSet trainingSet = new BasicMLDataSet(input, output);
+	public static long BenchmarkEncog(double[][] input, double[][] output) {
+		BasicNetwork network = new BasicNetwork();
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,
+				input[0].length));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), true,
+				HIDDEN_COUNT));
+		network.addLayer(new BasicLayer(new ActivationSigmoid(), false,
+				output[0].length));
+		network.getStructure().finalizeStructure();
+		network.reset();
 
-        // train the neural network
-        MLTrain train = new Backpropagation(network, trainingSet,
-               0.7, 0.7);
+		MLDataSet trainingSet = new BasicMLDataSet(input, output);
 
-        Stopwatch sw = new Stopwatch();
-        sw.start();
-        // run epoch of learning procedure
-        for (int i = 0; i < ITERATIONS; i++)
-        {
-            train.iteration();
-        }
-        sw.stop();
+		// train the neural network
+		MLTrain train = new Backpropagation(network, trainingSet, 0.7, 0.7);
 
-        System.out.println("Encog:" + Format.formatInteger((int)sw.getElapsedMilliseconds()) + "ms" );
-    }
+		Stopwatch sw = new Stopwatch();
+		sw.start();
+		// run epoch of learning procedure
+		for (int i = 0; i < ITERATIONS; i++) {
+			train.iteration();
+		}
+		sw.stop();
 
-    public static void BenchmarkEncogFlat(double[][] input, double[][] output)
-    {
-        FlatNetwork network = new FlatNetwork(input[0].length, HIDDEN_COUNT, 0, output[0].length, false);
-        network.randomize();
-        BasicMLDataSet trainingSet = new BasicMLDataSet(input, output);
+		return sw.getElapsedMilliseconds();
+	}
 
-        TrainFlatNetworkBackPropagation train = new TrainFlatNetworkBackPropagation(network, trainingSet, 0.7, 0.7);
+	public static long BenchmarkEncogFlat(double[][] input, double[][] output) {
+		FlatNetwork network = new FlatNetwork(input[0].length, HIDDEN_COUNT, 0,
+				output[0].length, false);
+		network.randomize();
+		BasicMLDataSet trainingSet = new BasicMLDataSet(input, output);
 
-        double[] a = new double[2];
-        double[] b = new double[1];
+		TrainFlatNetworkBackPropagation train = new TrainFlatNetworkBackPropagation(
+				network, trainingSet, 0.7, 0.7);
 
-        Stopwatch sw = new Stopwatch();
-        sw.start();
-        // run epoch of learning procedure
-        for (int i = 0; i < ITERATIONS; i++)
-        {
-            train.iteration();
-        }
-        sw.stop();
+		double[] a = new double[2];
+		double[] b = new double[1];
 
-        System.out.println("EncogFlat:" + Format.formatInteger((int)sw.getElapsedMilliseconds()) + "ms" );
-    }
+		Stopwatch sw = new Stopwatch();
+		sw.start();
+		// run epoch of learning procedure
+		for (int i = 0; i < ITERATIONS; i++) {
+			train.iteration();
+		}
+		sw.stop();
 
+		return sw.getElapsedMilliseconds();
+	}
 
-    static double[][] Generate(int rows, int columns)
-    {
-        double[][] result = new double[rows][columns];
+	static double[][] Generate(int rows, int columns) {
+		double[][] result = new double[rows][columns];
 
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < columns; j++)
-            {
-                result[i][j] = Math.random();
-            }
-        }
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				result[i][j] = Math.random();
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    
-    
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		Logging.stopConsoleLogging();
-        // initialize input and output values
-        double[][] input = Generate(ROW_COUNT, INPUT_COUNT);
-        double[][] output = Generate(ROW_COUNT, OUTPUT_COUNT);
+		// initialize input and output values
+		double[][] input = Generate(ROW_COUNT, INPUT_COUNT);
+		double[][] output = Generate(ROW_COUNT, OUTPUT_COUNT);
 
-        BenchmarkEncog(input, output);
-        BenchmarkEncogFlat(input, output);        
+		for(int i=0;i<10;i++) {
+			long time1 = BenchmarkEncog(input, output);
+			long time2 = BenchmarkEncogFlat(input, output);
+			StringBuilder line = new StringBuilder();
+			line.append("Regular: ");
+			line.append(Format.formatInteger((int)time1));
+			line.append(", Flat: ");
+			line.append(Format.formatInteger((int)time2));
+			
+			System.out.println(line.toString());
+		}
 	}
 }
