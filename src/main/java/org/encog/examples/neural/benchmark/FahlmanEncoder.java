@@ -26,7 +26,8 @@ import org.encog.util.simple.EncogUtility;
  * except for one column that is 0.  The data produced in "complement mode" 
  * is more difficult to train.
  * 
- * Fahlman used this simple training data to benchmark netural networks when he introduced the Quickprop algorithm in the above paper.
+ * Fahlman used this simple training data to benchmark neural networks when 
+ * he introduced the Quickprop algorithm in the above paper.
  *
  */
 public class FahlmanEncoder {
