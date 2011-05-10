@@ -32,7 +32,7 @@ import org.encog.util.simple.EncogUtility;
  */
 public class FahlmanEncoder {
 	public static final int INPUT_OUTPUT_COUNT = 8;
-	public static final int HIDDEN_COUNT = 1;
+	public static final int HIDDEN_COUNT = 2;
 	public static final boolean COMPL = false;
 
 	public static MLDataSet generateTraining(int inputCount, boolean compl) {
