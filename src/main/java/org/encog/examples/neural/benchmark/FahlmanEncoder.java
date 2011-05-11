@@ -1,9 +1,13 @@
 package org.encog.examples.neural.benchmark;
 
 import org.encog.ml.MLMethod;
-import org.encog.ml.MLRegression;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.neural.networks.ContainsFlat;
+import org.encog.neural.networks.training.propagation.Propagation;
+import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.util.EngineArray;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -31,8 +35,9 @@ import org.encog.util.simple.EncogUtility;
  *
  */
 public class FahlmanEncoder {
-	public static final int INPUT_OUTPUT_COUNT = 8;
-	public static final int HIDDEN_COUNT = 2;
+	public static final int INPUT_OUTPUT_COUNT = 10;
+	public static final int HIDDEN_COUNT = 5;
+	public static final int TRIES = 2500;
 	public static final boolean COMPL = false;
 
 	public static MLDataSet generateTraining(int inputCount, boolean compl) {
@@ -53,12 +58,39 @@ public class FahlmanEncoder {
 
 		return new BasicMLDataSet(input, ideal);
 	}
-
-	public static void main(String[] args) {
+	
+	public static void evaluate() {
+		int[] count = new int[TRIES];
+		
 		MLDataSet trainingData = generateTraining(INPUT_OUTPUT_COUNT, COMPL);
-		MLMethod method = EncogUtility.simpleFeedForward(INPUT_OUTPUT_COUNT,
-				HIDDEN_COUNT, 0, INPUT_OUTPUT_COUNT, false);
-		EncogUtility.trainToError(method, trainingData, 0.01);
-		EncogUtility.evaluate((MLRegression) method, trainingData);
+		
+		for(int i=0;i<TRIES;i++) {
+		
+			MLMethod method = EncogUtility.simpleFeedForward(INPUT_OUTPUT_COUNT,
+					HIDDEN_COUNT, 0, INPUT_OUTPUT_COUNT, false);
+			
+			Propagation train = new Backpropagation((ContainsFlat)method, trainingData,1.7,0);
+			//Propagation train = new ResilientPropagation((ContainsFlat)method, trainingData);
+			((Propagation)train).fixFlatSpot(true);
+			
+			int iteration = 0;
+			do {
+				train.iteration();
+				
+				iteration++;
+			} while( train.getError()>0.01 );
+			count[i] = iteration;
+			System.out.println("Begin Try #" + (i+1) + ", took " + iteration + " iterations.");			
+		}
+		
+		System.out.println("Tries: " + TRIES);
+		System.out.println("Max Iterations: " +EngineArray.max(count));
+		System.out.println("Min Iterations: " +EngineArray.min(count));
+		System.out.println("Mean Iterations: " +EngineArray.mean(count));
+		System.out.println("SDev Iterations: " +EngineArray.sdev(count));
+	}
+
+	public static void main(String[] args) {		
+		evaluate();
 	}
 }
