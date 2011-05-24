@@ -24,8 +24,6 @@
 package org.encog.examples.neural.xor;
 
 import org.encog.engine.network.activation.ActivationStep;
-import org.encog.ml.data.MLData;
-import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.neat.NEATNetwork;
@@ -33,6 +31,7 @@ import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
 import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.TrainingSetScore;
+import org.encog.util.simple.EncogUtility;
 
 /**
  * XOR-NEAT: This example solves the classic XOR operator neural
@@ -59,23 +58,13 @@ public class XORNEAT {
 		
 		final NEATTraining train = new NEATTraining(score,pop);
 		
-		int epoch = 1;
-
-		do {
-			train.iteration();
-			System.out
-					.println("Epoch #" + epoch + " Error:" + train.getError());
-			epoch++;
-		} while ((train.getError() > 0.001));
+		EncogUtility.trainToError(train, 0.01);
 
 		NEATNetwork network = (NEATNetwork)train.getMethod();
+
 		network.clearContext();
 		// test the neural network
 		System.out.println("Neural Network Results:");
-		for(MLDataPair pair: trainingSet ) {
-			final MLData output = network.compute(pair.getInput());
-			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
-					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
-		}
+		EncogUtility.evaluate(network, trainingSet);
 	}
 }
