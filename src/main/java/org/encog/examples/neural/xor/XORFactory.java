@@ -94,6 +94,18 @@ public class XORFactory {
 				"",1);		
 	}
 	
+
+	/**
+	 * Demonstrate a feedforward network with backpropagation.
+	 */
+	public void xorQProp() {
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_QPROP,
+				"",1);		
+	}
+	
 	/**
 	 * Demonstrate a SVM-classify.
 	 */
@@ -240,7 +252,7 @@ public class XORFactory {
 		MLTrain train = trainFactory.create(method,dataSet,trainerName,trainerArgs);				
 		// reset if improve is less than 1% over 5 cycles
 		if( method instanceof MLResettable && !(train instanceof ManhattanPropagation) ) {
-			train.addStrategy(new RequiredImprovementStrategy(50));
+			//train.addStrategy(new RequiredImprovementStrategy(500));
 		}
 
 		// fourth, train and evaluate.
@@ -301,6 +313,8 @@ public class XORFactory {
 			xorPNNC();
 		} else if( mode.equalsIgnoreCase("pnn-r") ) {
 			xorPNNR();
+		} else if( mode.equalsIgnoreCase("qprop") ) {
+			xorQProp();
 		} else {
 			usage();
 		}
