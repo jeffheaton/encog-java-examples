@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.recurrent.jordan;
 
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.examples.neural.util.TemporalXOR;
 import org.encog.mathutil.error.ErrorCalculation;
@@ -55,7 +56,7 @@ public class JordanXOR {
 	static BasicNetwork createJordanNetwork() {
 		// construct an Jordan type network
 		JordanPattern pattern = new JordanPattern();
-		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setActivationFunction(new ActivationSigmoid());
 		pattern.setInputNeurons(1);
 		pattern.addHiddenLayer(6);
 		pattern.setOutputNeurons(1);

@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.recurrent.elman;
 
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.examples.neural.util.TemporalXOR;
 import org.encog.mathutil.error.ErrorCalculation;
@@ -57,7 +58,7 @@ public class ElmanXOR {
 	static BasicNetwork createElmanNetwork() {
 		// construct an Elman type network
 		ElmanPattern pattern = new ElmanPattern();
-		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setActivationFunction(new ActivationSigmoid());
 		pattern.setInputNeurons(1);
 		pattern.addHiddenLayer(6);
 		pattern.setOutputNeurons(1);
@@ -67,7 +68,7 @@ public class ElmanXOR {
 	static BasicNetwork createFeedforwardNetwork() {
 		// construct a feedforward type network
 		FeedForwardPattern pattern = new FeedForwardPattern();
-		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setActivationFunction(new ActivationSigmoid());
 		pattern.setInputNeurons(1);
 		pattern.addHiddenLayer(2);
 		pattern.setOutputNeurons(1);
