@@ -40,7 +40,7 @@ public class SolveTSP {
 	public static final int CYCLES = 10;
 	public static final int CITIES = 50;
 	public static final int MAP_SIZE = 256;
-	public static final int MAX_SAME_SOLUTION = 25;
+	public static final int MAX_SAME_SOLUTION = 50;
 
 	private TSPSimulatedAnnealing anneal;
 	private City cities[];
