@@ -47,7 +47,7 @@ import org.encog.neural.pattern.JordanPattern;
  * predict the next value in an XOR sequence, taken one at a time. A regular
  * feedforward network would fail using a single input neuron for this task. The
  * internal state stored by an Jordan neural network allows better performance.
- * Elman networks are typically used for temporal neural networks. A Jordan
+ * Jordan networks are typically used for temporal neural networks. A Jordan
  * network has a single context layer connected to the output layer.
  * 
  */
@@ -89,7 +89,7 @@ public class JordanXOR {
 		final double feedforwardError = JordanXOR.trainNetwork("Feedforward",
 				feedforwardNetwork, trainingSet);		
 
-		System.out.println("Best error rate with Elman Network: " + jordanError);
+		System.out.println("Best error rate with Jordan Network: " + jordanError);
 		System.out.println("Best error rate with Feedforward Network: "
 				+ feedforwardError);
 		System.out
