@@ -66,7 +66,7 @@ public class JordanXOR {
 	static BasicNetwork createFeedforwardNetwork() {
 		// construct a feedforward type network
 		FeedForwardPattern pattern = new FeedForwardPattern();
-		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setActivationFunction(new ActivationSigmoid());
 		pattern.setInputNeurons(1);
 		pattern.addHiddenLayer(2);
 		pattern.setOutputNeurons(1);

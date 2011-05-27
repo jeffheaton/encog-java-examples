@@ -70,14 +70,12 @@ public class ElmanXOR {
 		FeedForwardPattern pattern = new FeedForwardPattern();
 		pattern.setActivationFunction(new ActivationSigmoid());
 		pattern.setInputNeurons(1);
-		pattern.addHiddenLayer(2);
+		pattern.addHiddenLayer(6);
 		pattern.setOutputNeurons(1);
 		return (BasicNetwork)pattern.generate();
 	}
 
 	public static void main(final String args[]) {
-		
-		ErrorCalculation.setMode(ErrorCalculationMode.RMS);
 		
 		final TemporalXOR temp = new TemporalXOR();
 		final MLDataSet trainingSet = temp.generate(120);
