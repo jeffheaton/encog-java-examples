@@ -252,7 +252,7 @@ public class XORFactory {
 		MLTrain train = trainFactory.create(method,dataSet,trainerName,trainerArgs);				
 		// reset if improve is less than 1% over 5 cycles
 		if( method instanceof MLResettable && !(train instanceof ManhattanPropagation) ) {
-			//train.addStrategy(new RequiredImprovementStrategy(500));
+			train.addStrategy(new RequiredImprovementStrategy(500));
 		}
 
 		// fourth, train and evaluate.
