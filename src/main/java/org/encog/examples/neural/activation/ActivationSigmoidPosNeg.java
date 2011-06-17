@@ -94,8 +94,8 @@ public class ActivationSigmoidPosNeg implements ActivationFunction {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public double derivativeFunction(final double x) {
-		return Math.pow( params[0] * x * (1.0 - x),2);
+	public double derivativeFunction(final double b, final double a) {
+		return Math.pow( params[0] * a * (1.0 - a),2);
 	}
 
 	/**
