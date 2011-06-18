@@ -41,11 +41,12 @@ import javax.imageio.ImageIO;
 import org.encog.EncogError;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
-import org.encog.ml.data.image.ImageNeuralData;
-import org.encog.ml.data.image.ImageNeuralDataSet;
 import org.encog.ml.train.strategy.ResetStrategy;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.platformspecific.j2se.TrainingDialog;
+import org.encog.platformspecific.j2se.data.image.ImageNeuralData;
+import org.encog.platformspecific.j2se.data.image.ImageNeuralDataSet;
 import org.encog.util.downsample.Downsample;
 import org.encog.util.downsample.RGBDownsample;
 import org.encog.util.downsample.SimpleIntensityDownsample;
@@ -269,7 +270,7 @@ public class ImageNeuralNetwork {
 		train.addStrategy(new ResetStrategy(strategyError, strategyCycles));
 
 		if (strMode.equalsIgnoreCase("gui")) {
-			EncogUtility.trainDialog(train, this.network, this.training);
+			TrainingDialog.trainDialog(train, this.network, this.training);
 		} else {
 			final int minutes = Integer.parseInt(strMinutes);
 			EncogUtility.trainConsole(train, this.network, this.training,
