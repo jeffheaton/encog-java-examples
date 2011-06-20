@@ -77,7 +77,6 @@ public class XORHelloWorld {
 		
 		// train the neural network
 		final ResilientPropagation train = new ResilientPropagation(network, trainingSet);
-		train.setErrorFunction(new ATanErrorFunction());
 
 		int epoch = 1;
 
