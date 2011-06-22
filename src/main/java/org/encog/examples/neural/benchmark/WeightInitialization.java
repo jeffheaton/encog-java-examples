@@ -78,6 +78,7 @@ public class WeightInitialization {
 		FanInRandomizer fanRandom = new FanInRandomizer();
 		GaussianRandomizer gaussianRandom = new GaussianRandomizer(0, 1);
 
+		System.out.println("Error improvement, higher is better.");
 		BasicMLDataSet training = new BasicMLDataSet(XOR_INPUT,
 				XOR_IDEAL);
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 10, 0, 1, true);
