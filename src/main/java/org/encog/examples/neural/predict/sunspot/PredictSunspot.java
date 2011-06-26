@@ -111,7 +111,6 @@ public class PredictSunspot {
 
         // create arrays to hold the normalized sunspots
         normalizedSunspots = norm.process(SUNSPOTS);
-        double[] test = norm.process(SUNSPOTS);
         closedLoopSunspots = EngineArray.arrayCopy(normalizedSunspots);
 
 	}
