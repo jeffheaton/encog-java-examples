@@ -45,8 +45,8 @@ import org.encog.ml.train.strategy.ResetStrategy;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.platformspecific.j2se.TrainingDialog;
-import org.encog.platformspecific.j2se.data.image.ImageNeuralData;
-import org.encog.platformspecific.j2se.data.image.ImageNeuralDataSet;
+import org.encog.platformspecific.j2se.data.image.ImageMLData;
+import org.encog.platformspecific.j2se.data.image.ImageMLDataSet;
 import org.encog.util.downsample.Downsample;
 import org.encog.util.downsample.RGBDownsample;
 import org.encog.util.downsample.SimpleIntensityDownsample;
@@ -108,7 +108,7 @@ public class ImageNeuralNetwork {
 	private final Map<String, String> args = new HashMap<String, String>();
 	private final Map<String, Integer> identity2neuron = new HashMap<String, Integer>();
 	private final Map<Integer, String> neuron2identity = new HashMap<Integer, String>();
-	private ImageNeuralDataSet training;
+	private ImageMLDataSet training;
 	private String line;
 	private int outputCount;
 	private int downsampleWidth;
@@ -205,7 +205,7 @@ public class ImageNeuralNetwork {
 			this.downsample = new SimpleIntensityDownsample();
 		}
 
-		this.training = new ImageNeuralDataSet(this.downsample, false, 1, -1);
+		this.training = new ImageMLDataSet(this.downsample, false, 1, -1);
 		System.out.println("Training set created");
 	}
 
@@ -236,7 +236,7 @@ public class ImageNeuralNetwork {
 			}
 
 			final Image img = ImageIO.read(pair.getFile());
-			final ImageNeuralData data = new ImageNeuralData(img);
+			final ImageMLData data = new ImageMLData(img);
 			this.training.add(data, ideal);
 		}
 
@@ -283,7 +283,7 @@ public class ImageNeuralNetwork {
 		final String filename = getArg("image");
 		final File file = new File(filename);
 		final Image img = ImageIO.read(file);
-		final ImageNeuralData input = new ImageNeuralData(img);
+		final ImageMLData input = new ImageMLData(img);
 		input.downsample(this.downsample, false, this.downsampleHeight,
 				this.downsampleWidth, 1, -1);
 		final int winner = this.network.winner(input);
