@@ -93,7 +93,7 @@ public class ElmanXOR {
 		System.out.println("Best error rate with Feedforward Network: "
 				+ feedforwardError);
 		System.out
-				.println("Elman should be able to get into the 30% range,\nfeedforward should not go below 50%.\nThe recurrent Elment net can learn better in this case.");
+				.println("Elman should be able to get into the 10% range,\nfeedforward should not go below 25%.\nThe recurrent Elment net can learn better in this case.");
 		System.out
 				.println("If your results are not as good, try rerunning, or perhaps training longer.");
 	}
@@ -107,7 +107,6 @@ public class ElmanXOR {
 
 		final MLTrain trainMain = new Backpropagation(network, trainingSet,0.000001, 0.0);
 
-		((Propagation)trainMain).setNumThreads(1);
 		final StopTrainingStrategy stop = new StopTrainingStrategy();
 		trainMain.addStrategy(new Greedy());
 		trainMain.addStrategy(new HybridStrategy(trainAlt));
