@@ -28,7 +28,7 @@ import java.io.File;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.basic.BasicMLDataPair;
 import org.encog.ml.data.basic.BasicMLDataSet;
-import org.encog.ml.data.buffer.BufferedNeuralDataSet;
+import org.encog.ml.data.buffer.BufferedMLDataSet;
 import org.encog.util.Format;
 import org.encog.util.benchmark.Evaluate;
 import org.encog.util.benchmark.RandomTrainingFactory;
@@ -69,7 +69,7 @@ public class BinaryVsMemory {
 		// create the binary file
 		
 		file.delete();
-		BufferedNeuralDataSet training2 = new BufferedNeuralDataSet(file);
+		BufferedMLDataSet training2 = new BufferedMLDataSet(file);
 		training2.load(training);
 		
 		final long start = System.currentTimeMillis();

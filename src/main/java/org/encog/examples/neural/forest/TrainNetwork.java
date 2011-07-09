@@ -24,8 +24,7 @@
 package org.encog.examples.neural.forest;
 
 import org.encog.EncogError;
-import org.encog.ml.data.buffer.BufferedNeuralDataSet;
-import org.encog.neural.data.NeuralDataSet;
+import org.encog.ml.data.buffer.BufferedMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.platformspecific.j2se.TrainingDialog;
@@ -55,7 +54,7 @@ public class TrainNetwork {
 		EncogUtility.convertCSV2Binary(config.getNormalizedDataFile(),
 				config.getBinaryFile(), network.getInputCount(), 
 				network.getOutputCount(), false);
-		BufferedNeuralDataSet trainingSet = new BufferedNeuralDataSet(
+		BufferedMLDataSet trainingSet = new BufferedMLDataSet(
 				config.getBinaryFile());
 
 
