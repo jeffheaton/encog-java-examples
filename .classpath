@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="var" path="M2_REPO/org/encog/encog-core/3.0.0-SNAPSHOT/encog-core-3.0.0-SNAPSHOT.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/encog-java-core"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
