@@ -70,7 +70,7 @@ public class MarketTrain {
 		final MLDataSet trainingSet = EncogUtility.loadEGB2Memory(trainingFile);
 
 		// train the neural network
-		EncogUtility.trainConsole(network, trainingSet, 1);
+		EncogUtility.trainConsole(network, trainingSet, Config.TRAINING_MINUTES);
 						
 		System.out.println("Final Error: " + network.calculateError(trainingSet));
 		System.out.println("Training complete, saving network.");
