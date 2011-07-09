@@ -1,33 +1,26 @@
 /*
- * Encog(tm) Examples v2.4
+ * Encog(tm) Examples v3.0 - Java Version
  * http://www.heatonresearch.com/encog/
  * http://code.google.com/p/encog-java/
- * 
- * Copyright 2008-2010 by Heaton Research Inc.
- * 
- * Released under the LGPL.
+ 
+ * Copyright 2008-2011 Heaton Research, Inc.
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- * 
- * Encog and Heaton Research are Trademarks of Heaton Research, Inc.
- * For information on Heaton Research trademarks, visit:
- * 
- * http://www.heatonresearch.com/copyright.html
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *   
+ * For more information on Heaton Research copyrights, licenses 
+ * and trademarks visit:
+ * http://www.heatonresearch.com/copyright
  */
-
 package org.encog.examples.neural.forest;
 
 import java.io.File;
@@ -54,7 +47,7 @@ public class GenerateData implements StatusReportable {
 	
 	public void buildOutputOneOf(DataNormalization norm, InputField coverType)
 	{
-		OutputOneOf outType = new OutputOneOf(0.9,0.1);
+		OutputOneOf outType = new OutputOneOf();
 		outType.addItem(coverType, 1);
 		outType.addItem(coverType, 2);
 		outType.addItem(coverType, 3);
@@ -67,7 +60,7 @@ public class GenerateData implements StatusReportable {
 	
 	public void buildOutputEquilateral(DataNormalization norm, InputField coverType)
 	{
-		OutputEquilateral outType = new OutputEquilateral(0.9,0.1);
+		OutputEquilateral outType = new OutputEquilateral();
 		outType.addItem(coverType, 1);
 		outType.addItem(coverType, 2);
 		outType.addItem(coverType, 3);
@@ -181,16 +174,16 @@ public class GenerateData implements StatusReportable {
 		
 		norm.addInputField(coverType=new InputFieldCSV(false,config.getBalanceFile(),54));
 		
-		norm.addOutputField(new OutputFieldRangeMapped(inputElevation,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(inputAspect,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(inputSlope,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(hWater,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(vWater,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(roadway,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(shade9,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(shade12,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(shade3,0.1,0.9));
-		norm.addOutputField(new OutputFieldRangeMapped(firepoint,0.1,0.9));
+		norm.addOutputField(new OutputFieldRangeMapped(inputElevation));
+		norm.addOutputField(new OutputFieldRangeMapped(inputAspect));
+		norm.addOutputField(new OutputFieldRangeMapped(inputSlope));
+		norm.addOutputField(new OutputFieldRangeMapped(hWater));
+		norm.addOutputField(new OutputFieldRangeMapped(vWater));
+		norm.addOutputField(new OutputFieldRangeMapped(roadway));
+		norm.addOutputField(new OutputFieldRangeMapped(shade9));
+		norm.addOutputField(new OutputFieldRangeMapped(shade12));
+		norm.addOutputField(new OutputFieldRangeMapped(shade3));
+		norm.addOutputField(new OutputFieldRangeMapped(firepoint));
 		
 		for(int i=0;i<40;i++)
 		{
