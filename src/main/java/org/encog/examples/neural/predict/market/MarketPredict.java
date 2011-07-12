@@ -32,6 +32,8 @@ package org.encog.examples.neural.predict.market;
 
 import java.io.File;
 
+import org.encog.Encog;
+
 
 
 /**
@@ -59,6 +61,7 @@ public class MarketPredict {
 			} else if( args[1].equalsIgnoreCase("prune") ) {
 				MarketPrune.incremental(dataDir);
 			} 
+			Encog.getInstance().shutdown();
 		}
 	}
 	

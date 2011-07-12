@@ -66,7 +66,8 @@ public class MarketPrune {
 
 		prune.process();
 
-		EncogDirectoryPersistence.saveObject(file, prune.getBestNetwork());
+		File networkFile = new File(dataDir, Config.NETWORK_FILE);
+		EncogDirectoryPersistence.saveObject(networkFile, prune.getBestNetwork());
 
 	}
 }
