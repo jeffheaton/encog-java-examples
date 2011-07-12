@@ -49,7 +49,7 @@ public class ThreadCount {
 				INPUT_COUNT, OUTPUT_COUNT, -1, 1);
 		
 		ResilientPropagation rprop = new ResilientPropagation(network,training);
-		rprop.setNumThreads(thread);
+		rprop.setThreadCount(thread);
 		for(int i=0;i<5;i++)
 		{
 			rprop.iteration();

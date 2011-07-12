@@ -107,7 +107,7 @@ public class JordanXOR {
 
 		final MLTrain trainMain = new Backpropagation(network, trainingSet,0.000001, 0.0);
 
-		((Propagation)trainMain).setNumThreads(1);
+		((Propagation)trainMain).setThreadCount(1);
 		final StopTrainingStrategy stop = new StopTrainingStrategy();
 		trainMain.addStrategy(new Greedy());
 		trainMain.addStrategy(new HybridStrategy(trainAlt));
