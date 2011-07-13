@@ -72,7 +72,7 @@ public class AnalystExample {
 		wiz.setTaskBalance(true);
 		
 		wiz.wizard(url, analystFile, rawFile, false, AnalystFileFormat.DECPNT_COMMA);
-		
+		encog.setMaxIteration(600);
 		encog.executeTask("task-full");
 		
 		encog.save(analystFile);
