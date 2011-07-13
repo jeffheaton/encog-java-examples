@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.xorsql;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
@@ -105,5 +106,7 @@ public class XORSQL {
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}
+		
+		Encog.getInstance().shutdown();
 	}
 }

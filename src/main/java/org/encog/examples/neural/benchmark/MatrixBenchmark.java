@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.benchmark;
 
+import org.encog.Encog;
 import org.encog.mathutil.matrices.Matrix;
 import org.encog.mathutil.matrices.MatrixMath;
 
@@ -51,5 +52,6 @@ public class MatrixBenchmark {
 		MatrixMath.multiply(a, b);
 		stop = System.currentTimeMillis();
 		System.out.println("Multiply matrix: " + ((stop - start)) / 1000.0);
+		Encog.getInstance().shutdown();
 	}
 }

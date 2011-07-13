@@ -25,6 +25,7 @@ package org.encog.examples.neural.persist;
 
 import java.io.File;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
@@ -86,6 +87,8 @@ public class EncogPersistence {
 			program.loadAndEvaluate();
 		} catch (Throwable t) {
 			t.printStackTrace();
+		} finally {
+			Encog.getInstance().shutdown();
 		}
 
 	}

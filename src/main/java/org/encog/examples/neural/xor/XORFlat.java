@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.xor;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
@@ -72,5 +73,7 @@ public class XORFlat {
 			network.compute(input, output);
 			System.out.println(input[0] + "," + input[1] + ":" + output[0]);
 		}
+		
+		Encog.getInstance().shutdown();
 	}
 }

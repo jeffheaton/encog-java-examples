@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.recurrent.elman;
 
+import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.examples.neural.util.TemporalXOR;
@@ -96,6 +97,8 @@ public class ElmanXOR {
 				.println("Elman should be able to get into the 10% range,\nfeedforward should not go below 25%.\nThe recurrent Elment net can learn better in this case.");
 		System.out
 				.println("If your results are not as good, try rerunning, or perhaps training longer.");
+		
+		Encog.getInstance().shutdown();
 	}
 
 	public static double trainNetwork(final String what,

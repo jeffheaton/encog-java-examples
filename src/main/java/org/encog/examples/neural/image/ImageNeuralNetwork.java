@@ -38,6 +38,7 @@ import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
 
+import org.encog.Encog;
 import org.encog.EncogError;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
@@ -102,6 +103,8 @@ public class ImageNeuralNetwork {
 				e.printStackTrace();
 			}
 		}
+		
+		Encog.getInstance().shutdown();
 	}
 
 	private final List<ImagePair> imageList = new ArrayList<ImagePair>();

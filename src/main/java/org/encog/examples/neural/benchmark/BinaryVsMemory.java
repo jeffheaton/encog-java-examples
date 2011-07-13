@@ -25,6 +25,7 @@ package org.encog.examples.neural.benchmark;
 
 import java.io.File;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.basic.BasicMLDataPair;
 import org.encog.ml.data.basic.BasicMLDataSet;
@@ -97,6 +98,7 @@ public class BinaryVsMemory {
 		int memory = evalMemory();
 		int binary = evalBinary();
 		System.out.println( "Memory is " + Format.formatInteger(memory/binary) + " times the speed of disk.");
+		Encog.getInstance().shutdown();
 	}
 
 }

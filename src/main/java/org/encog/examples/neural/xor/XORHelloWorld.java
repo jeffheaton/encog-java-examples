@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.xor;
 
+import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
@@ -94,5 +95,7 @@ public class XORHelloWorld {
 			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1)
 					+ ", actual=" + output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
 		}
+		
+		Encog.getInstance().shutdown();
 	}
 }

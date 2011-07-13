@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.art.art1;
 
+import org.encog.Encog;
 import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.art.ART1;
 
@@ -94,5 +95,6 @@ public class NeuralART1 {
 	public static void main(String[] args) {
 		NeuralART1 art = new NeuralART1();
 		art.run();
+		Encog.getInstance().shutdown();
 	}
 }

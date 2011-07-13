@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.xor;
 
+import org.encog.Encog;
 import org.encog.ml.MLMethod;
 import org.encog.ml.MLRegression;
 import org.encog.ml.MLResettable;
@@ -328,5 +329,7 @@ public class XORFactory {
 		} else {
 			program.usage();
 		}
+		
+		Encog.getInstance().shutdown();
 	}
 }

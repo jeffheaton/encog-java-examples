@@ -27,6 +27,7 @@ package org.encog.examples.neural.xor;
 
 import java.util.Arrays;
 
+import org.encog.Encog;
 import org.encog.mathutil.randomize.ConsistentRandomizer;
 import org.encog.mathutil.randomize.Randomizer;
 import org.encog.ml.data.MLDataPair;
@@ -98,5 +99,7 @@ public class XORDisplay {
 
 			displayWeights(network);
 		}
+		
+		Encog.getInstance().shutdown();
 	}
 }

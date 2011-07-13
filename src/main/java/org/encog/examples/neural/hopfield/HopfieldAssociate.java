@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.hopfield;
 
+import org.encog.Encog;
 import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.thermal.HopfieldNetwork;
 
@@ -246,6 +247,7 @@ public class HopfieldAssociate {
 	{
 		HopfieldAssociate program = new HopfieldAssociate();
 		program.run();
+		Encog.getInstance().shutdown();
 	}
 	
 }

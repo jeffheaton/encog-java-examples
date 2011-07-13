@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.adaline;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
@@ -201,5 +202,7 @@ public class AdalineDigits {
 			
 			System.out.println();
 		}
+		
+		Encog.getInstance().shutdown();
 	}	
 }

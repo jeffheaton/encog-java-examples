@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.bam;
 
+import org.encog.Encog;
 import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.bam.BAM;
 import org.encog.neural.networks.NeuralDataMapping;
@@ -178,5 +179,6 @@ public class BidirectionalAssociativeMemory {
 	public static void main(String[] args) {
 		BidirectionalAssociativeMemory program = new BidirectionalAssociativeMemory();
 		program.run();
+		Encog.getInstance().shutdown();
 	}
 }

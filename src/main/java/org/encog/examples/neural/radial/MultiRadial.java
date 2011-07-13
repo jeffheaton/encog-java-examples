@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
+import org.encog.Encog;
 import org.encog.mathutil.rbf.RBFEnum;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
@@ -124,6 +125,8 @@ public class MultiRadial {
 
 
         System.out.println("\nFit output saved to results.csv");
+        
+        Encog.getInstance().shutdown();
     }
 
     static double scale(double x)

@@ -26,6 +26,7 @@ package org.encog.examples.neural.benchmark;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.encog.Encog;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.flat.FlatNetwork;
 import org.encog.neural.flat.train.prop.TrainFlatNetworkBackPropagation;

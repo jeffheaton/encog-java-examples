@@ -26,6 +26,7 @@ package org.encog.examples.neural.forest;
 import java.io.File;
 import java.io.IOException;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLData;
 import org.encog.neural.data.NeuralData;
 import org.encog.neural.networks.BasicNetwork;
@@ -141,5 +142,7 @@ public class Evaluate {
 					+ this.treeCorrect[i] + "/" + treeCount[i] + "("
 					+ Format.formatPercentWhole(p) + ")");
 		}
+		
+		Encog.getInstance().shutdown();
 	}
 }

@@ -2,6 +2,7 @@ package org.encog.examples.neural.normalize;
 
 import java.io.File;
 
+import org.encog.Encog;
 import org.encog.app.analyst.AnalystFileFormat;
 import org.encog.app.analyst.EncogAnalyst;
 import org.encog.app.analyst.csv.normalize.AnalystNormalizeCSV;
@@ -49,7 +50,7 @@ public class NormalizeFile {
 			norm.setOutputFormat(CSVFormat.ENGLISH);
 			norm.setProduceOutputHeaders(true);
 			norm.normalize(targetFile);
-
+			Encog.getInstance().shutdown();
 		}
 	}
 }

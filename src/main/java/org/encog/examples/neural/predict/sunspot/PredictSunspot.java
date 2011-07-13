@@ -25,6 +25,7 @@ package org.encog.examples.neural.predict.sunspot;
 
 import java.text.NumberFormat;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
@@ -199,6 +200,7 @@ public class PredictSunspot {
 	{
 		PredictSunspot sunspot = new PredictSunspot();
 		sunspot.run();
+		Encog.getInstance().shutdown();
 	}
 
 }

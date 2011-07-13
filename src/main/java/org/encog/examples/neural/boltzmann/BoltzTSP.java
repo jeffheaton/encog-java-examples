@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.boltzmann;
 
+import org.encog.Encog;
 import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.thermal.BoltzmannMachine;
 
@@ -170,6 +171,7 @@ public class BoltzTSP {
 	public static void main(String[] args) {
 		BoltzTSP program = new BoltzTSP();
 		program.run();
+		Encog.getInstance().shutdown();
 	}
 
 }

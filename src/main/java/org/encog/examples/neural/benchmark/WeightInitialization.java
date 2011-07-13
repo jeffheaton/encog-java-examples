@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.benchmark;
 
+import org.encog.Encog;
 import org.encog.mathutil.randomize.FanInRandomizer;
 import org.encog.mathutil.randomize.GaussianRandomizer;
 import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
@@ -91,5 +92,7 @@ public class WeightInitialization {
 				+ evaluateRandomizer(fanRandom, network, training));
 		System.out.println("Gaussian: "
 				+ evaluateRandomizer(gaussianRandom, network, training));
+		
+		Encog.getInstance().shutdown();
 	}
 }

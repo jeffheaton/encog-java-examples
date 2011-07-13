@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.cpn;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
@@ -385,6 +386,7 @@ public class RocketCPN {
 	{
 		RocketCPN cpn = new RocketCPN();
 		cpn.run();
+		Encog.getInstance().shutdown();
 	}
 	
 }

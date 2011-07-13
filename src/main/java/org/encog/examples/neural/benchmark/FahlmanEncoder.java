@@ -1,5 +1,6 @@
 package org.encog.examples.neural.benchmark;
 
+import org.encog.Encog;
 import org.encog.ml.MLMethod;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
@@ -92,5 +93,6 @@ public class FahlmanEncoder {
 
 	public static void main(String[] args) {		
 		evaluate();
+		Encog.getInstance().shutdown();
 	}
 }

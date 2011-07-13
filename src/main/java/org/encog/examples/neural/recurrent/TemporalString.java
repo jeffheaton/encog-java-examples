@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.recurrent;
 
+import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
@@ -158,7 +159,7 @@ public class TemporalString {
 		
 		System.out.println("Jordan Evaluation:");
 		EncogUtility.evaluate(jordanNetwork, trainingSet);
-		
+		Encog.getInstance().shutdown();
 		
 	}
 	

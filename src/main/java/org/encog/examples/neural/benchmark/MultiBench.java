@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.benchmark;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
@@ -102,5 +103,6 @@ public class MultiBench {
 		double mprop = evaluateMPROP(network,data);
 		double factor = rprop/mprop;
 		System.out.println("Factor improvement:" + factor);
+		Encog.getInstance().shutdown();
 	}
 }

@@ -26,6 +26,7 @@ package org.encog.examples.neural.resume;
 import java.io.File;
 import java.util.Arrays;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.strategy.RequiredImprovementStrategy;
@@ -69,5 +70,6 @@ public class TrainResume {
 		ResilientPropagation train2 = new ResilientPropagation(network, trainingSet);
 		train2.resume(cont);
 		EncogUtility.trainToError(train2,0.01);	
+		Encog.getInstance().shutdown();
 	}
 }

@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.som;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
@@ -69,5 +70,6 @@ public class SimpleSOM {
 		MLData data2 = new BasicMLData(SOM_INPUT[1]);
 		System.out.println("Pattern 1 winner: " + network.winner(data1));
 		System.out.println("Pattern 2 winner: " + network.winner(data2));
+		Encog.getInstance().shutdown();
 	}
 }

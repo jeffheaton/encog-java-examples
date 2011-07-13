@@ -27,6 +27,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.encog.Encog;
 import org.encog.app.analyst.AnalystFileFormat;
 import org.encog.app.analyst.ConsoleAnalystListener;
 import org.encog.app.analyst.EncogAnalyst;
@@ -103,6 +104,8 @@ public class AnalystExample {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			Encog.getInstance().shutdown();
 		}
 	}
 }

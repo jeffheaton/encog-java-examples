@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.xor;
 
+import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationStep;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
@@ -66,5 +67,7 @@ public class XORNEAT {
 		// test the neural network
 		System.out.println("Neural Network Results:");
 		EncogUtility.evaluate(network, trainingSet);
+		
+		Encog.getInstance().shutdown();
 	}
 }

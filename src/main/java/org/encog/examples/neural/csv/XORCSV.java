@@ -23,6 +23,7 @@
  */
 package org.encog.examples.neural.csv;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.util.csv.CSVFormat;
@@ -65,5 +66,6 @@ public class XORCSV {
 		System.out.println();
 		System.out.println("Evaluating Network");
 		EncogUtility.evaluate(network, trainingSet);
+		Encog.getInstance().shutdown();
 	}
 }
