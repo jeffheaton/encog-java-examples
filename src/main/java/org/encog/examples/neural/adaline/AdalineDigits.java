@@ -33,6 +33,17 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.simple.TrainAdaline;
 import org.encog.neural.pattern.ADALINEPattern;
 
+/**
+ * This example demonstrates the ADALINE neural network.  The ADALINE network 
+ * is a very simple network that is often used for pattern recognition.  The 
+ * input pattern must match EXACTLY with what the network was trained with.
+ * 
+ * This example teaches the ADALINE to recognize the 10 digits.
+ * 
+ * This is based on a an example by Karsten Kutza, 
+ * written in C on 1996-01-24.
+ * http://www.neural-networks-at-your-fingertips.com
+ */
 public class AdalineDigits {
 
 	public final static int CHAR_WIDTH = 5;

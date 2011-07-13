@@ -27,6 +27,7 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.encog.Encog;
+import org.encog.mathutil.randomize.ConsistentRandomizer;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.strategy.RequiredImprovementStrategy;
@@ -36,7 +37,13 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 import org.encog.util.obj.SerializeObject;
 import org.encog.util.simple.EncogUtility;
 
+/**
+ * This example shows how to begin training a neural network, stop, and then resume.
+ *
+ */
 public class TrainResume {
+	
+	public static String FILENAME = "resume.ser";
 	
 	public static double XOR_INPUT[][] = { { 0.0, 0.0 }, { 1.0, 0.0 },
 		{ 0.0, 1.0 }, { 1.0, 1.0 } };
@@ -47,9 +54,12 @@ public class TrainResume {
 	public static void main(String[] args)
 	{
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
-		BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1, false);
+		BasicNetwork network = EncogUtility.simpleFeedForward(2, 3, 0, 1, false);
+		
+		// randomize consistent so that we get weights we know will converge
+		(new ConsistentRandomizer(-1,1,100)).randomize(network);
+		
 		ResilientPropagation train = new ResilientPropagation(network, trainingSet);
-		train.addStrategy(new RequiredImprovementStrategy(5));
 		
 		System.out.println("Perform initial train.");
 		EncogUtility.trainToError(train,0.01);
@@ -57,9 +67,12 @@ public class TrainResume {
 		System.out.println(Arrays.toString((double[])cont.getContents().get(ResilientPropagation.LAST_GRADIENTS)));
 		System.out.println(Arrays.toString((double[])cont.getContents().get(ResilientPropagation.UPDATE_VALUES)));
 		
+		
+		
 		try
 		{
-		cont = (TrainingContinuation)SerializeObject.load(new File("resume.ser"));
+			SerializeObject.save(new File(FILENAME), cont);
+			cont = (TrainingContinuation)SerializeObject.load(new File(FILENAME));
 		}
 		catch(Exception ex)
 		{

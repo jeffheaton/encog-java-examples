@@ -27,6 +27,14 @@ import org.encog.Encog;
 import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.thermal.BoltzmannMachine;
 
+/**
+ * Use a Boltzmann machine to solve the Traveling Salesman Problem.
+ * 
+ * This is based on a an example by Karsten Kutza, 
+ * written in C on 1996-01-24.
+ * http://www.neural-networks-at-your-fingertips.com
+ *
+ */
 public class BoltzTSP {
 
 	public static final int NUM_CITIES = 10;

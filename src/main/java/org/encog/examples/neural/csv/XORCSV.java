@@ -54,18 +54,22 @@ public class XORCSV {
 
 	public static void main(final String args[]) {
 
-		final MLDataSet trainingSet = TrainingSetUtil.loadCSVTOMemory(
-				CSVFormat.ENGLISH, "c:\\temp\\xor.csv", false, 2, 1);
-		final BasicNetwork network = EncogUtility.simpleFeedForward(2, 4, 0, 1,
-				true);
+		if (args.length == 0) {
+			System.out.println("Usage:\n\nXORCSV [xor.csv]");
+		} else {
+			final MLDataSet trainingSet = TrainingSetUtil.loadCSVTOMemory(
+					CSVFormat.ENGLISH, args[0], false, 2, 1);
+			final BasicNetwork network = EncogUtility.simpleFeedForward(2, 4,
+					0, 1, true);
 
-		System.out.println();
-		System.out.println("Training Network");
-		EncogUtility.trainToError(network, trainingSet, 0.01);
+			System.out.println();
+			System.out.println("Training Network");
+			EncogUtility.trainToError(network, trainingSet, 0.01);
 
-		System.out.println();
-		System.out.println("Evaluating Network");
-		EncogUtility.evaluate(network, trainingSet);
+			System.out.println();
+			System.out.println("Evaluating Network");
+			EncogUtility.evaluate(network, trainingSet);
+		}
 		Encog.getInstance().shutdown();
 	}
 }

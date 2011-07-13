@@ -31,7 +31,7 @@ import org.encog.neural.networks.NeuralDataMapping;
 /**
  * Simple class to recognize some patterns with a Bidirectional
  * Associative Memory (BAM) Neural Network.
- * This is very loosely based on a an example by Karsten Kutza, 
+ * This is based on a an example by Karsten Kutza, 
  * written in C on 1996-01-24.
  * http://www.neural-networks-at-your-fingertips.com/bam.html
  * 

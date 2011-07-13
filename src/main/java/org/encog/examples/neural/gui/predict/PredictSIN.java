@@ -38,6 +38,9 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 import org.encog.util.arrayutil.TemporalWindowArray;
 import org.encog.util.simple.EncogUtility;
 
+/**
+ * Really simple GUI application that is used to predict the SIN wave.
+ */
 public class PredictSIN extends JFrame implements ActionListener {
 
 	public final static int INPUT_WINDOW = 5;

@@ -11,6 +11,10 @@ import org.encog.app.analyst.wizard.AnalystWizard;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.csv.CSVFormat;
 
+/**
+ * This is a simple example that will normalize a CSV file.  
+ * The fields are detected from CSV headers.
+ */
 public class NormalizeFile {
 
 	public static void dumpFieldInfo(EncogAnalyst analyst) {

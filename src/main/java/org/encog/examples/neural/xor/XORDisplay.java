@@ -23,8 +23,6 @@
  */
 package org.encog.examples.neural.xor;
 
-
-
 import java.util.Arrays;
 
 import org.encog.Encog;
@@ -38,6 +36,10 @@ import org.encog.neural.flat.train.prop.TrainFlatNetworkResilient;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.util.simple.EncogUtility;
 
+/**
+ * This example trains an XOR network and displays internal data as training progresses.
+ * This allows you to see some of the internals of how training happens.
+ */
 public class XORDisplay {
 
 	public final static int ITERATIONS = 10;
