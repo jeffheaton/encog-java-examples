@@ -36,6 +36,10 @@ import org.encog.neural.som.SOM;
 import org.encog.neural.som.training.basic.BasicTrainSOM;
 import org.encog.neural.som.training.basic.neighborhood.NeighborhoodRBF;
 
+/**
+ * A classic SOM example that shows how the SOM groups similar color shades.
+ *
+ */
 public class SomColors extends JFrame implements Runnable {
 
 	/**

@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.encog.Encog;
+import org.encog.mathutil.randomize.ConsistentRandomizer;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
@@ -34,7 +35,14 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.obj.SerializeObject;
+import org.encog.util.simple.EncogUtility;
 
+/**
+ * This example shows how to use Java serialization to store a neural network.
+ * This file is not cross platform and cannot be shared with Encog C#.  Additionally
+ * future versions of Encog may not be compatable with this file.
+ *
+ */
 public class Serial {
 
 	public static final String FILENAME = "encogexample.ser";
@@ -46,12 +54,10 @@ public class Serial {
 
 	public void trainAndSave() throws IOException {
 		System.out.println("Training XOR network to under 1% error rate.");
-		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(1));
-		network.getStructure().finalizeStructure();
-		network.reset();
+		BasicNetwork network = EncogUtility.simpleFeedForward(2, 3, 0, 1, false);
+		
+		// randomize consistent so that we get weights we know will converge
+		(new ConsistentRandomizer(-1,1,100)).randomize(network);
 
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 

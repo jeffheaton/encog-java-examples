@@ -23,6 +23,13 @@
  */
 package org.encog.examples.neural.xorpartial;
 
+import org.encog.neural.data.NeuralDataSet;
+import org.encog.neural.data.basic.BasicNeuralDataSet;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.structure.AnalyzeNetwork;
+import org.encog.util.Format;
+import org.encog.util.simple.EncogUtility;
+
 
 /**
  * Partial neural networks. Encog allows you to remove any neuron connection in
@@ -37,8 +44,6 @@ public class XORPartialAuto {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 
 	public static void main(final String args[]) {
-
-/*		Logging.stopConsoleLogging();
 
 		BasicNetwork network = EncogUtility.simpleFeedForward(2, 10, 10, 1,
 				false);
@@ -55,15 +60,14 @@ public class XORPartialAuto {
 		System.out.println("Remove connections below:" + Format.formatDouble(remove,5));
 		
 		network.setProperty(BasicNetwork.TAG_LIMIT,remove);
-		network.getStructure().finalizeStructure();
-		network.setProperty(BasicNetwork.TAG_LIMIT,BasicNetwork.DEFAULT_CONNECTION_LIMIT);
-		network.getStructure().finalizeStructure();
+		network.getStructure().finalizeLimit();
+		//network.setProperty(BasicNetwork.TAG_LIMIT,BasicNetwork.DEFAULT_CONNECTION_LIMIT);
+		//network.getStructure().finalizeLimit();
 
 		analyze = new AnalyzeNetwork(network);
 		System.out.println(analyze.toString());
 		
 		System.out.println("Final output:");
 		EncogUtility.evaluate(network, trainingSet);
-	*/	
 	}
 }

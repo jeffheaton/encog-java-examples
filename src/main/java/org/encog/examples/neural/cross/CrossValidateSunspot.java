@@ -39,6 +39,13 @@ import org.encog.util.EngineArray;
 import org.encog.util.arrayutil.NormalizeArray;
 import org.encog.util.arrayutil.TemporalWindowArray;
 
+/**
+ * Use cross validation to predict sunspots.  This examples shows how to use Encog cross validation.
+ *
+ * The sunspot data is from an example by Karsten Kutza, 
+ * written in C on 1996-01-24.
+ * http://www.neural-networks-at-your-fingertips.com
+ */
 public class CrossValidateSunspot {
 	public final static double[] SUNSPOTS = { 0.0262, 0.0575, 0.0837, 0.1203,
 			0.1883, 0.3033, 0.1517, 0.1046, 0.0523, 0.0418, 0.0157, 0.0000,

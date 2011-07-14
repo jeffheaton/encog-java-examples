@@ -26,14 +26,21 @@ package org.encog.examples.neural.persist;
 import java.io.File;
 
 import org.encog.Encog;
+import org.encog.mathutil.randomize.ConsistentRandomizer;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.persist.EncogDirectoryPersistence;
+import org.encog.util.simple.EncogUtility;
 
+/**
+ * This example shows how to use Encog persistence to store a neural network 
+ * to an EG file.  The EG file is cross-platform and can be shared between 
+ * Encog Java and Encog C#.
+ *
+ */
 public class EncogPersistence {
 
 	public static final String FILENAME = "encogexample.eg";
@@ -45,12 +52,10 @@ public class EncogPersistence {
 
 	public void trainAndSave() {
 		System.out.println("Training XOR network to under 1% error rate.");
-		BasicNetwork network = new BasicNetwork();
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(2));
-		network.addLayer(new BasicLayer(1));
-		network.getStructure().finalizeStructure();
-		network.reset();
+		BasicNetwork network = EncogUtility.simpleFeedForward(2, 3, 0, 1, false);
+		
+		// randomize consistent so that we get weights we know will converge
+		(new ConsistentRandomizer(-1,1,100)).randomize(network);
 
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 

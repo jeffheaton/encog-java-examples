@@ -27,6 +27,14 @@ import org.encog.Encog;
 import org.encog.ml.data.specific.BiPolarNeuralData;
 import org.encog.neural.art.ART1;
 
+/**
+ * This example presents a series of 5-value images to an ART1 network.  
+ * ART1 learns new patterns as it goes, and classifies them into groups.
+ * 
+ * This is based on a an example by Karsten Kutza, 
+ * written in C on 1996-01-24.
+ * http://www.neural-networks-at-your-fingertips.com
+ */
 public class NeuralART1 {
 	
 	public static final int INPUT_NEURONS = 5;

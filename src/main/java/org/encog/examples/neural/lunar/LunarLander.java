@@ -32,6 +32,15 @@ import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.neural.pattern.FeedForwardPattern;
 
+/**
+ * A lunar lander game where the neural network learns to land a space craft.  
+ * The neural network learns the proper amount of thrust to land softly 
+ * and conserve fuel.
+ * 
+ * This example is unique because it uses supervised training, yet does not 
+ * have expected values.  For this it can use genetic algorithms or 
+ * simulated annealing.
+ */
 public class LunarLander {
 	
 	public static BasicNetwork createNetwork()

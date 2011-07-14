@@ -33,6 +33,15 @@ import org.encog.neural.cpn.CPN;
 import org.encog.neural.cpn.training.TrainInstar;
 import org.encog.neural.cpn.training.TrainOutstar;
 
+/**
+ * 
+ * Use a counterpropagation network to determine the angle a rocket is pointed.
+ * 
+ * This is based on a an example by Karsten Kutza, 
+ * written in C on 1996-01-24.
+ * http://www.neural-networks-at-your-fingertips.com
+ *
+ */
 public class RocketCPN {
 	
 	public static final int WIDTH = 11;

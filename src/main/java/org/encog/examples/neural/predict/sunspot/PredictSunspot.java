@@ -37,6 +37,14 @@ import org.encog.util.EngineArray;
 import org.encog.util.arrayutil.NormalizeArray;
 import org.encog.util.arrayutil.TemporalWindowArray;
 
+
+/**
+ * This example predicts sunspots using a feedforward neural network.
+ * 
+ * The sunspot data is from an example by Karsten Kutza, 
+ * written in C on 1996-01-24.
+ * http://www.neural-networks-at-your-fingertips.com
+ */
 public class PredictSunspot {
 
 	public final static double[] SUNSPOTS = {

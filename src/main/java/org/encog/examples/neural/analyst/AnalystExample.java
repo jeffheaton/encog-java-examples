@@ -34,7 +34,22 @@ import org.encog.app.analyst.EncogAnalyst;
 import org.encog.app.analyst.report.AnalystReport;
 import org.encog.app.analyst.wizard.AnalystWizard;
 
-
+/**
+ * The Encog Analyst is typically used through the Encog Workbench.  However, 
+ * this does not need to be the case.  This example shows how to use the 
+ * Encog Analyst from code.  This example will download the needed data from 
+ * UCI.  This example can use either the classic Iris dataset of the forest 
+ * cover data set.  You must provide a working directory for it to use. 
+ * 
+ * To use this example with Iris data use:
+ * 
+ * AnalystExample iris d:\data\iris
+ * 
+ * To use this example with Forest Cover use:
+ * 
+ * AnalystExample forest d:\data\iris
+ *
+ */
 public class AnalystExample {
 
 	public static final String IRIS_SOURCE = "http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data";

@@ -32,6 +32,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * This GUI application displays a grid that is used to train a Hopfield 
+ * neural network.  To make use of this application draw small localized 
+ * patterns on the grid and click train once each pattern has been drawn.  
+ * The grid can be cleared between patterns.  Each pattern should be 
+ * trained.  TO test, draw part of one of the patterns and select "GO".
+ *
+ */
 public class HopfieldPattern extends JFrame  implements ActionListener {
 
 	private HopfieldPanel panel;
