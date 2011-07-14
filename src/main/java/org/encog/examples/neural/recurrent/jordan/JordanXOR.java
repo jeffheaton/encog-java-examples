@@ -48,8 +48,12 @@ import org.encog.neural.pattern.JordanPattern;
  * predict the next value in an XOR sequence, taken one at a time. A regular
  * feedforward network would fail using a single input neuron for this task. The
  * internal state stored by an Jordan neural network allows better performance.
- * Jordan networks are typically used for temporal neural networks. A Jordan
- * network has a single context layer connected to the output layer.
+ * 
+ * This example does not perform very well and is provided mainly as a contrast to
+ * the ExlmanXOR.  There is only one context neuron, because there is only one output 
+ * neuron.  This network does not perform as well as the Elman for XOR.
+ * 
+ * Jordan is better suited to a larger array of output neurons.
  * 
  */
 public class JordanXOR {
@@ -59,7 +63,7 @@ public class JordanXOR {
 		JordanPattern pattern = new JordanPattern();
 		pattern.setActivationFunction(new ActivationSigmoid());
 		pattern.setInputNeurons(1);
-		pattern.addHiddenLayer(6);
+		pattern.addHiddenLayer(2);
 		pattern.setOutputNeurons(1);
 		return (BasicNetwork)pattern.generate();
 	}
@@ -75,9 +79,7 @@ public class JordanXOR {
 	}
 
 	public static void main(final String args[]) {
-		
-		ErrorCalculation.setMode(ErrorCalculationMode.RMS);
-		
+			
 		final TemporalXOR temp = new TemporalXOR();
 		final MLDataSet trainingSet = temp.generate(120);
 
@@ -94,9 +96,7 @@ public class JordanXOR {
 		System.out.println("Best error rate with Feedforward Network: "
 				+ feedforwardError);
 		System.out
-				.println("Jordan should be able to get into the 30% range,\nfeedforward should not go below 50%.\nThe recurrent Elment net can learn better in this case.");
-		System.out
-				.println("If your results are not as good, try rerunning, or perhaps training longer.");
+				.println("Jordan will perform only marginally better than feedforward.\nThe more output neurons, the better performance a Jordan will give.");
 		
 		Encog.getInstance().shutdown();
 	}
@@ -108,13 +108,12 @@ public class JordanXOR {
 		final MLTrain trainAlt = new NeuralSimulatedAnnealing(
 				network, score, 10, 2, 100);
 
-		final MLTrain trainMain = new Backpropagation(network, trainingSet,0.000001, 0.0);
+		final MLTrain trainMain = new Backpropagation(network, trainingSet,0.00001, 0.0);
 
-		((Propagation)trainMain).setThreadCount(1);
 		final StopTrainingStrategy stop = new StopTrainingStrategy();
 		trainMain.addStrategy(new Greedy());
 		trainMain.addStrategy(new HybridStrategy(trainAlt));
-		trainMain.addStrategy(stop);
+		//trainMain.addStrategy(stop);
 
 		int epoch = 0;
 		while (!stop.shouldStop()) {
