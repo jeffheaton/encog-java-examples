@@ -61,8 +61,6 @@ public class XORPartialAuto {
 		
 		network.setProperty(BasicNetwork.TAG_LIMIT,remove);
 		network.getStructure().finalizeLimit();
-		//network.setProperty(BasicNetwork.TAG_LIMIT,BasicNetwork.DEFAULT_CONNECTION_LIMIT);
-		//network.getStructure().finalizeLimit();
 
 		analyze = new AnalyzeNetwork(network);
 		System.out.println(analyze.toString());
