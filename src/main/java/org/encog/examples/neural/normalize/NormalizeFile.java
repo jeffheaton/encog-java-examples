@@ -31,14 +31,14 @@ public class NormalizeFile {
 			line.append(",max=");
 			line.append(field.getActualHigh());
 			System.out.println(line.toString());
-			field.setAction(NormalizationAction.OneOf);
 		}
 	}
 
 	public static void main(String[] args) {
 
 		if (args.length != 2) {
-
+			System.out.println("Note: This example assumes that headers are present in the CSV files.");
+			System.out.println("NormalizeFile [input file] [target file]");
 		} else {
 			File sourceFile = new File(args[0]);
 			File targetFile = new File(args[1]);

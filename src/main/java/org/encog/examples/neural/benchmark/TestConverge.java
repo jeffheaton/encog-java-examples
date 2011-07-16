@@ -22,6 +22,8 @@ public class TestConverge {
 	 * The ideal data necessary for XOR.
 	 */
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
+	
+	public static int COUNT = 1000;
 
 	/**
 	 * The main method.
@@ -53,14 +55,14 @@ public class TestConverge {
 			do {
 				train.iteration();
 				epoch++;
-			} while (train.getError() > 0.01 && epoch<1000 );
+			} while (train.getError() > 0.01 && epoch<COUNT );
 			
 			if( epoch>900 ) {
 				failureCount++;
 			}
 		}
 		
-		System.out.println("Failed: " + failureCount);
+		System.out.println("Failed to converge: " + failureCount + "/" + COUNT);
 		Encog.getInstance().shutdown();
 	}
 }

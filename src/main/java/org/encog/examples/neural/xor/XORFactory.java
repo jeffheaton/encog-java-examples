@@ -274,9 +274,25 @@ public class XORFactory {
 	 */
 	public void usage() {
 		System.out.println("Usage:\nXORFactory [mode]\n\nWhere mode is one of:\n");
+		
 		System.out.println("backprop - Feedforward biased with backpropagation");
-		System.out.println("biasless - Feedforward biasless with resilient");
 		System.out.println("rprop - Feedforward biased with resilient propagation");
+		System.out.println("biasless - Feedforward biasless with resilient");
+		System.out.println("svm-c - Support vector machine classification");
+		System.out.println("svm-r - Support vector machine regression");
+		System.out.println("svm-search-r - Support vector machine search regression");
+		System.out.println("anneal - Simulated annealing");
+		System.out.println("genetic - Genetic");
+		System.out.println("lma - Levenberg Marquadt");
+		System.out.println("manhattan - Manhattan Update");
+		System.out.println("scg - Scaled Conjugate Gradient");
+		System.out.println("rbf - Radial Basis Function with RPROP");
+		System.out.println("svd - Radial Basis Function with SVD");
+		System.out.println("pnn-c - Probabalistic Neural Network Classification");
+		System.out.println("pnn-r - Probabalistic Neural Network Regression");
+		System.out.println("qprop - Quick Propagation");
+
+		
 	}
 	
 	/**
