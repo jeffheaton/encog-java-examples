@@ -54,8 +54,8 @@ public class NeuralPilot {
 		{
 			MLData input = new BasicMLData(3);
             input.setData(0, this.fuelStats.normalize(sim.getFuel()));
-            input.setData(1, this.fuelStats.normalize(sim.getAltitude()));
-            input.setData(2, this.fuelStats.normalize(sim.getVelocity()));
+            input.setData(1, this.altitudeStats.normalize(sim.getAltitude()));
+            input.setData(2, this.velocityStats.normalize(sim.getVelocity()));
             MLData output = this.network.compute(input);
             double value = output.getData(0);
 
