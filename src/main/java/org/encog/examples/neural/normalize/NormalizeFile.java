@@ -51,7 +51,6 @@ public class NormalizeFile {
 
 			final AnalystNormalizeCSV norm = new AnalystNormalizeCSV();
 			norm.analyze(sourceFile, true, CSVFormat.ENGLISH, analyst);
-			norm.setOutputFormat(CSVFormat.ENGLISH);
 			norm.setProduceOutputHeaders(true);
 			norm.normalize(targetFile);
 			Encog.getInstance().shutdown();
