@@ -25,26 +25,21 @@ package org.encog.examples.neural.predict.sunspot;
 
 import java.text.NumberFormat;
 
-import org.encog.Encog;
 import org.encog.ml.data.MLData;
-import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
-import org.encog.ml.train.MLTrain;
+import org.encog.ml.data.temporal.TemporalDataDescription;
+import org.encog.ml.data.temporal.TemporalMLDataSet;
+import org.encog.ml.data.temporal.TemporalPoint;
+import org.encog.neural.data.NeuralData;
+import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
+import org.encog.neural.networks.training.Train;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.EngineArray;
 import org.encog.util.arrayutil.NormalizeArray;
-import org.encog.util.arrayutil.TemporalWindowArray;
 
 
-/**
- * This example predicts sunspots using a feedforward neural network.
- * 
- * The sunspot data is from an example by Karsten Kutza, 
- * written in C on 1996-01-24.
- * http://www.neural-networks-at-your-fingertips.com
- */
 public class PredictSunspot {
 
 	public final static double[] SUNSPOTS = {
@@ -121,14 +116,28 @@ public class PredictSunspot {
         // create arrays to hold the normalized sunspots
         normalizedSunspots = norm.process(SUNSPOTS);
         closedLoopSunspots = EngineArray.arrayCopy(normalizedSunspots);
-
 	}
+
 	
-	public MLDataSet generateTraining() {
+	public NeuralDataSet generateTraining()
+	{
+		TemporalMLDataSet result = new TemporalMLDataSet(WINDOW_SIZE,1);
 		
-		TemporalWindowArray temp = new TemporalWindowArray(WINDOW_SIZE, 1);
-		temp.analyze(this.normalizedSunspots);
-		return temp.process(this.normalizedSunspots);
+		TemporalDataDescription desc = new TemporalDataDescription(
+				TemporalDataDescription.Type.RAW,true,true);
+		result.addDescription(desc);
+		
+		for(int year = TRAIN_START;year<TRAIN_END;year++)
+		{
+			TemporalPoint point = new TemporalPoint(1);
+			point.setSequence(year);
+			point.setData(0, this.normalizedSunspots[year]);
+			result.getPoints().add(point);
+		}
+		
+		result.generate();
+		
+		return result;
 	}
 	
 	public BasicNetwork createNetwork()
@@ -142,9 +151,9 @@ public class PredictSunspot {
 		return network;
 	}
 	
-	public void train(BasicNetwork network,MLDataSet training)
+	public void train(BasicNetwork network,NeuralDataSet training)
 	{
-		final MLTrain train = new ResilientPropagation(network, training);
+		final Train train = new ResilientPropagation(network, training);
 
 		int epoch = 1;
 
@@ -198,7 +207,7 @@ public class PredictSunspot {
 	{
 		normalizeSunspots(0.1,0.9);
 		BasicNetwork network = createNetwork();
-		MLDataSet training = generateTraining();
+		NeuralDataSet training = generateTraining();
 		train(network,training);
 		predict(network);
 		
@@ -208,7 +217,6 @@ public class PredictSunspot {
 	{
 		PredictSunspot sunspot = new PredictSunspot();
 		sunspot.run();
-		Encog.getInstance().shutdown();
 	}
 
 }
