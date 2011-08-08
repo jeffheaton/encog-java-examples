@@ -147,7 +147,7 @@ Authors of this POM file: iirekm, jheaton
 		<dependency>
 			<groupId>org.encog</groupId>
 			<artifactId>encog-core</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.1-SNAPSHOT</version>
 		</dependency>		
 	</dependencies>
 </project>
