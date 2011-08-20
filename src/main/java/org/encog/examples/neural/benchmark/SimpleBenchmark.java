@@ -29,7 +29,6 @@ import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
 import org.encog.neural.flat.FlatNetwork;
-import org.encog.neural.flat.train.prop.TrainFlatNetworkBackPropagation;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
@@ -71,29 +70,6 @@ public class SimpleBenchmark {
 		return sw.getElapsedMilliseconds();
 	}
 
-	public static long BenchmarkEncogFlat(double[][] input, double[][] output) {
-		FlatNetwork network = new FlatNetwork(input[0].length, HIDDEN_COUNT, 0,
-				output[0].length, false);
-		network.randomize();
-		BasicMLDataSet trainingSet = new BasicMLDataSet(input, output);
-
-		TrainFlatNetworkBackPropagation train = new TrainFlatNetworkBackPropagation(
-				network, trainingSet, 0.7, 0.7);
-
-		double[] a = new double[2];
-		double[] b = new double[1];
-
-		Stopwatch sw = new Stopwatch();
-		sw.start();
-		// run epoch of learning procedure
-		for (int i = 0; i < ITERATIONS; i++) {
-			train.iteration();
-		}
-		sw.stop();
-
-		return sw.getElapsedMilliseconds();
-	}
-
 	static double[][] Generate(int rows, int columns) {
 		double[][] result = new double[rows][columns];
 
@@ -114,12 +90,10 @@ public class SimpleBenchmark {
 
 		for(int i=0;i<10;i++) {
 			long time1 = BenchmarkEncog(input, output);
-			long time2 = BenchmarkEncogFlat(input, output);
+
 			StringBuilder line = new StringBuilder();
-			line.append("Regular: ");
+			line.append("Benchmark: ");
 			line.append(Format.formatInteger((int)time1));
-			line.append(", Flat: ");
-			line.append(Format.formatInteger((int)time2));
 			
 			System.out.println(line.toString());
 		}

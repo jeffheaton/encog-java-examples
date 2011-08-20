@@ -4,11 +4,8 @@ import org.encog.Encog;
 import org.encog.ml.MLMethod;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
-import org.encog.neural.networks.ContainsFlat;
-import org.encog.neural.networks.training.propagation.Propagation;
-import org.encog.neural.networks.training.propagation.back.Backpropagation;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.util.EngineArray;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.training.lma.LevenbergMarquardtTraining;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -59,40 +56,14 @@ public class FahlmanEncoder {
 
 		return new BasicMLDataSet(input, ideal);
 	}
-	
-	public static void evaluate() {
-		int[] count = new int[TRIES];
-		
-		MLDataSet trainingData = generateTraining(INPUT_OUTPUT_COUNT, COMPL);
-		
-		for(int i=0;i<TRIES;i++) {
-		
-			MLMethod method = EncogUtility.simpleFeedForward(INPUT_OUTPUT_COUNT,
-					HIDDEN_COUNT, 0, INPUT_OUTPUT_COUNT, false);
-			
-			Propagation train = new Backpropagation((ContainsFlat)method, trainingData,1.7,0);
-			//Propagation train = new ResilientPropagation((ContainsFlat)method, trainingData);
-			((Propagation)train).fixFlatSpot(true);
-			
-			int iteration = 0;
-			do {
-				train.iteration();
-				
-				iteration++;
-			} while( train.getError()>0.01 );
-			count[i] = iteration;
-			System.out.println("Begin Try #" + (i+1) + ", took " + iteration + " iterations.");			
-		}
-		
-		System.out.println("Tries: " + TRIES);
-		System.out.println("Max Iterations: " +EngineArray.max(count));
-		System.out.println("Min Iterations: " +EngineArray.min(count));
-		System.out.println("Mean Iterations: " +EngineArray.mean(count));
-		System.out.println("SDev Iterations: " +EngineArray.sdev(count));
-	}
 
 	public static void main(String[] args) {		
-		evaluate();
+		MLDataSet trainingData = generateTraining(INPUT_OUTPUT_COUNT, COMPL);
+		MLMethod method = EncogUtility.simpleFeedForward(INPUT_OUTPUT_COUNT,
+				HIDDEN_COUNT, 0, INPUT_OUTPUT_COUNT, false);
+		LevenbergMarquardtTraining train = new LevenbergMarquardtTraining((BasicNetwork) method, trainingData);
+		EncogUtility.trainToError(train, 0.01);
+		
 		Encog.getInstance().shutdown();
 	}
 }

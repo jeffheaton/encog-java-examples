@@ -29,7 +29,6 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
-import org.encog.neural.error.ATanErrorFunction;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
@@ -83,8 +82,7 @@ public class XORHelloWorld {
 
 		do {
 			train.iteration();
-			System.out
-					.println("Epoch #" + epoch + " Error:" + train.getError());
+			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
 			epoch++;
 		} while(train.getError() > 0.01);
 
