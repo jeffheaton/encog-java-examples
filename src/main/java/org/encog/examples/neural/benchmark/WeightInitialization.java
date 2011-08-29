@@ -33,6 +33,7 @@ import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.util.benchmark.EncoderTrainingFactory;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -44,22 +45,28 @@ import org.encog.util.simple.EncogUtility;
  */
 public class WeightInitialization {
 
-	public static final int SAMPLE_SIZE = 1000;
-	public static final int ITERATIONS = 50;
+	public static final int INPUT_OUTPUT = 25;
+	public static final int HIDDEN = 5;
+	public static final int SAMPLE_SIZE = 50;
+	public static final double TARGET_ERROR = 0.01;
 
-	public static double XOR_INPUT[][] = { { 0.0, 0.0 }, { 1.0, 0.0 },
-			{ 0.0, 1.0 }, { 1.0, 1.0 } };
 
-	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
-
-	public static double evaluate(BasicNetwork network, MLDataSet training) {
+	public static int evaluate(Randomizer randomizer, BasicNetwork network, MLDataSet training) {
 		ResilientPropagation rprop = new ResilientPropagation(network, training);
-		double startingError = network.calculateError(training);
-		for (int i = 0; i < ITERATIONS; i++) {
+		int iterations = 0;
+		
+		for(;;) {
 			rprop.iteration();
-		}
-		double finalError = network.calculateError(training);
-		return startingError - finalError;
+			iterations++;
+			if( rprop.getError()<TARGET_ERROR ) {
+				return iterations;
+			}
+			
+			if( iterations>1000) {
+				iterations = 0;
+				randomizer.randomize(network);
+			}
+		}		
 	}
 
 	public static double evaluateRandomizer(Randomizer randomizer,
@@ -67,7 +74,7 @@ public class WeightInitialization {
 		double total = 0;
 		for (int i = 0; i < SAMPLE_SIZE; i++) {
 			randomizer.randomize(network);
-			total += evaluate(network, training);
+			total += evaluate(randomizer, network, training);
 		}
 		return total / SAMPLE_SIZE;
 	}
@@ -79,10 +86,9 @@ public class WeightInitialization {
 		FanInRandomizer fanRandom = new FanInRandomizer();
 		GaussianRandomizer gaussianRandom = new GaussianRandomizer(0, 1);
 
-		System.out.println("Error improvement, higher is better.");
-		BasicMLDataSet training = new BasicMLDataSet(XOR_INPUT,
-				XOR_IDEAL);
-		BasicNetwork network = EncogUtility.simpleFeedForward(2, 10, 0, 1, true);
+		System.out.println("Average iterations needed (lower is better)");
+		MLDataSet training = EncoderTrainingFactory.generateTraining(INPUT_OUTPUT, false, -1, 1);
+		BasicNetwork network = EncogUtility.simpleFeedForward(INPUT_OUTPUT, HIDDEN, 0, INPUT_OUTPUT, true);
 
 		System.out.println("Range random: "
 				+ evaluateRandomizer(rangeRandom, network, training));
