@@ -63,7 +63,6 @@ public class XORNEAT {
 
 		NEATNetwork network = (NEATNetwork)train.getMethod();
 
-		network.clearContext();
 		// test the neural network
 		System.out.println("Neural Network Results:");
 		EncogUtility.evaluate(network, trainingSet);
