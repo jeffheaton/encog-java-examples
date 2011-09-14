@@ -258,6 +258,7 @@ public class XORFactory {
 
 		// fourth, train and evaluate.
 		EncogUtility.trainToError(train, 0.01);
+		method = train.getMethod();
 		EncogUtility.evaluate((MLRegression)method, dataSet);
 		
 		// finally, write out what we did
