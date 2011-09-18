@@ -26,12 +26,11 @@ package org.encog.examples.neural.predict.sunspot;
 import java.text.NumberFormat;
 
 import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.temporal.TemporalDataDescription;
 import org.encog.ml.data.temporal.TemporalMLDataSet;
 import org.encog.ml.data.temporal.TemporalPoint;
-import org.encog.neural.data.NeuralData;
-import org.encog.neural.data.NeuralDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.Train;
@@ -119,7 +118,7 @@ public class PredictSunspot {
 	}
 
 	
-	public NeuralDataSet generateTraining()
+	public MLDataSet generateTraining()
 	{
 		TemporalMLDataSet result = new TemporalMLDataSet(WINDOW_SIZE,1);
 		
@@ -151,7 +150,7 @@ public class PredictSunspot {
 		return network;
 	}
 	
-	public void train(BasicNetwork network,NeuralDataSet training)
+	public void train(BasicNetwork network,MLDataSet training)
 	{
 		final Train train = new ResilientPropagation(network, training);
 
@@ -207,7 +206,7 @@ public class PredictSunspot {
 	{
 		normalizeSunspots(0.1,0.9);
 		BasicNetwork network = createNetwork();
-		NeuralDataSet training = generateTraining();
+		MLDataSet training = generateTraining();
 		train(network,training);
 		predict(network);
 		
