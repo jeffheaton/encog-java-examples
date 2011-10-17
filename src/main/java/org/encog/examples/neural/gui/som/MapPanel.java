@@ -65,9 +65,9 @@ public class MapPanel extends JPanel {
 			for(int x = 0; x< WIDTH; x++)
 			{
 				int index = (y*WIDTH)+x;
-				int red = convertColor(weights.get(0, index));
-				int green = convertColor(weights.get(1, index));
-				int blue = convertColor(weights.get(2, index));
+				int red = convertColor(weights.get(index,0));
+				int green = convertColor(weights.get(index,1));
+				int blue = convertColor(weights.get(index,2));
 				g.setColor(new Color(red,green,blue));
 				g.fillRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 			}
