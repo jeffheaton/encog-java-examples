@@ -3,6 +3,7 @@ package org.encog.examples.ml.bayesian;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.encog.mathutil.probability.CalcProbability;
 import org.encog.ml.bayesian.BayesianEvent;
 import org.encog.ml.bayesian.BayesianNetwork;
 import org.encog.ml.bayesian.EventType;
@@ -25,11 +26,11 @@ public class BayesianSpam {
 		"sports costs money"
 	};
 	
-	public static final int K = 0;
+	public static final int K = 1;
 	
-	private final BagOfWords spamBag = new BagOfWords();
-	private final BagOfWords hamBag = new BagOfWords();
-	private final BagOfWords totalBag = new BagOfWords();
+	private final BagOfWords spamBag = new BagOfWords(K);
+	private final BagOfWords hamBag = new BagOfWords(K);
+	private final BagOfWords totalBag = new BagOfWords(K);
 	
 	private BayesianNetwork network = new BayesianNetwork();
 	private BayesianEvent spamEvent;
@@ -43,7 +44,10 @@ public class BayesianSpam {
 		for(String line: HAM_DATA) {
 			hamBag.process(line);
 			totalBag.process(line);
-		}	
+		}
+		
+		this.hamBag.setLaplaceClasses(totalBag.getUniqueWords());
+		this.spamBag.setLaplaceClasses(totalBag.getUniqueWords());
 		
 		System.out.println("Word count spam: " + this.spamBag.getTotalWords());
 		System.out.println("Word count ham: " + this.hamBag.getTotalWords());
@@ -73,18 +77,6 @@ public class BayesianSpam {
 		return result;
 	}
 	
-	public double probabilityWordSpam(String word) {
-		if( !spamBag.contains(word) )
-			return 0;
-		return (double)spamBag.getWords().get(word)/(double)spamBag.getTotalWords();
-	}
-	
-	public double probabilityWordHam(String word) {
-		if( !hamBag.contains(word) )
-			return 0;
-		return (double)hamBag.getWords().get(word)/(double)hamBag.getTotalWords();
-	}
-	
 	public double probabilitySpam(String m) {
 		List<String> words = separateSpaces(m);
 		
@@ -103,25 +95,29 @@ public class BayesianSpam {
 		
 		SamplingQuery query = new SamplingQuery(network);
 		
-		double probSpam = (double)(SPAM_DATA.length+K)/(double)(SPAM_DATA.length+HAM_DATA.length+(K*2));
+		CalcProbability messageProbability = new CalcProbability(K);
+		messageProbability.addClass(SPAM_DATA.length);
+		messageProbability.addClass(HAM_DATA.length);
+		double probSpam = messageProbability.calculate(0);
+		
 		System.out.println(probSpam);
 
 		this.spamEvent.getTable().addLine(probSpam, true);
 		query.defineEventType(this.spamEvent, EventType.Outcome);
 		query.setEventValue(this.spamEvent, true);
-		
+				
 		index = 0;
 		for( String word: words) {
 			String word2 = word+index;
 			BayesianEvent event = network.getEvent(word2);
-			event.getTable().addLine(probabilityWordSpam(word), true, true);
-			event.getTable().addLine(probabilityWordHam(word), true, false);
+			event.getTable().addLine(this.spamBag.probability(word), true, true); // spam
+			event.getTable().addLine(this.hamBag.probability(word), true, false); // ham
 			query.defineEventType(event, EventType.Evidence);
 			query.setEventValue(event, true);
 			index++;
 		}
 
-		//query.setSampleSize(100000000);
+		query.setSampleSize(100000000);
 		query.execute();
 		System.out.println(query.toString());
 		return 0;
@@ -130,11 +126,11 @@ public class BayesianSpam {
 	
 	public void run() {
 		init();
-		//System.out.println(probabilityWordSpam("sports"));
-		//System.out.println(probabilityWordHam("sports"));
+		System.out.println("Spam:"+this.spamBag.probability("today"));
+		System.out.println("Ham:"+this.hamBag.probability("today"));
 		//probabilitySpam("today");
-		probabilitySpam("sports");
-		//probabilitySpam("today is secret");
+		//probabilitySpam("sports");
+		probabilitySpam("today is secret");
 		//probabilitySpam("secret is secret");
 	}
 	
