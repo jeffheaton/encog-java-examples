@@ -41,8 +41,8 @@ public class SimpleBayesian {
 		System.out.println(network.toString());
 		System.out.println("Parameter count: " + network.calculateParameterCount());
 		
-		EnumerationQuery query = new EnumerationQuery(network);
-		//SamplingQuery query = new SamplingQuery(network);
+		//EnumerationQuery query = new EnumerationQuery(network);
+		SamplingQuery query = new SamplingQuery(network);
 		query.defineEventType(rained, EventType.Evidence);
 		query.defineEventType(evenTemperatures, EventType.Evidence);
 		query.defineEventType(plentyOfCarrots, EventType.Outcome);
