@@ -7,7 +7,9 @@ import org.encog.mathutil.probability.CalcProbability;
 import org.encog.ml.bayesian.BayesianEvent;
 import org.encog.ml.bayesian.BayesianNetwork;
 import org.encog.ml.bayesian.EventType;
+import org.encog.ml.bayesian.query.enumerate.EnumerationQuery;
 import org.encog.ml.bayesian.query.sample.SamplingQuery;
+import org.encog.util.Format;
 import org.encog.util.text.BagOfWords;
 
 public class BayesianSpam {
@@ -26,16 +28,21 @@ public class BayesianSpam {
 		"sports costs money"
 	};
 	
-	public static final int K = 1;
+	private int k;
 	
-	private final BagOfWords spamBag = new BagOfWords(K);
-	private final BagOfWords hamBag = new BagOfWords(K);
-	private final BagOfWords totalBag = new BagOfWords(K);
-	
-	private BayesianNetwork network = new BayesianNetwork();
-	private BayesianEvent spamEvent;
-	
-	public void init() {
+	private BagOfWords spamBag;
+	private BagOfWords hamBag;
+	private BagOfWords totalBag;
+		
+	public void init(int theK) {
+		
+		this.k = theK;
+		
+		this.spamBag = new BagOfWords(this.k);
+		this.hamBag = new BagOfWords(this.k);
+		this.totalBag = new BagOfWords(this.k);
+
+		
 		for(String line: SPAM_DATA) {
 			spamBag.process(line);
 			totalBag.process(line);
@@ -47,11 +54,7 @@ public class BayesianSpam {
 		}
 		
 		this.hamBag.setLaplaceClasses(totalBag.getUniqueWords());
-		this.spamBag.setLaplaceClasses(totalBag.getUniqueWords());
-		
-		System.out.println("Word count spam: " + this.spamBag.getTotalWords());
-		System.out.println("Word count ham: " + this.hamBag.getTotalWords());
-		System.out.println("Total count: " + this.totalBag.getTotalWords());
+		this.spamBag.setLaplaceClasses(totalBag.getUniqueWords());		
 	}
 	
 	public List<String> separateSpaces(String str) {
@@ -80,7 +83,8 @@ public class BayesianSpam {
 	public double probabilitySpam(String m) {
 		List<String> words = separateSpaces(m);
 		
-		this.spamEvent = network.createEvent("spam");
+		BayesianNetwork network = new BayesianNetwork();
+		BayesianEvent spamEvent = network.createEvent("spam");
 		
 		int index = 0;
 		for( String word: words) {
@@ -91,20 +95,17 @@ public class BayesianSpam {
 		
 		network.finalizeStructure();
 		
-		System.out.println(network.toString());
+		//SamplingQuery query = new SamplingQuery(network);
+		EnumerationQuery query = new EnumerationQuery(network);
 		
-		SamplingQuery query = new SamplingQuery(network);
-		
-		CalcProbability messageProbability = new CalcProbability(K);
+		CalcProbability messageProbability = new CalcProbability(this.k);
 		messageProbability.addClass(SPAM_DATA.length);
 		messageProbability.addClass(HAM_DATA.length);
 		double probSpam = messageProbability.calculate(0);
-		
-		System.out.println(probSpam);
 
-		this.spamEvent.getTable().addLine(probSpam, true);
-		query.defineEventType(this.spamEvent, EventType.Outcome);
-		query.setEventValue(this.spamEvent, true);
+		spamEvent.getTable().addLine(probSpam, true);
+		query.defineEventType(spamEvent, EventType.Outcome);
+		query.setEventValue(spamEvent, true);
 				
 		index = 0;
 		for( String word: words) {
@@ -117,26 +118,32 @@ public class BayesianSpam {
 			index++;
 		}
 
-		query.setSampleSize(100000000);
+		//query.setSampleSize(100000000);
 		query.execute();
-		System.out.println(query.toString());
-		return 0;
-		
+		return query.getProbability();		
 	}
 	
-	public void run() {
-		init();
-		System.out.println("Spam:"+this.spamBag.probability("today"));
-		System.out.println("Ham:"+this.hamBag.probability("today"));
-		//probabilitySpam("today");
-		//probabilitySpam("sports");
-		probabilitySpam("today is secret");
-		//probabilitySpam("secret is secret");
+	public void test(String message) {
+		double d = probabilitySpam(message);
+		System.out.println("Probability of \"" + message + "\" being spam is " + Format.formatPercent(d));
 	}
 	
 	public static final void main(String[] args) {
 		BayesianSpam program = new BayesianSpam();
-		program.run();
+		
+		System.out.println("Using Laplace of 0");
+		program.init(0);
+		program.test("today"); // 0.0
+		program.test("sports"); // 16.67
+		program.test("today is secret"); // 0.0
+		program.test("secret is secret"); // 96.15
+		
+		System.out.println("Using Laplace of 1");
+		program.init(1);
+		program.test("today");
+		program.test("sports");
+		program.test("today is secret"); // 48.58
+		program.test("secret is secret");
 	}
 	
 }
