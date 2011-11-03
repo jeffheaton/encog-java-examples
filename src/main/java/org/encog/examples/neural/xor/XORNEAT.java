@@ -53,9 +53,6 @@ public class XORNEAT {
 		NEATPopulation pop = new NEATPopulation(2,1,1000);
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
-		ActivationStep step = new ActivationStep();
-		step.setCenter(0.5);
-		pop.setOutputActivationFunction(step);
 		
 		final NEATTraining train = new NEATTraining(score,pop);
 		
