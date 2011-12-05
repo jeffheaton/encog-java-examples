@@ -1,9 +1,12 @@
 package org.encog.examples.ml.bayesian;
 
+import java.io.File;
+
 import org.encog.ml.bayesian.BayesianNetwork;
 import org.encog.ml.bayesian.training.k2.TrainK2;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.persist.EncogDirectoryPersistence;
 
 public class SimpleK2 {
 	
@@ -21,16 +24,20 @@ public class SimpleK2 {
 	};
 
 	public static void main(String[] args) {
-		String[] labels = { "available", "not" };
+		//String[] labels = { "available", "not" };
 		
 		MLDataSet data = new BasicMLDataSet(DATA,null);
 		BayesianNetwork network = new BayesianNetwork();
-		network.createEvent("x1", labels);
-		network.createEvent("x2", labels);
-		network.createEvent("x3", labels);
+		network.createEvent("x1");
+		network.createEvent("x2");
+		network.createEvent("x3");
 		network.finalizeStructure();
 		TrainK2 train = new TrainK2(network,data,10);
 		train.iteration();
 		System.out.println(network.toString());
+		network.defineQuery("P(+x2|+x1)");// 0.71
+		network.getQuery().execute();
+		System.out.println(network.getQuery().getProbability());
+		//EncogDirectoryPersistence.saveObject(new File("d:\\test.eg"), network);
 	}
 }
