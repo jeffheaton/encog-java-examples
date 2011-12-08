@@ -1,12 +1,9 @@
 package org.encog.examples.ml.bayesian;
 
-import java.io.File;
-
 import org.encog.ml.bayesian.BayesianNetwork;
 import org.encog.ml.bayesian.training.k2.TrainK2;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
-import org.encog.persist.EncogDirectoryPersistence;
 
 public class SimpleK2 {
 	
@@ -37,7 +34,8 @@ public class SimpleK2 {
 		System.out.println(network.toString());
 		network.defineQuery("P(+x2|+x1)");// 0.71
 		network.getQuery().execute();
-		System.out.println(network.getQuery().getProbability());
+		System.out.println("x2 probability : " + network.getEvent("x2").getTable().findLine(1, new int[] {1}));
+		System.out.println("Calculated P(+x2|+x1): " + network.getQuery().getProbability());
 		//EncogDirectoryPersistence.saveObject(new File("d:\\test.eg"), network);
 	}
 }
