@@ -1,7 +1,8 @@
 package org.encog.examples.ml.bayesian;
 
 import org.encog.ml.bayesian.BayesianNetwork;
-import org.encog.ml.bayesian.training.k2.TrainK2;
+import org.encog.ml.bayesian.training.TrainBayesian;
+import org.encog.ml.bayesian.training.search.k2.SearchK2;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 
@@ -29,7 +30,7 @@ public class SimpleK2 {
 		network.createEvent("x2");
 		network.createEvent("x3");
 		network.finalizeStructure();
-		TrainK2 train = new TrainK2(network,data,10);
+		TrainBayesian train = new TrainBayesian(network,data,10);
 		train.iteration();
 		System.out.println(network.toString());
 		network.defineQuery("P(+x2|+x1)");// 0.71
