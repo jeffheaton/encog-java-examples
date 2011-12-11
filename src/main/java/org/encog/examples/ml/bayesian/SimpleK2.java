@@ -31,16 +31,14 @@ public class SimpleK2 {
 		network.createEvent("x2");
 		network.createEvent("x3");
 		network.finalizeStructure();
-		network.defineQuery("P(+x2|+x1)");// 0.71
 		
 		TrainBayesian train = new TrainBayesian(network,data,10);
 		train.setInitNetwork(BayesianInit.InitEmpty);
 		train.iteration();
 		
-		
-		network.getQuery().execute();
+		double p = network.performQuery("P(+x2|+x1)");// 0.71
 		System.out.println("x2 probability : " + network.getEvent("x2").getTable().findLine(1, new int[] {1}));
-		System.out.println("Calculated P(+x2|+x1): " + network.getQuery().getProbability());
+		System.out.println("Calculated P(+x2|+x1): " + p);
 		System.out.println("Final network structure: " + network.toString());
 		
 		//EncogDirectoryPersistence.saveObject(new File("d:\\test.eg"), network);
