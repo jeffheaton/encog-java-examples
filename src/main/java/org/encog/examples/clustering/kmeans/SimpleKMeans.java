@@ -60,7 +60,7 @@ public class SimpleKMeans {
 		final KMeansClustering kmeans = new KMeansClustering(2, set);
 
 		kmeans.iteration(100);
-		System.out.println("Final WCSS: " + kmeans.getWCSS());
+		//System.out.println("Final WCSS: " + kmeans.getWCSS());
 
 		// Display the cluster
 		int i = 1;
