@@ -32,7 +32,7 @@ import org.encog.ml.factory.MLTrainFactory;
 public class ProBen {
 	
 	public final static String METHOD_NAME = MLMethodFactory.TYPE_FEEDFORWARD;
-	public final static String TRAINING_TYPE = MLTrainFactory.TYPE_RPROP;
+	public final static String TRAINING_TYPE = MLTrainFactory.TYPE_PSO;
 	public final static String METHOD_ARCHITECTURE = "?:B->SIGMOID->40:B->SIGMOID->?";
 	public final static String TRAINING_ARGS = "";
 	
