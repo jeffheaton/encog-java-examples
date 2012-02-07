@@ -82,7 +82,7 @@ public class WeightInitialization {
 	public static void main(final String args[]) {
 
 		RangeRandomizer rangeRandom = new RangeRandomizer(-1, 1);
-		NguyenWidrowRandomizer nwrRandom = new NguyenWidrowRandomizer(-1, 1);
+		NguyenWidrowRandomizer nwrRandom = new NguyenWidrowRandomizer();
 		FanInRandomizer fanRandom = new FanInRandomizer();
 		GaussianRandomizer gaussianRandom = new GaussianRandomizer(0, 1);
 
