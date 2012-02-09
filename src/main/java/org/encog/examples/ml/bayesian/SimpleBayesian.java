@@ -39,10 +39,10 @@ public class SimpleBayesian {
 		BayesianEvent gardenGrew = network.createEvent("gardenGrew");
 		BayesianEvent plentyOfCarrots = network.createEvent("carrots");
 		BayesianEvent plentyOfTomatoes = network.createEvent("Tomatoes");
-		network.createDependancy(rained, gardenGrew);
-		network.createDependancy(evenTemperatures, gardenGrew);
-		network.createDependancy(gardenGrew, plentyOfCarrots);
-		network.createDependancy(gardenGrew, plentyOfTomatoes);
+		network.createDependency(rained, gardenGrew);
+		network.createDependency(evenTemperatures, gardenGrew);
+		network.createDependency(gardenGrew, plentyOfCarrots);
+		network.createDependency(gardenGrew, plentyOfTomatoes);
 		network.finalizeStructure();
 		
 		// build the truth tales

@@ -118,7 +118,7 @@ public class BayesianWordAnalyzer {
 		int index = 0;
 		for( String word: words) {
 			BayesianEvent event = network.createEvent(word+index);
-			network.createDependancy(spamEvent, event);
+			network.createDependency(spamEvent, event);
 			index++;
 		}
 		
