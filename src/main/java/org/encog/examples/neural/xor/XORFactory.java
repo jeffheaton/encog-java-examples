@@ -176,6 +176,17 @@ public class XORFactory {
 	/**
 	 * Demonstrate a XOR LMA.
 	 */
+	public void xorNM() {
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_NELDER_MEAD,
+				"",1);		
+	}
+	
+	/**
+	 * Demonstrate a XOR LMA.
+	 */
 	public void xorManhattan() {
 		process( 
 				MLMethodFactory.TYPE_FEEDFORWARD,
@@ -286,6 +297,7 @@ public class XORFactory {
 		System.out.println("genetic - Genetic");
 		System.out.println("lma - Levenberg Marquadt");
 		System.out.println("manhattan - Manhattan Update");
+		System.out.println("nm - Nelder Mead");
 		System.out.println("scg - Scaled Conjugate Gradient");
 		System.out.println("rbf - Radial Basis Function with RPROP");
 		System.out.println("svd - Radial Basis Function with SVD");
@@ -319,6 +331,8 @@ public class XORFactory {
 			xorGenetic();
 		} else if( mode.equalsIgnoreCase("lma") ) {
 			xorLMA();
+		} else if( mode.equalsIgnoreCase("nm") ) {
+			xorNM();
 		} else if( mode.equalsIgnoreCase("manhattan") ) {
 			xorManhattan();
 		} else if( mode.equalsIgnoreCase("scg") ) {
