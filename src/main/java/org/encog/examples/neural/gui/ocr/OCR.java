@@ -55,7 +55,7 @@ import org.encog.neural.som.training.clustercopy.SOMClusterCopyTraining;
 /**
  * OCR: Main form that allows the user to interact with the OCR application.
  */
-public class OCR extends JFrame implements Runnable {
+public class OCR extends JFrame {
 
 	class SymAction implements java.awt.event.ActionListener {
 		public void actionPerformed(final java.awt.event.ActionEvent event) {
@@ -87,17 +87,6 @@ public class OCR extends JFrame implements Runnable {
 			if (object == OCR.this.letters) {
 				letters_valueChanged(event);
 			}
-		}
-	}
-
-	public class UpdateStats implements Runnable {
-		long tries;
-		double error;
-
-		public void run() {
-			OCR.this.tries.setText("" + this.tries);
-			OCR.this.txtError.setText(""
-					+ OCR.this.numberFormat.format(this.error));
 		}
 	}
 
@@ -209,15 +198,6 @@ public class OCR extends JFrame implements Runnable {
 
 	JLabel JLabel4 = new JLabel();
 
-	/**
-	 * How many tries
-	 */
-	JLabel tries = new JLabel();
-	/**
-	 * The last error
-	 */
-	JLabel txtError = new JLabel();
-
 	JLabel JLabel8 = new JLabel();
 
 	JLabel JLabel5 = new JLabel();
@@ -246,8 +226,6 @@ public class OCR extends JFrame implements Runnable {
 		this.JLabel1.setText("Letters Known");
 		getContentPane().add(this.JLabel1);
 		this.JLabel1.setBounds(12, 12, 100, 12);
-		this.JLabel2.setText("Tries:");
-		getContentPane().add(this.JLabel2);
 		this.JLabel2.setBounds(12, 264, 72, 24);
 		this.downSample.setText("D Sample");
 		this.downSample.setActionCommand("Down Sample");
@@ -288,19 +266,9 @@ public class OCR extends JFrame implements Runnable {
 		this.train.setActionCommand("Begin Training");
 		getContentPane().add(this.train);
 		this.train.setBounds(12, 204, 144, 24);
-		this.JLabel3.setText("Error:");
-		getContentPane().add(this.JLabel3);
 		this.JLabel3.setBounds(12, 288, 72, 24);
-		this.tries.setText("0");
-		getContentPane().add(this.tries);
-		this.tries.setBounds(96, 264, 72, 24);
-		this.txtError.setText("0");
-		getContentPane().add(this.txtError);
-		this.txtError.setBounds(96, 288, 72, 24);
 		this.JLabel8.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.JLabel8.setHorizontalAlignment(SwingConstants.CENTER);
-		this.JLabel8.setText("Training Results");
-		getContentPane().add(this.JLabel8);
 		this.JLabel8.setFont(new Font("Dialog", Font.BOLD, 14));
 		this.JLabel8.setBounds(12, 240, 120, 24);
 		this.JLabel5.setText("Draw Letters Here");
@@ -501,17 +469,10 @@ public class OCR extends JFrame implements Runnable {
 				}
 			}
 
-			final int best = this.net.winner(input);
+			final int best = this.net.classify(input);
 			map[best] = ds.getLetter();
 		}
 		return map;
-	}
-
-	public void markStopped() {
-		this.trainThread = null;
-		this.train.setText("Begin Training");
-		JOptionPane.showMessageDialog(this, "Training has completed.",
-				"Training", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
@@ -537,7 +498,7 @@ public class OCR extends JFrame implements Runnable {
 			}
 		}
 
-		final int best = this.net.winner(input);
+		final int best = this.net.classify(input);
 		final char map[] = mapNeurons();
 		JOptionPane
 				.showMessageDialog(this, "  " + map[best] + "   (Neuron #"
@@ -550,7 +511,7 @@ public class OCR extends JFrame implements Runnable {
 	/**
 	 * Run method for the background training thread.
 	 */
-	public void run() {
+	public void trainSOM() {
 		try {
 			final int inputNeuron = OCR.DOWNSAMPLE_HEIGHT
 					* OCR.DOWNSAMPLE_WIDTH;
@@ -575,15 +536,12 @@ public class OCR extends JFrame implements Runnable {
 			this.net.reset();
 
 			SOMClusterCopyTraining train = new SOMClusterCopyTraining(this.net,trainingSet);
-						
-			int tries = 1;
-			while (!this.halt) {
-				train.iteration();
-				update(tries++, train.getError());
-			}
+			
+			train.iteration();
 
-			markStopped();
-			this.halt = false;
+		JOptionPane.showMessageDialog(this, "Training has completed.",
+				"Training", JOptionPane.PLAIN_MESSAGE);
+
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -640,36 +598,6 @@ public class OCR extends JFrame implements Runnable {
 	 *            The event.
 	 */
 	void train_actionPerformed(final java.awt.event.ActionEvent event) {
-		if (this.trainThread == null) {
-			this.train.setText("Stop Training");
-			this.train.repaint();
-			this.trainThread = new Thread(this);
-			this.trainThread.start();
-		} else {
-			this.halt = true;
-		}
+		trainSOM();
 	}
-
-	/**
-	 * Called to update the stats, from the neural network.
-	 * 
-	 * @param trial
-	 *            How many tries.
-	 * @param error
-	 *            The current error.
-	 */
-	public void update(final int retry, final double error) {
-
-		final UpdateStats stats = new UpdateStats();
-		stats.tries = retry;
-		stats.error = error;
-
-		try {
-			SwingUtilities.invokeAndWait(stats);
-		} catch (final Exception e) {
-			JOptionPane.showMessageDialog(this, "Error: " + e, "Training",
-					JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
 }

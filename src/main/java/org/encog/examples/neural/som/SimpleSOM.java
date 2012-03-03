@@ -68,8 +68,8 @@ public class SimpleSOM {
 		
 		MLData data1 = new BasicMLData(SOM_INPUT[0]);
 		MLData data2 = new BasicMLData(SOM_INPUT[1]);
-		System.out.println("Pattern 1 winner: " + network.winner(data1));
-		System.out.println("Pattern 2 winner: " + network.winner(data2));
+		System.out.println("Pattern 1 winner: " + network.classify(data1));
+		System.out.println("Pattern 2 winner: " + network.classify(data2));
 		Encog.getInstance().shutdown();
 	}
 }
