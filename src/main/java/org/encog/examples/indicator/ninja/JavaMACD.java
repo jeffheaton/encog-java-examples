@@ -1,8 +1,8 @@
 package org.encog.examples.indicator.ninja;
 
-import org.encog.cloud.basic.CloudPacket;
 import org.encog.cloud.indicator.IndicatorLink;
 import org.encog.cloud.indicator.IndicatorListener;
+import org.encog.cloud.indicator.IndicatorPacket;
 
 public class JavaMACD implements IndicatorListener {
 
@@ -10,7 +10,7 @@ public class JavaMACD implements IndicatorListener {
 	
 	
 	@Override
-	public void notifyPacket(CloudPacket packet) {
+	public void notifyPacket(IndicatorPacket packet) {
 		// TODO Auto-generated method stub
 		
 	}

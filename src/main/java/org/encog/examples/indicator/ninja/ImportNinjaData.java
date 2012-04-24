@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.encog.EncogError;
-import org.encog.cloud.basic.CloudPacket;
 import org.encog.cloud.indicator.IndicatorLink;
 import org.encog.cloud.indicator.IndicatorListener;
+import org.encog.cloud.indicator.IndicatorPacket;
 import org.encog.cloud.indicator.IndicatorServer;
 import org.encog.cloud.indicator.InstrumentHolder;
 import org.encog.util.logging.EncogLogging;
@@ -97,7 +97,7 @@ public class ImportNinjaData implements IndicatorListener {
 
 
 	@Override
-	public void notifyPacket(CloudPacket packet) {
+	public void notifyPacket(IndicatorPacket packet) {
 		if (packet.getCommand().equalsIgnoreCase("bar")) {
 			try {
 				String security = packet.getArgs()[1];
