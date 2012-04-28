@@ -1,4 +1,4 @@
-package org.encog.examples.indicator.ninja;
+package org.encog.examples.indicator.ninja.dl;
 
 import java.io.File;
 
