@@ -27,7 +27,7 @@ public class RemoteEMA implements IndicatorConnectionListener {
 		});
 
 		server.start();
-		server.waitForIndicatorCompletion();
+		
 	}
 
 	public static void main(String[] args) {

@@ -10,6 +10,7 @@ public class EMA extends BasicIndicator {
 	public EMA() {
 		super(true);
 		requestData("CLOSE");
+		requestData("THIS[2]");
 	}
 
 	@Override
@@ -18,11 +19,26 @@ public class EMA extends BasicIndicator {
 			String security = packet.getArgs()[1];
 			long when = Long.parseLong(packet.getArgs()[0]);
 			
-			double result = Math.random();
+			double dataClose = CSVFormat.EG_FORMAT.parse(packet.getArgs()[2]);
+			double lastValue = CSVFormat.EG_FORMAT.parse(packet.getArgs()[4]);
+			double period = 14;
+			
+			double result;
+			
+			if( Double.isNaN(lastValue) )
+				result = dataClose;
+			else
+				result =  dataClose * (2.0 / (1 + period)) + (1 - (2.0 / (1 + period))) * lastValue;
+			
 			String[] args = { 
 					CSVFormat.EG_FORMAT.format(result,Encog.DEFAULT_PRECISION),
-					CSVFormat.EG_FORMAT.format(result,Encog.DEFAULT_PRECISION),
-					CSVFormat.EG_FORMAT.format(result,Encog.DEFAULT_PRECISION) };
+					"?",
+					"?",
+					"?",
+					"?",
+					"?",
+					"?",
+					"?"};
 			
 			this.getLink().writePacket("ind", args);
 		}
