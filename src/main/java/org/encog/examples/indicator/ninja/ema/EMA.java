@@ -2,6 +2,7 @@ package org.encog.examples.indicator.ninja.ema;
 
 import org.encog.Encog;
 import org.encog.cloud.indicator.basic.BasicIndicator;
+import org.encog.cloud.indicator.server.IndicatorLink;
 import org.encog.cloud.indicator.server.IndicatorPacket;
 import org.encog.util.csv.CSVFormat;
 
@@ -15,7 +16,7 @@ public class EMA extends BasicIndicator {
 
 	@Override
 	public void notifyPacket(IndicatorPacket packet) {
-		if (packet.getCommand().equalsIgnoreCase("bar")) {
+		if (packet.getCommand().equalsIgnoreCase(IndicatorLink.PACKET_BAR)) {
 			String security = packet.getArgs()[1];
 			long when = Long.parseLong(packet.getArgs()[0]);
 			
@@ -40,7 +41,7 @@ public class EMA extends BasicIndicator {
 					"?",
 					"?"};
 			
-			this.getLink().writePacket("ind", args);
+			this.getLink().writePacket(IndicatorLink.PACKET_IND, args);
 		}
 	}
 
