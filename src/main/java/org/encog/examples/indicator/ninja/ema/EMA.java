@@ -41,7 +41,7 @@ public class EMA extends BasicIndicator {
 					"?",
 					"?"};
 			
-			this.getLink().writePacket("ind", args);
+			this.getLink().writePacket(IndicatorLink.PACKET_IND, args);
 		}
 	}
 
