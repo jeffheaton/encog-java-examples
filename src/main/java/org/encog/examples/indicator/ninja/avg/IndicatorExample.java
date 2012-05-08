@@ -22,8 +22,8 @@ public class IndicatorExample implements IndicatorConnectionListener {
 	}
 
 	private void generate() {
-		// TODO Auto-generated method stub
-
+		GenerateTraining gen = new GenerateTraining(this.path);
+		gen.generate();
 	}
 
 	private void clear() {

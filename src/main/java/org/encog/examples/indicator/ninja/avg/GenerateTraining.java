@@ -5,6 +5,7 @@ import java.io.File;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.buffer.BufferedMLDataSet;
+import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 import org.encog.util.arrayutil.WindowDouble;
 import org.encog.util.csv.CSVFormat;
@@ -16,14 +17,16 @@ public class GenerateTraining {
 	private final File trainingFile;
 	private final WindowDouble window = new WindowDouble(10);
 	private final double pipSize;
-	private NormalizedField fieldDifference;
-	private NormalizedField fieldOutcome;
+	private final NormalizedField fieldDifference;
+	private final NormalizedField fieldOutcome;
 	
 	public GenerateTraining(File thePath,double thePipSize) {
 		this.path = thePath;
 		this.pipSize = thePipSize;
-		this.trainingFile = new File(this.path,"training.egb");
-		this.fieldDifference = new NormalizedField();
+		this.trainingFile = new File(this.path,"training.egb");		
+		
+		this.fieldDifference = new NormalizedField(NormalizationAction.Normalize,"diff",50,-50,1,-1);
+		this.fieldOutcome = new NormalizedField(NormalizationAction.Normalize,"out",100,-100,1,-1);
 	}
 	
 	public GenerateTraining(File thePath) {
@@ -37,13 +40,16 @@ public class GenerateTraining {
 				
 		ReadCSV csv = new ReadCSV(file.toString(),true,CSVFormat.ENGLISH);
 		while(csv.next()) {
-			double a[] = new double[2];
+			double a[] = new double[4];
 			double close = csv.getDouble(1);
-			double fast = csv.getDouble(2);
-			double slow = csv.getDouble(3);
-			double diff = fast - slow;
+			
 			a[0] = close;
-			a[1] = diff;
+			for(int i=0;i<3;i++) {
+				double fast = csv.getDouble(2+i);
+				double slow = csv.getDouble(5+i);
+				double diff = this.fieldDifference.normalize( (fast - slow)/pipSize);		
+				a[i+1] = diff;
+			}
 			window.add(a);
 			
 			if( window.isFull() ) {
@@ -56,6 +62,13 @@ public class GenerateTraining {
 				} else {
 					o = min;
 				}
+				
+				a = window.getLast();
+				for(int i=0;i<3;i++) {							
+					inputData.setData(i, a[i+1]);
+				}
+				
+				idealData.setData(0, this.fieldOutcome.normalize(o));
 				
 				output.add(inputData, idealData);
 			}			

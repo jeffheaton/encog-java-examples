@@ -23,8 +23,8 @@ public class MyInd extends BasicIndicator {
 		this.path = thePath;
 		
 		requestData("CLOSE[1]");
-		requestData("SMA(10)[1]");
-		requestData("SMA(25)[1]");
+		requestData("SMA(10)[3]");
+		requestData("SMA(25)[3]");
 	}
 
 	@Override
