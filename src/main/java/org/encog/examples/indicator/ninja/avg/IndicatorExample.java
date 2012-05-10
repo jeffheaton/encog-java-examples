@@ -20,6 +20,11 @@ public class IndicatorExample implements IndicatorConnectionListener {
 	public void train() {
 
 	}
+	
+	private void calibrate() {
+		GenerateTraining gen = new GenerateTraining(this.path);
+		gen.calibrate();
+	}
 
 	private void generate() {
 		GenerateTraining gen = new GenerateTraining(this.path);
@@ -86,6 +91,8 @@ public class IndicatorExample implements IndicatorConnectionListener {
 				program.clear();
 			} else if (args[0].equalsIgnoreCase("generate")) {
 				program.generate();
+			} else if (args[0].equalsIgnoreCase("calibrate")) {
+				program.calibrate();
 			}
 		}
 	}

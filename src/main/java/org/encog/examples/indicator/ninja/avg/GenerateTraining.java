@@ -92,4 +92,9 @@ public class GenerateTraining {
 		output.endLoad();
 		output.close();
 	}
+
+	public void calibrate() {
+		// TODO Auto-generated method stub
+		
+	}
 }
