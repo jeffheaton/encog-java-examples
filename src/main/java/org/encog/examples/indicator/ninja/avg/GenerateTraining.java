@@ -19,21 +19,25 @@ public class GenerateTraining {
 	private final double pipSize;
 	private final NormalizedField fieldDifference;
 	private final NormalizedField fieldOutcome;
+	private double maxDifference;
+	private double minDifference;
+	private int maxPIPs;
+	private int minPIPs;
 	
 	public GenerateTraining(File thePath,double thePipSize) {
 		this.path = thePath;
 		this.pipSize = thePipSize;
 		this.trainingFile = new File(this.path,"training.egb");		
 		
-		this.fieldDifference = new NormalizedField(NormalizationAction.Normalize,"diff",50,-50,1,-1);
-		this.fieldOutcome = new NormalizedField(NormalizationAction.Normalize,"out",100,-100,1,-1);
+		this.fieldDifference = new NormalizedField(NormalizationAction.Normalize,"diff",Config.DIFF_RANGE,-Config.DIFF_RANGE,1,-1);
+		this.fieldOutcome = new NormalizedField(NormalizationAction.Normalize,"out",Config.PIP_RANGE,-Config.PIP_RANGE,1,-1);
 	}
 	
 	public GenerateTraining(File thePath) {
 		this(thePath,0.0001);
 	}
 		
-	public void processFile(File file, BufferedMLDataSet output) {
+	protected void processFile(File file, BufferedMLDataSet output) {
 		
 		MLData inputData = new BasicMLData(output.getInputSize());
 		MLData idealData = new BasicMLData(output.getIdealSize());
@@ -75,6 +79,43 @@ public class GenerateTraining {
 		}
 	}
 	
+	protected void calibrateFile(File file) {
+						
+		ReadCSV csv = new ReadCSV(file.toString(),true,CSVFormat.ENGLISH);
+		while(csv.next()) {
+			double a[] = new double[1];
+			double close = csv.getDouble(1);
+			
+			a[0] = close;
+			for(int i=0;i<3;i++) {
+				double fast = csv.getDouble(2+i);
+				double slow = csv.getDouble(5+i);
+				
+				if( !Double.isNaN(fast) && !Double.isNaN(slow) ) {
+					double diff = (fast - slow)/pipSize;
+					this.minDifference = Math.min(this.minDifference, diff);
+					this.maxDifference = Math.max(this.maxDifference, diff);	
+				}
+			}
+			window.add(a);
+			
+			if( window.isFull() ) {
+				double max = (this.window.calculateMax(0,3)-close)/pipSize;
+				double min = (this.window.calculateMin(0,3)-close)/pipSize;
+				double o;
+				
+				if( Math.abs(max)>Math.abs(min) ) {
+					o = max;
+				} else {
+					o = min;
+				}
+				
+				this.maxPIPs = Math.max(this.maxPIPs, (int)o);
+				this.minPIPs = Math.min(this.minPIPs, (int)o);
+			}			
+		}
+	}
+
 	public void generate() {
 		File[] list = this.path.listFiles();
 		
@@ -94,7 +135,27 @@ public class GenerateTraining {
 	}
 
 	public void calibrate() {
-		// TODO Auto-generated method stub
+		File[] list = this.path.listFiles();
 		
+		this.maxDifference = Double.NEGATIVE_INFINITY;
+		this.minDifference = Double.POSITIVE_INFINITY;
+		this.maxPIPs = Integer.MIN_VALUE;
+		this.minPIPs = Integer.MAX_VALUE;
+		
+		for (File file : list) {
+			String fn = file.getName();
+			if (fn.startsWith("collected") && fn.endsWith(".csv")) {
+				calibrateFile(file);
+			}
+		}		
+		
+		System.out.println("Max difference: " + this.maxDifference);
+		System.out.println("Min difference: " + this.minDifference);
+		System.out.println("Max PIPs: " + this.maxPIPs);
+		System.out.println("Min PIPs: " + this.minPIPs);
+		System.out.println("\nSuggested calibration: ");
+		System.out.println("DIFF_RANGE = " + (int)(Math.max(this.maxDifference,Math.abs(this.minDifference)) * 1.2) );
+		System.out.println("PIP_RANGE = " + (int)(Math.max(this.maxPIPs,Math.abs(this.minPIPs)) * 1.2) );
+
 	}
 }
