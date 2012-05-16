@@ -15,7 +15,7 @@ public class GenerateTraining {
 
 	private final File path;	
 	private final File trainingFile;
-	private final WindowDouble window = new WindowDouble(10);
+	private final WindowDouble window = new WindowDouble(Config.PREDICT_WINDOW);
 	private final double pipSize;
 	private final NormalizedField fieldDifference;
 	private final NormalizedField fieldOutcome;
@@ -27,14 +27,14 @@ public class GenerateTraining {
 	public GenerateTraining(File thePath,double thePipSize) {
 		this.path = thePath;
 		this.pipSize = thePipSize;
-		this.trainingFile = new File(this.path,"training.egb");		
+		this.trainingFile = new File(this.path,Config.FILENAME_TRAIN);		
 		
 		this.fieldDifference = new NormalizedField(NormalizationAction.Normalize,"diff",Config.DIFF_RANGE,-Config.DIFF_RANGE,1,-1);
 		this.fieldOutcome = new NormalizedField(NormalizationAction.Normalize,"out",Config.PIP_RANGE,-Config.PIP_RANGE,1,-1);
 	}
 	
 	public GenerateTraining(File thePath) {
-		this(thePath,0.0001);
+		this(thePath,Config.PIP_SIZE);
 	}
 		
 	protected void processFile(File file, BufferedMLDataSet output) {
@@ -44,21 +44,25 @@ public class GenerateTraining {
 				
 		ReadCSV csv = new ReadCSV(file.toString(),true,CSVFormat.ENGLISH);
 		while(csv.next()) {
-			double a[] = new double[4];
+			double a[] = new double[Config.INPUT_WINDOW+1];
 			double close = csv.getDouble(1);
+			
+			int fastIndex = 2;
+			int slowIndex = fastIndex + Config.INPUT_WINDOW;
 			
 			a[0] = close;
 			for(int i=0;i<3;i++) {
-				double fast = csv.getDouble(2+i);
-				double slow = csv.getDouble(5+i);
+				double fast = csv.getDouble(fastIndex+i);
+				double slow = csv.getDouble(slowIndex+i);
 				double diff = this.fieldDifference.normalize( (fast - slow)/pipSize);		
 				a[i+1] = diff;
 			}
 			window.add(a);
 			
+			
 			if( window.isFull() ) {
-				double max = (this.window.calculateMax(0,3)-close)/pipSize;
-				double min = (this.window.calculateMin(0,3)-close)/pipSize;
+				double max = (this.window.calculateMax(0,Config.INPUT_WINDOW)-close)/pipSize;
+				double min = (this.window.calculateMin(0,Config.INPUT_WINDOW)-close)/pipSize;
 				double o;
 				
 				if( Math.abs(max)>Math.abs(min) ) {
@@ -86,10 +90,12 @@ public class GenerateTraining {
 			double a[] = new double[1];
 			double close = csv.getDouble(1);
 			
+			int fastIndex = 2;
+			int slowIndex = fastIndex + Config.INPUT_WINDOW;
 			a[0] = close;
-			for(int i=0;i<3;i++) {
-				double fast = csv.getDouble(2+i);
-				double slow = csv.getDouble(5+i);
+			for(int i=0;i<Config.INPUT_WINDOW;i++) {
+				double fast = csv.getDouble(fastIndex+i);
+				double slow = csv.getDouble(slowIndex+i);
 				
 				if( !Double.isNaN(fast) && !Double.isNaN(slow) ) {
 					double diff = (fast - slow)/pipSize;
@@ -100,8 +106,8 @@ public class GenerateTraining {
 			window.add(a);
 			
 			if( window.isFull() ) {
-				double max = (this.window.calculateMax(0,3)-close)/pipSize;
-				double min = (this.window.calculateMin(0,3)-close)/pipSize;
+				double max = (this.window.calculateMax(0,Config.INPUT_WINDOW)-close)/pipSize;
+				double min = (this.window.calculateMin(0,Config.INPUT_WINDOW)-close)/pipSize;
 				double o;
 				
 				if( Math.abs(max)>Math.abs(min) ) {
@@ -121,7 +127,7 @@ public class GenerateTraining {
 		
 		this.trainingFile.delete();
 		BufferedMLDataSet output = new BufferedMLDataSet(this.trainingFile);
-		output.beginLoad(3, 1);
+		output.beginLoad(Config.INPUT_WINDOW, 1);
 
 		for (File file : list) {
 			String fn = file.getName();

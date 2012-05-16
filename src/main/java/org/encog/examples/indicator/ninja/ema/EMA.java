@@ -32,14 +32,14 @@ public class EMA extends BasicIndicator {
 				result =  dataClose * (2.0 / (1 + period)) + (1 - (2.0 / (1 + period))) * lastValue;
 			
 			String[] args = { 
-					CSVFormat.EG_FORMAT.format(result,Encog.DEFAULT_PRECISION),
-					"?",
-					"?",
-					"?",
-					"?",
-					"?",
-					"?",
-					"?"};
+					CSVFormat.EG_FORMAT.format(result,Encog.DEFAULT_PRECISION), // line 1
+					"?", // line 2
+					"?",// line 3
+					"?",// bar 1
+					"?",// bar 2
+					"?",// bar 3
+					"?",// arrow 1
+					"?"};// arrow 2
 			
 			this.getLink().writePacket(IndicatorLink.PACKET_IND, args);
 		}
