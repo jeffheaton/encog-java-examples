@@ -76,7 +76,8 @@ public class GenerateTraining {
 					inputData.setData(i, a[i+1]);
 				}
 				
-				idealData.setData(0, this.fieldOutcome.normalize(o));
+				o = this.fieldOutcome.normalize(o);
+				idealData.setData(0, o);
 				
 				output.add(inputData, idealData);
 			}			

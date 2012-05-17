@@ -47,7 +47,7 @@ public class IndicatorExample implements IndicatorConnectionListener {
 		}
 
 		// fourth, train and evaluate.
-		EncogUtility.trainToError(train, 0.01);
+		EncogUtility.trainToError(train, Config.targetError);
 		method = train.getMethod();	
 		EncogDirectoryPersistence.saveObject(new File(this.path,Config.METHOD_NAME), method);
 		

@@ -14,6 +14,8 @@ import org.encog.cloud.indicator.server.IndicatorPacket;
 import org.encog.ml.MLRegression;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
+import org.encog.util.arrayutil.NormalizationAction;
+import org.encog.util.arrayutil.NormalizedField;
 import org.encog.util.csv.CSVFormat;
 
 public class MyInd extends BasicIndicator {
@@ -22,6 +24,8 @@ public class MyInd extends BasicIndicator {
 	private int rowsDownloaded;
 	private File path;
 	private MLRegression method;
+	private final NormalizedField fieldDifference;
+	private final NormalizedField fieldOutcome;
 
 	public MyInd(MLRegression theMethod, File thePath) {
 		super(theMethod!=null);
@@ -31,6 +35,9 @@ public class MyInd extends BasicIndicator {
 		requestData("CLOSE[1]");
 		requestData("SMA(10)["+Config.INPUT_WINDOW+"]");
 		requestData("SMA(25)["+Config.INPUT_WINDOW+"]");
+		
+		this.fieldDifference = new NormalizedField(NormalizationAction.Normalize,"diff",Config.DIFF_RANGE,-Config.DIFF_RANGE,1,-1);
+		this.fieldOutcome = new NormalizedField(NormalizationAction.Normalize,"out",Config.PIP_RANGE,-Config.PIP_RANGE,1,-1);
 	}
 
 	@Override
@@ -46,20 +53,26 @@ public class MyInd extends BasicIndicator {
 		} else {
 			MLData input = new BasicMLData(Config.PREDICT_WINDOW);
 			
-			for(int i=0;i<Config.INPUT_WINDOW;i++)
-			{
-				String v = packet.getArgs()[2+i];
-				double d = CSVFormat.EG_FORMAT.parse(v);
-				input.setData(i, d);
-			}
+			int fastIndex = 2;
+			int slowIndex = fastIndex + Config.INPUT_WINDOW;
 			
+			for(int i=0;i<3;i++) {
+				double fast = CSVFormat.EG_FORMAT.parse(packet.getArgs()[fastIndex+i]);
+				double slow = CSVFormat.EG_FORMAT.parse(packet.getArgs()[slowIndex+i]);
+				double diff = this.fieldDifference.normalize( (fast - slow)/Config.PIP_SIZE);		
+				input.setData(i, this.fieldDifference.normalize(diff) );
+			}
+						
 			MLData result = this.method.compute(input);
+			
+			double d = result.getData(0);
+			d = this.fieldOutcome.deNormalize(d);
 			
 			String[] args = { 
 					"?",	// line 1
 					"?",	// line 2
 					"?",	// line 3
-					CSVFormat.EG_FORMAT.format(result.getData(0),Encog.DEFAULT_PRECISION), // bar 1
+					CSVFormat.EG_FORMAT.format(d,Encog.DEFAULT_PRECISION), // bar 1
 					"?", // bar 2
 					"?", // bar 3
 					"?", // arrow 1
