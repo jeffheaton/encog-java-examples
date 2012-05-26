@@ -18,15 +18,47 @@ import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 import org.encog.util.csv.CSVFormat;
 
+/**
+ * This is the actual indicator that will be called remotely from 
+ * NinjaTrader.
+ */
 public class MyInd extends BasicIndicator {
 
+	/**
+	 * Holds the data as it is downloaded.
+	 */
 	private InstrumentHolder holder = new InstrumentHolder();
+	
+	/**
+	 * The number of rows downloaded.
+	 */
 	private int rowsDownloaded;
+	
+	/**
+	 * The path to store the data files.
+	 */
 	private File path;
+	
+	/**
+	 * The machine learning method used to predict.
+	 */
 	private MLRegression method;
+	
+	/**
+	 * Used to normalize the difference between the two SMAs.
+	 */
 	private final NormalizedField fieldDifference;
+	
+	/**
+	 * Used to normalize the pip profit/loss outcome.
+	 */
 	private final NormalizedField fieldOutcome;
 
+	/**
+	 * Construct the indicator.
+	 * @param theMethod The machine learning method to use.
+	 * @param thePath The path to use.
+	 */
 	public MyInd(MLRegression theMethod, File thePath) {
 		super(theMethod!=null);
 		this.method = theMethod;
@@ -40,6 +72,10 @@ public class MyInd extends BasicIndicator {
 		this.fieldOutcome = new NormalizedField(NormalizationAction.Normalize,"out",Config.PIP_RANGE,-Config.PIP_RANGE,1,-1);
 	}
 
+	/**
+	 * Called to notify the indicator that a bar has been received.
+	 * @param packet The packet received.
+	 */
 	@Override
 	public void notifyPacket(IndicatorPacket packet) {
 		String security = packet.getArgs()[1];
@@ -82,6 +118,10 @@ public class MyInd extends BasicIndicator {
 		}
 	}
 
+	/**
+	 * Determine the next file to process.
+	 * @return The next file.
+	 */
 	public File nextFile() {
 		int mx = -1;
 		File[] list = this.path.listFiles();
@@ -99,6 +139,9 @@ public class MyInd extends BasicIndicator {
 		return new File(path, "collected" + (mx + 1) + ".csv");
 	}
 
+	/**
+	 * Write the files that were collected.
+	 */
 	public void writeCollectedFile() {
 		File targetFile = nextFile();
 
@@ -144,11 +187,23 @@ public class MyInd extends BasicIndicator {
 		}
 	}
 
+	/**
+	 * Notify on termination, write the collected file.
+	 */
 	@Override
 	public void notifyTermination() {
 		if (this.method==null) {
 			writeCollectedFile();
 		}
 	}
+
+	/**
+	 * @return The number of rows downloaded.
+	 */
+	public int getRowsDownloaded() {
+		return rowsDownloaded;
+	}
+	
+	
 
 }

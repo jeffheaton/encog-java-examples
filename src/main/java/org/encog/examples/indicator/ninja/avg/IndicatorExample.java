@@ -11,7 +11,6 @@ import org.encog.ml.MLMethod;
 import org.encog.ml.MLRegression;
 import org.encog.ml.MLResettable;
 import org.encog.ml.data.MLDataSet;
-import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.factory.MLMethodFactory;
 import org.encog.ml.factory.MLTrainFactory;
 import org.encog.ml.train.MLTrain;
@@ -20,15 +19,37 @@ import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropaga
 import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.simple.EncogUtility;
 
+/**
+ * This example shows how to create an indicator based on two existing
+ * NinjaTrader indicators.  For more information on this example, visit
+ * the following URL.
+ * 
+ * http://www.heatonresearch.com/wiki/Neural_Network_Indicator_for_NinjaTrader_with_Java
+ *
+ */
 public class IndicatorExample implements IndicatorConnectionListener {
 
+	/**
+	 * The port to use.
+	 */
 	public static final int PORT = 5128;
+	
+	/**
+	 * The path to store files at.
+	 */
 	private File path;
 
+	/**
+	 * Construct the indicator example.
+	 * @param thePath The path to store data files at.
+	 */
 	public IndicatorExample(File thePath) {
 		this.path = thePath;
 	}
 
+	/**
+	 * Perform the training option.
+	 */
 	public void train() {
 		// first, create the machine learning method
 		MLMethodFactory methodFactory = new MLMethodFactory();		
@@ -59,11 +80,17 @@ public class IndicatorExample implements IndicatorConnectionListener {
 		System.out.println("Training Args: " + Config.TRAIN_PARAMS);
 	}
 	
+	/**
+	 * Perform the calibrate option.
+	 */
 	private void calibrate() {
 		GenerateTraining gen = new GenerateTraining(this.path);
 		gen.calibrate();
 	}
 
+	/**
+	 * Perform the generate option.
+	 */
 	private void generate() {
 		System.out.println("Generating training data... please wait...");
 		GenerateTraining gen = new GenerateTraining(this.path);
@@ -71,6 +98,9 @@ public class IndicatorExample implements IndicatorConnectionListener {
 		System.out.println("Training data has been generated.");
 	}
 
+	/**
+	 * Perform the clear option.
+	 */
 	private void clear() {
 		File[] list = this.path.listFiles();
 
@@ -85,6 +115,11 @@ public class IndicatorExample implements IndicatorConnectionListener {
 
 	}
 
+	/**
+	 * Run the indicator in either collection or indicator mode.
+	 * @param collectMode True to run the indicator in collection mode,
+	 * false otherwise.
+	 */
 	public void run(final boolean collectMode) {
 		final MLRegression method;
 
@@ -117,6 +152,10 @@ public class IndicatorExample implements IndicatorConnectionListener {
 
 	}
 
+	/**
+	 * The program entry point.
+	 * @param args The arguments to run the program with.
+	 */
 	public static void main(String[] args) {		
 
 		if (args.length != 2) {
@@ -140,6 +179,9 @@ public class IndicatorExample implements IndicatorConnectionListener {
 		}
 	}
 
+	/**
+	 * Called when a connection is made by a trading platform.
+	 */
 	@Override
 	public void notifyConnections(IndicatorLink link, boolean hasOpened) {
 		if (hasOpened) {

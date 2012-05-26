@@ -11,32 +11,74 @@ import org.encog.util.arrayutil.WindowDouble;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.csv.ReadCSV;
 
+/**
+ * This class is used to generate training for the moving averages example.
+ *
+ */
 public class GenerateTraining {
 
+	/**
+	 * The path that the data files will be stored at.
+	 */
 	private final File path;	
+	
+	/**
+	 * The path to the training file.
+	 */
 	private final File trainingFile;
+	
+	/**
+	 * A moving window used to track future gains.
+	 */
 	private final WindowDouble window = new WindowDouble(Config.PREDICT_WINDOW);
-	private final double pipSize;
+
+	/**
+	 * Used to normalize the difference between the two fields.
+	 */
 	private final NormalizedField fieldDifference;
+	
+	/**
+	 * Used to normalize the outcome (gain or loss).
+	 */
 	private final NormalizedField fieldOutcome;
+	
+	/** 
+	 * The maximum difference.
+	 */
 	private double maxDifference;
+	
+	/**
+	 * The minimum difference.
+	 */
 	private double minDifference;
+	
+	/**
+	 * The max pip gain/loss.
+	 */
 	private int maxPIPs;
+	
+	/**
+	 * The min pip gain/loss.
+	 */
 	private int minPIPs;
 	
-	public GenerateTraining(File thePath,double thePipSize) {
+	/**
+	 * Construct the training generator.
+	 * @param thePath The path to use.
+	 */
+	public GenerateTraining(File thePath) {
 		this.path = thePath;
-		this.pipSize = thePipSize;
 		this.trainingFile = new File(this.path,Config.FILENAME_TRAIN);		
 		
 		this.fieldDifference = new NormalizedField(NormalizationAction.Normalize,"diff",Config.DIFF_RANGE,-Config.DIFF_RANGE,1,-1);
 		this.fieldOutcome = new NormalizedField(NormalizationAction.Normalize,"out",Config.PIP_RANGE,-Config.PIP_RANGE,1,-1);
 	}
 	
-	public GenerateTraining(File thePath) {
-		this(thePath,Config.PIP_SIZE);
-	}
-		
+	/**
+	 * Process the individual training file.
+	 * @param file The training file to process.
+	 * @param output The data set to output to.
+	 */
 	protected void processFile(File file, BufferedMLDataSet output) {
 		
 		MLData inputData = new BasicMLData(output.getInputSize());
@@ -54,15 +96,15 @@ public class GenerateTraining {
 			for(int i=0;i<3;i++) {
 				double fast = csv.getDouble(fastIndex+i);
 				double slow = csv.getDouble(slowIndex+i);
-				double diff = this.fieldDifference.normalize( (fast - slow)/pipSize);		
+				double diff = this.fieldDifference.normalize( (fast - slow)/Config.PIP_SIZE);		
 				a[i+1] = diff;
 			}
 			window.add(a);
 			
 			
 			if( window.isFull() ) {
-				double max = (this.window.calculateMax(0,Config.INPUT_WINDOW)-close)/pipSize;
-				double min = (this.window.calculateMin(0,Config.INPUT_WINDOW)-close)/pipSize;
+				double max = (this.window.calculateMax(0,Config.INPUT_WINDOW)-close)/Config.PIP_SIZE;
+				double min = (this.window.calculateMin(0,Config.INPUT_WINDOW)-close)/Config.PIP_SIZE;
 				double o;
 				
 				if( Math.abs(max)>Math.abs(min) ) {
@@ -84,6 +126,10 @@ public class GenerateTraining {
 		}
 	}
 	
+	/**
+	 * Used to calibrate the training file. 
+	 * @param file The file to consider.
+	 */
 	protected void calibrateFile(File file) {
 						
 		ReadCSV csv = new ReadCSV(file.toString(),true,CSVFormat.ENGLISH);
@@ -99,7 +145,7 @@ public class GenerateTraining {
 				double slow = csv.getDouble(slowIndex+i);
 				
 				if( !Double.isNaN(fast) && !Double.isNaN(slow) ) {
-					double diff = (fast - slow)/pipSize;
+					double diff = (fast - slow)/Config.PIP_SIZE;
 					this.minDifference = Math.min(this.minDifference, diff);
 					this.maxDifference = Math.max(this.maxDifference, diff);	
 				}
@@ -107,8 +153,8 @@ public class GenerateTraining {
 			window.add(a);
 			
 			if( window.isFull() ) {
-				double max = (this.window.calculateMax(0,Config.INPUT_WINDOW)-close)/pipSize;
-				double min = (this.window.calculateMin(0,Config.INPUT_WINDOW)-close)/pipSize;
+				double max = (this.window.calculateMax(0,Config.INPUT_WINDOW)-close)/Config.PIP_SIZE;
+				double min = (this.window.calculateMin(0,Config.INPUT_WINDOW)-close)/Config.PIP_SIZE;
 				double o;
 				
 				if( Math.abs(max)>Math.abs(min) ) {
@@ -123,6 +169,9 @@ public class GenerateTraining {
 		}
 	}
 
+	/**
+	 * Called to generate the training file.
+	 */
 	public void generate() {
 		File[] list = this.path.listFiles();
 		
@@ -141,6 +190,10 @@ public class GenerateTraining {
 		output.close();
 	}
 
+	/**
+	 * Called to calibrate the data.  Does not actually do anything, other
+	 * than display a range report.
+	 */
 	public void calibrate() {
 		File[] list = this.path.listFiles();
 		
