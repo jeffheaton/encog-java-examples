@@ -19,7 +19,7 @@ public class ImportNinjaData implements IndicatorConnectionListener {
 		ind.requestData("OPEN[1]");
 		ind.requestData("CLOSE[1]");
 		ind.requestData("VOL[1]");	
-		ind.requestData("MACD(12,26,9).Avg[1]");
+		ind.requestData("MACD(12,26,9).0[1]");
 		
 		IndicatorServer server = new IndicatorServer();
 		server.addListener(this);

@@ -22,8 +22,7 @@ public class EMA extends BasicIndicator {
 			
 			double dataClose = CSVFormat.EG_FORMAT.parse(packet.getArgs()[2]);
 			double lastValue = CSVFormat.EG_FORMAT.parse(packet.getArgs()[4]);
-			double period = 14;
-			
+			double period = 14;			
 			double result;
 			
 			if( Double.isNaN(lastValue) )
@@ -34,12 +33,8 @@ public class EMA extends BasicIndicator {
 			String[] args = { 
 					CSVFormat.EG_FORMAT.format(result,Encog.DEFAULT_PRECISION), // line 1
 					"?", // line 2
-					"?",// line 3
-					"?",// bar 1
-					"?",// bar 2
-					"?",// bar 3
-					"?",// arrow 1
-					"?"};// arrow 2
+					"?"// bar 1
+					};
 			
 			this.getLink().writePacket(IndicatorLink.PACKET_IND, args);
 		}
