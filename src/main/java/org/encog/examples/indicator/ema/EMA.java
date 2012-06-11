@@ -1,4 +1,4 @@
-package org.encog.examples.indicator.ninja.ema;
+package org.encog.examples.indicator.ema;
 
 import org.encog.Encog;
 import org.encog.cloud.indicator.basic.BasicIndicator;
@@ -33,7 +33,7 @@ public class EMA extends BasicIndicator {
 			String[] args = { 
 					CSVFormat.EG_FORMAT.format(result,Encog.DEFAULT_PRECISION), // line 1
 					"?", // line 2
-					"?"// bar 1
+					CSVFormat.EG_FORMAT.format(result,Encog.DEFAULT_PRECISION)// bar 1
 					};
 			
 			this.getLink().writePacket(IndicatorLink.PACKET_IND, args);

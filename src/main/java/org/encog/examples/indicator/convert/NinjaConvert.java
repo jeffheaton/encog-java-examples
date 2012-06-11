@@ -1,4 +1,4 @@
-package org.encog.examples.indicator.ninja.convert;
+package org.encog.examples.indicator.convert;
 
 import java.io.File;
 

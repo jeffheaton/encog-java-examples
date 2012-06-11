@@ -1,4 +1,4 @@
-package org.encog.examples.indicator.ninja.dl;
+package org.encog.examples.indicator.dl;
 
 import java.io.File;
 
@@ -7,7 +7,7 @@ import org.encog.cloud.indicator.basic.DownloadIndicatorFactory;
 import org.encog.cloud.indicator.server.IndicatorLink;
 import org.encog.cloud.indicator.server.IndicatorServer;
 
-public class ImportNinjaData implements IndicatorConnectionListener {
+public class ImportIndicatorData implements IndicatorConnectionListener {
 	
 	public static final int PORT = 5128;	
 	
@@ -30,7 +30,7 @@ public class ImportNinjaData implements IndicatorConnectionListener {
 	
 	public static void main(String[] args) {
 		System.out.println("Waiting for connections on port " + PORT);
-		ImportNinjaData program = new ImportNinjaData();
+		ImportIndicatorData program = new ImportIndicatorData();
 		program.run();		
 	}
 

@@ -1,4 +1,4 @@
-package org.encog.examples.indicator.ninja.avg;
+package org.encog.examples.indicator.avg;
 
 import java.io.File;
 

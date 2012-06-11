@@ -1,4 +1,4 @@
-package org.encog.examples.indicator.ninja.ema;
+package org.encog.examples.indicator.ema;
 
 import org.encog.cloud.indicator.IndicatorConnectionListener;
 import org.encog.cloud.indicator.IndicatorFactory;
