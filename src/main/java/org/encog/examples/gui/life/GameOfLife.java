@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.encog.ca.program.CAProgram;
-import org.encog.ca.program.ConwayProgram;
+import org.encog.ca.program.conway.ConwayProgram;
 import org.encog.ca.runner.BasicCARunner;
 import org.encog.ca.runner.CARunner;
 import org.encog.ca.universe.Universe;
