@@ -8,11 +8,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +19,7 @@ import javax.swing.JTextField;
 
 import org.encog.ca.program.CAProgram;
 import org.encog.ca.program.conway.ConwayProgram;
+import org.encog.ca.program.elementary.ElementaryCA;
 import org.encog.ca.runner.BasicCARunner;
 import org.encog.ca.runner.CARunner;
 import org.encog.ca.universe.Universe;
@@ -29,9 +28,8 @@ import org.encog.ca.universe.basic.BasicCellFactory;
 import org.encog.ca.universe.basic.BasicUniverse;
 import org.encog.ca.visualize.CAVisualizer;
 import org.encog.ca.visualize.basic.BasicCAVisualizer;
-import org.encog.persist.EncogDirectoryPersistence;
 
-public class ElementaryCA extends JFrame implements ActionListener, WindowListener, UniverseListener, ItemListener {
+public class ElementaryExample extends JFrame implements ActionListener, WindowListener, UniverseListener, ItemListener {
 
 	private JTextField ruleText;
 	private JTextField sizeText;
@@ -44,7 +42,7 @@ public class ElementaryCA extends JFrame implements ActionListener, WindowListen
 	private DisplayPanel worldArea;
 	private JScrollPane scroll;
 
-	public ElementaryCA() {
+	public ElementaryExample() {
 		setSize(500, 500);
 		setTitle("Elementary CA");
 		
@@ -91,13 +89,18 @@ public class ElementaryCA extends JFrame implements ActionListener, WindowListen
 	public void performGenerate() {
 		
 		Universe universe = new BasicUniverse(this.worldArea.getHeight(),this.worldArea.getWidth(),new BasicCellFactory(1,1));
-		CAProgram physics = new ConwayProgram(universe);
+		CAProgram physics = new ElementaryCA(universe,110);
 		
 		
 		this.worldRunner = new BasicCARunner(
 				universe,
 				physics);
-		this.worldRunner.addListener(this);
+		
+		for(int i=0;i<100;i++)
+		{
+			physics.iteration();
+		}
+		
 		this.visualizer = new BasicCAVisualizer(universe);
 		this.worldArea.setCurrentImage(this.visualizer.visualize());
 	}
@@ -161,7 +164,7 @@ public class ElementaryCA extends JFrame implements ActionListener, WindowListen
 	
 	public static void main(String[] args) {
 		try {
-			JFrame f = new ElementaryCA();
+			JFrame f = new ElementaryExample();
 			f.setVisible(true);
 		} catch (Exception ex) {
 			ex.printStackTrace();
