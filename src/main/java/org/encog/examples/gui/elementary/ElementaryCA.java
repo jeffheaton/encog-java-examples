@@ -1,4 +1,4 @@
-package org.encog.examples.gui.life;
+package org.encog.examples.gui.elementary;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import org.encog.ca.program.CAProgram;
 import org.encog.ca.program.conway.ConwayProgram;
@@ -30,25 +31,22 @@ import org.encog.ca.visualize.CAVisualizer;
 import org.encog.ca.visualize.basic.BasicCAVisualizer;
 import org.encog.persist.EncogDirectoryPersistence;
 
-public class GameOfLife extends JFrame implements ActionListener, WindowListener, UniverseListener, ItemListener {
+public class ElementaryCA extends JFrame implements ActionListener, WindowListener, UniverseListener, ItemListener {
 
-	private JButton iterationButton;
-	private JButton startButton;
-	private JButton stopButton;
-	private JButton resetButton;
-	private JButton loadButton;
-	private JButton saveButton;
+	private JTextField ruleText;
+	private JTextField sizeText;
+	private JButton generateButton;
 	private JComboBox<String> zoomCombo;
 
 	private JLabel status;
 	private CARunner worldRunner;
 	private CAVisualizer visualizer;
-	private WorldPanel worldArea;
+	private DisplayPanel worldArea;
 	private JScrollPane scroll;
 
-	public GameOfLife() {
+	public ElementaryCA() {
 		setSize(500, 500);
-		setTitle("Conway's Game of Life");
+		setTitle("Elementary CA");
 		
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
@@ -56,72 +54,27 @@ public class GameOfLife extends JFrame implements ActionListener, WindowListener
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		c.add(buttonPanel, BorderLayout.NORTH);
 		c.add(this.status=new JLabel(), BorderLayout.SOUTH);
-		buttonPanel.add(iterationButton = new JButton("Iteration"));
-		buttonPanel.add(startButton = new JButton("Start"));
-		buttonPanel.add(stopButton = new JButton("Stop"));
-		buttonPanel.add(resetButton = new JButton("Reset"));		
-		buttonPanel.add(loadButton = new JButton("Load"));
-		buttonPanel.add(saveButton = new JButton("Save"));
+		buttonPanel.add(new JLabel("Rule:"));
+		buttonPanel.add(new JTextField("110"));
+		buttonPanel.add(new JLabel("Size:"));
+		buttonPanel.add(new JTextField("500"));		
+		buttonPanel.add(generateButton = new JButton("Generate"));
 		
-		this.worldArea = new WorldPanel();
+		this.worldArea = new DisplayPanel();
 		this.scroll = new JScrollPane(this.worldArea);
 		c.add(this.scroll, BorderLayout.CENTER);		
-		iterationButton.addActionListener(this);
-		startButton.addActionListener(this);
-		stopButton.addActionListener(this);
-		resetButton.addActionListener(this);
-		loadButton.addActionListener(this);
-		saveButton.addActionListener(this);
-		
-		
+		generateButton.addActionListener(this);
+				
 		String[] test = { "1x", "2x", "3x", "5x", "10x" };
 		this.zoomCombo = new JComboBox<String>(test);
 		buttonPanel.add(new JLabel("Zoom:"));
 		buttonPanel.add(zoomCombo);
 		zoomCombo.addItemListener(this);		
 		this.addWindowListener(this);	
-		
-		this.stopButton.setEnabled(false);
 	}
 
 	public void performIteration() {
 		this.worldRunner.iteration();
-	}
-
-	public void performStart() {
-		this.iterationButton.setEnabled(false);
-		this.stopButton.setEnabled(true);
-		this.startButton.setEnabled(false);
-		this.loadButton.setEnabled(false);
-		this.saveButton.setEnabled(false);
-		this.worldRunner.start();
-	}
-
-	public void performStop() {
-		this.iterationButton.setEnabled(true);
-		this.stopButton.setEnabled(false);
-		this.startButton.setEnabled(true);
-		this.loadButton.setEnabled(true);
-		this.saveButton.setEnabled(true);		
-		this.worldRunner.stop();
-	}
-	
-	public void performReset() {
-		boolean shouldRestart = false;
-		
-		if( this.worldRunner!=null && this.worldRunner.isRunning() ) {
-			shouldRestart = true;
-			performStop();
-		}
-		
-		Universe universe = new BasicUniverse(this.worldArea.getHeight(),this.worldArea.getWidth(),new BasicCellFactory(1,1)); 
-		universe.randomize();
-		
-		setupUniverse(universe);
-		
-		if( shouldRestart ) {
-			performStart();
-		}
 	}
 	
 	private void setupUniverse(Universe theUniverse) {
@@ -135,41 +88,25 @@ public class GameOfLife extends JFrame implements ActionListener, WindowListener
 		this.worldArea.setCurrentImage(this.visualizer.visualize());
 	}
 	
-	public void performLoad() {
-		final JFileChooser fc = new JFileChooser();
-		int rc = fc.showOpenDialog(this);
-		if( rc == JFileChooser.APPROVE_OPTION ) {
-			File f = fc.getSelectedFile();
-			Universe u = (Universe)EncogDirectoryPersistence.loadObject(f);
-			setupUniverse(u);
-		}
-	}
-	
-	public void performSave() {
-		final JFileChooser fc = new JFileChooser();
-		int rc = fc.showSaveDialog(this);
-		if( rc == JFileChooser.APPROVE_OPTION ) {
-			File f = fc.getSelectedFile();
-			EncogDirectoryPersistence.saveObject(f, this.worldRunner.getUniverse());
-		}
+	public void performGenerate() {
+		
+		Universe universe = new BasicUniverse(this.worldArea.getHeight(),this.worldArea.getWidth(),new BasicCellFactory(1,1));
+		CAProgram physics = new ConwayProgram(universe);
+		
+		
+		this.worldRunner = new BasicCARunner(
+				universe,
+				physics);
+		this.worldRunner.addListener(this);
+		this.visualizer = new BasicCAVisualizer(universe);
+		this.worldArea.setCurrentImage(this.visualizer.visualize());
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent ev) {
-		if (ev.getSource() == iterationButton) {
-			performIteration();
-		} else if (ev.getSource() == startButton) {
-			performStart();
-		} else if (ev.getSource() == stopButton) {
-			performStop();
-		} else if (ev.getSource() == resetButton) {
-			performReset();
-		} else if (ev.getSource() == saveButton) {
-			performSave();
-		} else if (ev.getSource() == loadButton) {
-			performLoad();
-		}
-
+		if (ev.getSource() == generateButton) {
+			performGenerate();
+		} 
 	}
 
 	@Override
@@ -186,7 +123,7 @@ public class GameOfLife extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		this.worldRunner.stop();
+		//this.worldRunner.stop();
 		System.exit(0);
 		
 	}
@@ -211,7 +148,7 @@ public class GameOfLife extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void windowOpened(WindowEvent arg0) {
-		performReset();
+		//performReset();
 	}
 
 	@Override
@@ -224,7 +161,7 @@ public class GameOfLife extends JFrame implements ActionListener, WindowListener
 	
 	public static void main(String[] args) {
 		try {
-			JFrame f = new GameOfLife();
+			JFrame f = new ElementaryCA();
 			f.setVisible(true);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -240,7 +177,7 @@ public class GameOfLife extends JFrame implements ActionListener, WindowListener
 				
 				if( this.worldRunner!=null && this.worldRunner.isRunning() ) {
 					shouldRestart = true;
-					performStop();
+					//performStop();
 				}
 				
 				String str = ev.getItem().toString();
@@ -248,7 +185,7 @@ public class GameOfLife extends JFrame implements ActionListener, WindowListener
 				this.visualizer.setZoom(zoom);
 				
 				if( shouldRestart ) {
-					performStart();
+					//performStart();
 				}
 			}
 		}	
