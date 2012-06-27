@@ -41,6 +41,7 @@ public class ElementaryExample extends JFrame implements ActionListener, WindowL
 	private CAVisualizer visualizer;
 	private DisplayPanel worldArea;
 	private JScrollPane scroll;
+	private int zoom = 1;
 
 	public ElementaryExample() {
 		setSize(500, 500);
@@ -53,9 +54,9 @@ public class ElementaryExample extends JFrame implements ActionListener, WindowL
 		c.add(buttonPanel, BorderLayout.NORTH);
 		c.add(this.status=new JLabel(), BorderLayout.SOUTH);
 		buttonPanel.add(new JLabel("Rule:"));
-		buttonPanel.add(new JTextField("110"));
+		buttonPanel.add(this.ruleText = new JTextField("110"));
 		buttonPanel.add(new JLabel("Size:"));
-		buttonPanel.add(new JTextField("500"));		
+		buttonPanel.add(this.sizeText = new JTextField("500"));		
 		buttonPanel.add(generateButton = new JButton("Generate"));
 		
 		this.worldArea = new DisplayPanel();
@@ -75,33 +76,26 @@ public class ElementaryExample extends JFrame implements ActionListener, WindowL
 		this.worldRunner.iteration();
 	}
 	
-	private void setupUniverse(Universe theUniverse) {
-		CAProgram physics = new ConwayProgram(theUniverse);
-		
-		this.worldRunner = new BasicCARunner(
-				theUniverse,
-				physics);
-		this.worldRunner.addListener(this);
-		this.visualizer = new BasicCAVisualizer(theUniverse);
-		this.worldArea.setCurrentImage(this.visualizer.visualize());
-	}
-	
 	public void performGenerate() {
 		
-		Universe universe = new BasicUniverse(this.worldArea.getHeight(),this.worldArea.getWidth(),new BasicCellFactory(1,1));
-		CAProgram physics = new ElementaryCA(universe,110);
+		int rule = Integer.parseInt(ruleText.getText());
+		int size = Integer.parseInt(sizeText.getText());
+		
+		Universe universe = new BasicUniverse((int)(size*1.5),(int)(size*2.5),new BasicCellFactory(1,1));
+		CAProgram physics = new ElementaryCA(universe,rule);
 		
 		
 		this.worldRunner = new BasicCARunner(
 				universe,
 				physics);
 		
-		for(int i=0;i<100;i++)
+		for(int i=0;i<size;i++)
 		{
 			physics.iteration();
 		}
 		
 		this.visualizer = new BasicCAVisualizer(universe);
+		this.visualizer.setZoom(this.zoom);
 		this.worldArea.setCurrentImage(this.visualizer.visualize());
 	}
 
@@ -176,20 +170,10 @@ public class ElementaryExample extends JFrame implements ActionListener, WindowL
 	public void itemStateChanged(ItemEvent ev) {
 		if( ev.getItemSelectable()==this.zoomCombo ) {
 			if( ev.getStateChange()==ItemEvent.SELECTED ) {				
-				boolean shouldRestart = false;
-				
-				if( this.worldRunner!=null && this.worldRunner.isRunning() ) {
-					shouldRestart = true;
-					//performStop();
-				}
-				
 				String str = ev.getItem().toString();
-				int zoom = Integer.parseInt(str.substring(0, str.length()-1));
+				zoom = Integer.parseInt(str.substring(0, str.length()-1));
 				this.visualizer.setZoom(zoom);
-				
-				if( shouldRestart ) {
-					//performStart();
-				}
+				this.performGenerate();
 			}
 		}	
 	}
