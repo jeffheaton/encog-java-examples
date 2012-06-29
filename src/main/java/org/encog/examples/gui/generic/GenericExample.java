@@ -39,7 +39,7 @@ public class GenericExample extends JFrame implements ActionListener, WindowList
 	private JButton resetButton;
 	private JButton loadButton;
 	private JButton saveButton;
-	private JComboBox<String> zoomCombo;
+	private JComboBox zoomCombo;
 
 	private JLabel status;
 	private CARunner worldRunner;
@@ -75,7 +75,7 @@ public class GenericExample extends JFrame implements ActionListener, WindowList
 		saveButton.addActionListener(this);
 				
 		String[] test = { "1x", "2x", "3x", "5x", "10x" };
-		this.zoomCombo = new JComboBox<String>(test);
+		this.zoomCombo = new JComboBox(test);
 		buttonPanel.add(new JLabel("Zoom:"));
 		buttonPanel.add(zoomCombo);
 		zoomCombo.addItemListener(this);		

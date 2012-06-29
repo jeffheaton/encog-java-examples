@@ -34,7 +34,7 @@ public class ElementaryExample extends JFrame implements ActionListener, WindowL
 	private JTextField ruleText;
 	private JTextField sizeText;
 	private JButton generateButton;
-	private JComboBox<String> zoomCombo;
+	private JComboBox zoomCombo;
 
 	private JLabel status;
 	private CARunner worldRunner;
@@ -65,7 +65,7 @@ public class ElementaryExample extends JFrame implements ActionListener, WindowL
 		generateButton.addActionListener(this);
 				
 		String[] test = { "1x", "2x", "3x", "5x", "10x" };
-		this.zoomCombo = new JComboBox<String>(test);
+		this.zoomCombo = new JComboBox(test);
 		buttonPanel.add(new JLabel("Zoom:"));
 		buttonPanel.add(zoomCombo);
 		zoomCombo.addItemListener(this);		
