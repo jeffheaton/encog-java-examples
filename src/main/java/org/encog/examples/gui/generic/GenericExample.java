@@ -73,8 +73,7 @@ public class GenericExample extends JFrame implements ActionListener, WindowList
 		resetButton.addActionListener(this);
 		loadButton.addActionListener(this);
 		saveButton.addActionListener(this);
-		
-		
+				
 		String[] test = { "1x", "2x", "3x", "5x", "10x" };
 		this.zoomCombo = new JComboBox<String>(test);
 		buttonPanel.add(new JLabel("Zoom:"));
@@ -83,6 +82,18 @@ public class GenericExample extends JFrame implements ActionListener, WindowList
 		this.addWindowListener(this);	
 		
 		this.stopButton.setEnabled(false);
+		
+		Universe universe = new BasicUniverse(500,500,new BasicCellFactory(3,-1,1)); 
+		CAProgram physics = new GenericCA(universe,5);
+		
+		this.worldRunner = new BasicCARunner(
+				universe,
+				physics);
+		this.worldRunner.addListener(this);
+		this.visualizer = new BasicCAVisualizer(universe);
+		this.worldArea.setCurrentImage(this.visualizer.visualize());
+		
+		performReset();
 	}
 
 	public void performIteration() {
@@ -115,27 +126,13 @@ public class GenericExample extends JFrame implements ActionListener, WindowList
 			performStop();
 		}
 		
-		Universe universe = new BasicUniverse(this.worldArea.getHeight(),this.worldArea.getWidth(),new BasicCellFactory(3,-1,1)); 
-		universe.randomize();
-		
-		setupUniverse(universe);
+		this.worldRunner.reset();
 		
 		if( shouldRestart ) {
 			performStart();
 		}
 	}
 	
-	private void setupUniverse(Universe theUniverse) {
-		CAProgram physics = new GenericCA(theUniverse,5);
-		physics.randomize();
-		
-		this.worldRunner = new BasicCARunner(
-				theUniverse,
-				physics);
-		this.worldRunner.addListener(this);
-		this.visualizer = new BasicCAVisualizer(theUniverse);
-		this.worldArea.setCurrentImage(this.visualizer.visualize());
-	}
 	
 	public void performLoad() {
 		final JFileChooser fc = new JFileChooser();

@@ -32,8 +32,8 @@ public class GenericBatch {
 			universe.randomize();
 			physics.randomize();		
 			String status = "fail";
-			int iterations = runner.runToConverge(100,0.8);
-			if( iterations>=100 && runner.getScore()>0.01 ) {
+			int iterations = runner.runToConverge(100,0.1);
+			if( iterations>=100 && runner.getScore()>0.0 ) {
 				save(runner,t);
 				status = "save";
 			}
