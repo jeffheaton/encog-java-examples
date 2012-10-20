@@ -1,5 +1,5 @@
 /*
- * Encog(tm) Examples v3.1 - Java Version
+ * Encog(tm) Java Examples v3.2
  * http://www.heatonresearch.com/encog/
  * http://code.google.com/p/encog-java/
  
