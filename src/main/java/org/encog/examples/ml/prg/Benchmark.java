@@ -15,7 +15,7 @@ public class Benchmark {
 		Stopwatch sw = new Stopwatch();
 		sw.start();
 		for(double a = 0;a<10000000;a++) {
-			expression.set("a",a);
+			expression.setVariable("a",a);
 			expression.evaluate(0).toFloatValue();
 		}
 		sw.stop();
