@@ -4,9 +4,12 @@ import org.encog.mathutil.EncogFunction;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.extension.StandardExtensions;
+import org.encog.ml.prg.train.PrgGenetic;
 import org.encog.ml.prg.train.PrgPopulation;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
+import org.encog.parse.expression.common.RenderCommonExpression;
 import org.encog.util.data.GenerationUtil;
+import org.encog.util.simple.EncogUtility;
 
 public class SimpleExpression {
 	public static void main(String[] args) {
@@ -30,12 +33,21 @@ public class SimpleExpression {
 		
 		StandardExtensions.createNumericOperators(context.getFunctions());
 		
-		PrgPopulation pop = new PrgPopulation(context,trainingData,1000);
+		PrgPopulation pop = new PrgPopulation(context,1000);
 		pop.addRewriteRule(new RewriteConstants());
-		pop.createRandomPopulation(5);
-		pop.sort();
+
+		PrgGenetic genetic = new PrgGenetic(pop,trainingData);
+		genetic.createRandomPopulation(5);
+		System.out.println("Error: " + genetic.getError());
+		genetic.iteration();
+		System.out.println("Error: " + genetic.getError());
+		
+		RenderCommonExpression render = new RenderCommonExpression();
+		System.out.println(render.render(genetic.getBestGenome()));
+		
+		EncogUtility.evaluate(genetic.getBestGenome(), trainingData);
 		
 		//System.out.println(train.getError());
-		pop.dumpMembers();
+		//pop.dumpMembers();
 	}
 }
