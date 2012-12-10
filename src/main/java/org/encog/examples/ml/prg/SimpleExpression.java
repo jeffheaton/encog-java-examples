@@ -40,9 +40,9 @@ public class SimpleExpression {
 
 		StandardExtensions.createNumericOperators(context.getFunctions());
 
-		PrgPopulation pop = new PrgPopulation(context, 1000);
-		pop.addRewriteRule(new RewriteConstants());
-		pop.addRewriteRule(new RewriteAlgebraic());
+		PrgPopulation pop = new PrgPopulation(context);
+		//pop.addRewriteRule(new RewriteConstants());
+		//pop.addRewriteRule(new RewriteAlgebraic());
 		
 		MultiObjectiveFitness score = new MultiObjectiveFitness();
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
@@ -51,6 +51,7 @@ public class SimpleExpression {
 	
 		//CalculateScore score = new ComplexityBasedScore(new TrainingSetScore(trainingData),1);
 		PrgGenetic genetic = new PrgGenetic(pop, score);
+		genetic.setThreadCount(1);
 		//PrgGenetic genetic = new PrgGenetic(pop, new TrainingSetScore(trainingData));
 		genetic.createRandomPopulation(5);
 
@@ -63,8 +64,9 @@ public class SimpleExpression {
 		for(int i=0;i<1000;i++) {
 			genetic.iteration();
 			best = genetic.getBestGenome();
-			System.out.println(genetic.getIteration() + ", Error: " + genetic.getError()
-					+ ", size: " + best.size() + ", best: " + render.render(best));
+			System.out.println(genetic.getIteration() + ", Error: " + genetic.getError() + ",best: " + best.size2());
+			/*System.out.println(genetic.getIteration() + ", Error: " + genetic.getError()
+					+ ", size: " + best.size() + ", best: " + render.render(best));*/
 		}
 		
 		genetic.finishTraining();

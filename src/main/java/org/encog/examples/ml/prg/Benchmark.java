@@ -8,14 +8,22 @@ public class Benchmark {
 	public static final int MILLION = 1000000;
 	public static final int COUNT = 10 * MILLION;
 	
+	public static void testDirect() {
+		Stopwatch sw = new Stopwatch();
+		sw.start();
+		double d = 0;
+		
+		for(double a = 0;a<COUNT;a++) {
+			d+=(Math.pow(a+25,3)/25)-(Math.pow((a*3),4)/250);
+		}
+		sw.stop();
+		
+		System.out.println("Time Direct: " + sw.getElapsedMilliseconds());
+	}
 	
-	public static void main(String[] args) {
+	public static void testEPL() {
 		EncogProgram expression = new EncogProgram("((a+25)^3/25)-((a*3)^4/250)");
-		
-		RenderCommonExpression render = new RenderCommonExpression();
-		System.out.println(render.render(expression));
-		
-		
+
 		Stopwatch sw = new Stopwatch();
 		sw.start();
 		for(double a = 0;a<COUNT;a++) {
@@ -24,7 +32,11 @@ public class Benchmark {
 		}
 		sw.stop();
 		
-		System.out.println("Time: " + sw.getElapsedMilliseconds());
-		// 3264
+		System.out.println("Time EPL: " + sw.getElapsedMilliseconds());
+	}
+	
+	public static void main(String[] args) {
+		testDirect();
+		testEPL();
 	}
 }
