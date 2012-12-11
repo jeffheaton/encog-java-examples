@@ -54,6 +54,8 @@ public class SimpleExpression {
 		genetic.setThreadCount(1);
 		//PrgGenetic genetic = new PrgGenetic(pop, new TrainingSetScore(trainingData));
 		genetic.createRandomPopulation(5);
+		//genetic.getContext().getParams().setMutationProbability(0);
+		//genetic.getContext().getParams().setCrossoverProbability(0);
 
 		// genetic.sort();
 		// pop.dumpMembers();
@@ -61,10 +63,10 @@ public class SimpleExpression {
 
 		RenderCommonExpression render = new RenderCommonExpression();
 
-		for(int i=0;i<1000;i++) {
+		for(int i=0;i<100;i++) {
 			genetic.iteration();
 			best = genetic.getBestGenome();
-			System.out.println(genetic.getIteration() + ", Error: " + genetic.getError() + ",best: " + best.size2());
+			System.out.println(genetic.getIteration() + ", Error: " + genetic.getError() + ",best: " + best.toString());
 			/*System.out.println(genetic.getIteration() + ", Error: " + genetic.getError()
 					+ ", size: " + best.size() + ", best: " + render.render(best));*/
 		}
