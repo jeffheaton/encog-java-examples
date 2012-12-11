@@ -51,7 +51,7 @@ public class SimpleExpression {
 	
 		//CalculateScore score = new ComplexityBasedScore(new TrainingSetScore(trainingData),1);
 		PrgGenetic genetic = new PrgGenetic(pop, score);
-		genetic.setThreadCount(1);
+		//genetic.setThreadCount(1);
 		//PrgGenetic genetic = new PrgGenetic(pop, new TrainingSetScore(trainingData));
 		genetic.createRandomPopulation(5);
 		//genetic.getContext().getParams().setMutationProbability(0);
@@ -61,28 +61,18 @@ public class SimpleExpression {
 		// pop.dumpMembers();
 		EncogProgram best;
 
-		RenderCommonExpression render = new RenderCommonExpression();
-
 		for(int i=0;i<100;i++) {
 			genetic.iteration();
 			best = genetic.getBestGenome();
 			System.out.println(genetic.getIteration() + ", Error: " + genetic.getError() + ",best: " + best.toString());
-			/*System.out.println(genetic.getIteration() + ", Error: " + genetic.getError()
-					+ ", size: " + best.size() + ", best: " + render.render(best));*/
 		}
 		
 		genetic.finishTraining();
-
-		// System.out.println(render.render(best));
 
 		best = genetic.getBestGenome();
 		EncogUtility.evaluate(genetic.getBestGenome(), trainingData);
 		genetic.calculateEffectiveScore(best);
 		System.out.println("Final score:" + best.getScore() + ", effective score:" + best.getEffectiveScore());
-		
-		// System.out.println(best.calculateError(trainingData));
-
-		// System.out.println(train.getError());
-		// pop.dumpMembers();
+		System.out.println(best.dumpAsCommonExpression());
 	}
 }
