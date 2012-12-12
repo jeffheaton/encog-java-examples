@@ -8,10 +8,7 @@ import org.encog.ml.prg.extension.StandardExtensions;
 import org.encog.ml.prg.train.PrgGenetic;
 import org.encog.ml.prg.train.PrgPopulation;
 import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
-import org.encog.ml.prg.train.rewrite.RewriteAlgebraic;
-import org.encog.ml.prg.train.rewrite.RewriteConstants;
 import org.encog.neural.networks.training.TrainingSetScore;
-import org.encog.parse.expression.common.RenderCommonExpression;
 import org.encog.util.data.GenerationUtil;
 import org.encog.util.simple.EncogUtility;
 
@@ -25,7 +22,7 @@ public class SimpleExpression {
 					public double fn(double[] x) {
 						// return (x[0] + 10) / 4;
 						// return Math.sin(x[0]);
-						return 3*Math.pow(x[0], 2) +  (12*x[0]) + 4;
+						return 3 * Math.pow(x[0], 2) + (12 * x[0]) + 4;
 					}
 
 					@Override
@@ -41,38 +38,49 @@ public class SimpleExpression {
 		StandardExtensions.createNumericOperators(context.getFunctions());
 
 		PrgPopulation pop = new PrgPopulation(context);
-		//pop.addRewriteRule(new RewriteConstants());
-		//pop.addRewriteRule(new RewriteAlgebraic());
-		
+		// pop.addRewriteRule(new RewriteConstants());
+		// pop.addRewriteRule(new RewriteAlgebraic());
+
 		MultiObjectiveFitness score = new MultiObjectiveFitness();
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
-		//score.addObjective(400.0, new ComplexityBasedScore());
-		
-	
-		//CalculateScore score = new ComplexityBasedScore(new TrainingSetScore(trainingData),1);
+		// score.addObjective(400.0, new ComplexityBasedScore());
+
+		// CalculateScore score = new ComplexityBasedScore(new
+		// TrainingSetScore(trainingData),1);
 		PrgGenetic genetic = new PrgGenetic(pop, score);
-		//genetic.setThreadCount(1);
-		//PrgGenetic genetic = new PrgGenetic(pop, new TrainingSetScore(trainingData));
+		// genetic.setThreadCount(1);
+		// PrgGenetic genetic = new PrgGenetic(pop, new
+		// TrainingSetScore(trainingData));
 		genetic.createRandomPopulation(5);
-		//genetic.getContext().getParams().setMutationProbability(0);
-		//genetic.getContext().getParams().setCrossoverProbability(0);
+		// genetic.getContext().getParams().setMutationProbability(0);
+		// genetic.getContext().getParams().setCrossoverProbability(0);
 
 		// genetic.sort();
 		// pop.dumpMembers();
-		EncogProgram best;
+		//context.getParams().setIgnoreExceptions(true);
+		EncogProgram best = genetic.getPopulation().createProgram();
 
-		for(int i=0;i<100;i++) {
-			genetic.iteration();
-			best = genetic.getBestGenome();
-			System.out.println(genetic.getIteration() + ", Error: " + genetic.getError() + ",best: " + best.toString());
+		try {
+
+			for (int i = 0; i < 1000; i++) {
+				genetic.iteration();
+				genetic.copyBestGenome(best);
+				System.out.println(genetic.getIteration() + ", Error: "
+						+ genetic.getError() + ",best: " + best.toString());
+			}
+			
+			genetic.copyBestGenome(best);
+			EncogUtility.evaluate(best, trainingData);
+			genetic.calculateEffectiveScore(best);
+			System.out.println("Final score:" + best.getScore()
+					+ ", effective score:" + best.getEffectiveScore());
+			System.out.println(best.dumpAsCommonExpression());
+		} catch (Throwable t) {
+			t.printStackTrace();
+		} finally {
+			genetic.finishTraining();
 		}
-		
-		genetic.finishTraining();
 
-		best = genetic.getBestGenome();
-		EncogUtility.evaluate(genetic.getBestGenome(), trainingData);
-		genetic.calculateEffectiveScore(best);
-		System.out.println("Final score:" + best.getScore() + ", effective score:" + best.getEffectiveScore());
-		System.out.println(best.dumpAsCommonExpression());
+		
 	}
 }
