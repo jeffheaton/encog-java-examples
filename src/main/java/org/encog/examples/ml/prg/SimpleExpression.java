@@ -7,7 +7,10 @@ import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.extension.StandardExtensions;
 import org.encog.ml.prg.train.PrgGenetic;
 import org.encog.ml.prg.train.PrgPopulation;
+import org.encog.ml.prg.train.fitness.ComplexityBasedScore;
 import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
+import org.encog.ml.prg.train.rewrite.RewriteConstants;
+import org.encog.ml.prg.train.rewrite.algebraic.RewriteAlgebraic;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.util.data.GenerationUtil;
 import org.encog.util.simple.EncogUtility;
@@ -38,25 +41,16 @@ public class SimpleExpression {
 		StandardExtensions.createNumericOperators(context.getFunctions());
 
 		PrgPopulation pop = new PrgPopulation(context);
-		// pop.addRewriteRule(new RewriteConstants());
-		// pop.addRewriteRule(new RewriteAlgebraic());
+		pop.addRewriteRule(new RewriteConstants());
+		pop.addRewriteRule(new RewriteAlgebraic());
 
 		MultiObjectiveFitness score = new MultiObjectiveFitness();
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
-		// score.addObjective(400.0, new ComplexityBasedScore());
+		//score.addObjective(400.0, new ComplexityBasedScore());
 
-		// CalculateScore score = new ComplexityBasedScore(new
-		// TrainingSetScore(trainingData),1);
 		PrgGenetic genetic = new PrgGenetic(pop, score);
-		// genetic.setThreadCount(1);
-		// PrgGenetic genetic = new PrgGenetic(pop, new
-		// TrainingSetScore(trainingData));
 		genetic.createRandomPopulation(5);
-		// genetic.getContext().getParams().setMutationProbability(0);
-		// genetic.getContext().getParams().setCrossoverProbability(0);
 
-		// genetic.sort();
-		// pop.dumpMembers();
 		//context.getParams().setIgnoreExceptions(true);
 		EncogProgram best = genetic.getPopulation().createProgram();
 
@@ -66,7 +60,7 @@ public class SimpleExpression {
 				genetic.iteration();
 				genetic.copyBestGenome(best);
 				System.out.println(genetic.getIteration() + ", Error: "
-						+ genetic.getError() + ",best: " + best.toString());
+						+ genetic.getError() + ",best: " + best.dumpAsCommonExpression());
 			}
 			
 			genetic.copyBestGenome(best);
@@ -75,6 +69,10 @@ public class SimpleExpression {
 			System.out.println("Final score:" + best.getScore()
 					+ ", effective score:" + best.getEffectiveScore());
 			System.out.println(best.dumpAsCommonExpression());
+			
+			genetic.sort();
+			pop.dumpMembers(10);
+
 		} catch (Throwable t) {
 			t.printStackTrace();
 		} finally {
