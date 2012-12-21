@@ -21,12 +21,12 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.nonlinear.basicstrategy;
+package org.encog.examples.unfinished.basicstrategy;
 
-import org.encog.examples.nonlinear.basicstrategy.blackjack.Hand;
-import org.encog.examples.nonlinear.basicstrategy.blackjack.Participant;
-import org.encog.examples.nonlinear.basicstrategy.blackjack.Shoe;
-import org.encog.examples.nonlinear.basicstrategy.blackjack.Table;
+import org.encog.examples.unfinished.basicstrategy.blackjack.Hand;
+import org.encog.examples.unfinished.basicstrategy.blackjack.Participant;
+import org.encog.examples.unfinished.basicstrategy.blackjack.Shoe;
+import org.encog.examples.unfinished.basicstrategy.blackjack.Table;
 import org.encog.mathutil.randomize.RangeRandomizer;
 
 

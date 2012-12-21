@@ -21,12 +21,12 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.nonlinear.basicstrategy.blackjack;
+package org.encog.examples.unfinished.basicstrategy.blackjack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.encog.examples.nonlinear.basicstrategy.Player;
+import org.encog.examples.unfinished.basicstrategy.Player;
 
 public class Table {
 	private Shoe shoe;

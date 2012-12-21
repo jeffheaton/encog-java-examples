@@ -21,35 +21,41 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.nonlinear.basicstrategy;
+package org.encog.examples.ml.tsp.genetic;
 
-import org.encog.examples.nonlinear.basicstrategy.blackjack.Dealer;
-import org.encog.examples.nonlinear.basicstrategy.blackjack.Table;
+import org.encog.examples.ml.tsp.City;
 import org.encog.ml.genetic.genome.CalculateGenomeScore;
 import org.encog.ml.genetic.genome.Genome;
+import org.encog.ml.genetic.genome.IntegerArrayGenome;
 
-public class ScorePlayer implements CalculateGenomeScore {
+public class TSPScore implements CalculateGenomeScore {
 
+	private City[] cities;
+	
+	public TSPScore(City[] cities)
+	{
+		this.cities = cities;
+	}
+	
 	@Override
 	public double calculateScore(Genome genome) {
+		double result = 0.0;
 		
-		Player player = (Player)genome.getOrganism();
-		player.setMoney(1000);
+		int[] path = ((IntegerArrayGenome)genome).getData();
 		
-		Table table = new Table(1, new Dealer());
-		table.addPlayer(player);
-		
-		for(int rounds = 0; rounds< 100; rounds++ )
-		{
-			table.play();
+		for (int i = 0; i < cities.length - 1; i++) {
+			City city1 = cities[path[i]];
+			City city2 = cities[path[i+1]];
+			
+			final double dist = city1.proximity(city2);
+			result += dist;
 		}
 		
-		return player.getMoney();
+		return result;
 	}
 
-	@Override
 	public boolean shouldMinimize() {
-		return false;
+		return true;
 	}
 
 }

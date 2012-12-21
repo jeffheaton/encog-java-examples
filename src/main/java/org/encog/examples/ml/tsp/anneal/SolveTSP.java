@@ -21,22 +21,13 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.nonlinear.tsp.genetic;
+package org.encog.examples.ml.tsp.anneal;
 
-import org.encog.examples.nonlinear.tsp.City;
-import org.encog.ml.genetic.BasicGeneticAlgorithm;
-import org.encog.ml.genetic.GeneticAlgorithm;
-import org.encog.ml.genetic.crossover.SpliceNoRepeat;
-import org.encog.ml.genetic.genes.Gene;
-import org.encog.ml.genetic.genes.IntegerGene;
-import org.encog.ml.genetic.genome.CalculateGenomeScore;
-import org.encog.ml.genetic.mutate.MutateShuffle;
-import org.encog.ml.genetic.population.BasicPopulation;
-import org.encog.ml.genetic.population.Population;
+import org.encog.examples.ml.tsp.City;
 
 /**
- * SolveTSP with a genetic algorithm.  The Encog API includes a generic
- * genetic algorithm problem solver.  This example shows how to use it
+ * SolveTSP with Simulated Annealing.  The Encog API includes a generic
+ * simulated annealing problem solver.  This example shows how to use it
  * to find a solution to the Traveling Salesman Problem (TSP).  This 
  * example does not use any sort of neural network.
  * @author 
@@ -44,16 +35,14 @@ import org.encog.ml.genetic.population.Population;
  */
 public class SolveTSP {
 
+	public static final double START_TEMP = 10.0;
+	public static final double STOP_TEMP = 2.0;
+	public static final int CYCLES = 10;
 	public static final int CITIES = 50;
-	public static final int POPULATION_SIZE = 1000;
-	public static final double MUTATION_PERCENT = 0.1;
-	public static final double PERCENT_TO_MATE = 0.24;
-	public static final double MATING_POPULATION_PERCENT = 0.5;
-	public static final int CUT_LENGTH = CITIES/5;
 	public static final int MAP_SIZE = 256;
 	public static final int MAX_SAME_SOLUTION = 50;
-	
-	private GeneticAlgorithm genetic;
+
+	private TSPSimulatedAnnealing anneal;
 	private City cities[];
 
 	/**
@@ -68,40 +57,47 @@ public class SolveTSP {
 			cities[i] = new City(xPos, yPos);
 		}
 	}
-	
-	private void initPopulation(GeneticAlgorithm ga)
-	{
-		CalculateGenomeScore score =  new TSPScore(cities);
-		ga.setCalculateScore(score);
-		Population population = new BasicPopulation(POPULATION_SIZE);
-		ga.setPopulation(population);
 
-		for (int i = 0; i < POPULATION_SIZE; i++) {
+	/**
+	 * Create an initial path of cities.
+	 */
+	private void initPath() {
+		final boolean taken[] = new boolean[this.cities.length];
+		final Integer path[] = new Integer[this.cities.length];
 
-			final TSPGenome genome = new TSPGenome(ga, cities);
-			ga.getPopulation().add(genome);
-			ga.calculateScore(genome);
+		for (int i = 0; i < path.length; i++) {
+			taken[i] = false;
 		}
-		population.claim(ga);
-		population.sort();
-	}
+		for (int i = 0; i < path.length - 1; i++) {
+			int icandidate;
+			do {
+				icandidate = (int) (Math.random() * path.length);
+			} while (taken[icandidate]);
+			path[i] = icandidate;
+			taken[icandidate] = true;
+			if (i == path.length - 2) {
+				icandidate = 0;
+				while (taken[icandidate]) {
+					icandidate++;
+				}
+				path[i + 1] = icandidate;
+			}
+		}
 
+		this.anneal.putArray(path);
+	}
 
 	/**
 	 * Display the cities in the final path.
 	 */
 	public void displaySolution() {
-
-		boolean first = true;
-		
-		for(Gene gene : genetic.getPopulation().getBest().getChromosomes().get(0).getGenes() )
-		{
-			if( !first )
+		Integer path[] = anneal.getArray();
+		for (int i = 0; i < path.length; i++) {
+			if (i != 0) {
 				System.out.print(">");
-			System.out.print( ""+ ((IntegerGene)gene).getValue());
-			first = false;
+			}
+			System.out.print("" + path[i]);
 		}
-		
 		System.out.println("");
 	}
 
@@ -113,23 +109,19 @@ public class SolveTSP {
 
 		initCities();
 
-		genetic = new BasicGeneticAlgorithm();
-		
-		initPopulation(genetic);
-		genetic.setMutationPercent(MUTATION_PERCENT);
-		genetic.setPercentToMate(PERCENT_TO_MATE);
-		genetic.setMatingPopulation(MATING_POPULATION_PERCENT);
-		genetic.setCrossover(new SpliceNoRepeat(CITIES/3));
-		genetic.setMutate(new MutateShuffle());
+		anneal = new TSPSimulatedAnnealing(cities, START_TEMP, STOP_TEMP,
+				CYCLES);
+
+		initPath();
 
 		int sameSolutionCount = 0;
 		int iteration = 1;
 		double lastSolution = Double.MAX_VALUE;
 
 		while (sameSolutionCount < MAX_SAME_SOLUTION) {
-			genetic.iteration();
+			anneal.iteration();
 
-			double thisSolution = genetic.getPopulation().getBest().getScore();
+			double thisSolution = anneal.getScore();
 
 			builder.setLength(0);
 			builder.append("Iteration: ");

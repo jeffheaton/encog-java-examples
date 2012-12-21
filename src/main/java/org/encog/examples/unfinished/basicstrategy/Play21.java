@@ -21,10 +21,10 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.nonlinear.basicstrategy;
+package org.encog.examples.unfinished.basicstrategy;
 
-import org.encog.examples.nonlinear.basicstrategy.blackjack.Dealer;
-import org.encog.examples.nonlinear.basicstrategy.blackjack.Table;
+import org.encog.examples.unfinished.basicstrategy.blackjack.Dealer;
+import org.encog.examples.unfinished.basicstrategy.blackjack.Table;
 import org.encog.ml.genetic.BasicGeneticAlgorithm;
 import org.encog.ml.genetic.GeneticAlgorithm;
 import org.encog.ml.genetic.crossover.Splice;

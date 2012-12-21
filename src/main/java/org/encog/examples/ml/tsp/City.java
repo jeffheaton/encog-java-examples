@@ -21,7 +21,7 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.nonlinear.tsp;
+package org.encog.examples.ml.tsp;
 
 /**
  * City: Holds the location of a city for the traveling salesman problem.

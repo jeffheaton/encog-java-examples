@@ -21,7 +21,7 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.nonlinear.basicstrategy.blackjack;
+package org.encog.examples.unfinished.basicstrategy.blackjack;
 
 
 public class Dealer extends Participant {

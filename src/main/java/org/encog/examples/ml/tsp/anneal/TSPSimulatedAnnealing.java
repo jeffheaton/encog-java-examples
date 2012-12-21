@@ -21,9 +21,9 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.nonlinear.tsp.anneal;
+package org.encog.examples.ml.tsp.anneal;
 
-import org.encog.examples.nonlinear.tsp.City;
+import org.encog.examples.ml.tsp.City;
 import org.encog.ml.anneal.SimulatedAnnealing;
 import org.encog.neural.NeuralNetworkError;
 
