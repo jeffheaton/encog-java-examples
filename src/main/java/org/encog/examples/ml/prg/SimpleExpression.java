@@ -67,7 +67,7 @@ public class SimpleExpression {
 			EncogUtility.evaluate(best, trainingData);
 			genetic.calculateEffectiveScore(best);
 			System.out.println("Final score:" + best.getScore()
-					+ ", effective score:" + best.getEffectiveScore());
+					+ ", effective score:" + best.getAdjustedScore());
 			System.out.println(best.dumpAsCommonExpression());
 			
 			genetic.sort();
