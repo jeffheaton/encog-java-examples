@@ -2,12 +2,13 @@ package org.encog.examples.ml.prg;
 
 import org.encog.mathutil.EncogFunction;
 import org.encog.ml.data.MLDataSet;
+import org.encog.ml.genetic.crossover.SubtreeCrossover;
+import org.encog.ml.genetic.mutate.SubtreeMutation;
 import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.extension.StandardExtensions;
 import org.encog.ml.prg.train.PrgGenetic;
 import org.encog.ml.prg.train.PrgPopulation;
-import org.encog.ml.prg.train.fitness.ComplexityBasedScore;
 import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
 import org.encog.ml.prg.train.rewrite.algebraic.RewriteAlgebraic;
@@ -49,6 +50,8 @@ public class SimpleExpression {
 		//score.addObjective(400.0, new ComplexityBasedScore());
 
 		PrgGenetic genetic = new PrgGenetic(pop, score);
+		genetic.addOperation(0.95, new SubtreeCrossover());
+		genetic.addOperation(0.05, new SubtreeMutation(context,4));
 		genetic.createRandomPopulation(5);
 
 		//context.getParams().setIgnoreExceptions(true);
