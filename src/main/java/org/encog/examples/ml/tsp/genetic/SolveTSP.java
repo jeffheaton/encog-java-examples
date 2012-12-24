@@ -135,7 +135,7 @@ public class SolveTSP {
 		StringBuilder builder = new StringBuilder();
 
 		initCities();
-
+/*
 		genetic = new BasicGeneticAlgorithm();
 		
 		initPopulation(genetic);
@@ -172,7 +172,7 @@ public class SolveTSP {
 		}
 
 		System.out.println("Good solution found:");
-		displaySolution();
+		displaySolution();*/
 
 	}
 

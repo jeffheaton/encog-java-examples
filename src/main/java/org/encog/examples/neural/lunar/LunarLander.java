@@ -25,7 +25,6 @@ package org.encog.examples.neural.lunar;
 
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationTANH;
-import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
 import org.encog.ml.MLMethod;
 import org.encog.ml.MLResettable;
 import org.encog.ml.MethodFactory;
@@ -33,7 +32,6 @@ import org.encog.ml.genetic.MLMethodGeneticAlgorithm;
 import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
-import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.neural.pattern.FeedForwardPattern;
 
 /**

@@ -25,6 +25,7 @@ package org.encog.examples.unfinished.basicstrategy;
 
 import org.encog.ml.genetic.GeneticAlgorithm;
 import org.encog.ml.genetic.genome.BasicGenome;
+import org.encog.ml.genetic.genome.Genome;
 
 public class PlayerGenome extends BasicGenome {
 
@@ -59,6 +60,17 @@ public class PlayerGenome extends BasicGenome {
 		{
 			//xxxx((CharGene)this.chromosome.get(i)).setValue(this.player.getRules()[i]);
 		}
+	}
+
+	@Override
+	public void copy(Genome source) {
+		throw new UnsupportedOperationException();
+		
+	}
+
+	@Override
+	public int size() {
+		throw new UnsupportedOperationException();
 	}
 
 

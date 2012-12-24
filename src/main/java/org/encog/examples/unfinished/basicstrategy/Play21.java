@@ -81,7 +81,7 @@ public class Play21 {
 	}
 
 	public static void main(String[] args) {
-		GeneticAlgorithm genetic = new BasicGeneticAlgorithm();
+		/*GeneticAlgorithm genetic = new BasicGeneticAlgorithm();
 		initPopulation(genetic);
 		genetic.setMutationPercent(MUTATION_PERCENT);
 		genetic.setPercentToMate(PERCENT_TO_MATE);
@@ -98,7 +98,7 @@ public class Play21 {
 			genetic.iteration();
 			double thisSolution = genetic.getPopulation().getBest().getScore();
 			System.out.println(iteration + ": " + thisSolution);
-		}
+		}*/
 	}
 
 }
