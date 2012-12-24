@@ -66,7 +66,7 @@ public class Play21 {
 	{
 		ScorePlayer score =  new ScorePlayer();
 		ga.setCalculateScore(score);
-		Population population = new BasicPopulation(POPULATION_SIZE);
+		Population population = new BasicPopulation(POPULATION_SIZE, null);
 		ga.setPopulation(population);
 
 		for (int i = 0; i < POPULATION_SIZE; i++) {

@@ -8,6 +8,7 @@ import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.extension.StandardExtensions;
 import org.encog.ml.prg.train.PrgGenetic;
+import org.encog.ml.prg.train.PrgGenomeFactory;
 import org.encog.ml.prg.train.PrgPopulation;
 import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
@@ -41,7 +42,8 @@ public class SimpleExpression {
 
 		StandardExtensions.createNumericOperators(context.getFunctions());
 
-		PrgPopulation pop = new PrgPopulation(context);
+		PrgGenomeFactory genomeFactory = new PrgGenomeFactory(context);
+		PrgPopulation pop = new PrgPopulation(context, genomeFactory);
 		pop.addRewriteRule(new RewriteConstants());
 		pop.addRewriteRule(new RewriteAlgebraic());
 
@@ -55,7 +57,7 @@ public class SimpleExpression {
 		genetic.createRandomPopulation(5);
 
 		//context.getParams().setIgnoreExceptions(true);
-		EncogProgram best = genetic.getPopulation().createProgram();
+		EncogProgram best = (EncogProgram)genetic.getPopulation().getGenomeFactory().factor();
 
 		try {
 
