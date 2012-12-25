@@ -32,6 +32,7 @@ import org.encog.ml.genetic.genome.IntegerArrayGenomeFactory;
 import org.encog.ml.genetic.mutate.MutateShuffle;
 import org.encog.ml.genetic.population.BasicPopulation;
 import org.encog.ml.genetic.population.Population;
+import org.encog.ml.prg.EncogProgram;
 
 /**
  * SolveTSP with a genetic algorithm.  The Encog API includes a generic
@@ -108,13 +109,12 @@ public class SolveTSP {
 	/**
 	 * Display the cities in the final path.
 	 */
-	public void displaySolution() {
+	public void displaySolution(IntegerArrayGenome solution) {
 
 		boolean first = true;
-		IntegerArrayGenome best = (IntegerArrayGenome)genetic.getPopulation().getBest();
-		int[] path = best.getData();
+		int[] path = solution.getData();
 		
-		for(int i=0;i<best.size();i++) {
+		for(int i=0;i<path.length;i++) {
 			if( !first )
 				System.out.print(">");
 			System.out.print( ""+ path[i]);
@@ -151,7 +151,7 @@ public class SolveTSP {
 		while (sameSolutionCount < MAX_SAME_SOLUTION) {
 			genetic.iteration();
 
-			double thisSolution = genetic.getPopulation().getBest().getScore();
+			double thisSolution = genetic.getError();
 
 			builder.setLength(0);
 			builder.append("Iteration: ");
@@ -171,7 +171,10 @@ public class SolveTSP {
 		}
 
 		System.out.println("Good solution found:");
-		displaySolution();
+		IntegerArrayGenome best = (IntegerArrayGenome)genetic.getPopulation().getGenomeFactory().factor();
+		genetic.copyBestGenome(best);
+		displaySolution(best);
+		genetic.finishTraining();
 
 	}
 
