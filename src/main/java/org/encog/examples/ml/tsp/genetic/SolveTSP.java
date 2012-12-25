@@ -46,9 +46,6 @@ public class SolveTSP {
 
 	public static final int CITIES = 50;
 	public static final int POPULATION_SIZE = 1000;
-	public static final double MUTATION_PERCENT = 0.1;
-	public static final double PERCENT_TO_MATE = 0.24;
-	public static final double MATING_POPULATION_PERCENT = 0.5;
 	public static final int CUT_LENGTH = CITIES/5;
 	public static final int MAP_SIZE = 256;
 	public static final int MAX_SAME_SOLUTION = 50;
@@ -138,9 +135,6 @@ public class SolveTSP {
 
 		genetic = new MultiThreadedGeneticAlgorithm(pop,score);
 		
-		genetic.setMutationPercent(MUTATION_PERCENT);
-		genetic.setPercentToMate(PERCENT_TO_MATE);
-		genetic.setMatingPopulation(MATING_POPULATION_PERCENT);
 		genetic.addOperation(0.9,new SpliceNoRepeat(CITIES/3));
 		genetic.addOperation(0.1,new MutateShuffle());
 

@@ -76,7 +76,7 @@ public class LunarLander {
 					final BasicNetwork result = createNetwork();
 					((MLResettable)result).reset();
 					return result;
-				}},new PilotScore(),500, 0.1, 0.25);
+				}},new PilotScore(),500);
 		}
 		
 		int epoch = 1;
