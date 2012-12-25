@@ -14,6 +14,7 @@ import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
 import org.encog.ml.prg.train.rewrite.algebraic.RewriteAlgebraic;
 import org.encog.neural.networks.training.TrainingSetScore;
+import org.encog.neural.networks.training.genetic.GeneticScoreAdapter;
 import org.encog.util.data.GenerationUtil;
 import org.encog.util.simple.EncogUtility;
 
@@ -51,7 +52,7 @@ public class SimpleExpression {
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
 		//score.addObjective(400.0, new ComplexityBasedScore());
 
-		PrgGenetic genetic = new PrgGenetic(pop, score);
+		PrgGenetic genetic = new PrgGenetic(pop, new GeneticScoreAdapter(score));
 		genetic.addOperation(0.95, new SubtreeCrossover());
 		genetic.addOperation(0.05, new SubtreeMutation(context,4));
 		genetic.createRandomPopulation(5);

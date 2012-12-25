@@ -24,11 +24,11 @@
 package org.encog.examples.ml.tsp.genetic;
 
 import org.encog.examples.ml.tsp.City;
-import org.encog.ml.genetic.BasicGeneticAlgorithm;
-import org.encog.ml.genetic.GeneticAlgorithm;
+import org.encog.ml.genetic.MultiThreadedGeneticAlgorithm;
 import org.encog.ml.genetic.crossover.SpliceNoRepeat;
 import org.encog.ml.genetic.genome.CalculateGenomeScore;
 import org.encog.ml.genetic.genome.IntegerArrayGenome;
+import org.encog.ml.genetic.genome.IntegerArrayGenomeFactory;
 import org.encog.ml.genetic.mutate.MutateShuffle;
 import org.encog.ml.genetic.population.BasicPopulation;
 import org.encog.ml.genetic.population.Population;
@@ -52,7 +52,7 @@ public class SolveTSP {
 	public static final int MAP_SIZE = 256;
 	public static final int MAX_SAME_SOLUTION = 50;
 	
-	private GeneticAlgorithm genetic;
+	private MultiThreadedGeneticAlgorithm genetic;
 	private City cities[];
 
 	/**
@@ -91,21 +91,17 @@ public class SolveTSP {
 		return result;
 	}
 	
-	private void initPopulation(GeneticAlgorithm ga)
+	private Population initPopulation()
 	{
-		CalculateGenomeScore score =  new TSPScore(cities);
-		ga.setCalculateScore(score);
-		Population population = new BasicPopulation(POPULATION_SIZE, null);
-		ga.setPopulation(population);
+		Population result = new BasicPopulation(POPULATION_SIZE, null);
 
 		for (int i = 0; i < POPULATION_SIZE; i++) {
-
 			final IntegerArrayGenome genome = randomGenome();
-			ga.getPopulation().add(genome);
-			ga.calculateScore(genome);
+			result.add(genome);
 		}
-		population.claim(ga);
-		population.sort();
+		result.setGenomeFactory(new IntegerArrayGenomeFactory(cities.length));
+		
+		return result;
 	}
 
 
@@ -135,15 +131,18 @@ public class SolveTSP {
 		StringBuilder builder = new StringBuilder();
 
 		initCities();
-/*
-		genetic = new BasicGeneticAlgorithm();
 		
-		initPopulation(genetic);
+		Population pop = initPopulation();
+		
+		CalculateGenomeScore score =  new TSPScore(cities);
+
+		genetic = new MultiThreadedGeneticAlgorithm(pop,score);
+		
 		genetic.setMutationPercent(MUTATION_PERCENT);
 		genetic.setPercentToMate(PERCENT_TO_MATE);
 		genetic.setMatingPopulation(MATING_POPULATION_PERCENT);
-		genetic.setCrossover(new SpliceNoRepeat(CITIES/3));
-		genetic.setMutate(new MutateShuffle());
+		genetic.addOperation(0.9,new SpliceNoRepeat(CITIES/3));
+		genetic.addOperation(0.1,new MutateShuffle());
 
 		int sameSolutionCount = 0;
 		int iteration = 1;
@@ -172,7 +171,7 @@ public class SolveTSP {
 		}
 
 		System.out.println("Good solution found:");
-		displaySolution();*/
+		displaySolution();
 
 	}
 
