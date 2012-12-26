@@ -77,7 +77,7 @@ public class Play21 {
 			ga.getPopulation().add(genome);
 			ga.calculateScore(genome);
 		}
-		population.sort();
+		//population.sort();
 	}
 
 	public static void main(String[] args) {
