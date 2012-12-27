@@ -25,12 +25,12 @@ package org.encog.examples.unfinished.basicstrategy;
 
 import org.encog.examples.unfinished.basicstrategy.blackjack.Dealer;
 import org.encog.examples.unfinished.basicstrategy.blackjack.Table;
-import org.encog.ml.genetic.BasicGeneticAlgorithm;
-import org.encog.ml.genetic.GeneticAlgorithm;
+import org.encog.ml.ea.population.BasicPopulation;
+import org.encog.ml.ea.population.Population;
+import org.encog.ml.ea.train.GeneticAlgorithm;
+import org.encog.ml.ea.train.basic.BasicGeneticAlgorithm;
 import org.encog.ml.genetic.crossover.Splice;
 import org.encog.ml.genetic.mutate.MutateShuffle;
-import org.encog.ml.genetic.population.BasicPopulation;
-import org.encog.ml.genetic.population.Population;
 
 public class Play21 {
 

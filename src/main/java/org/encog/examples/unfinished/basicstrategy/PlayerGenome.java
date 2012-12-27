@@ -23,9 +23,9 @@
  */
 package org.encog.examples.unfinished.basicstrategy;
 
-import org.encog.ml.genetic.GeneticAlgorithm;
-import org.encog.ml.genetic.genome.BasicGenome;
-import org.encog.ml.genetic.genome.Genome;
+import org.encog.ml.ea.genome.BasicGenome;
+import org.encog.ml.ea.genome.Genome;
+import org.encog.ml.ea.train.GeneticAlgorithm;
 
 public class PlayerGenome extends BasicGenome {
 
