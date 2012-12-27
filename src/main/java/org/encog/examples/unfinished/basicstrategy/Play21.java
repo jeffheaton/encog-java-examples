@@ -27,8 +27,8 @@ import org.encog.examples.unfinished.basicstrategy.blackjack.Dealer;
 import org.encog.examples.unfinished.basicstrategy.blackjack.Table;
 import org.encog.ml.ea.population.BasicPopulation;
 import org.encog.ml.ea.population.Population;
-import org.encog.ml.ea.train.GeneticAlgorithm;
-import org.encog.ml.ea.train.basic.BasicGeneticAlgorithm;
+import org.encog.ml.ea.train.EvolutionaryAlgorithm;
+import org.encog.ml.ea.train.basic.BasicEA;
 import org.encog.ml.genetic.crossover.Splice;
 import org.encog.ml.genetic.mutate.MutateShuffle;
 
@@ -62,7 +62,7 @@ public class Play21 {
 
 	}
 	
-	private static void initPopulation(GeneticAlgorithm ga)
+	private static void initPopulation(EvolutionaryAlgorithm ga)
 	{
 		ScorePlayer score =  new ScorePlayer();
 		ga.setCalculateScore(score);

@@ -25,7 +25,7 @@ package org.encog.examples.unfinished.basicstrategy;
 
 import org.encog.ml.ea.genome.BasicGenome;
 import org.encog.ml.ea.genome.Genome;
-import org.encog.ml.ea.train.GeneticAlgorithm;
+import org.encog.ml.ea.train.EvolutionaryAlgorithm;
 
 public class PlayerGenome extends BasicGenome {
 
@@ -33,7 +33,7 @@ public class PlayerGenome extends BasicGenome {
 	//private Chromosome chromosome;
 	private int length;
 	
-	public PlayerGenome(GeneticAlgorithm geneticAlgorithm, Player player) {		
+	public PlayerGenome(EvolutionaryAlgorithm geneticAlgorithm, Player player) {		
 		this.player = player;
 		//this.chromosome = new Chromosome();
 		setOrganism(this.player);

@@ -2,8 +2,8 @@ package org.encog.examples.ml.prg;
 
 import org.encog.mathutil.EncogFunction;
 import org.encog.ml.data.MLDataSet;
-import org.encog.ml.genetic.crossover.SubtreeCrossover;
-import org.encog.ml.genetic.mutate.SubtreeMutation;
+import org.encog.ml.ea.opp.SubtreeCrossover;
+import org.encog.ml.ea.opp.SubtreeMutation;
 import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.extension.StandardExtensions;
