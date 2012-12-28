@@ -25,8 +25,8 @@ package org.encog.examples.unfinished.basicstrategy;
 
 import org.encog.examples.unfinished.basicstrategy.blackjack.Dealer;
 import org.encog.examples.unfinished.basicstrategy.blackjack.Table;
-import org.encog.ml.ea.genome.CalculateGenomeScore;
 import org.encog.ml.ea.genome.Genome;
+import org.encog.ml.ea.score.CalculateGenomeScore;
 
 public class ScorePlayer implements CalculateGenomeScore {
 

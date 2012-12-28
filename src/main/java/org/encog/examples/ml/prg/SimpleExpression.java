@@ -43,8 +43,7 @@ public class SimpleExpression {
 
 		StandardExtensions.createNumericOperators(context.getFunctions());
 
-		PrgGenomeFactory genomeFactory = new PrgGenomeFactory(context);
-		PrgPopulation pop = new PrgPopulation(context, genomeFactory);
+		PrgPopulation pop = new PrgPopulation(context);
 		pop.addRewriteRule(new RewriteConstants());
 		pop.addRewriteRule(new RewriteAlgebraic());
 

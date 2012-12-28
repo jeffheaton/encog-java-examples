@@ -24,9 +24,9 @@
 package org.encog.examples.ml.tsp.genetic;
 
 import org.encog.examples.ml.tsp.City;
-import org.encog.ml.ea.genome.CalculateGenomeScore;
 import org.encog.ml.ea.population.BasicPopulation;
 import org.encog.ml.ea.population.Population;
+import org.encog.ml.ea.score.CalculateGenomeScore;
 import org.encog.ml.ea.train.threaded.MultiThreadedEA;
 import org.encog.ml.genetic.crossover.SpliceNoRepeat;
 import org.encog.ml.genetic.genome.IntegerArrayGenome;
