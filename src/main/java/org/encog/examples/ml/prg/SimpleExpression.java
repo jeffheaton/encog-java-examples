@@ -70,7 +70,7 @@ public class SimpleExpression {
 			
 			genetic.copyBestGenome(best);
 			EncogUtility.evaluate(best, trainingData);
-			genetic.calculateEffectiveScore(best);
+
 			System.out.println("Final score:" + best.getScore()
 					+ ", effective score:" + best.getAdjustedScore());
 			System.out.println(best.dumpAsCommonExpression());

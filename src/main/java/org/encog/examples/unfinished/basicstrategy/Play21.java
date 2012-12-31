@@ -64,7 +64,7 @@ public class Play21 {
 	
 	private static void initPopulation(EvolutionaryAlgorithm ga)
 	{
-		ScorePlayer score =  new ScorePlayer();
+		/*ScorePlayer score =  new ScorePlayer();
 		ga.setCalculateScore(score);
 		Population population = new BasicPopulation(POPULATION_SIZE, null);
 		ga.setPopulation(population);
@@ -77,7 +77,7 @@ public class Play21 {
 			ga.getPopulation().add(genome);
 			ga.calculateScore(genome);
 		}
-		//population.sort();
+		//population.sort();*/
 	}
 
 	public static void main(String[] args) {
