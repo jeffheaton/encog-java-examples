@@ -1,5 +1,7 @@
 package org.encog.examples.ml.prg;
 
+import java.util.Random;
+
 import org.encog.mathutil.EncogFunction;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.ea.opp.SubtreeCrossover;
@@ -9,6 +11,7 @@ import org.encog.ml.ea.score.adjust.ComplexityAdjustedScore;
 import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.extension.StandardExtensions;
+import org.encog.ml.prg.generator.PrgGrowGenerator;
 import org.encog.ml.prg.train.PrgGenetic;
 import org.encog.ml.prg.train.PrgPopulation;
 import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
@@ -46,6 +49,8 @@ public class SimpleExpression {
 		PrgPopulation pop = new PrgPopulation(context);
 		pop.addRewriteRule(new RewriteConstants());
 		pop.addRewriteRule(new RewriteAlgebraic());
+		
+		
 
 		MultiObjectiveFitness score = new MultiObjectiveFitness();
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
@@ -55,10 +60,12 @@ public class SimpleExpression {
 		genetic.addOperation(0.95, new SubtreeCrossover());
 		genetic.addOperation(0.05, new SubtreeMutation(context,4));
 		genetic.addScoreAdjuster(new ComplexityAdjustedScore());
-		genetic.createRandomPopulation(5);
 
+		(new PrgGrowGenerator(context,genetic.getScoreFunction(),5)).generate(new Random(), pop);
+		
 		//context.getParams().setIgnoreExceptions(true);
 		EncogProgram best = (EncogProgram)genetic.getPopulation().getGenomeFactory().factor();
+		
 
 		try {
 
