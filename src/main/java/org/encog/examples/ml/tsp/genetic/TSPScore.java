@@ -58,4 +58,9 @@ public class TSPScore implements CalculateGenomeScore {
 		return true;
 	}
 
+	@Override
+	public boolean requireSingleThreaded() {
+		return false;
+	}
+
 }

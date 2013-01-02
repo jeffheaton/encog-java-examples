@@ -38,4 +38,10 @@ public class PilotScore implements CalculateScore {
 	public boolean shouldMinimize() {
 		return false;
 	}
+
+
+	@Override
+	public boolean requireSingleThreaded() {
+		return false;
+	}
 }

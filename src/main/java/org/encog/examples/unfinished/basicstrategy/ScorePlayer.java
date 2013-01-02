@@ -52,4 +52,9 @@ public class ScorePlayer implements CalculateGenomeScore {
 		return false;
 	}
 
+	@Override
+	public boolean requireSingleThreaded() {
+		return false;
+	}
+
 }
