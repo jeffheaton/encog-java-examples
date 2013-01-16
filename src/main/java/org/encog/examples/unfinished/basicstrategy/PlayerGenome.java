@@ -36,7 +36,6 @@ public class PlayerGenome extends BasicGenome {
 	public PlayerGenome(EvolutionaryAlgorithm geneticAlgorithm, Player player) {		
 		this.player = player;
 		//this.chromosome = new Chromosome();
-		setOrganism(this.player);
 		
 		this.length = player.getRules().length;
 		
@@ -46,21 +45,6 @@ public class PlayerGenome extends BasicGenome {
 		}		
 	}
 
-	@Override
-	public void decode() {
-		for(int i=0;i<length;i++)
-		{
-			//this.player.getRules()[i] = ((CharGene)this.chromosome.get(i)).getValue();
-		}		
-	}
-
-	@Override
-	public void encode() {
-		for(int i=0;i<length;i++)
-		{
-			//xxxx((CharGene)this.chromosome.get(i)).setValue(this.player.getRules()[i]);
-		}
-	}
 
 	@Override
 	public void copy(Genome source) {

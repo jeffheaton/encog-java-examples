@@ -25,27 +25,13 @@ package org.encog.examples.unfinished.basicstrategy;
 
 import org.encog.examples.unfinished.basicstrategy.blackjack.Dealer;
 import org.encog.examples.unfinished.basicstrategy.blackjack.Table;
+import org.encog.ml.CalculateScore;
+import org.encog.ml.MLMethod;
 import org.encog.ml.ea.genome.Genome;
-import org.encog.ml.ea.score.CalculateGenomeScore;
 
-public class ScorePlayer implements CalculateGenomeScore {
+public class ScorePlayer implements CalculateScore {
 
-	@Override
-	public double calculateScore(Genome genome) {
-		
-		Player player = (Player)genome.getOrganism();
-		player.setMoney(1000);
-		
-		Table table = new Table(1, new Dealer());
-		table.addPlayer(player);
-		
-		for(int rounds = 0; rounds< 100; rounds++ )
-		{
-			table.play();
-		}
-		
-		return player.getMoney();
-	}
+
 
 	@Override
 	public boolean shouldMinimize() {
@@ -55,6 +41,12 @@ public class ScorePlayer implements CalculateGenomeScore {
 	@Override
 	public boolean requireSingleThreaded() {
 		return false;
+	}
+
+	@Override
+	public double calculateScore(MLMethod method) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -23,13 +23,14 @@
  */
 package org.encog.examples.neural.lunar;
 
-import org.encog.ml.MLRegression;
+import org.encog.ml.CalculateScore;
+import org.encog.ml.MLMethod;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.CalculateScore;
 
 public class PilotScore implements CalculateScore {
 
-	public double calculateScore(MLRegression network) {
+	@Override
+	public double calculateScore(MLMethod network) {
 		NeuralPilot pilot = new NeuralPilot((BasicNetwork)network, false);
 		return pilot.scorePilot();
 	}

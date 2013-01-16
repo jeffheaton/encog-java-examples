@@ -24,13 +24,12 @@
 package org.encog.examples.neural.xor;
 
 import org.encog.Encog;
-import org.encog.engine.network.activation.ActivationStep;
+import org.encog.ml.CalculateScore;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
-import org.encog.neural.networks.training.CalculateScore;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.util.simple.EncogUtility;
 

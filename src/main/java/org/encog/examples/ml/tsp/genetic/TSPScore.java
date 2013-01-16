@@ -24,11 +24,10 @@
 package org.encog.examples.ml.tsp.genetic;
 
 import org.encog.examples.ml.tsp.City;
-import org.encog.ml.ea.genome.Genome;
-import org.encog.ml.ea.score.CalculateGenomeScore;
-import org.encog.ml.genetic.genome.IntegerArrayGenome;
+import org.encog.ml.CalculateScore;
+import org.encog.ml.MLMethod;
 
-public class TSPScore implements CalculateGenomeScore {
+public class TSPScore implements CalculateScore {
 
 	private City[] cities;
 	
@@ -38,10 +37,10 @@ public class TSPScore implements CalculateGenomeScore {
 	}
 	
 	@Override
-	public double calculateScore(Genome genome) {
+	public double calculateScore(MLMethod phenotype) {
 		double result = 0.0;
 		
-		int[] path = ((IntegerArrayGenome)genome).getData();
+		int[] path = new int [0];// ((IntegerArrayGenome)genome).getData();
 		
 		for (int i = 0; i < cities.length - 1; i++) {
 			City city1 = cities[path[i]];

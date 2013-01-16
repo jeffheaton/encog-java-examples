@@ -6,7 +6,6 @@ import org.encog.mathutil.EncogFunction;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.ea.opp.SubtreeCrossover;
 import org.encog.ml.ea.opp.SubtreeMutation;
-import org.encog.ml.ea.score.GeneticScoreAdapter;
 import org.encog.ml.ea.score.adjust.ComplexityAdjustedScore;
 import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
@@ -56,7 +55,7 @@ public class SimpleExpression {
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
 		//score.addObjective(400.0, new ComplexityBasedScore());
 
-		PrgGenetic genetic = new PrgGenetic(pop, new GeneticScoreAdapter(score));
+		PrgGenetic genetic = new PrgGenetic(pop, score);
 		genetic.addOperation(0.95, new SubtreeCrossover());
 		genetic.addOperation(0.05, new SubtreeMutation(context,4));
 		genetic.addScoreAdjuster(new ComplexityAdjustedScore());

@@ -24,15 +24,14 @@
 package org.encog.examples.ml.tsp.genetic;
 
 import org.encog.examples.ml.tsp.City;
+import org.encog.ml.CalculateScore;
 import org.encog.ml.ea.population.BasicPopulation;
 import org.encog.ml.ea.population.Population;
-import org.encog.ml.ea.score.CalculateGenomeScore;
 import org.encog.ml.ea.train.threaded.MultiThreadedEA;
 import org.encog.ml.genetic.crossover.SpliceNoRepeat;
 import org.encog.ml.genetic.genome.IntegerArrayGenome;
 import org.encog.ml.genetic.genome.IntegerArrayGenomeFactory;
 import org.encog.ml.genetic.mutate.MutateShuffle;
-import org.encog.ml.prg.EncogProgram;
 
 /**
  * SolveTSP with a genetic algorithm.  The Encog API includes a generic
@@ -131,7 +130,7 @@ public class SolveTSP {
 		
 		Population pop = initPopulation();
 		
-		CalculateGenomeScore score =  new TSPScore(cities);
+		CalculateScore score =  new TSPScore(cities);
 
 		genetic = new MultiThreadedEA(pop,score);
 		
