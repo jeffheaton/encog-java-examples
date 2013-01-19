@@ -12,11 +12,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.encog.neural.hyperneat.substrate.Substrate;
+import org.encog.neural.hyperneat.substrate.SubstrateFactory;
+import org.encog.neural.neat.NEATPopulation;
+import org.encog.neural.neat.training.NEATTraining;
+import org.encog.util.Format;
+
 public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 	
-	private JButton training;
-	private JButton example;
-	private JComboBox<String> methodChoice;
+	private JButton btnTraining;
+	private JButton btnExample;
+	private JComboBox methodChoice;
+	private boolean trainingUnderway;
+	private JLabel labelIterations;
+	private JLabel labelError;
 	
 	public VisualizeBoxes() {
 		String[] options = { "Feedforward", "NEAT", "HyperNEAT" };
@@ -28,8 +37,8 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 		content.setLayout(new BorderLayout());
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1,2));
-		buttonPanel.add(this.training = new JButton("Start Training"));
-		buttonPanel.add(this.example = new JButton("Run Example"));
+		buttonPanel.add(this.btnTraining = new JButton("Start Training"));
+		buttonPanel.add(this.btnExample = new JButton("Run Example"));
 		content.add(buttonPanel,BorderLayout.SOUTH);
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(3,2));
@@ -37,15 +46,15 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 		mainPanel.add(new JLabel("Method:"));
 		mainPanel.add(this.methodChoice = new JComboBox(options));
 		mainPanel.add(new JLabel("Training Error:"));
-		mainPanel.add(new JLabel("N/A"));
+		mainPanel.add(this.labelError = new JLabel("N/A"));
 		mainPanel.add(new JLabel("Iteration Count:"));
-		mainPanel.add(new JLabel("0"));
+		mainPanel.add(this.labelIterations = new JLabel("0"));
 		
-		this.training.addActionListener(this);
-		this.example.addActionListener(this);
+		this.btnTraining.addActionListener(this);
+		this.btnExample.addActionListener(this);
 		
 		
-		this.example.setEnabled(false);
+		this.btnExample.setEnabled(false);
 	}
 	
 	public static void main(String[] args) {
@@ -55,13 +64,47 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		Substrate substrate = SubstrateFactory.factorSandwichSubstrate(11, 11);
+		BoxesScore score = new BoxesScore(11);
+		NEATPopulation pop = new NEATPopulation(substrate,500);
+		NEATTraining train = new NEATTraining(score,pop);
 		
+		// update the GUI
+		this.btnTraining.setText("Stop Training");
+		this.btnExample.setEnabled(false);		
+		this.trainingUnderway = true;
+		
+		int iteration = 0;
+		
+		for(;;) {
+			iteration++;
+			train.iteration();
+			this.labelError.setText(Format.formatDouble(train.getError(),2));
+			this.labelIterations.setText(Format.formatInteger(iteration));
+		}
+
+		
+	}
+	
+	private void beginTraining() {
+		Thread t = new Thread(this);
+		t.start();
+	}
+	
+	public void handleTraining() {
+		if(this.trainingUnderway) {
+			this.btnTraining.setText("Start Training");
+			this.btnExample.setEnabled(true);
+			this.trainingUnderway = false;
+		} else {
+			beginTraining();
+		}
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void actionPerformed(ActionEvent ev) {
+		if( ev.getSource() == this.btnTraining ) {
+			handleTraining();
+		}
 	}
 }

@@ -13,12 +13,17 @@ public class BoxTrial {
 	private IntPair largeBoxTopLeft;
 
 	private Random rnd;
+	
+	public BoxTrial(Random theRnd) {
+		this.rnd = theRnd;
+	}
 
-	public void InitTestCase(int largeBoxRelativePos) {
+	public IntPair initTestCase(int largeBoxRelativePos) {
 		IntPair[] boxPosArr = generateRandomTestCase(largeBoxRelativePos);
 		smallBoxTopLeft = boxPosArr[0];
 		largeBoxTopLeft = boxPosArr[1];
 		largeBoxTopLeft.add(-1);
+		return boxPosArr[1];
 	}
 
 	public double getPixel(double x, double y) {
