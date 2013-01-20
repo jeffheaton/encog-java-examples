@@ -94,7 +94,6 @@ public class BoxesScore implements CalculateScore  {
 
     private double CalcRealDistanceSquared(IntPair a, IntPair b)
     {
-        // We can skip calculating abs(val) because we square the values.
         double xdelta = (a.getX() - b.getX()) * pixelSize;
         double ydelta = (a.getY() - b.getY()) * pixelSize;
         return xdelta*xdelta + ydelta*ydelta;
