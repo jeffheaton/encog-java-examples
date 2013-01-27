@@ -23,6 +23,8 @@
  */
 package org.encog.examples.neural.xor;
 
+import java.io.File;
+
 import org.encog.Encog;
 import org.encog.ml.CalculateScore;
 import org.encog.ml.data.MLDataSet;
@@ -31,6 +33,7 @@ import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
 import org.encog.neural.networks.training.TrainingSetScore;
+import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -50,18 +53,18 @@ public class XORNEAT {
 
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		NEATPopulation pop = new NEATPopulation(2,1,1000);
+
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
 		
 		final NEATTraining train = new NEATTraining(score,pop);
-		
-		EncogUtility.trainToError(train, 0.01);
 
 		NEATNetwork network = (NEATNetwork)train.getMethod();
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
 		EncogUtility.evaluate(network, trainingSet);
+		EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/xor.eg"), pop);
 		
 		Encog.getInstance().shutdown();
 	}

@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,6 +17,7 @@ import org.encog.neural.hyperneat.substrate.Substrate;
 import org.encog.neural.hyperneat.substrate.SubstrateFactory;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
+import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.Format;
 
 public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
@@ -81,6 +83,7 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 			train.iteration();
 			this.labelError.setText(Format.formatDouble(train.getError(),2));
 			this.labelIterations.setText(Format.formatInteger(iteration));
+			EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/test.eg"), pop);
 		}
 
 		
