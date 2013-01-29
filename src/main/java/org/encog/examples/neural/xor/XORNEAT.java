@@ -53,18 +53,21 @@ public class XORNEAT {
 
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		NEATPopulation pop = new NEATPopulation(2,1,1000);
+		pop.setInitialConnectionDensity(1.0);// not required, but speeds training
+		pop.reset();
 
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
 		
 		final NEATTraining train = new NEATTraining(score,pop);
+		
+		EncogUtility.trainToError(train, 0.01);
 
 		NEATNetwork network = (NEATNetwork)train.getMethod();
 
 		// test the neural network
 		System.out.println("Neural Network Results:");
 		EncogUtility.evaluate(network, trainingSet);
-		EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/xor.eg"), pop);
 		
 		Encog.getInstance().shutdown();
 	}
