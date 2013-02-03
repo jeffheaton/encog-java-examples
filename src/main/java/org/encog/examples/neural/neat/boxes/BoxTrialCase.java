@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.encog.mathutil.IntPair;
 
-public class BoxTrial {
+public class BoxTrialCase {
 
 	private int resolution = 11;
 	private int boundIdx = resolution - 1;
@@ -14,7 +14,7 @@ public class BoxTrial {
 
 	private Random rnd;
 	
-	public BoxTrial(Random theRnd) {
+	public BoxTrialCase(Random theRnd) {
 		this.rnd = theRnd;
 	}
 

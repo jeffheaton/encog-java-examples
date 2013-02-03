@@ -30,6 +30,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 	private JLabel labelError;
 	private boolean requestStop = false;
 	private NEATPopulation pop;
+	private NEATTraining train;
 	
 	public VisualizeBoxesMain() {
 		String[] options = { "Feedforward", "NEAT", "HyperNEAT" };
@@ -61,6 +62,14 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		this.btnExample.setEnabled(false);
 	}
 	
+	public void resetTraining() {
+		Substrate substrate = SubstrateFactory.factorSandwichSubstrate(11, 11);
+		BoxesScore score = new BoxesScore(11);
+		pop = new NEATPopulation(substrate,500);
+		pop.reset();
+		train = new NEATTraining(score,pop);
+	}
+	
 	public static void main(String[] args) {
 		VisualizeBoxesMain boxes = new VisualizeBoxesMain();		
 		boxes.setVisible(true);
@@ -68,12 +77,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 
 	@Override
 	public void run() {
-		Substrate substrate = SubstrateFactory.factorSandwichSubstrate(11, 11);
-		BoxesScore score = new BoxesScore(11);
-		pop = new NEATPopulation(substrate,500);
-		pop.reset();
-		NEATTraining train = new NEATTraining(score,pop);
-		
+	
 		// update the GUI
 		this.btnTraining.setText("Stop Training");
 		this.btnExample.setEnabled(false);		
@@ -84,7 +88,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		this.requestStop = false;
 		while(!this.requestStop) {
 			iteration++;
-			train.iteration();
+			this.train.iteration();
 			this.labelError.setText(Format.formatDouble(train.getError(),2));
 			this.labelIterations.setText(Format.formatInteger(iteration));
 			EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/test.eg"), pop);

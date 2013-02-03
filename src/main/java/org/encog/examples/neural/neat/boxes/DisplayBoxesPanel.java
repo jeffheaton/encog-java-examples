@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import org.encog.mathutil.IntPair;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATGenome;
@@ -13,7 +14,7 @@ import org.encog.neural.neat.training.NEATGenome;
 public class DisplayBoxesPanel extends JPanel {
 	
 	private int resolution = 11;
-	private BoxTrial testCase = new BoxTrial(new Random());
+	private BoxTrialCase testCase = new BoxTrialCase(new Random());
 	private NEATPopulation pop;
 	
 	public DisplayBoxesPanel(NEATPopulation thePopulation) {
@@ -26,13 +27,14 @@ public class DisplayBoxesPanel extends JPanel {
 		NEATNetwork phenotype = (NEATNetwork)this.pop.getCODEC().decode(genome);
 		
 		TrialEvaluation trial = new TrialEvaluation(phenotype, this.testCase);
+		IntPair actualPos = trial.query(this.resolution);
 		
-		trial.
 		
 		//
 		int boxWidth = this.getWidth()/resolution;
 		int boxHeight = this.getHeight()/resolution;
 		double delta = 2.0 / resolution;
+		int index = 0;
 		
 		for(int row = 0; row < resolution; row++ ) {
 			double y = -1 + (row*delta);
@@ -45,15 +47,26 @@ public class DisplayBoxesPanel extends JPanel {
 					g.setColor(Color.blue);
 					g.fillRect(boxX, boxY, boxWidth, boxHeight);
 				} else {
+					double d = trial.getOutput().getData(index);
+					int c = trial.normalize(d,255);
+					System.out.println(c + "," + d);
+					g.setColor(new Color(255,c,255));
+					g.fillRect(boxX, boxY, boxWidth, boxHeight);
 					g.setColor(Color.black);
-					
 					g.drawRect(boxX, boxY, boxWidth, boxHeight);
 					g.drawRect(boxX+1, boxY+1, boxWidth-2, boxHeight-2);
 				}
-				
+				index++;
 			}
 		}
+		
+		g.setColor(Color.red);
+		g.fillRect(actualPos.getX()*boxWidth, actualPos.getY()*boxHeight, boxWidth, boxHeight);
 	}
 	
-	
+	public void createNewCase() {
+		Random r = new Random();
+		this.testCase.initTestCase(r.nextInt(3));
+		this.repaint();
+	}	
 }
