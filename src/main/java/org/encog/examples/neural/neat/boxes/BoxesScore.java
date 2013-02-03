@@ -36,7 +36,7 @@ public class BoxesScore implements CalculateScore  {
             	IntPair targetPos = eval.getTest().initTestCase(i);
             	IntPair actualPos = eval.query(this.resolution);
             	
-                eval.accumulate(CalcRealDistanceSquared(targetPos, actualPos),
+                eval.accumulate(calcRealDistanceSquared(targetPos, actualPos),
                 		Math.max(0.0, eval.getMaxActivation() - eval.getMinActivation()));
             }
         }
@@ -44,7 +44,7 @@ public class BoxesScore implements CalculateScore  {
         return eval.calculateFitness();
 	}
 
-    private double CalcRealDistanceSquared(IntPair a, IntPair b)
+    private double calcRealDistanceSquared(IntPair a, IntPair b)
     {
         double xdelta = (a.getX() - b.getX()) * pixelSize;
         double ydelta = (a.getY() - b.getY()) * pixelSize;

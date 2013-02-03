@@ -83,7 +83,7 @@ public class TrialEvaluation {
 	
 	public IntPair query(int resolution) {
 		// first, create the input data
-    	int inputIdx = 0;
+    	int index = 0;
         MLData inputData = new BasicMLData(resolution*resolution);
         double pixelSize = 2.0 / resolution;
         double orig = -1.0 + (pixelSize/2.0);
@@ -92,9 +92,10 @@ public class TrialEvaluation {
         for(int y=0; y<resolution; y++, yReal += pixelSize)
         {
             double xReal = orig;
-            for(int x=0; x<resolution; x++, xReal += pixelSize, inputIdx++)
+            for(int x=0; x<resolution; x++, xReal += pixelSize)
             {
-            	inputData.setData(inputIdx, this.test.getPixel(xReal, yReal));
+            	inputData.setData(index, this.test.getPixel(xReal, yReal));
+            	index++;
             }
         }
         
@@ -104,7 +105,7 @@ public class TrialEvaluation {
         // finally, process the output
         minActivation = Double.POSITIVE_INFINITY;
         maxActivation = Double.NEGATIVE_INFINITY;
-        int idx = 0;
+        int maxIndex = 0;
 
         for(int i=0; i<output.size(); i++)
         {
@@ -113,7 +114,7 @@ public class TrialEvaluation {
             if(d > maxActivation)
             {
                 maxActivation = d;
-                idx = i;
+                maxIndex = i;
             } 
             else if(d < minActivation)
             {
@@ -121,8 +122,8 @@ public class TrialEvaluation {
             }
         }
 
-        int y = idx / resolution;
-        int x = idx - (y * resolution);
+        int y = maxIndex / resolution;
+        int x = maxIndex - (y * resolution);
         return new IntPair(x, y);
 	}
 

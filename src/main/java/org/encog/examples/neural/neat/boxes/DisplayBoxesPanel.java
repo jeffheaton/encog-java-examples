@@ -35,7 +35,7 @@ public class DisplayBoxesPanel extends JPanel {
 		int boxHeight = this.getHeight()/resolution;
 		double delta = 2.0 / resolution;
 		int index = 0;
-		
+
 		for(int row = 0; row < resolution; row++ ) {
 			double y = -1 + (row*delta);
 			int boxY = row * boxHeight;
@@ -49,7 +49,6 @@ public class DisplayBoxesPanel extends JPanel {
 				} else {
 					double d = trial.getOutput().getData(index);
 					int c = trial.normalize(d,255);
-					System.out.println(c + "," + d);
 					g.setColor(new Color(255,c,255));
 					g.fillRect(boxX, boxY, boxWidth, boxHeight);
 					g.setColor(Color.black);

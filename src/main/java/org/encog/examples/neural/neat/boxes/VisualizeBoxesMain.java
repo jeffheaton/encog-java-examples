@@ -60,6 +60,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		
 		
 		this.btnExample.setEnabled(false);
+		resetTraining();
 	}
 	
 	public void resetTraining() {
