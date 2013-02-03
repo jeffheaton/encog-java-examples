@@ -20,7 +20,7 @@ import org.encog.neural.neat.training.NEATTraining;
 import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.Format;
 
-public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
+public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListener {
 	
 	private JButton btnTraining;
 	private JButton btnExample;
@@ -28,8 +28,10 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 	private boolean trainingUnderway;
 	private JLabel labelIterations;
 	private JLabel labelError;
+	private boolean requestStop = false;
+	private NEATPopulation pop;
 	
-	public VisualizeBoxes() {
+	public VisualizeBoxesMain() {
 		String[] options = { "Feedforward", "NEAT", "HyperNEAT" };
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +62,7 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		VisualizeBoxes boxes = new VisualizeBoxes();		
+		VisualizeBoxesMain boxes = new VisualizeBoxesMain();		
 		boxes.setVisible(true);
 	}
 
@@ -68,7 +70,8 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 	public void run() {
 		Substrate substrate = SubstrateFactory.factorSandwichSubstrate(11, 11);
 		BoxesScore score = new BoxesScore(11);
-		NEATPopulation pop = new NEATPopulation(substrate,500);
+		pop = new NEATPopulation(substrate,500);
+		pop.reset();
 		NEATTraining train = new NEATTraining(score,pop);
 		
 		// update the GUI
@@ -78,15 +81,18 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 		
 		int iteration = 0;
 		
-		for(;;) {
+		this.requestStop = false;
+		while(!this.requestStop) {
 			iteration++;
 			train.iteration();
 			this.labelError.setText(Format.formatDouble(train.getError(),2));
 			this.labelIterations.setText(Format.formatInteger(iteration));
 			EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/test.eg"), pop);
 		}
-
 		
+		this.btnTraining.setText("Start Training");
+		this.btnExample.setEnabled(true);
+		this.trainingUnderway = false;
 	}
 	
 	private void beginTraining() {
@@ -96,9 +102,7 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 	
 	public void handleTraining() {
 		if(this.trainingUnderway) {
-			this.btnTraining.setText("Start Training");
-			this.btnExample.setEnabled(true);
-			this.trainingUnderway = false;
+			this.requestStop = true;
 		} else {
 			beginTraining();
 		}
@@ -108,6 +112,9 @@ public class VisualizeBoxes extends JFrame implements Runnable, ActionListener {
 	public void actionPerformed(ActionEvent ev) {
 		if( ev.getSource() == this.btnTraining ) {
 			handleTraining();
+		} if( ev.getSource() == this.btnExample ) {
+			DisplayBoxes display = new DisplayBoxes(pop);
+			display.setVisible(true);
 		}
 	}
 }

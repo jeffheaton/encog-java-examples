@@ -19,11 +19,11 @@ public class BoxTrial {
 	}
 
 	public IntPair initTestCase(int largeBoxRelativePos) {
-		IntPair[] boxPosArr = generateRandomTestCase(largeBoxRelativePos);
-		smallBoxTopLeft = boxPosArr[0];
-		largeBoxTopLeft = boxPosArr[1];
+		IntPair[] loc = generateRandomTestCase(largeBoxRelativePos);
+		smallBoxTopLeft = loc[0];
+		largeBoxTopLeft = loc[1];
 		largeBoxTopLeft.add(-1);
-		return boxPosArr[1];
+		return loc[1];
 	}
 
 	public double getPixel(double x, double y) {
@@ -45,7 +45,7 @@ public class BoxTrial {
 		IntPair smallBoxPos = new IntPair(rnd.nextInt(resolution),
 				rnd.nextInt(resolution));
 
-		IntPair largeBoxPos = smallBoxPos;
+		IntPair largeBoxPos = (IntPair)smallBoxPos.clone();
 		switch (largeBoxRelativePos) {
 		case 0:
 			largeBoxPos.addX(5);
@@ -63,7 +63,7 @@ public class BoxTrial {
 		}
 
 		if (largeBoxPos.getX() > boundIdx) {
-			largeBoxPos.add(-resolution);
+			largeBoxPos.addX(-resolution);
 
 			if (0 == largeBoxPos.getX()) {
 				largeBoxPos.add(1);
