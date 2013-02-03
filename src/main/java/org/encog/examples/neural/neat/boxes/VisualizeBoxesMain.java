@@ -83,15 +83,12 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		this.btnTraining.setText("Stop Training");
 		this.btnExample.setEnabled(false);		
 		this.trainingUnderway = true;
-		
-		int iteration = 0;
-		
+	
 		this.requestStop = false;
 		while(!this.requestStop) {
-			iteration++;
 			this.train.iteration();
 			this.labelError.setText(Format.formatDouble(train.getError(),2));
-			this.labelIterations.setText(Format.formatInteger(iteration));
+			this.labelIterations.setText(Format.formatInteger(this.train.getIteration()));
 			EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/test.eg"), pop);
 		}
 		
