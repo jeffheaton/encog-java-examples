@@ -7,13 +7,15 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import org.encog.mathutil.IntPair;
+import org.encog.neural.hyperneat.HyperNEATCODEC;
+import org.encog.neural.hyperneat.substrate.Substrate;
+import org.encog.neural.hyperneat.substrate.SubstrateFactory;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATGenome;
 
 public class DisplayBoxesPanel extends JPanel {
 	
-	private int resolution = 11;
 	private BoxTrialCase testCase = new BoxTrialCase(new Random());
 	private NEATPopulation pop;
 	
@@ -23,11 +25,14 @@ public class DisplayBoxesPanel extends JPanel {
 	}
 
 	public void paint(Graphics g) {
+		int resolution = this.testCase.getResolution();
 		NEATGenome genome = (NEATGenome)this.pop.getGenomes().get(0);
-		NEATNetwork phenotype = (NEATNetwork)this.pop.getCODEC().decode(genome);
-		
+		Substrate substrate = SubstrateFactory.factorSandwichSubstrate(resolution, resolution);
+		HyperNEATCODEC codec = new HyperNEATCODEC();
+		NEATNetwork phenotype = (NEATNetwork) codec.decode(this.pop, substrate, genome);		
+				
 		TrialEvaluation trial = new TrialEvaluation(phenotype, this.testCase);
-		IntPair actualPos = trial.query(this.resolution);
+		IntPair actualPos = trial.query(resolution);
 		
 		
 		//
@@ -63,8 +68,9 @@ public class DisplayBoxesPanel extends JPanel {
 		g.fillRect(actualPos.getX()*boxWidth, actualPos.getY()*boxHeight, boxWidth, boxHeight);
 	}
 	
-	public void createNewCase() {
+	public void createNewCase(int theResolution) {
 		Random r = new Random();
+		this.testCase.setResolution(theResolution);
 		this.testCase.initTestCase(r.nextInt(3));
 		this.repaint();
 	}	

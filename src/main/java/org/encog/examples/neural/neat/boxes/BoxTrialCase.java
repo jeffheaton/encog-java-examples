@@ -17,6 +17,16 @@ public class BoxTrialCase {
 	public BoxTrialCase(Random theRnd) {
 		this.rnd = theRnd;
 	}
+	
+	
+
+	public int getResolution() {
+		return resolution;
+	}
+
+	public void setResolution(int resolution) {
+		this.resolution = resolution;
+	}
 
 	public IntPair initTestCase(int largeBoxRelativePos) {
 		IntPair[] loc = generateRandomTestCase(largeBoxRelativePos);

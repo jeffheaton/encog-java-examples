@@ -33,8 +33,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 	private NEATTraining train;
 	
 	public VisualizeBoxesMain() {
-		String[] options = { "Feedforward", "NEAT", "HyperNEAT" };
-		
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Visualize Boxes");
 		setSize(400,200);
@@ -48,19 +47,16 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(3,2));
 		content.add(mainPanel, BorderLayout.NORTH);
-		mainPanel.add(new JLabel("Method:"));
-		mainPanel.add(this.methodChoice = new JComboBox(options));
-		mainPanel.add(new JLabel("Training Error:"));
+		mainPanel.add(new JLabel("Target (best) Score:"));
+		mainPanel.add(new JLabel("110"));
+		mainPanel.add(new JLabel("Current Score:"));
 		mainPanel.add(this.labelError = new JLabel("N/A"));
 		mainPanel.add(new JLabel("Iteration Count:"));
 		mainPanel.add(this.labelIterations = new JLabel("0"));
 		
 		this.btnTraining.addActionListener(this);
 		this.btnExample.addActionListener(this);
-		
-		
-		this.btnExample.setEnabled(false);
-		resetTraining();
+		this.btnExample.setEnabled(false);		
 	}
 	
 	public void resetTraining() {
@@ -79,8 +75,15 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 	@Override
 	public void run() {
 	
+		if( this.pop==null ) {
+			this.btnTraining.setText("Setting up...");
+			this.btnTraining.setEnabled(false);
+			resetTraining();
+		}
+		
 		// update the GUI
 		this.btnTraining.setText("Stop Training");
+		this.btnTraining.setEnabled(true);
 		this.btnExample.setEnabled(false);		
 		this.trainingUnderway = true;
 	
