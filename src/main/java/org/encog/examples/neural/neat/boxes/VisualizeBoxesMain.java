@@ -65,6 +65,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		pop = new NEATPopulation(substrate,500);
 		pop.reset();
 		train = new NEATTraining(score,pop);
+		//train.setThreadCount(1);
 	}
 	
 	public static void main(String[] args) {

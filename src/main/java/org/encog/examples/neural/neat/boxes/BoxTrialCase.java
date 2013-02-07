@@ -21,7 +21,7 @@ public class BoxTrialCase {
 	public IntPair initTestCase(int largeBoxRelativePos) {
 		IntPair[] loc = generateRandomTestCase(largeBoxRelativePos);
 		smallBoxTopLeft = loc[0];
-		largeBoxTopLeft = loc[1];
+		largeBoxTopLeft = (IntPair)loc[1].clone();
 		largeBoxTopLeft.add(-1);
 		return loc[1];
 	}
