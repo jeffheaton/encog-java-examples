@@ -18,6 +18,7 @@ public class DisplayBoxesPanel extends JPanel {
 	
 	private BoxTrialCase testCase = new BoxTrialCase(new Random());
 	private NEATPopulation pop;
+	private int resolution = BoxTrialCase.BASE_RESOLUTION;
 	
 	public DisplayBoxesPanel(NEATPopulation thePopulation) {
 		testCase.initTestCase(0);
@@ -25,7 +26,7 @@ public class DisplayBoxesPanel extends JPanel {
 	}
 
 	public void paint(Graphics g) {
-		int resolution = this.testCase.getResolution();
+		
 		NEATGenome genome = (NEATGenome)this.pop.getGenomes().get(0);
 		Substrate substrate = SubstrateFactory.factorSandwichSubstrate(resolution, resolution);
 		HyperNEATCODEC codec = new HyperNEATCODEC();
@@ -34,6 +35,9 @@ public class DisplayBoxesPanel extends JPanel {
 		TrialEvaluation trial = new TrialEvaluation(phenotype, this.testCase);
 		IntPair actualPos = trial.query(resolution);
 		
+		// clear what was there before
+		g.setColor(Color.white);
+		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		//
 		int boxWidth = this.getWidth()/resolution;
@@ -70,7 +74,7 @@ public class DisplayBoxesPanel extends JPanel {
 	
 	public void createNewCase(int theResolution) {
 		Random r = new Random();
-		this.testCase.setResolution(theResolution);
+		this.resolution = theResolution;
 		this.testCase.initTestCase(r.nextInt(3));
 		this.repaint();
 	}	

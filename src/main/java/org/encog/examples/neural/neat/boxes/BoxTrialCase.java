@@ -6,26 +6,16 @@ import org.encog.mathutil.IntPair;
 
 public class BoxTrialCase {
 
-	private int resolution = 11;
-	private int boundIdx = resolution - 1;
+	public static final int BASE_RESOLUTION = 11;
+	public static final int BOUNDS = BASE_RESOLUTION - 1;
 
 	private IntPair smallBoxTopLeft;
 	private IntPair largeBoxTopLeft;
 
 	private Random rnd;
-	
+
 	public BoxTrialCase(Random theRnd) {
 		this.rnd = theRnd;
-	}
-	
-	
-
-	public int getResolution() {
-		return resolution;
-	}
-
-	public void setResolution(int resolution) {
-		this.resolution = resolution;
 	}
 
 	public IntPair initTestCase(int largeBoxRelativePos) {
@@ -37,8 +27,8 @@ public class BoxTrialCase {
 	}
 
 	public double getPixel(double x, double y) {
-		int pixelX = (int) (((x + 1.0) * resolution) / 2.0);
-		int pixelY = (int) (((y + 1.0) * resolution) / 2.0);
+		int pixelX = (int) (((x + 1.0) * BoxTrialCase.BASE_RESOLUTION) / 2.0);
+		int pixelY = (int) (((y + 1.0) * BoxTrialCase.BASE_RESOLUTION) / 2.0);
 
 		if (smallBoxTopLeft.getX() == pixelX
 				&& smallBoxTopLeft.getY() == pixelY) {
@@ -52,10 +42,10 @@ public class BoxTrialCase {
 	}
 
 	private IntPair[] generateRandomTestCase(int largeBoxRelativePos) {
-		IntPair smallBoxPos = new IntPair(rnd.nextInt(resolution),
-				rnd.nextInt(resolution));
+		IntPair smallBoxPos = new IntPair(rnd.nextInt(BoxTrialCase.BASE_RESOLUTION),
+				rnd.nextInt(BoxTrialCase.BASE_RESOLUTION));
 
-		IntPair largeBoxPos = (IntPair)smallBoxPos.clone();
+		IntPair largeBoxPos = (IntPair) smallBoxPos.clone();
 		switch (largeBoxRelativePos) {
 		case 0:
 			largeBoxPos.addX(5);
@@ -72,25 +62,25 @@ public class BoxTrialCase {
 			break;
 		}
 
-		if (largeBoxPos.getX() > boundIdx) {
-			largeBoxPos.addX(-resolution);
+		if (largeBoxPos.getX() > BoxTrialCase.BOUNDS) {
+			largeBoxPos.addX(-BoxTrialCase.BASE_RESOLUTION);
 
 			if (0 == largeBoxPos.getX()) {
 				largeBoxPos.add(1);
 			}
-		} else if (boundIdx == largeBoxPos.getX()) {
+		} else if (BoxTrialCase.BOUNDS == largeBoxPos.getX()) {
 			largeBoxPos.addX(-1);
 		} else if (largeBoxPos.getX() == 0) {
 			largeBoxPos.addX(1);
 		}
 
-		if (largeBoxPos.getY() > boundIdx) {
-			largeBoxPos.addY(-resolution);
+		if (largeBoxPos.getY() > BoxTrialCase.BOUNDS) {
+			largeBoxPos.addY(-BoxTrialCase.BASE_RESOLUTION);
 
 			if (0 == largeBoxPos.getY()) {
 				largeBoxPos.addY(1);
 			}
-		} else if (boundIdx == largeBoxPos.getY()) {
+		} else if (BoxTrialCase.BOUNDS == largeBoxPos.getY()) {
 			largeBoxPos.addY(-1);
 		} else if (0 == largeBoxPos.getY()) {
 			largeBoxPos.addY(1);
