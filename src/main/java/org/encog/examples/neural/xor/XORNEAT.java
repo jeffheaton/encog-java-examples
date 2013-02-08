@@ -61,7 +61,10 @@ public class XORNEAT {
 		
 		final NEATTraining train = new NEATTraining(score,pop);
 		
-		EncogUtility.trainToError(train, 0.01);
+		do {
+			train.iteration();
+			System.out.println("Epoch #" + train.getIteration() + " Error:" + train.getError()+ ", Species:" + train.getNEATPopulation().getSpecies().size());
+		} while(train.getError() > 0.01);
 
 		NEATNetwork network = (NEATNetwork)train.getMethod();
 
