@@ -28,6 +28,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 	private boolean trainingUnderway;
 	private JLabel labelIterations;
 	private JLabel labelError;
+	private JLabel labelSpecies;
 	private boolean requestStop = false;
 	private NEATPopulation pop;
 	private NEATTraining train;
@@ -45,7 +46,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		buttonPanel.add(this.btnExample = new JButton("Run Example"));
 		content.add(buttonPanel,BorderLayout.SOUTH);
 		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(3,2));
+		mainPanel.setLayout(new GridLayout(4,2));
 		content.add(mainPanel, BorderLayout.NORTH);
 		mainPanel.add(new JLabel("Target (best) Score:"));
 		mainPanel.add(new JLabel("110"));
@@ -53,6 +54,8 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		mainPanel.add(this.labelError = new JLabel("N/A"));
 		mainPanel.add(new JLabel("Iteration Count:"));
 		mainPanel.add(this.labelIterations = new JLabel("0"));
+		mainPanel.add(new JLabel("Species Count:"));
+		mainPanel.add(this.labelSpecies = new JLabel("0"));
 		
 		this.btnTraining.addActionListener(this);
 		this.btnExample.addActionListener(this);
@@ -93,6 +96,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 			this.train.iteration();
 			this.labelError.setText(Format.formatDouble(train.getError(),2));
 			this.labelIterations.setText(Format.formatInteger(this.train.getIteration()));
+			this.labelSpecies.setText(Format.formatInteger(this.pop.getSpecies().size()));
 			EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/test.eg"), pop);
 		}
 		
