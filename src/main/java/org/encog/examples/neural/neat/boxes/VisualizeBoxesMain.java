@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +16,7 @@ import org.encog.neural.hyperneat.substrate.Substrate;
 import org.encog.neural.hyperneat.substrate.SubstrateFactory;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.training.NEATTraining;
+import org.encog.neural.neat.training.species.OriginalNEATSpeciation;
 import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.Format;
 
@@ -24,7 +24,6 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 	
 	private JButton btnTraining;
 	private JButton btnExample;
-	private JComboBox methodChoice;
 	private boolean trainingUnderway;
 	private JLabel labelIterations;
 	private JLabel labelError;
@@ -68,6 +67,9 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		pop = new NEATPopulation(substrate,500);
 		pop.reset();
 		train = new NEATTraining(score,pop);
+		OriginalNEATSpeciation speciation = new OriginalNEATSpeciation();
+		speciation.setCompatibilityThreshold(0.25);
+		train.setSpeciation(speciation = new OriginalNEATSpeciation());
 		//train.setThreadCount(1);
 	}
 	
@@ -97,9 +99,10 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 			this.labelError.setText(Format.formatDouble(train.getError(),2));
 			this.labelIterations.setText(Format.formatInteger(this.train.getIteration()));
 			this.labelSpecies.setText(Format.formatInteger(this.pop.getSpecies().size()));
-			EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/test.eg"), pop);
 		}
 		
+		this.train.finishTraining();
+		EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/test.eg"), pop);
 		this.btnTraining.setText("Start Training");
 		this.btnExample.setEnabled(true);
 		this.trainingUnderway = false;
