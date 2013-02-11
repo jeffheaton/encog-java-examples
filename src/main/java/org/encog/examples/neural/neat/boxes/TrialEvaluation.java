@@ -149,7 +149,14 @@ public class TrialEvaluation {
 	}
 
 	public int normalize(double d, int i) {
-		return (int)(((d-this.minActivation)/(this.maxActivation-this.minActivation))*i);
+		int result = (int)(((d-this.minActivation)/(this.maxActivation-this.minActivation))*i);
+		if( result<0 ) {
+			result = 0;
+		}
+		if( result>255 ) {
+			result = 255;
+		}
+		return result;
 	}
 	
 	
