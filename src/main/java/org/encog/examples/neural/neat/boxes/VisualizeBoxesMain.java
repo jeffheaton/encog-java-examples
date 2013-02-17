@@ -65,10 +65,11 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		Substrate substrate = SubstrateFactory.factorSandwichSubstrate(11, 11);
 		BoxesScore score = new BoxesScore(11);
 		pop = new NEATPopulation(substrate,500);
+		pop.setActivationCycles(4);
 		pop.reset();
 		train = new NEATTraining(score,pop);
 		OriginalNEATSpeciation speciation = new OriginalNEATSpeciation();
-		speciation.setCompatibilityThreshold(0.25);
+		speciation.setCompatibilityThreshold(1);
 		train.setSpeciation(speciation = new OriginalNEATSpeciation());
 		//train.setThreadCount(1);
 	}
@@ -82,7 +83,6 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 	public void run() {
 	
 		if( this.pop==null ) {
-			this.btnTraining.setText("Setting up...");
 			this.btnTraining.setEnabled(false);
 			resetTraining();
 		}
@@ -94,7 +94,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		this.trainingUnderway = true;
 	
 		this.requestStop = false;
-		while(!this.requestStop) {
+		while(!this.requestStop && this.train.getError()<110 ) {
 			this.train.iteration();
 			this.labelError.setText(Format.formatDouble(train.getError(),2));
 			this.labelIterations.setText(Format.formatInteger(this.train.getIteration()));
@@ -102,7 +102,8 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		}
 		
 		this.train.finishTraining();
-		EncogDirectoryPersistence.saveObject(new File("/Users/jheaton/test.eg"), pop);
+		EncogDirectoryPersistence.saveObject(new File("/users/jheaton/EncogProjects/MyEncogProject/test.eg"), pop);
+		train.dump(new File("/users/jheaton/EncogProjects/MyEncogProject/dump.txt"));
 		this.btnTraining.setText("Start Training");
 		this.btnExample.setEnabled(true);
 		this.trainingUnderway = false;
