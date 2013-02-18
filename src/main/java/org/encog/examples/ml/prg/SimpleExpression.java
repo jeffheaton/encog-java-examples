@@ -46,7 +46,7 @@ public class SimpleExpression {
 
 		StandardExtensions.createNumericOperators(context.getFunctions());
 
-		PrgPopulation pop = new PrgPopulation(context);
+		PrgPopulation pop = new PrgPopulation(context,1000);
 		pop.addRewriteRule(new RewriteConstants());
 		pop.addRewriteRule(new RewriteAlgebraic());
 		
