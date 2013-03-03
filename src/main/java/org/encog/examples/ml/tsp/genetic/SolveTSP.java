@@ -128,7 +128,7 @@ public class SolveTSP {
 	 * Setup and solve the TSP.
 	 */
 	public void solve() {
-		/*StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder();
 
 		initCities();
 		
@@ -136,7 +136,7 @@ public class SolveTSP {
 		
 		CalculateScore score =  new TSPScore(cities);
 
-		genetic = new NonSpeciesEA(pop,score);
+		genetic = new SpeciesEA(pop,score);
 		
 		genetic.addOperation(0.9,new SpliceNoRepeat(CITIES/3));
 		genetic.addOperation(0.1,new MutateShuffle());
@@ -168,10 +168,9 @@ public class SolveTSP {
 		}
 
 		System.out.println("Good solution found:");
-		IntegerArrayGenome best = (IntegerArrayGenome)genetic.getPopulation().getGenomeFactory().factor();
-		genetic.copyBestGenome(best);
+		IntegerArrayGenome best = (IntegerArrayGenome)genetic.getBestGenome();
 		displaySolution(best);
-		genetic.finishTraining();*/
+		genetic.finishTraining();
 
 	}
 
