@@ -72,19 +72,19 @@ public class SimpleExpression {
 
 			for (int i = 0; i < 1000; i++) {
 				genetic.iteration();
-				genetic.copyBestGenome(best);
+				//genetic.copyBestGenome(best);
 				System.out.println(genetic.getIteration() + ", Error: "
 						+ genetic.getError() + ",best: " + best.dumpAsCommonExpression());
 			}
 			
-			genetic.copyBestGenome(best);
+			//genetic.copyBestGenome(best);
 			EncogUtility.evaluate(best, trainingData);
 
 			System.out.println("Final score:" + best.getScore()
 					+ ", effective score:" + best.getAdjustedScore());
 			System.out.println(best.dumpAsCommonExpression());
 			
-			genetic.sort();
+			//genetic.sort();
 			pop.dumpMembers(10);
 
 		} catch (Throwable t) {

@@ -38,9 +38,9 @@ import org.encog.util.Stopwatch;
 public class SimpleBenchmark {
 
 	public static final int ROW_COUNT = 100000;
-	public static final int INPUT_COUNT = 10;
-	public static final int OUTPUT_COUNT = 1;
-	public static final int HIDDEN_COUNT = 20;
+	public static final int INPUT_COUNT = 100;
+	public static final int OUTPUT_COUNT = 100;
+	public static final int HIDDEN_COUNT = 200;
 	public static final int ITERATIONS = 10;
 
 	public static long BenchmarkEncog(double[][] input, double[][] output) {
@@ -88,7 +88,7 @@ public class SimpleBenchmark {
 		double[][] input = Generate(ROW_COUNT, INPUT_COUNT);
 		double[][] output = Generate(ROW_COUNT, OUTPUT_COUNT);
 
-		for(int i=0;i<10;i++) {
+		for(;;) {
 			long time1 = BenchmarkEncog(input, output);
 
 			StringBuilder line = new StringBuilder();
@@ -98,6 +98,6 @@ public class SimpleBenchmark {
 			System.out.println(line.toString());
 		}
 		
-		Encog.getInstance().shutdown();
+		//Encog.getInstance().shutdown();
 	}
 }

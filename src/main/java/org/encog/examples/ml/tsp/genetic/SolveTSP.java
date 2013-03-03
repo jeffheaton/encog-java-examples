@@ -27,7 +27,8 @@ import org.encog.examples.ml.tsp.City;
 import org.encog.ml.CalculateScore;
 import org.encog.ml.ea.population.BasicPopulation;
 import org.encog.ml.ea.population.Population;
-import org.encog.ml.ea.train.nonspecies.NonSpeciesEA;
+import org.encog.ml.ea.species.BasicSpecies;
+import org.encog.ml.ea.train.species.SpeciesEA;
 import org.encog.ml.genetic.crossover.SpliceNoRepeat;
 import org.encog.ml.genetic.genome.IntegerArrayGenome;
 import org.encog.ml.genetic.genome.IntegerArrayGenomeFactory;
@@ -49,7 +50,7 @@ public class SolveTSP {
 	public static final int MAP_SIZE = 256;
 	public static final int MAX_SAME_SOLUTION = 50;
 	
-	private NonSpeciesEA genetic;
+	private SpeciesEA genetic;
 	private City cities[];
 
 	/**
@@ -92,11 +93,14 @@ public class SolveTSP {
 	{
 		Population result = new BasicPopulation(POPULATION_SIZE, null);
 
+		BasicSpecies defaultSpecies = new BasicSpecies();
+		defaultSpecies.setPopulation(result);
 		for (int i = 0; i < POPULATION_SIZE; i++) {
 			final IntegerArrayGenome genome = randomGenome();
-			result.add(genome);
+			defaultSpecies.getMembers().add(genome);
 		}
 		result.setGenomeFactory(new IntegerArrayGenomeFactory(cities.length));
+		result.getSpecies().add(defaultSpecies);
 		
 		return result;
 	}
@@ -124,7 +128,7 @@ public class SolveTSP {
 	 * Setup and solve the TSP.
 	 */
 	public void solve() {
-		StringBuilder builder = new StringBuilder();
+		/*StringBuilder builder = new StringBuilder();
 
 		initCities();
 		
@@ -167,7 +171,7 @@ public class SolveTSP {
 		IntegerArrayGenome best = (IntegerArrayGenome)genetic.getPopulation().getGenomeFactory().factor();
 		genetic.copyBestGenome(best);
 		displaySolution(best);
-		genetic.finishTraining();
+		genetic.finishTraining();*/
 
 	}
 
