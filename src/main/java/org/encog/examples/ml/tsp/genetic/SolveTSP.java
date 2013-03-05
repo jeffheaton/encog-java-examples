@@ -28,7 +28,7 @@ import org.encog.ml.CalculateScore;
 import org.encog.ml.ea.population.BasicPopulation;
 import org.encog.ml.ea.population.Population;
 import org.encog.ml.ea.species.BasicSpecies;
-import org.encog.ml.ea.train.species.SpeciesEA;
+import org.encog.ml.ea.train.species.TrainEA;
 import org.encog.ml.genetic.crossover.SpliceNoRepeat;
 import org.encog.ml.genetic.genome.IntegerArrayGenome;
 import org.encog.ml.genetic.genome.IntegerArrayGenomeFactory;
@@ -50,7 +50,7 @@ public class SolveTSP {
 	public static final int MAP_SIZE = 256;
 	public static final int MAX_SAME_SOLUTION = 50;
 	
-	private SpeciesEA genetic;
+	private TrainEA genetic;
 	private City cities[];
 
 	/**
@@ -136,7 +136,7 @@ public class SolveTSP {
 		
 		CalculateScore score =  new TSPScore(cities);
 
-		genetic = new SpeciesEA(pop,score);
+		genetic = new TrainEA(pop,score);
 		
 		genetic.addOperation(0.9,new SpliceNoRepeat(CITIES/3));
 		genetic.addOperation(0.1,new MutateShuffle());

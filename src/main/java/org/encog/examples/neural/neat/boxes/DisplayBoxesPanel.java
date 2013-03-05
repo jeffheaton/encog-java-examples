@@ -27,7 +27,7 @@ public class DisplayBoxesPanel extends JPanel {
 
 	public void paint(Graphics g) {
 		
-		NEATGenome genome = this.pop.getBestGenome();
+		NEATGenome genome = (NEATGenome) this.pop.getBestGenome();
 		Substrate substrate = SubstrateFactory.factorSandwichSubstrate(resolution, resolution);
 		HyperNEATCODEC codec = new HyperNEATCODEC();
 		NEATNetwork phenotype = (NEATNetwork) codec.decode(this.pop, substrate, genome);		
