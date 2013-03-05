@@ -28,7 +28,7 @@ import org.encog.ml.CalculateScore;
 import org.encog.ml.ea.population.BasicPopulation;
 import org.encog.ml.ea.population.Population;
 import org.encog.ml.ea.species.BasicSpecies;
-import org.encog.ml.ea.train.species.TrainEA;
+import org.encog.ml.ea.train.basic.TrainEA;
 import org.encog.ml.genetic.crossover.SpliceNoRepeat;
 import org.encog.ml.genetic.genome.IntegerArrayGenome;
 import org.encog.ml.genetic.genome.IntegerArrayGenomeFactory;

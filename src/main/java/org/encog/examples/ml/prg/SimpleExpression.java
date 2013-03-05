@@ -7,7 +7,7 @@ import org.encog.ml.data.MLDataSet;
 import org.encog.ml.ea.opp.SubtreeCrossover;
 import org.encog.ml.ea.opp.SubtreeMutation;
 import org.encog.ml.ea.score.adjust.ComplexityAdjustedScore;
-import org.encog.ml.ea.train.species.TrainEA;
+import org.encog.ml.ea.train.basic.TrainEA;
 import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.PrgCODEC;
@@ -65,13 +65,14 @@ public class SimpleExpression {
 		(new PrgGrowGenerator(context,genetic.getScoreFunction(),5)).generate(new Random(), pop);
 		
 		//context.getParams().setIgnoreExceptions(true);
-		EncogProgram best = (EncogProgram)genetic.getPopulation().getGenomeFactory().factor();
 		
-
+		EncogProgram best = null;
+		
 		try {
 
 			for (int i = 0; i < 1000; i++) {
 				genetic.iteration();
+				best = (EncogProgram) genetic.getBestGenome();
 				//genetic.copyBestGenome(best);
 				System.out.println(genetic.getIteration() + ", Error: "
 						+ genetic.getError() + ",best: " + best.dumpAsCommonExpression());
