@@ -23,17 +23,15 @@
  */
 package org.encog.examples.neural.xor;
 
-import java.io.File;
-
 import org.encog.Encog;
 import org.encog.ml.CalculateScore;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.ea.train.EvolutionaryAlgorithm;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
-import org.encog.neural.neat.training.NEATTraining;
+import org.encog.neural.neat.NEATUtil;
 import org.encog.neural.networks.training.TrainingSetScore;
-import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -59,14 +57,14 @@ public class XORNEAT {
 		CalculateScore score = new TrainingSetScore(trainingSet);
 		// train the neural network
 		
-		final NEATTraining train = new NEATTraining(score,pop);
+		final EvolutionaryAlgorithm train = NEATUtil.constructNEATTrainer(pop,score);
 		
 		do {
 			train.iteration();
-			System.out.println("Epoch #" + train.getIteration() + " Error:" + train.getError()+ ", Species:" + train.getNEATPopulation().getSpecies().size());
+			System.out.println("Epoch #" + train.getIteration() + " Error:" + train.getError()+ ", Species:" + pop.getSpecies().size());
 		} while(train.getError() > 0.01);
 
-		NEATNetwork network = (NEATNetwork)train.getMethod();
+		NEATNetwork network = (NEATNetwork)train.getCODEC().decode(train.getBestGenome());
 
 		// test the neural network
 		System.out.println("Neural Network Results:");

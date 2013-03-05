@@ -12,10 +12,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.encog.ml.ea.train.EvolutionaryAlgorithm;
 import org.encog.neural.hyperneat.substrate.Substrate;
 import org.encog.neural.hyperneat.substrate.SubstrateFactory;
 import org.encog.neural.neat.NEATPopulation;
-import org.encog.neural.neat.training.NEATTraining;
+import org.encog.neural.neat.NEATUtil;
 import org.encog.neural.neat.training.species.OriginalNEATSpeciation;
 import org.encog.persist.EncogDirectoryPersistence;
 import org.encog.util.Format;
@@ -30,7 +31,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 	private JLabel labelSpecies;
 	private boolean requestStop = false;
 	private NEATPopulation pop;
-	private NEATTraining train;
+	private EvolutionaryAlgorithm train;
 	
 	public VisualizeBoxesMain() {
 	
@@ -67,7 +68,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		pop = new NEATPopulation(substrate,500);
 		pop.setActivationCycles(4);
 		pop.reset();
-		train = new NEATTraining(score,pop);
+		train = NEATUtil.constructNEATTrainer(pop,score);
 		OriginalNEATSpeciation speciation = new OriginalNEATSpeciation();
 		speciation.setCompatibilityThreshold(1);
 		train.setSpeciation(speciation = new OriginalNEATSpeciation());
@@ -102,8 +103,7 @@ public class VisualizeBoxesMain extends JFrame implements Runnable, ActionListen
 		}
 		
 		this.train.finishTraining();
-		EncogDirectoryPersistence.saveObject(new File("/users/jheaton/EncogProjects/MyEncogProject/test.eg"), pop);
-		train.dump(new File("/users/jheaton/EncogProjects/MyEncogProject/dump.txt"));
+
 		this.btnTraining.setText("Start Training");
 		this.btnExample.setEnabled(true);
 		this.trainingUnderway = false;
