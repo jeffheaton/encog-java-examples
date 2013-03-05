@@ -7,12 +7,12 @@ import org.encog.ml.data.MLDataSet;
 import org.encog.ml.ea.opp.SubtreeCrossover;
 import org.encog.ml.ea.opp.SubtreeMutation;
 import org.encog.ml.ea.score.adjust.ComplexityAdjustedScore;
+import org.encog.ml.ea.train.species.TrainEA;
 import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.PrgCODEC;
 import org.encog.ml.prg.extension.StandardExtensions;
 import org.encog.ml.prg.generator.PrgGrowGenerator;
-import org.encog.ml.prg.train.PrgGenetic;
 import org.encog.ml.prg.train.PrgPopulation;
 import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
@@ -56,7 +56,7 @@ public class SimpleExpression {
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
 		//score.addObjective(400.0, new ComplexityBasedScore());
 
-		PrgGenetic genetic = new PrgGenetic(pop, score);
+		TrainEA genetic = new TrainEA(pop, score);
 		genetic.setCODEC(new PrgCODEC());
 		genetic.addOperation(0.95, new SubtreeCrossover());
 		genetic.addOperation(0.05, new SubtreeMutation(context,4));
