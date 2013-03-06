@@ -57,6 +57,7 @@ public class SimpleExpression {
 		//score.addObjective(400.0, new ComplexityBasedScore());
 
 		TrainEA genetic = new TrainEA(pop, score);
+		genetic.setValidationMode(true);
 		genetic.setCODEC(new PrgCODEC());
 		genetic.addOperation(0.95, new SubtreeCrossover());
 		genetic.addOperation(0.05, new SubtreeMutation(context,4));
@@ -73,20 +74,17 @@ public class SimpleExpression {
 			for (int i = 0; i < 1000; i++) {
 				genetic.iteration();
 				best = (EncogProgram) genetic.getBestGenome();
-				//genetic.copyBestGenome(best);
 				System.out.println(genetic.getIteration() + ", Error: "
-						+ genetic.getError() + ",best: " + best.dumpAsCommonExpression());
+						+ best.getScore() + ",best: " + best.dumpAsCommonExpression());
 			}
 			
-			//genetic.copyBestGenome(best);
-			EncogUtility.evaluate(best, trainingData);
+			//EncogUtility.evaluate(best, trainingData);
 
 			System.out.println("Final score:" + best.getScore()
 					+ ", effective score:" + best.getAdjustedScore());
 			System.out.println(best.dumpAsCommonExpression());
-			
-			//genetic.sort();
-			pop.dumpMembers(10);
+			System.out.println( "Index:" + pop.getSpecies().get(0).getMembers().indexOf(best));
+			pop.dumpMembers(Integer.MAX_VALUE);
 
 		} catch (Throwable t) {
 			t.printStackTrace();
