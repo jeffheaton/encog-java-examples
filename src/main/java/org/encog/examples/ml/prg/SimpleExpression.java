@@ -4,8 +4,6 @@ import java.util.Random;
 
 import org.encog.mathutil.EncogFunction;
 import org.encog.ml.data.MLDataSet;
-import org.encog.ml.ea.opp.SubtreeCrossover;
-import org.encog.ml.ea.opp.SubtreeMutation;
 import org.encog.ml.ea.score.adjust.ComplexityAdjustedScore;
 import org.encog.ml.ea.train.basic.TrainEA;
 import org.encog.ml.prg.EncogProgram;
@@ -13,13 +11,14 @@ import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.PrgCODEC;
 import org.encog.ml.prg.extension.StandardExtensions;
 import org.encog.ml.prg.generator.PrgGrowGenerator;
+import org.encog.ml.prg.opp.SubtreeCrossover;
+import org.encog.ml.prg.opp.SubtreeMutation;
 import org.encog.ml.prg.train.PrgPopulation;
 import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
 import org.encog.ml.prg.train.rewrite.algebraic.RewriteAlgebraic;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.util.data.GenerationUtil;
-import org.encog.util.simple.EncogUtility;
 
 public class SimpleExpression {
 	public static void main(String[] args) {
@@ -65,7 +64,7 @@ public class SimpleExpression {
 
 		(new PrgGrowGenerator(context,genetic.getScoreFunction(),5)).generate(new Random(), pop);
 		
-		//context.getParams().setIgnoreExceptions(true);
+		genetic.setShouldIgnoreExceptions(false);
 		
 		EncogProgram best = null;
 		
