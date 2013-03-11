@@ -47,7 +47,7 @@ public class SimpleExpression {
 
 		PrgPopulation pop = new PrgPopulation(context,1000);
 		pop.addRewriteRule(new RewriteConstants());
-		pop.addRewriteRule(new RewriteAlgebraic());
+		//pop.addRewriteRule(new RewriteAlgebraic());
 		
 		
 
@@ -83,7 +83,7 @@ public class SimpleExpression {
 					+ ", effective score:" + best.getAdjustedScore());
 			System.out.println(best.dumpAsCommonExpression());
 			System.out.println( "Index:" + pop.getSpecies().get(0).getMembers().indexOf(best));
-			pop.dumpMembers(Integer.MAX_VALUE);
+			//pop.dumpMembers(Integer.MAX_VALUE);
 
 		} catch (Throwable t) {
 			t.printStackTrace();
