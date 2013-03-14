@@ -2,10 +2,13 @@ package org.encog.examples.ml.prg;
 
 import java.util.Random;
 
+import org.encog.Encog;
 import org.encog.mathutil.EncogFunction;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.ea.score.adjust.ComplexityAdjustedScore;
 import org.encog.ml.ea.train.basic.TrainEA;
+import org.encog.ml.fitness.MultiObjectiveFitness;
+import org.encog.ml.fitness.ZeroEvalScoreFunction;
 import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.PrgCODEC;
@@ -14,9 +17,8 @@ import org.encog.ml.prg.generator.PrgGrowGenerator;
 import org.encog.ml.prg.opp.SubtreeCrossover;
 import org.encog.ml.prg.opp.SubtreeMutation;
 import org.encog.ml.prg.train.PrgPopulation;
-import org.encog.ml.prg.train.fitness.MultiObjectiveFitness;
+import org.encog.ml.prg.train.rewrite.RewriteAlgebraic;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
-import org.encog.ml.prg.train.rewrite.algebraic.RewriteAlgebraic;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.util.data.GenerationUtil;
 
@@ -46,11 +48,7 @@ public class SimpleExpression {
 		StandardExtensions.createNumericOperators(context.getFunctions());
 
 		PrgPopulation pop = new PrgPopulation(context,1000);
-		pop.addRewriteRule(new RewriteConstants());
-		//pop.addRewriteRule(new RewriteAlgebraic());
 		
-		
-
 		MultiObjectiveFitness score = new MultiObjectiveFitness();
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
 		//score.addObjective(400.0, new ComplexityBasedScore());
@@ -61,8 +59,10 @@ public class SimpleExpression {
 		genetic.addOperation(0.95, new SubtreeCrossover());
 		genetic.addOperation(0.05, new SubtreeMutation(context,4));
 		genetic.addScoreAdjuster(new ComplexityAdjustedScore());
+		genetic.addRewriteRule(new RewriteConstants());
+		genetic.addRewriteRule(new RewriteAlgebraic());
 
-		(new PrgGrowGenerator(context,genetic.getScoreFunction(),5)).generate(new Random(), pop);
+		(new PrgGrowGenerator(context,5)).generate(new Random(), pop, new ZeroEvalScoreFunction());
 		
 		genetic.setShouldIgnoreExceptions(false);
 		
@@ -84,13 +84,13 @@ public class SimpleExpression {
 			System.out.println(best.dumpAsCommonExpression());
 			System.out.println( "Index:" + pop.getSpecies().get(0).getMembers().indexOf(best));
 			//pop.dumpMembers(Integer.MAX_VALUE);
+			pop.dumpMembers(10);
 
 		} catch (Throwable t) {
 			t.printStackTrace();
 		} finally {
 			genetic.finishTraining();
+			Encog.getInstance().shutdown();
 		}
-
-		
 	}
 }
