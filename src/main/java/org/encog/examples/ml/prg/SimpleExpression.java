@@ -14,8 +14,10 @@ import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.PrgCODEC;
 import org.encog.ml.prg.extension.StandardExtensions;
 import org.encog.ml.prg.generator.PrgGrowGenerator;
+import org.encog.ml.prg.opp.ConstMutation;
 import org.encog.ml.prg.opp.SubtreeCrossover;
 import org.encog.ml.prg.opp.SubtreeMutation;
+import org.encog.ml.prg.species.PrgSpeciation;
 import org.encog.ml.prg.train.PrgPopulation;
 import org.encog.ml.prg.train.rewrite.RewriteAlgebraic;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
@@ -51,16 +53,17 @@ public class SimpleExpression {
 		
 		MultiObjectiveFitness score = new MultiObjectiveFitness();
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
-		//score.addObjective(400.0, new ComplexityBasedScore());
 
 		TrainEA genetic = new TrainEA(pop, score);
 		genetic.setValidationMode(true);
 		genetic.setCODEC(new PrgCODEC());
-		genetic.addOperation(0.95, new SubtreeCrossover());
-		genetic.addOperation(0.05, new SubtreeMutation(context,4));
-		genetic.addScoreAdjuster(new ComplexityAdjustedScore());
-		genetic.addRewriteRule(new RewriteConstants());
-		genetic.addRewriteRule(new RewriteAlgebraic());
+		genetic.addOperation(0.5, new SubtreeCrossover());
+		genetic.addOperation(0.25, new ConstMutation(context,0.5,1.0));
+		genetic.addOperation(0.25, new SubtreeMutation(context,4));
+		genetic.addScoreAdjuster(new ComplexityAdjustedScore(10,20,10,20.0));
+		genetic.getRules().addRewriteRule(new RewriteConstants());
+		genetic.getRules().addRewriteRule(new RewriteAlgebraic());
+		genetic.setSpeciation(new PrgSpeciation());
 
 		(new PrgGrowGenerator(context,5)).generate(new Random(), pop, new ZeroEvalScoreFunction());
 		
@@ -74,7 +77,8 @@ public class SimpleExpression {
 				genetic.iteration();
 				best = (EncogProgram) genetic.getBestGenome();
 				System.out.println(genetic.getIteration() + ", Error: "
-						+ best.getScore() + ",best: " + best.dumpAsCommonExpression());
+						+ best.getScore() + ",Best Genome Size:" +best.size()
+						+ ",Species Count:" + pop.getSpecies().size() + ",best: " + best.dumpAsCommonExpression());
 			}
 			
 			//EncogUtility.evaluate(best, trainingData);
@@ -82,9 +86,8 @@ public class SimpleExpression {
 			System.out.println("Final score:" + best.getScore()
 					+ ", effective score:" + best.getAdjustedScore());
 			System.out.println(best.dumpAsCommonExpression());
-			System.out.println( "Index:" + pop.getSpecies().get(0).getMembers().indexOf(best));
 			//pop.dumpMembers(Integer.MAX_VALUE);
-			pop.dumpMembers(10);
+			//pop.dumpMembers(10);
 
 		} catch (Throwable t) {
 			t.printStackTrace();
