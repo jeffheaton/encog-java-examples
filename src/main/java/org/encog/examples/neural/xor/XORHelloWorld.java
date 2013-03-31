@@ -85,6 +85,7 @@ public class XORHelloWorld {
 			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
 			epoch++;
 		} while(train.getError() > 0.01);
+		train.finishTraining();
 
 		// test the neural network
 		System.out.println("Neural Network Results:");

@@ -67,7 +67,7 @@ public class SimpleExpression {
 		genetic.getRules().addConstraintRule(new SimpleTypeConstraint());
 		genetic.setSpeciation(new PrgSpeciation());
 
-		(new PrgGrowGenerator(context,5)).generate(new Random(), pop, new ZeroEvalScoreFunction());
+		(new PrgGrowGenerator(context,5)).generate(new Random(), pop);
 		
 		genetic.setShouldIgnoreExceptions(false);
 		
