@@ -13,13 +13,12 @@ import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.PrgCODEC;
 import org.encog.ml.prg.constraint.SimpleTypeConstraint;
 import org.encog.ml.prg.extension.StandardExtensions;
-import org.encog.ml.prg.generator.PrgGrowGenerator;
+import org.encog.ml.prg.generator.RampedHalfAndHalf;
 import org.encog.ml.prg.opp.ConstMutation;
 import org.encog.ml.prg.opp.SubtreeCrossover;
 import org.encog.ml.prg.opp.SubtreeMutation;
 import org.encog.ml.prg.species.PrgSpeciation;
 import org.encog.ml.prg.train.PrgPopulation;
-import org.encog.ml.prg.train.ZeroEvalScoreFunction;
 import org.encog.ml.prg.train.rewrite.RewriteAlgebraic;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
 import org.encog.neural.networks.training.TrainingSetScore;
@@ -67,7 +66,7 @@ public class SimpleExpression {
 		genetic.getRules().addConstraintRule(new SimpleTypeConstraint());
 		genetic.setSpeciation(new PrgSpeciation());
 
-		(new PrgGrowGenerator(context,5)).generate(new Random(), pop);
+		(new RampedHalfAndHalf(context,1, 6)).generate(new Random(), pop);
 		
 		genetic.setShouldIgnoreExceptions(false);
 		
