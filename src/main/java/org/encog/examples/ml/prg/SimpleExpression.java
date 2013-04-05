@@ -11,7 +11,6 @@ import org.encog.ml.fitness.MultiObjectiveFitness;
 import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.PrgCODEC;
-import org.encog.ml.prg.constraint.SimpleTypeConstraint;
 import org.encog.ml.prg.extension.StandardExtensions;
 import org.encog.ml.prg.generator.PrgGrowGenerator;
 import org.encog.ml.prg.opp.ConstMutation;
@@ -19,7 +18,6 @@ import org.encog.ml.prg.opp.SubtreeCrossover;
 import org.encog.ml.prg.opp.SubtreeMutation;
 import org.encog.ml.prg.species.PrgSpeciation;
 import org.encog.ml.prg.train.PrgPopulation;
-import org.encog.ml.prg.train.ZeroEvalScoreFunction;
 import org.encog.ml.prg.train.rewrite.RewriteAlgebraic;
 import org.encog.ml.prg.train.rewrite.RewriteConstants;
 import org.encog.neural.networks.training.TrainingSetScore;
@@ -48,7 +46,7 @@ public class SimpleExpression {
 		EncogProgramContext context = new EncogProgramContext();
 		context.defineVariable("x");
 
-		StandardExtensions.createNumericOperators(context.getFunctions());
+		StandardExtensions.createNumericOperators(context);
 
 		PrgPopulation pop = new PrgPopulation(context,1000);
 		
@@ -64,7 +62,6 @@ public class SimpleExpression {
 		genetic.addScoreAdjuster(new ComplexityAdjustedScore(10,20,10,20.0));
 		genetic.getRules().addRewriteRule(new RewriteConstants());
 		genetic.getRules().addRewriteRule(new RewriteAlgebraic());
-		genetic.getRules().addConstraintRule(new SimpleTypeConstraint());
 		genetic.setSpeciation(new PrgSpeciation());
 
 		(new PrgGrowGenerator(context,5)).generate(new Random(), pop);
