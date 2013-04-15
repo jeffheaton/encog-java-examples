@@ -12,7 +12,7 @@ import org.encog.ml.prg.EncogProgram;
 import org.encog.ml.prg.EncogProgramContext;
 import org.encog.ml.prg.PrgCODEC;
 import org.encog.ml.prg.extension.StandardExtensions;
-import org.encog.ml.prg.generator.PrgGrowGenerator;
+import org.encog.ml.prg.generator.RampedHalfAndHalf;
 import org.encog.ml.prg.opp.ConstMutation;
 import org.encog.ml.prg.opp.SubtreeCrossover;
 import org.encog.ml.prg.opp.SubtreeMutation;
@@ -64,7 +64,7 @@ public class SimpleExpression {
 		genetic.getRules().addRewriteRule(new RewriteAlgebraic());
 		genetic.setSpeciation(new PrgSpeciation());
 
-		(new PrgGrowGenerator(context,5)).generate(new Random(), pop);
+		(new RampedHalfAndHalf(context,1, 6)).generate(new Random(), pop);
 		
 		genetic.setShouldIgnoreExceptions(false);
 		
