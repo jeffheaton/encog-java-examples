@@ -27,6 +27,9 @@ import java.util.Random;
 
 import org.encog.mathutil.IntPair;
 
+/**
+ * One case in the boxes score.  Position the boxes at random locations.
+ */
 public class BoxTrialCase {
 
 	public static final int BASE_RESOLUTION = 11;
@@ -58,8 +61,8 @@ public class BoxTrialCase {
 			return 1.0;
 		}
 
-		int deltaX = (int) (pixelX - largeBoxTopLeft.getX());
-		int deltaY = (int) (pixelY - largeBoxTopLeft.getY());
+		int deltaX = pixelX - largeBoxTopLeft.getX();
+		int deltaY = pixelY - largeBoxTopLeft.getY();
 		return (deltaX > -1 && deltaX < 3 && deltaY > -1 && deltaY < 3) ? 1.0
 				: 0.0;
 	}

@@ -21,7 +21,7 @@
  * and trademarks visit:
  * http://www.heatonresearch.com/copyright
  */
-package org.encog.examples.neural.xor;
+package org.encog.examples.neural.neat;
 
 import org.encog.Encog;
 import org.encog.ml.CalculateScore;

@@ -39,6 +39,10 @@ import org.encog.neural.neat.training.NEATGenome;
 
 public class DisplayBoxesPanel extends JPanel {
 	
+	/**
+	 * The serial.
+	 */
+	private static final long serialVersionUID = 1L;
 	private BoxTrialCase testCase = new BoxTrialCase(new Random());
 	private NEATPopulation pop;
 	private int resolution = BoxTrialCase.BASE_RESOLUTION;
@@ -48,6 +52,7 @@ public class DisplayBoxesPanel extends JPanel {
 		this.pop = thePopulation;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		
 		NEATGenome genome = (NEATGenome) this.pop.getBestGenome();
