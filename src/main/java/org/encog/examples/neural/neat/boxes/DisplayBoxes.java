@@ -44,7 +44,7 @@ public class DisplayBoxes extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String[] RESOLUTIONS = { "11", "22", "33", "44", "55" };
-	private JComboBox<String> resolution;
+	private JComboBox resolution;
 	private DisplayBoxesPanel display;
 	private JButton newCase;
 	
@@ -52,7 +52,7 @@ public class DisplayBoxes extends JFrame implements ActionListener {
 		setSize(400,400);
 		setLayout(new BorderLayout());
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(this.resolution=new JComboBox<String>(RESOLUTIONS));
+		buttonPanel.add(this.resolution=new JComboBox(RESOLUTIONS));
 		buttonPanel.add(newCase=new JButton("New Case"));
 		this.add(buttonPanel,BorderLayout.NORTH);
 		this.display = new DisplayBoxesPanel(thePopulation);
