@@ -87,6 +87,7 @@ public class LunarLander {
 					.println("Epoch #" + epoch + " Score:" + train.getError());
 			epoch++;
 		} 
+		train.finishTraining();
 
 		System.out.println("\nHow the winning network landed:");
 		network = (BasicNetwork)train.getMethod();
