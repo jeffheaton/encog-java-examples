@@ -77,7 +77,7 @@ public class SimpleExpression {
 		score.addObjective(1.0, new TrainingSetScore(trainingData));
 
 		TrainEA genetic = new TrainEA(pop, score);
-		genetic.setValidationMode(true);
+		//genetic.setValidationMode(true);
 		genetic.setCODEC(new PrgCODEC());
 		genetic.addOperation(0.5, new SubtreeCrossover());
 		genetic.addOperation(0.25, new ConstMutation(context,0.5,1.0));
