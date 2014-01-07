@@ -64,8 +64,6 @@ public class FreeformXOR {
 
 		// create training data
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
-		//MLTrain train = new FreeformBackPropagation(network, trainingSet, 0.7, 0.3);
-		//EncogUtility.trainToError(train, 0.01);
 		EncogUtility.trainToError(network, trainingSet, 0.01);
 		EncogUtility.evaluate(network, trainingSet);
 
