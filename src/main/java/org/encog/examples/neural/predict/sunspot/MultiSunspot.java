@@ -29,7 +29,7 @@ import org.encog.util.simple.EncogUtility;
  * full cycle of building a training set, training a model, and then performing predictions.
  * It also demonstrates how to use multiple values in a time-series with normalization and
  * denormalization.  The point of this example is more to show how to structure such a prediction
- * problem, than how to accuratly predict sun spot data.  This example does get marginally good
+ * problem, than how to accurately predict sun spot data.  This example does get marginally good
  * predictive results, however, sun spot data tends to be very noisy. 
  * 
  * This example was presented as an Encog FAQ, for more FAQ's see:
