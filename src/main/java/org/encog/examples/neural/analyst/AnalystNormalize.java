@@ -16,7 +16,7 @@ import org.encog.util.csv.CSVFormat;
 import org.encog.util.csv.ReadCSV;
 
 public class AnalystNormalize {
-	public static void main2(String[] args) {
+	public static void main(String[] args) {
 		try {
 			EncogAnalyst analyst = new EncogAnalyst();
 			

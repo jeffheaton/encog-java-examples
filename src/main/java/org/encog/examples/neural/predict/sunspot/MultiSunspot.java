@@ -183,7 +183,9 @@ public class MultiSunspot {
 			
 			// do we have enough data for a prediction yet?
 			if( trainingData.getPoints().size()>=trainingData.getInputWindowSize() ) {
-				MLData modelInput = trainingData.generateInputNeuralData(0);
+				// Make sure to use index 1, because the temporal data set is always one ahead
+				// of the time slice its encoding.  So for RAW data we are really encoding 0.
+				MLData modelInput = trainingData.generateInputNeuralData(1);
 				MLData modelOutput = model.compute(modelInput);
 				double ssn = normSSN.deNormalize(modelOutput.getData(0));
 				System.out.println(year + ":Predicted=" + ssn + ",Actual=" + sunSpotNum );
