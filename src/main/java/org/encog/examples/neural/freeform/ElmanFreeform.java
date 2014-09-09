@@ -19,17 +19,6 @@ import org.encog.util.simple.EncogUtility;
 
 public class ElmanFreeform {
 
-
-    static BasicNetwork createFeedforwardNetwork() {
-        // construct a feedforward type network
-        FeedForwardPattern pattern = new FeedForwardPattern();
-        pattern.setActivationFunction(new ActivationSigmoid());
-        pattern.setInputNeurons(1);
-        pattern.addHiddenLayer(6);
-        pattern.setOutputNeurons(1);
-        return (BasicNetwork)pattern.generate();
-    }
-
     public static void main(final String args[]) {
 
         final TemporalXOR temp = new TemporalXOR();
