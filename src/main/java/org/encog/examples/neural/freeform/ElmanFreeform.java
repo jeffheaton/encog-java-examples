@@ -24,8 +24,6 @@ public class ElmanFreeform {
         final TemporalXOR temp = new TemporalXOR();
         final MLDataSet trainingSet = temp.generate(120);
 
-        //final BasicNetwork elmanNetwork = ElmanXOR.createElmanNetwork();
-        // *** USE THE FreeformNetwork.createElman() METHOD ***
         final FreeformNetwork elmanNetwork = FreeformNetwork.createElman(1, 6, 1, new ActivationSigmoid());
         final FreeformNetwork feedforwardNetwork = FreeformNetwork.createFeedforward(1, 6, 0, 1, new ActivationSigmoid());
 
