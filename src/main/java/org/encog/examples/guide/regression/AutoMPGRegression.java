@@ -16,6 +16,7 @@ import org.encog.ml.data.versatile.ColumnType;
 import org.encog.ml.data.versatile.NormalizationHelper;
 import org.encog.ml.data.versatile.VersatileDataSource;
 import org.encog.ml.data.versatile.VersatileMLDataSet;
+import org.encog.ml.data.versatile.missing.MeanMissingHandler;
 import org.encog.ml.factory.MLMethodFactory;
 import org.encog.ml.model.EncogModel;
 import org.encog.util.csv.CSVFormat;
@@ -58,7 +59,7 @@ public class AutoMPGRegression {
 			// It is very important to predefine ordinals, so that the order is known.
 			columnCylinders.defineClass(new String[] {"3","4","5","6","8"});
 			data.defineSourceColumn("displacement", ColumnType.continuous);
-			data.defineSourceColumn("horsepower", ColumnType.continuous);
+			ColumnDefinition columnHorsePower = data.defineSourceColumn("horsepower", ColumnType.continuous);
 			data.defineSourceColumn("weight", ColumnType.continuous);
 			data.defineSourceColumn("acceleration", ColumnType.continuous);
 			ColumnDefinition columnModelYear = data.defineSourceColumn("model_year", ColumnType.ordinal);
@@ -68,6 +69,7 @@ public class AutoMPGRegression {
 			
 			// Define how missing values are represented.
 			data.getNormHelper().defineUnknownValue("?");
+			data.getNormHelper().defineMissingHandler(columnHorsePower, new MeanMissingHandler());
 			
 			// Analyze the data, determine the min/max/mean/sd of every column.
 			data.analyze();
