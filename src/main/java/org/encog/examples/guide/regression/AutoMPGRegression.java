@@ -1,4 +1,4 @@
-package org.encog.examples.guide.classification;
+package org.encog.examples.guide.regression;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -21,8 +21,8 @@ import org.encog.ml.model.EncogModel;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.csv.ReadCSV;
 
-public class IrisClassification {
-	public static String DATA_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data";
+public class AutoMPGRegression {
+	public static String DATA_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data";
 
 	private String tempPath;
 
@@ -33,38 +33,48 @@ public class IrisClassification {
 			tempPath = System.getProperty("java.io.tmpdir");
 		}
 
-		File irisFile = new File(tempPath, "iris.csv");
-		BotUtil.downloadPage(new URL(IrisClassification.DATA_URL), irisFile);
-		System.out.println("Downloading Iris dataset to: " + irisFile);
+		File irisFile = new File(tempPath, "auto-mpg.data");
+		BotUtil.downloadPage(new URL(AutoMPGRegression.DATA_URL), irisFile);
+		System.out.println("Downloading auto-mpg dataset to: " + irisFile);
 		return irisFile;
 	}
 
 	public void run(String[] args) {
 		try {
 			// Download the data that we will attempt to model.
-			File irisFile = downloadData(args);
+			File filename = downloadData(args);
 			
 			// Define the format of the data file.
 			// This area will change, depending on the columns and 
 			// format of the file that you are trying to model.
-			VersatileDataSource source = new CSVDataSource(irisFile, false,
-					CSVFormat.DECIMAL_POINT);
-			VersatileMLDataSet data = new VersatileMLDataSet(source);
-			data.defineSourceColumn("sepal-length", ColumnType.continuous);
-			data.defineSourceColumn("sepal-width", ColumnType.continuous);
-			data.defineSourceColumn("petal-length", ColumnType.continuous);
-			data.defineSourceColumn("petal-width", ColumnType.continuous);
+			CSVFormat format = new CSVFormat('.',' '); // decimal point and space separated
+			VersatileDataSource source = new CSVDataSource(filename, false, format);
 			
-			// Define the column that we are trying to predict.
-			ColumnDefinition outputColumn = data.defineSourceColumn("species",
-					ColumnType.nominal);
+			VersatileMLDataSet data = new VersatileMLDataSet(source);
+			data.getNormHelper().setFormat(format);
+			
+			ColumnDefinition columnMPG = data.defineSourceColumn("mpg", ColumnType.continuous);
+			ColumnDefinition columnCylinders = data.defineSourceColumn("cylinders", ColumnType.ordinal);
+			// It is very important to predefine ordinals, so that the order is known.
+			columnCylinders.defineClass(new String[] {"3","4","5","6","8"});
+			data.defineSourceColumn("displacement", ColumnType.continuous);
+			data.defineSourceColumn("horsepower", ColumnType.continuous);
+			data.defineSourceColumn("weight", ColumnType.continuous);
+			data.defineSourceColumn("acceleration", ColumnType.continuous);
+			ColumnDefinition columnModelYear = data.defineSourceColumn("model_year", ColumnType.ordinal);
+			columnModelYear.defineClass(new String[] {"70","71","72","73","74","75","76","77","78","79","80","81","82"});
+			data.defineSourceColumn("origin", ColumnType.nominal);
+			data.defineSourceColumn("car_name", ColumnType.ignore);
+			
+			// Define how missing values are represented.
+			data.getNormHelper().defineUnknownValue("?");
 			
 			// Analyze the data, determine the min/max/mean/sd of every column.
 			data.analyze();
 			
 			// Map the prediction column to the output of the model, and all
 			// other columns to the input.
-			data.defineSingleOutputOthersInput(outputColumn);
+			data.defineSingleOutputOthersInput(columnMPG);
 			
 			// Create feedforward neural network as the model type. MLMethodFactory.TYPE_FEEDFORWARD.
 			// You could also other model types, such as:
@@ -109,17 +119,22 @@ public class IrisClassification {
 			// training set.  You do not need to retrain, simply use the NormalizationHelper
 			// class.  After you train, you can save the NormalizationHelper to later
 			// normalize and denormalize your data.
-			ReadCSV csv = new ReadCSV(irisFile, false, CSVFormat.DECIMAL_POINT);
-			String[] line = new String[4];
+			ReadCSV csv = new ReadCSV(filename, false, format);
+			String[] line = new String[7];
 			MLData input = helper.allocateInputVector();
 			
 			while(csv.next()) {
 				StringBuilder result = new StringBuilder();
-				line[0] = csv.get(0);
-				line[1] = csv.get(1);
-				line[2] = csv.get(2);
-				line[3] = csv.get(3);
-				String correct = csv.get(4);
+				
+				line[0] = csv.get(1);
+				line[1] = csv.get(2);
+				line[2] = csv.get(3);
+				line[3] = csv.get(4);
+				line[4] = csv.get(5);
+				line[5] = csv.get(6);
+				line[6] = csv.get(7);
+				
+				String correct = csv.get(0);
 				helper.normalizeInputVector(line,input,false);
 				MLData output = bestMethod.compute(input);
 				String irisChosen = helper.denormalizeOutputVectorToString(output)[0];
@@ -134,8 +149,8 @@ public class IrisClassification {
 				System.out.println(result.toString());
 			}
 			
-			// Delete data file ande shut down.
-			irisFile.delete();
+			// Delete data file and shut down.
+			filename.delete();
 			Encog.getInstance().shutdown();
 
 		} catch (Exception ex) {
@@ -144,7 +159,7 @@ public class IrisClassification {
 	}
 
 	public static void main(String[] args) {
-		IrisClassification prg = new IrisClassification();
+		AutoMPGRegression prg = new AutoMPGRegression();
 		prg.run(args);
 	}
 }
