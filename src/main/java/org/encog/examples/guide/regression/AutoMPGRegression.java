@@ -54,18 +54,17 @@ public class AutoMPGRegression {
 			VersatileMLDataSet data = new VersatileMLDataSet(source);
 			data.getNormHelper().setFormat(format);
 			
-			ColumnDefinition columnMPG = data.defineSourceColumn("mpg", ColumnType.continuous);
-			ColumnDefinition columnCylinders = data.defineSourceColumn("cylinders", ColumnType.ordinal);
+			ColumnDefinition columnMPG = data.defineSourceColumn("mpg", 0, ColumnType.continuous);
+			ColumnDefinition columnCylinders = data.defineSourceColumn("cylinders", 1, ColumnType.ordinal);
 			// It is very important to predefine ordinals, so that the order is known.
 			columnCylinders.defineClass(new String[] {"3","4","5","6","8"});
-			data.defineSourceColumn("displacement", ColumnType.continuous);
-			ColumnDefinition columnHorsePower = data.defineSourceColumn("horsepower", ColumnType.continuous);
-			data.defineSourceColumn("weight", ColumnType.continuous);
-			data.defineSourceColumn("acceleration", ColumnType.continuous);
-			ColumnDefinition columnModelYear = data.defineSourceColumn("model_year", ColumnType.ordinal);
+			data.defineSourceColumn("displacement", 2,ColumnType.continuous);
+			ColumnDefinition columnHorsePower = data.defineSourceColumn("horsepower", 3, ColumnType.continuous);
+			data.defineSourceColumn("weight", 4, ColumnType.continuous);
+			data.defineSourceColumn("acceleration", 5, ColumnType.continuous);
+			ColumnDefinition columnModelYear = data.defineSourceColumn("model_year", 6, ColumnType.ordinal);
 			columnModelYear.defineClass(new String[] {"70","71","72","73","74","75","76","77","78","79","80","81","82"});
-			data.defineSourceColumn("origin", ColumnType.nominal);
-			data.defineSourceColumn("car_name", ColumnType.ignore);
+			data.defineSourceColumn("origin", 7, ColumnType.nominal);
 			
 			// Define how missing values are represented.
 			data.getNormHelper().defineUnknownValue("?");
@@ -137,7 +136,7 @@ public class AutoMPGRegression {
 				line[6] = csv.get(7);
 				
 				String correct = csv.get(0);
-				helper.normalizeInputVector(line,input,false);
+				helper.normalizeInputVector(line,input.getData(),false);
 				MLData output = bestMethod.compute(input);
 				String irisChosen = helper.denormalizeOutputVectorToString(output)[0];
 				

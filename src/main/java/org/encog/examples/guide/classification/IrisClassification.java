@@ -50,13 +50,13 @@ public class IrisClassification {
 			VersatileDataSource source = new CSVDataSource(irisFile, false,
 					CSVFormat.DECIMAL_POINT);
 			VersatileMLDataSet data = new VersatileMLDataSet(source);
-			data.defineSourceColumn("sepal-length", ColumnType.continuous);
-			data.defineSourceColumn("sepal-width", ColumnType.continuous);
-			data.defineSourceColumn("petal-length", ColumnType.continuous);
-			data.defineSourceColumn("petal-width", ColumnType.continuous);
+			data.defineSourceColumn("sepal-length", 0, ColumnType.continuous);
+			data.defineSourceColumn("sepal-width", 1, ColumnType.continuous);
+			data.defineSourceColumn("petal-length", 2, ColumnType.continuous);
+			data.defineSourceColumn("petal-width", 3, ColumnType.continuous);
 			
 			// Define the column that we are trying to predict.
-			ColumnDefinition outputColumn = data.defineSourceColumn("species",
+			ColumnDefinition outputColumn = data.defineSourceColumn("species", 4,
 					ColumnType.nominal);
 			
 			// Analyze the data, determine the min/max/mean/sd of every column.
@@ -120,7 +120,7 @@ public class IrisClassification {
 				line[2] = csv.get(2);
 				line[3] = csv.get(3);
 				String correct = csv.get(4);
-				helper.normalizeInputVector(line,input,false);
+				helper.normalizeInputVector(line,input.getData(),false);
 				MLData output = bestMethod.compute(input);
 				String irisChosen = helper.denormalizeOutputVectorToString(output)[0];
 				
