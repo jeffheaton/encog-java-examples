@@ -1,0 +1,344 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+targetCompatibility = 1.7
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.encog:encog-core:3.3.0'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
+
+task(runHelloWorld, group: 'examples', description: 'Basic example, run XOR, serves as a Hello World for Encog.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.xor.XORHelloWorld'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSimpleKMeans, group: 'examples', description: 'Simple KMeans example.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.clustering.kmeans.SimpleKMeans'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runElementaryCA, group: 'examples', description: 'Elementary cellular automata example.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.gui.elementary.ElementaryExample'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runConway, group: 'examples', description: 'Conway\'s Game of Life.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.gui.life.GameOfLife'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSunSpotTimeSeries, group: 'guides', description: 'Encog Model Example Guide: Iris Classification',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.guide.classification.IrisClassification'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runAutoMPGRegression, group: 'guides', description: 'Encog Model Example Guide: Auto MPG Regression',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.guide.regression.AutoMPGRegression'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSunspotTimeSeries, group: 'guides', description: 'Encog Model Example Guide: Sunspot Time Series',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.guide.timeseries.SunSpotTimeseries'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runBayesianSpam, group: 'examples', description: 'Simple Bayesian Spam Detection.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.bayesian.BayesianSpam'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSimpleBayesian, group: 'examples', description: 'Simple Bayesian Network.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.bayesian.SimpleBayesian'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runBayesianK2, group: 'examples', description: 'Simple K2 Bayesian Generated Network.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.bayesian.SimpleK2'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runHMMContinuous, group: 'examples', description: 'Hidden Markov Model (HMM): Continuous.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.hmm.HMMSimpleContinuous'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runHMMDiscrete, group: 'examples', description: 'Hidden Markov Model (HMM): Discrete.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.hmm.HMMSimpleDiscrete'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runHMMKMeans, group: 'examples', description: 'Hidden Markov Model (HMM): KMeans.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.hmm.HMMSimpleKMeans'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSimpleExpression, group: 'examples', description: 'Genetic Programming: Simple Expression',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.prg.SimpleExpression'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runGPBenchMark, group: 'examples', description: 'Genetic Programming: Benchmark',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.prg.Benchmark'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSimpleSampling, group: 'examples', description: 'Simple Probability Sampling',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.sampling.SimpleSampling'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runTSPAnneal, group: 'examples', description: 'Traveling Salesman: Annealing',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.tsp.anneal.SolveTSP'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runTSPGenetic, group: 'examples', description: 'Traveling Salesman: Genetic',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.tsp.genetic.SolveTSP'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runHopfieldGUI, group: 'examples', description: 'Hopfield GUI Example',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.ml.world.QLearningPattern'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runAdaline, group: 'examples', description: 'Adaline Network Digits',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.adaline.AdalineDigits'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runART1, group: 'examples', description: 'Adaptive Resonance Theory (ART1)',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.art.art1.NeuralART1'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runBAM, group: 'examples', description: 'Bidirectional Associative Memory (BAM)',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.bam.BidirectionalAssociativeMemory'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runBenchmarkActivationFunctions, group: 'benchmark', description: 'Encog Benchmarks: Activation Functions',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.ActivationFunctions'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runBenchmarkMatrix, group: 'benchmark', description: 'Encog Benchmarks: Matrix',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.MatrixBenchmark'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runBenchmark, group: 'benchmark', description: 'Encog Benchmarks: General Benchmark',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.Benchmark'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runMultiBench, group: 'benchmark', description: 'Encog Benchmarks: Multithreaded Benchmark',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.MultiBench'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runBinaryVsMemory, group: 'benchmark', description: 'Encog Benchmarks: Binary vs Memory',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.BinaryVsMemory'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runPSOBenchmark, group: 'benchmark', description: 'Encog Benchmarks: PSO Benchmark',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.PSOBenchmark'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runElliottBenchmark, group: 'benchmark', description: 'Encog Benchmarks: Elliott Benchmark',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.ElliottBenchmark'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runErrorMethod, group: 'benchmark', description: 'Encog Benchmarks: Error Method',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.ErrorMethod'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runTestConverge, group: 'benchmark', description: 'Encog Benchmarks: Test Converge',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.TestConverge'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runFahlmanEncoder, group: 'benchmark', description: 'Encog Benchmarks: Fahlman Encoder',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.FahlmanEncoder'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runThreadCount, group: 'benchmark', description: 'Encog Benchmarks: Thread Count',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.ThreadCount'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runFreeformBenchmark, group: 'benchmark', description: 'Encog Benchmarks: Freeform Benchmark',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.FreeformBenchmark'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runWeightInitialization, group: 'benchmark', description: 'Encog Benchmarks: Weight Initialization',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.benchmark.WeightInitialization'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runTSPBoltzman, group: 'examples', description: 'Traveling Salesman: Boltzmann',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.boltzmann.BoltzTSP'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runCPN, group: 'examples', description: 'Counterpropagation network to determine the angle of a rocket',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.cpn.RocketCPN'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runConvertToFreeform, group: 'examples', description: 'Convert a flat network to a freeform network',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.freeform.ConvertToFreeform'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runFreeformCompare, group: 'examples', description: 'Feeform Compare, used to verify freeform and flat calc the same.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.freeform.FreeformCompare'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runFreeformXOR, group: 'examples', description: 'Feeform XOR',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.freeform.FreeformXOR'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runElmanFreeform, group: 'examples', description: 'Feeform Elman',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.freeform.ElmanFreeform'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runFreeformOnlineXOR, group: 'examples', description: 'Freeform Online XOR',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.freeform.FreeformOnlineXOR'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSkipNeuralNetwork, group: 'examples', description: 'Skip Neural Network',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.freeform.SkipNeuralNetwork'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runOCR, group: 'examples', description: 'Optical Character Recognition (OCR)',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.gui.ocr.OCR'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runPredictSIN, group: 'examples', description: 'Predict SIN',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.gui.predict.PredictSIN'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSOMColors, group: 'examples', description: 'Self Organizing Map (SOM) Colors',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.gui.som.SomColors'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runHopfieldAssociate, group: 'examples', description: 'Hopfield Associate',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.hopfield.HopfieldAssociate'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runLunarLander, group: 'examples', description: 'Lunar Lander',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.lunar.LunarLander'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runNEATXOR, group: 'examples', description: 'NEAT Network XOR',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.neat.XORNEAT'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runNEATBoxes, group: 'examples', description: 'HyperNEAT Network Boxes',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.neat.boxes.VisualizeBoxesMain'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runElmanXOR, group: 'examples', description: 'Elman Neural Network',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.recurrent.elman.ElmanXOR'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runJordanXOR, group: 'examples', description: 'Jordan Neural Network',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.recurrent.jordan.JordanXOR'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSimpleSOM, group: 'examples', description: 'Run Simple SOM',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.som.SimpleSOM'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runXOROnline, group: 'examples', description: 'Run XOR Online',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'org.encog.examples.neural.xor.XOROnline'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
+
