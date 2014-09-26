@@ -1,9 +1,9 @@
 /*
- * Encog(tm) Java Examples v3.2
+ * Encog(tm) Java Examples v3.3
  * http://www.heatonresearch.com/encog/
  * https://github.com/encog/encog-java-examples
  *
- * Copyright 2008-2013 Heaton Research, Inc.
+ * Copyright 2008-2014 Heaton Research, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
