@@ -28,7 +28,6 @@ import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.util.simple.EncogUtility;
 
 /**

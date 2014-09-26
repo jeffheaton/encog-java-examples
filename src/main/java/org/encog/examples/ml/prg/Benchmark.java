@@ -24,7 +24,6 @@
 package org.encog.examples.ml.prg;
 
 import org.encog.ml.prg.EncogProgram;
-import org.encog.parse.expression.common.RenderCommonExpression;
 import org.encog.util.Stopwatch;
 
 public class Benchmark {
