@@ -43,6 +43,7 @@ import org.encog.ml.factory.MLMethodFactory;
 import org.encog.ml.model.EncogModel;
 import org.encog.util.csv.CSVFormat;
 import org.encog.util.csv.ReadCSV;
+import org.encog.util.simple.EncogUtility;
 
 public class IrisClassification {
 	public static String DATA_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data";
@@ -117,8 +118,8 @@ public class IrisClassification {
 			MLRegression bestMethod = (MLRegression)model.crossvalidate(5, true);
 
 			// Display the training and validation errors.
-			System.out.println( "Training error: " + model.calculateError(bestMethod, model.getTrainingDataset()));
-			System.out.println( "Validation error: " + model.calculateError(bestMethod, model.getValidationDataset()));
+			System.out.println( "Training error: " + EncogUtility.calculateRegressionError(bestMethod, model.getTrainingDataset()));
+			System.out.println( "Validation error: " + EncogUtility.calculateRegressionError(bestMethod, model.getValidationDataset()));
 			
 			// Display our normalization parameters.
 			NormalizationHelper helper = data.getNormHelper();
