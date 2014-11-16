@@ -57,10 +57,10 @@ public class AutoMPGRegression {
 			tempPath = System.getProperty("java.io.tmpdir");
 		}
 
-		File irisFile = new File(tempPath, "auto-mpg.data");
-		BotUtil.downloadPage(new URL(AutoMPGRegression.DATA_URL), irisFile);
-		System.out.println("Downloading auto-mpg dataset to: " + irisFile);
-		return irisFile;
+		File mpgFile = new File(tempPath, "auto-mpg.data");
+		BotUtil.downloadPage(new URL(AutoMPGRegression.DATA_URL), mpgFile);
+		System.out.println("Downloading auto-mpg dataset to: " + mpgFile);
+		return mpgFile;
 	}
 
 	public void run(String[] args) {
@@ -161,11 +161,11 @@ public class AutoMPGRegression {
 				String correct = csv.get(0);
 				helper.normalizeInputVector(line,input.getData(),false);
 				MLData output = bestMethod.compute(input);
-				String irisChosen = helper.denormalizeOutputVectorToString(output)[0];
+				String predictedMPG = helper.denormalizeOutputVectorToString(output)[0];
 				
 				result.append(Arrays.toString(line));
 				result.append(" -> predicted: ");
-				result.append(irisChosen);
+				result.append(predictedMPG);
 				result.append("(correct: ");
 				result.append(correct);
 				result.append(")");
