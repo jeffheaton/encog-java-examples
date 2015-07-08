@@ -55,6 +55,7 @@ public class XORFactory {
 	public static double XOR_IDEAL[][] = { { 0.0 }, { 1.0 }, { 1.0 }, { 0.0 } };
 	
 	public static final String METHOD_FEEDFORWARD_A = "?:B->SIGMOID->4:B->SIGMOID->?";
+	public static final String METHOD_FEEDFORWARD_RELU = "?:B->RELU->5:B->LINEAR->?";
 	public static final String METHOD_BIASLESS_A = "?->SIGMOID->4->SIGMOID->?";
 	public static final String METHOD_SVMC_A = "?->C->?";
 	public static final String METHOD_SVMR_A = "?->R->?";
@@ -69,6 +70,17 @@ public class XORFactory {
 		process( 
 				MLMethodFactory.TYPE_FEEDFORWARD,
 				XORFactory.METHOD_FEEDFORWARD_A,
+				MLTrainFactory.TYPE_RPROP,
+				"",1);		
+	}
+	
+	/**
+	 * Demonstrate a feedforward network with RPROP & ReLu activation.
+	 */
+	public void xorRELU() {
+		process( 
+				MLMethodFactory.TYPE_FEEDFORWARD,
+				XORFactory.METHOD_FEEDFORWARD_RELU,
 				MLTrainFactory.TYPE_RPROP,
 				"",1);		
 	}
@@ -289,6 +301,7 @@ public class XORFactory {
 		
 		System.out.println("backprop - Feedforward biased with backpropagation");
 		System.out.println("rprop - Feedforward biased with resilient propagation");
+		System.out.println("relu - Feedforward biased with resilient propagation & ReLu activation");
 		System.out.println("biasless - Feedforward biasless with resilient");
 		System.out.println("svm-c - Support vector machine classification");
 		System.out.println("svm-r - Support vector machine regression");
@@ -315,6 +328,8 @@ public class XORFactory {
 	public void run(String mode) {
 		if( mode.equalsIgnoreCase("backprop") ) {
 			xorBackProp();
+		} else if( mode.equalsIgnoreCase("relu") ) {
+			xorRELU();
 		} else if( mode.equalsIgnoreCase("rprop") ) {
 			xorRPROP();
 		} else if( mode.equalsIgnoreCase("biasless") ) {
