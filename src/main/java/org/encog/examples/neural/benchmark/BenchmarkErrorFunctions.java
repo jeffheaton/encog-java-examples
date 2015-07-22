@@ -7,7 +7,7 @@ import org.encog.examples.proben.BenchmarkDefinition;
 import org.encog.examples.proben.ProBenData;
 import org.encog.examples.proben.ProBenResultAccumulator;
 import org.encog.examples.proben.ProBenRunner;
-import org.encog.mathutil.randomize.RangeRandomizer;
+import org.encog.mathutil.randomize.XaiverRandomizer;
 import org.encog.ml.MLMethod;
 import org.encog.ml.train.MLTrain;
 import org.encog.ml.train.strategy.RequiredImprovementStrategy;
@@ -40,7 +40,7 @@ public class BenchmarkErrorFunctions implements BenchmarkDefinition {
 		network.addLayer(new BasicLayer(new ActivationLinear(),false,data.getIdealCount()));
 		network.getStructure().finalizeStructure();
 		network.reset();
-		(new RangeRandomizer(-10,10)).randomize(network);
+		(new XaiverRandomizer()).randomize(network);
 		return network;
 	}
 	
@@ -108,6 +108,6 @@ public class BenchmarkErrorFunctions implements BenchmarkDefinition {
 
 	@Override
 	public double getOutputCenter() {
-		return 1;
+		return 2;
 	}
 }

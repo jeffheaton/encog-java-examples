@@ -60,7 +60,7 @@ public class ProBenData {
 	}
 	
 	public static String obtainProbenPath(String[] args) {
-		if (args.length < 0) {
+		if (args.length > 0) {
 			return args[0];
 		} else {
 			System.out
