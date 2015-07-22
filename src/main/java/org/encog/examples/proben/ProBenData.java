@@ -29,12 +29,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+import org.encog.Encog;
 import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.util.Format;
-import org.encog.util.file.FileUtil;
+import org.encog.util.csv.CSVFormat;
+import org.encog.util.simple.EncogUtility;
 
 public class ProBenData {
 
@@ -49,9 +52,25 @@ public class ProBenData {
 	private MLDataSet trainingDataSet;
 	private MLDataSet validationDataSet;
 	private MLDataSet testDataSet;
+	private boolean mergeTest;
 	
-	public ProBenData(File file) {
+	public ProBenData(File file, boolean mergeTest) {
 		this.sourceFile = file;
+		this.mergeTest = mergeTest;
+	}
+	
+	public static String obtainProbenPath(String[] args) {
+		if (args.length < 0) {
+			return args[0];
+		} else {
+			System.out
+					.println("To run this program, it is necessary to download the Proben1\n"
+							+ "datasets and pass their path as the first agrument to this\n"
+							+ "program.  Proben1 can be downloaded\n"
+							+ "from: https://github.com/jeffheaton/proben1");
+			System.exit(1);
+			return null; 
+		}
 	}
 	
 	public void processHeaderLine(String line) {
@@ -108,7 +127,11 @@ public class ProBenData {
 		} else if( this.validationDataSet.getRecordCount()<this.validationExamples) {
 			this.validationDataSet.add(inputData, idealData);
 		}  else if( this.testDataSet.getRecordCount()<this.testExamples) {
-			this.testDataSet.add(inputData, idealData);
+			if( this.mergeTest ) {
+				this.trainingDataSet.add(inputData, idealData);
+			} else {
+				this.testDataSet.add(inputData, idealData);
+			}
 		}
 	}
 	
@@ -167,6 +190,85 @@ public class ProBenData {
 
 	public String getName() {
 		return this.sourceFile.getName();
+	}
+	
+	private void center(MLDataSet dataset, double inputCenter, double outputCenter) {
+		if( dataset.size()==0 ) {
+			return;
+		}
+		
+		// Calculate MEAN
+		double[] mean = new double[this.getInputCount()+this.getIdealCount()];
+		int count = 0;
+		for(MLDataPair pair: dataset) {
+			count++;
+			int meanIndex = 0;
+			for(int i=0;i<getInputCount();i++) {
+				mean[meanIndex++]+=pair.getInput().getData(i);
+			}
+			for(int i=0;i<getIdealCount();i++) {
+				mean[meanIndex++]+=pair.getIdeal().getData(i);
+			}
+		}
+		
+		for(int i=0;i<mean.length;i++) {
+			mean[i]/=count;
+		}
+		
+		// Calculate the variance (on the way to standard deviation)
+		double[] sdev = new double[this.getInputCount()+this.getIdealCount()];
+		
+		for(MLDataPair pair: dataset) {
+			int varIndex = 0;
+			for(int i=0;i<getInputCount();i++) {
+				sdev[varIndex]+=Math.pow(mean[varIndex]-pair.getInput().getData(i),2);
+				varIndex++;
+			}
+			for(int i=0;i<getIdealCount();i++) {
+				sdev[varIndex]+=Math.pow(mean[varIndex]-pair.getIdeal().getData(i),2);
+				varIndex++;
+			}
+		}
+		
+		// Take square root of variance, and get standard deviation
+		for(int i=0;i<sdev.length;i++) {
+			sdev[i]=Math.sqrt(sdev[i]);
+		}
+		
+		// Now use the zscore, centered at requested value
+		for(MLDataPair pair: dataset) {
+			int index = 0;
+			for(int i=0;i<getInputCount();i++) {
+				double zscore = 0;
+				
+				// If zscore is undefined (zero variance) then just use zero so that this
+				// value is at the center.
+				if(sdev[i]>Encog.DEFAULT_DOUBLE_EQUAL) {
+					zscore = (pair.getInput().getData(i) - mean[index])/sdev[i];	
+				}
+				
+				pair.getInput().setData(i, inputCenter + zscore);
+				index++;
+			}
+			for(int i=0;i<getIdealCount();i++) {
+				double zscore = 0;
+				
+				// If zscore is undefined (zero variance) then just use zero so that this
+				// value is at the center.
+				if(sdev[i]>Encog.DEFAULT_DOUBLE_EQUAL) {
+					zscore = (pair.getIdeal().getData(i) - mean[index])/sdev[i];	
+				}
+
+				pair.getIdeal().setData(i, outputCenter + zscore);
+				index++;
+			}
+		}
+	}
+	
+	public void center(double inputCenter, double outputCenter) {
+		center(this.getTrainingDataSet(),inputCenter,outputCenter);
+		center(this.getValidationDataSet(),inputCenter,outputCenter);
+		center(this.getTestDataSet(),inputCenter,outputCenter);
 	}
 
 }

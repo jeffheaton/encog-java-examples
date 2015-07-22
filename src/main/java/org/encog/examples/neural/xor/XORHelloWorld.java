@@ -24,6 +24,7 @@
 package org.encog.examples.neural.xor;
 
 import org.encog.Encog;
+import org.encog.engine.network.activation.ActivationReLU;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
@@ -67,7 +68,7 @@ public class XORHelloWorld {
 		// create a neural network, without using a factory
 		BasicNetwork network = new BasicNetwork();
 		network.addLayer(new BasicLayer(null,true,2));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,3));
+		network.addLayer(new BasicLayer(new ActivationReLU(),true,5));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),false,1));
 		network.getStructure().finalizeStructure();
 		network.reset();

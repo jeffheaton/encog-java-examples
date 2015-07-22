@@ -23,37 +23,34 @@
  */
 package org.encog.examples.proben;
 
-import java.io.File;
-
 import org.encog.Encog;
 import org.encog.ml.factory.MLMethodFactory;
 import org.encog.ml.factory.MLTrainFactory;
 
 public class ProBen {
-	
+
 	public final static String METHOD_NAME = MLMethodFactory.TYPE_FEEDFORWARD;
-	public final static String TRAINING_TYPE = MLTrainFactory.TYPE_PSO;
-	public final static String METHOD_ARCHITECTURE = "?:B->SIGMOID->40:B->SIGMOID->?";
+	public final static String TRAINING_TYPE = MLTrainFactory.TYPE_RPROP;
+	public final static String METHOD_ARCHITECTURE = "?:B->RELU->40:B->LINEAR->?";
 	public final static String TRAINING_ARGS = "";
-	
-	
+
 	public static void main(String[] args) {
+		String probenPath = ProBenData.obtainProbenPath(args);
 		
 		try {
-			ProBenRunner runner = new ProBenRunner(new File("C:\\test\\proben1\\"),
-					METHOD_NAME,
-					TRAINING_TYPE,
-					METHOD_ARCHITECTURE,
-					TRAINING_ARGS);
-			
+			EncogBenchmarkDefinition def = new EncogBenchmarkDefinition(
+					probenPath, METHOD_NAME, TRAINING_TYPE,
+					METHOD_ARCHITECTURE, TRAINING_ARGS);
+
+			ProBenRunner runner = new ProBenRunner(def);
+			System.out.println("Starting...");
 			runner.run();
 
 			Encog.getInstance().shutdown();
-			
-			
-		} catch(Exception ex) {
+
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
+
 	}
 }

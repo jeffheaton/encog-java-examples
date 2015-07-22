@@ -25,25 +25,47 @@ package org.encog.examples.proben;
 
 import java.io.File;
 
+import org.encog.util.Stopwatch;
 import org.encog.util.file.FileUtil;
 
 public class ProBenRunner {
+	private BenchmarkDefinition def;
 	private File dir;
-	private String methodName;
-	private String trainingName;
-	private String methodArchitecture;
-	private String trainingArgs;
+	private boolean mergeTest = true;
+	private ProBenResultAccumulator accumulator = new ProBenResultAccumulator();
 	
-	public ProBenRunner(File theDir, String theMethodName, String theTrainingName, String theMethodArchitecture, String theTrainingArgs) {
-		this.dir = theDir;
-		this.methodName = theMethodName;
-		this.trainingName = theTrainingName;
-		this.methodArchitecture = theMethodArchitecture;
-		this.trainingArgs = theTrainingArgs;
+	public ProBenRunner(BenchmarkDefinition benchmarkDef) {
+		this.def = benchmarkDef;
+		this.dir = new File(def.getProBenFolder());
 	}
 	
-	public void run() {
+	/**
+	 * @return the mergeTest
+	 */
+	public boolean isMergeTest() {
+		return mergeTest;
+	}
+
+
+
+	/**
+	 * @param mergeTest the mergeTest to set
+	 */
+	public void setMergeTest(boolean mergeTest) {
+		this.mergeTest = mergeTest;
+	}
+
+
+
+	public ProBenResultAccumulator run() {
+		Stopwatch sw = new Stopwatch();
+		sw.start();
 		runDirectory(this.dir);
+		
+		System.out.println("Final results: " + this.accumulator.toString());
+		sw.stop();
+		System.out.println("Runtime: " + sw.toString());
+		return this.accumulator;
 	}
 	
 	public void runDirectory(File file) {
@@ -61,10 +83,16 @@ public class ProBenRunner {
 	}
 	
 	public void runFile(File file) {
-		ProBenData data = new ProBenData(file);
+		ProBenData data = new ProBenData(file,this.mergeTest);
 		data.load();
+
+		if( this.def.shouldCenter() ) {
+			data.center(def.getInputCenter(), def.getOutputCenter());
+		}
 		
-		ProBenEvaluate eval = new ProBenEvaluate(data, methodName,trainingName,methodArchitecture,trainingArgs);
-		eval.evaluate();
+		ProBenEvaluate eval = new ProBenEvaluate(data, this.def);
+		ProBenResult result = eval.evaluate();
+		System.out.println("Using result:" + result.toString());
+		this.accumulator.accumulate(result);
 	}
 }
