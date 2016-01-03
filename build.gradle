@@ -1,15 +1,19 @@
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'maven'
 
 targetCompatibility = 1.7
 sourceCompatibility = 1.7
 
 repositories {
     mavenCentral()
+    maven() {
+    	url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
 }
 
 dependencies {
-    compile 'org.encog:encog-core:3.3.0'
+    compile 'org.encog:encog-core:3.4.0-SNAPSHOT'
 }
 
 task wrapper(type: Wrapper) {

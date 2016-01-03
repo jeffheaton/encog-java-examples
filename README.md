@@ -1,4 +1,6 @@
-Encog 3.3
+[![Build Status](https://travis-ci.org/encog/encog-java-examples.svg)](https://travis-ci.org/encog/encog-java-examples)
+
+Encog Examples 3.3
 
 The following links will be helpful getting started with Encog.
 
