@@ -24,34 +24,26 @@
 package org.encog.examples.neural.xor;
 
 import org.encog.Encog;
+import org.encog.mathutil.randomize.XaiverRandomizer;
+import org.encog.mathutil.randomize.generate.GenerateRandom;
+import org.encog.mathutil.randomize.generate.MersenneTwisterGenerateRandom;
+import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.sgd.StochasticGradientDescent;
+import org.encog.neural.networks.training.propagation.sgd.update.MomentumUpdate;
+import org.encog.util.Format;
 import org.encog.util.simple.EncogUtility;
 
 /**
- * XOR: This example trains a neural network using online training.  You can use online training
- * for either resilient or back propagation training. Online training updates the weights after 
- * each training set element. This is in opposition to batch training that does not update the 
- * weights until the entire training set has been evaluated.
- * 
- * Online training is slower than batch for several reasons.  First, the weights are updated much
- * more frequently, and this takes time.  Secondly, Encog cannot run the training multi-threaded.
- * This decreases the effectiveness on multi-core machines.
- * 
- * To use online training, simply set the batch size to one.
- * 
- * train.setBatchSize(1);
- * 
- * To use a batch size of 200, simply use.
- * 
- * train.setBatchSize(200);
- * 
- * To use a batch size equal to the training size (the default), use:
- * 
- * train.setBatchSize(0);
- * 
+ * XOR: This example trains a neural network using online training.  Online training is used in special cases where
+ * you wish to train only a very small number of training examples per iteration.  Additionally, you would like
+ * precise control over which of those training sets will actually be run.
+ *
+ * To do this, use the SGD trainer.  Call "process" for each supervised pair that you wish to train on.  Once
+ * "process" has been called for everything that should be performed in the batch, call the "update" method.
+ * The sgd.getError() will report only the error for the data set item that you just trained on.
  */
 public class XOROnline {
 
@@ -71,28 +63,45 @@ public class XOROnline {
 	 * @param args No arguments are used.
 	 */
 	public static void main(final String args[]) {
-		
+
+        GenerateRandom rnd = new MersenneTwisterGenerateRandom(42);
+
 		// Create a neural network, using the utility.
-		BasicNetwork network = EncogUtility.simpleFeedForward(2, 2, 0, 1, false);
-		network.reset();
+		BasicNetwork network = EncogUtility.simpleFeedForward(2, 5, 0, 1, false);
+        new XaiverRandomizer(42).randomize(network);
 
 		// Create training data.
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// Train the neural network.
 		final StochasticGradientDescent sgd = new StochasticGradientDescent(network, trainingSet);
-		sgd.setUpdateRule(null );
+        sgd.setLearningRate(0.1);
+        sgd.setMomentum(0.9);
+		sgd.setUpdateRule(new MomentumUpdate());
 
-		/*
-		for(int i=0;i<10;i++) {
-			sgd.
-		}
+		double error = Double.POSITIVE_INFINITY;
 
-		train.setBatchSize(1);
+        while(error>0.01) {
+            // Train on a random element from the training set.
+            // If you are not training from set, just construct your own BasicMLDataPair.
+            int i = rnd.nextInt(4);
+            MLDataPair pair = trainingSet.get(i);
+
+            // Update the gradients based on this pair.
+            sgd.process(pair);
+            // Update the weights, based on the gradients
+            sgd.update();
+
+            // Calculate the overall error.  You might not want to do this every step on a large data set.
+            error = network.calculateError(trainingSet);
+            System.out.println("Step #" + sgd.getIteration() + ", Step Error: "
+                + Format.formatDouble(sgd.getError(),2) + ", Global Error: "
+                    + Format.formatDouble(error,2));
+        }
+
 		
 		// Evaluate the neural network.
-		EncogUtility.trainToError(train, 0.01);
-		EncogUtility.evaluate(network, trainingSet);*/
+		EncogUtility.evaluate(network, trainingSet);
 		
 		// Shut down Encog.
 		Encog.getInstance().shutdown();
