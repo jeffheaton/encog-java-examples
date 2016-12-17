@@ -11,8 +11,8 @@ import org.encog.mathutil.randomize.XaiverRandomizer;
 import org.encog.ml.MLMethod;
 import org.encog.ml.train.MLTrain;
 import org.encog.ml.train.strategy.RequiredImprovementStrategy;
+import org.encog.ml.train.strategy.end.EarlyStoppingStrategy;
 import org.encog.ml.train.strategy.end.EndIterationsStrategy;
-import org.encog.ml.train.strategy.end.SimpleEarlyStoppingStrategy;
 import org.encog.neural.error.ATanErrorFunction;
 import org.encog.neural.error.CrossEntropyErrorFunction;
 import org.encog.neural.error.ErrorFunction;
@@ -48,7 +48,7 @@ public class BenchmarkErrorFunctions implements BenchmarkDefinition {
 		final ResilientPropagation train = new ResilientPropagation(
 				(ContainsFlat)method, data.getTrainingDataSet());
 		train.setErrorFunction(this.errorFn);
-		train.addStrategy(new SimpleEarlyStoppingStrategy(data.getValidationDataSet(),50));
+		train.addStrategy(new EarlyStoppingStrategy(data.getValidationDataSet()));
 		train.addStrategy(new RequiredImprovementStrategy(100));
 		train.addStrategy(new EndIterationsStrategy(2000));
 		return train;

@@ -27,7 +27,7 @@ import org.encog.Encog;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.neural.networks.training.propagation.sgd.StochasticGradientDescent;
 import org.encog.util.simple.EncogUtility;
 
 /**
@@ -80,12 +80,19 @@ public class XOROnline {
 		MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
 		
 		// Train the neural network.
-		final Backpropagation train = new Backpropagation(network, trainingSet, 0.07, 0.02);
+		final StochasticGradientDescent sgd = new StochasticGradientDescent(network, trainingSet);
+		sgd.setUpdateRule(null );
+
+		/*
+		for(int i=0;i<10;i++) {
+			sgd.
+		}
+
 		train.setBatchSize(1);
 		
 		// Evaluate the neural network.
 		EncogUtility.trainToError(train, 0.01);
-		EncogUtility.evaluate(network, trainingSet);
+		EncogUtility.evaluate(network, trainingSet);*/
 		
 		// Shut down Encog.
 		Encog.getInstance().shutdown();

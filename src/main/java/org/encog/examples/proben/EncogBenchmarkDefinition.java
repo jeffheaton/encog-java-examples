@@ -6,7 +6,7 @@ import org.encog.ml.factory.MLMethodFactory;
 import org.encog.ml.factory.MLTrainFactory;
 import org.encog.ml.train.MLTrain;
 import org.encog.ml.train.strategy.RequiredImprovementStrategy;
-import org.encog.ml.train.strategy.end.SimpleEarlyStoppingStrategy;
+import org.encog.ml.train.strategy.end.EarlyStoppingStrategy;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
 
 public class EncogBenchmarkDefinition implements BenchmarkDefinition {
@@ -54,8 +54,8 @@ public class EncogBenchmarkDefinition implements BenchmarkDefinition {
 		MLTrain train = trainFactory.create(method, data.getTrainingDataSet(),
 				trainingName, trainingArgs);
 
-		train.addStrategy(new SimpleEarlyStoppingStrategy(data
-				.getValidationDataSet(), 50));
+		train.addStrategy(new EarlyStoppingStrategy(data
+				.getValidationDataSet()));
 		// reset if improve is less than 1% over 5 cycles
 		if (method instanceof MLResettable
 				&& !(train instanceof ManhattanPropagation)) {

@@ -83,8 +83,8 @@ public class SimpleExpression {
 		genetic.addOperation(0.25, new ConstMutation(context,0.5,1.0));
 		genetic.addOperation(0.25, new SubtreeMutation(context,4));
 		genetic.addScoreAdjuster(new ComplexityAdjustedScore(10,20,10,20.0));
-		genetic.getRules().addRewriteRule(new RewriteConstants());
-		genetic.getRules().addRewriteRule(new RewriteAlgebraic());
+		pop.getRules().addRewriteRule(new RewriteConstants());
+		pop.getRules().addRewriteRule(new RewriteAlgebraic());
 		genetic.setSpeciation(new PrgSpeciation());
 
 		(new RampedHalfAndHalf(context,1, 6)).generate(new Random(), pop);
