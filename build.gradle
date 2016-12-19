@@ -43,7 +43,7 @@ task(runConway, group: 'examples', description: 'Conway\'s Game of Life.',
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task(runSunSpotTimeSeries, group: 'guides', description: 'Encog Model Example Guide: Iris Classification',
+task(runIrisClassification, group: 'guides', description: 'Encog Model Example Guide: Iris Classification',
         dependsOn: 'classes', type: JavaExec) {
     main = 'org.encog.examples.guide.classification.IrisClassification'
     classpath = sourceSets.main.runtimeClasspath
