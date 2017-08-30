@@ -8,11 +8,11 @@ sourceCompatibility = 1.7
 repositories {
     jcenter()
     mavenLocal()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "https://oss.sonatype.org/service/local/repositories/releases/content" }
 }
 
 dependencies {
-    compile 'org.encog:encog-core:3.4.0-SNAPSHOT'
+    compile 'org.encog:encog-core:3.4'
 }
 
 task wrapper(type: Wrapper) {
@@ -342,6 +342,3 @@ task(runXOROnline, group: 'examples', description: 'Run XOR Online',
     main = 'org.encog.examples.neural.xor.XOROnline'
     classpath = sourceSets.main.runtimeClasspath
 }
-
-
-
